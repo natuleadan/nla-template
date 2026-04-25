@@ -9,6 +9,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { IconBrandWhatsapp, IconArrowLeft, IconStar, IconSend, IconLoader2, IconMapPin } from "@tabler/icons-react";
+import { createReview, type Review } from "@/lib/modules/reviews";
+import { type InventoryItem } from "@/lib/modules/inventory";
 import { getWhatsappNumber } from "@/lib/config/env";
 import notificationService from "@/lib/modules/notification";
 
