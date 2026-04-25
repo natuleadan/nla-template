@@ -1,6 +1,10 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { IconBrandInstagram, IconBrandTwitter, IconBrandYoutube } from "@tabler/icons-react";
+import {
+  IconBrandInstagram,
+  IconBrandTwitter,
+  IconBrandYoutube,
+} from "@tabler/icons-react";
 import { brand, nav } from "@/lib/config/site";
 
 export function Footer() {
@@ -10,7 +14,7 @@ export function Footer() {
     <footer className="border-t bg-muted/30">
       <div className="py-12 px-4 md:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="grid gap-8 md:grid-cols-5">
-          <div className="md:col-span-2">
+          <div className="md:col-span-2 order-2 md:order-none">
             <Link href="/" className="text-2xl font-bold">
               {brand.name}
             </Link>
@@ -33,7 +37,7 @@ export function Footer() {
             </p>
           </div>
 
-          <div>
+          <div className="order-1 md:order-none col-span-1 md:col-span-1">
             <h3 className="mb-4 font-semibold">{storeCol.title}</h3>
             <ul className="space-y-2">
               {storeCol.links.map((link) => (
@@ -49,7 +53,7 @@ export function Footer() {
             </ul>
           </div>
 
-          <div>
+          <div className="order-1 md:order-none">
             <h3 className="mb-4 font-semibold">{companyCol.title}</h3>
             <ul className="space-y-2">
               {companyCol.links.map((link) => (
@@ -65,7 +69,7 @@ export function Footer() {
             </ul>
           </div>
 
-          <div>
+          <div className="order-1 md:order-none">
             <h3 className="mb-4 font-semibold">{legalCol.title}</h3>
             <ul className="space-y-2">
               {legalCol.links.map((link) => (
