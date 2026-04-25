@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getBaseUrl } from "@/lib/config/env";
 
 export async function GET(
   request: Request,
@@ -6,6 +7,6 @@ export async function GET(
 ) {
   const { slug } = await params;
   return NextResponse.redirect(
-    new URL(`/api/v1/products/${slug}`, "http://localhost:3000"),
+    new URL(`/api/v1/products/${slug}`, getBaseUrl()),
   );
 }
