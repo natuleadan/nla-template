@@ -1,5 +1,7 @@
 import { ImageResponse } from "next/og";
-import { getProducts } from "@/lib/modules/products";
+import { store } from "@/lib/config/site";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 
 export const size = {
   width: 1200,
@@ -8,68 +10,96 @@ export const size = {
 
 export const contentType = "image/png";
 
-export default async function Image() {
-  const { products } = await getProducts();
-  const count = products.length;
+export const dynamic = "force-dynamic";
 
-  const productList = products
-    .slice(0, 3)
-    .map((p) => `• ${p.name} - $${p.price.toFixed(2)}`)
-    .join("\n");
+export default async function OpenGraphImage() {
+  const [bgData, logoData] = await Promise.all([
+    readFile(join(process.cwd(), "public/design/fondo.svg")),
+    readFile(join(process.cwd(), "public/design/logo.svg")),
+  ]);
+
+  const bgBase64 = bgData.toString("base64");
+  const logoBase64 = logoData.toString("base64");
 
   return new ImageResponse(
-    <div
-      style={{
-        background: "linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)",
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "60px",
-      }}
-    >
+    (
       <div
         style={{
-          color: "#f97316",
-          fontSize: "80px",
-          fontWeight: "bold",
-          fontFamily: "system-ui",
-          marginBottom: "20px",
+          width: "100%",
+          height: "100%",
           display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          position: "relative",
         }}
       >
-        Acme Inc Tienda
-      </div>
-      <div
-        style={{
-          color: "#e2e8f0",
-          fontSize: "28px",
-          fontFamily: "system-ui",
-          textAlign: "center",
-          marginBottom: "30px",
-          display: "flex",
-        }}
-      >
-        {count} productos disponibles
-      </div>
-      {productList && (
+        <img
+          src={`data:image/svg+xml;base64,${bgBase64}`}
+          alt="background"
+          width={1200}
+          height={630}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
+        />
+        <img
+          src={`data:image/svg+xml;base64,${logoBase64}`}
+          alt="logo"
+          width={180}
+          height={180}
+          style={{
+            position: "absolute",
+            top: "40px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            borderRadius: "16px",
+          }}
+        />
         <div
           style={{
-            color: "#94a3b8",
-            fontSize: "20px",
-            fontFamily: "monospace",
-            textAlign: "left",
-            background: "rgba(0,0,0,0.3)",
-            padding: "20px",
-            borderRadius: "10px",
             display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
+            zIndex: 1,
+            padding: "0 48px",
+            marginTop: 80,
           }}
         >
-          {productList}
+          <div
+            style={{
+              fontSize: 64,
+              fontWeight: 700,
+              color: "#ffffff",
+              textShadow: "2px 2px 8px rgba(0,0,0,0.7)",
+              marginBottom: 20,
+            }}
+          >
+            {store.page.title}
+          </div>
+          <div
+            style={{
+              fontSize: 28,
+              color: "#ffffff",
+              textShadow: "1px 1px 4px rgba(0,0,0,0.7)",
+              textAlign: "center",
+              maxWidth: 800,
+              lineHeight: 1.4,
+            }}
+          >
+            {store.page.description}
+          </div>
         </div>
-      )}
-    </div>,
+      </div>
+    ),
+    {
+      ...size,
+    },
   );
 }

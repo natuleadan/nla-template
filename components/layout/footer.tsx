@@ -1,10 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import {
-  IconBrandInstagram,
-  IconBrandTwitter,
-  IconBrandYoutube,
-} from "@tabler/icons-react";
+import { IconBrandInstagram, IconBrandTwitter, IconBrandYoutube } from "@tabler/icons-react";
+import { Copyright } from "./copyright";
 import { brand, nav } from "@/lib/config/site";
 
 export function Footer() {
@@ -32,9 +29,7 @@ export function Footer() {
                 <IconBrandYoutube className="size-5" />
               </Button>
             </div>
-            <p className="mt-4 text-sm text-muted-foreground">
-              {brand.copyright}
-            </p>
+            <Copyright brandName={brand.name} />
           </div>
 
           <div className="order-1 md:order-none col-span-1 md:col-span-1">
