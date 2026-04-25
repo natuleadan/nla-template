@@ -21,7 +21,7 @@ export const store = {
     badge: (category: string) => (category === "suplemento" ? "Suplemento" : "Alimento"),
     priceLabel: "IVA incluido",
     pedir: "Pedir",
-    ver: "Ver",
+    ver: "Detalles",
     back: "Volver",
     contentLabel: "Contenido:",
     availabilityLabel: "Disponibilidad:",
