@@ -6,8 +6,8 @@ export interface PageContent {
   content: Array<{ type: string; [key: string]: unknown }>
 }
 
-const pages: Record<string, PageContent> = {
-  contacto: {
+const pages = new Map<string, PageContent>([
+  ["contacto", {
     title: "Contacto",
     description: "¿Tienes alguna pregunta? Contáctanos.",
     content: [
@@ -18,8 +18,8 @@ const pages: Record<string, PageContent> = {
       { type: "header", title: "Escríbenos" },
       { type: "form" },
     ],
-  },
-  terminos: {
+  }],
+  ["terminos", {
     title: "Términos y Condiciones",
     description: "Última actualización: 2026 - Términos y condiciones de uso conforme a la legislación ecuatoriana.",
     content: [
@@ -43,8 +43,8 @@ const pages: Record<string, PageContent> = {
       { type: "header", title: "9. Jurisdicción" },
       { type: "paragraph", text: "Las partes se someten a los judges competentes de Quito, Ecuador." },
     ],
-  },
-  privacidad: {
+  }],
+  ["privacidad", {
     title: "Política de Privacidad",
     description: "Última actualización: 2026 - Política de privacidad conforme a la legislación ecuatoriana.",
     content: [
@@ -70,8 +70,8 @@ const pages: Record<string, PageContent> = {
       { type: "header", title: "10. Seguridad" },
       { type: "paragraph", text: "Cifrado SSL, controles de acceso, copias de seguridad, formación del personal." },
     ],
-  },
-  datos: {
+  }],
+  ["datos", {
     title: "Tratamiento de Datos Personales",
     description: "Última actualización: 2026 - Información sobre tratamiento de datos personales conforme a LOPDP.",
     content: [
@@ -97,8 +97,8 @@ const pages: Record<string, PageContent> = {
       { type: "header", title: "10. Autoridad de Control" },
       { type: "paragraph", text: "Reclamaciones ante Autoridad de Protección de Datos: www.datos.gob.ec" },
     ],
-  },
-}
+  }],
+])
 
 const DANGEROUS_PROPS = new Set(["__proto__", "constructor", "prototype"])
 
@@ -111,11 +111,11 @@ export async function getPageContent(pageName: string): Promise<PageContent | un
   cacheLife('days')
   cacheTag('pages', pageName)
   if (!isValidPageName(pageName)) return undefined
-  return pages[pageName]
+  return pages.get(pageName)
 }
 
 export function getAllPages(): Record<string, PageContent> {
-  return pages
+  return Object.fromEntries(pages)
 }
 
 export function createPage(pageName: string, content: Omit<PageContent, "description">): PageContent {
@@ -126,16 +126,14 @@ export function createPage(pageName: string, content: Omit<PageContent, "descrip
     ...content,
     description: content.description || "Página creada",
   }
-  pages[pageName] = newPage
+  pages.set(pageName, newPage)
   return newPage
 }
 
 export function updatePages(data: Partial<PageContent>[]): Record<string, PageContent> {
-  return pages
+  return Object.fromEntries(pages)
 }
 
 export function deletePages(): void {
-  Object.keys(pages).forEach(key => {
-    delete pages[key]
-  })
+  pages.clear()
 }
