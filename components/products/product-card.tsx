@@ -79,13 +79,13 @@ export function ProductCard({ id, slug, name, description, price, category, imag
           <span className="text-lg font-bold">${price.toFixed(2)}</span>
           <span className="text-xs text-muted-foreground">{store.product.priceLabel}</span>
         </div>
-        <div className="flex gap-1">
-          <Button onClick={handlePedir} size="sm" variant="secondary" className="gap-1">
+        <div className="flex gap-2">
+          <Button onClick={handlePedir} variant="secondary" className="gap-1">
             <IconBrandWhatsapp className="size-4" data-icon="inline-start" />
             {store.product.pedir}
           </Button>
           <Link href={`/tienda/${slug}`}>
-            <Button size="sm" variant="outline" className="gap-1">
+            <Button variant="outline" className="gap-1">
               <IconArrowRight className="size-4" data-icon="inline-start" />
               {store.product.ver}
             </Button>

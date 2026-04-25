@@ -15,9 +15,8 @@ export const pagesData: [string, PageContent][] = [
   }],
   ["terminos", {
     title: "Términos y Condiciones",
-    description: "Última actualización: 2026 - Términos y condiciones de uso conforme a la legislación ecuatoriana.",
+    description: "Términos y condiciones de uso conforme a la legislación ecuatoriana.",
     content: [
-      { type: "paragraph", text: "Última actualización: 2026" },
       { type: "header", title: "1. Objeto" },
       { type: "paragraph", text: "Los presentes Términos y Condiciones regulan la relación entre el prestador del servicio y los usuarios." },
       { type: "header", title: "2. Identificación" },
@@ -36,13 +35,13 @@ export const pagesData: [string, PageContent][] = [
       { type: "paragraph", text: "Se rige por las leyes del Ecuador: Código Civil, Ley de Comercio Electrónico, LOPC, LOPDP." },
       { type: "header", title: "9. Jurisdicción" },
       { type: "paragraph", text: "Las partes se someten a los judges competentes de Quito, Ecuador." },
+      { type: "paragraph", text: "Última actualización: 2026" },
     ],
   }],
   ["privacidad", {
     title: "Política de Privacidad",
-    description: "Última actualización: 2026 - Política de privacidad conforme a la legislación ecuatoriana.",
+    description: "Política de privacidad conforme a la legislación ecuatoriana.",
     content: [
-      { type: "paragraph", text: "Última actualización: 2026" },
       { type: "header", title: "1. Responsable" },
       { type: "paragraph", text: "Acme Inc es el responsable del tratamiento de datos personales." },
       { type: "header", title: "2. Marco Legal" },
@@ -63,13 +62,13 @@ export const pagesData: [string, PageContent][] = [
       { type: "paragraph", text: "Acceso, rectificación, supresión, portabilidad, limitación. Contacto: contacto@ejemplo.com" },
       { type: "header", title: "10. Seguridad" },
       { type: "paragraph", text: "Cifrado SSL, controles de acceso, copias de seguridad, formación del personal." },
+      { type: "paragraph", text: "Última actualización: 2026" },
     ],
   }],
   ["datos", {
     title: "Tratamiento de Datos Personales",
-    description: "Última actualización: 2026 - Información sobre tratamiento de datos personales conforme a LOPDP.",
+    description: "Información sobre tratamiento de datos personales conforme a LOPDP.",
     content: [
-      { type: "paragraph", text: "Última actualización: 2026" },
       { type: "header", title: "1. Responsable" },
       { type: "paragraph", text: "Acme Inc, empresa constituida en Ecuador." },
       { type: "header", title: "2. Normativa" },
@@ -90,6 +89,7 @@ export const pagesData: [string, PageContent][] = [
       { type: "paragraph", text: "SSL/TLS, 2FA, acceso restringido, auditorías periódicas." },
       { type: "header", title: "10. Autoridad de Control" },
       { type: "paragraph", text: "Reclamaciones ante Autoridad de Protección de Datos: www.datos.gob.ec" },
+      { type: "paragraph", text: "Última actualización: 2026" },
     ],
   }],
 ]

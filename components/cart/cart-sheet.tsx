@@ -50,6 +50,7 @@ export function CartSheet({ children }: CartSheetProps) {
     const itemsList = cartItems.map(item => `- ${item.name} x${item.quantity}: $${(item.price * item.quantity).toFixed(2)}`).join("\n")
     
     const mensaje = store.cart.whatsappTemplate(itemsList, total)
+    const urlWhatsapp = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`
     
     notificationService.info(ui.openingWhatsApp)
     window.open(urlWhatsapp, "_blank")
@@ -62,7 +63,7 @@ export function CartSheet({ children }: CartSheetProps) {
           <Button variant="outline" size="icon" className="relative">
             <IconShoppingCart className="size-5" />
             {totalItems > 0 && (
-              <Badge className="absolute -top-2 -right-2 size-5 p-0 flex items-center justify-center">
+              <Badge className="absolute -top-2 -right-2 min-w-5 h-5 px-1 flex items-center justify-center text-[10px]">
                 {totalItems}
               </Badge>
             )}
@@ -99,20 +100,18 @@ export function CartSheet({ children }: CartSheetProps) {
                       <div className="flex items-center gap-2">
                         <Button 
                           variant="outline" 
-                          size="icon" 
-                          className="size-8"
+                          size="icon"
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
                         >
-                          <IconMinus className="size-3" />
+                          <IconMinus className="size-4" />
                         </Button>
-                        <span className="w-8 text-center font-medium">{item.quantity}</span>
+                        <span className="w-10 text-center font-medium">{item.quantity}</span>
                         <Button 
                           variant="outline" 
-                          size="icon" 
-                          className="size-8"
+                          size="icon"
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
                         >
-                          <IconPlus className="size-3" />
+                          <IconPlus className="size-4" />
                         </Button>
                       </div>
                     </div>
@@ -122,8 +121,8 @@ export function CartSheet({ children }: CartSheetProps) {
                       </span>
                       <Button 
                         variant="ghost" 
-                        size="sm" 
-                        className="text-destructive h-8 px-2"
+                        size="sm"
+                        className="text-destructive"
                         onClick={() => removeFromCart(item.id)}
                       >
                         <IconTrash className="size-4 mr-1" />

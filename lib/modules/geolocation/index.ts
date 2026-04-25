@@ -29,14 +29,14 @@ function generateAnonymousId(): string {
   return `anon_${timestamp}_${randomPart}`
 }
 
-function getAnonymousIdFromCookie(): string | undefined {
-  const cookieStore = cookies()
+async function getAnonymousIdFromCookie(): Promise<string | undefined> {
+  const cookieStore = await cookies()
   const anonCookie = cookieStore.get(ANON_ID_COOKIE_NAME)
   return anonCookie?.value
 }
 
 export async function getOrCreateAnonymousId(): Promise<string> {
-  const existingId = getAnonymousIdFromCookie()
+  const existingId = await getAnonymousIdFromCookie()
   if (existingId) {
     return existingId
   }

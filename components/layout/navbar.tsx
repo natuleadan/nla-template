@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { IconBrandWhatsapp, IconBarbell } from "@tabler/icons-react";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { IconBrandWhatsapp, IconBarbell, IconMenu2 } from "@tabler/icons-react";
 import { getWhatsappNumber } from "@/lib/config/env";
 import notificationService from "@/lib/modules/notification";
 import { brand, nav, ui } from "@/lib/config/site";
@@ -10,6 +12,8 @@ import { brand, nav, ui } from "@/lib/config/site";
 const WHATSAPP_NUMBER = getWhatsappNumber();
 
 export function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   const handleWhatsAppClick = async () => {
     notificationService.info(ui.openingWhatsApp);
 
@@ -41,7 +45,7 @@ export function Navbar() {
           </Link>
         </div>
 
-        <nav className="flex-1 justify-end flex items-center gap-1">
+        <nav className="hidden md:flex flex-1 justify-end items-center gap-1">
           {nav.items.map((item) => (
             <Link
               key={item.href}
@@ -61,6 +65,38 @@ export function Navbar() {
             <span className="sm:hidden">{nav.buttons.whatsappMobile}</span>
           </Button>
         </nav>
+
+        <div className="flex md:hidden items-center gap-2">
+          <Button 
+            onClick={handleWhatsAppClick} 
+            size="icon"
+            variant="outline"
+          >
+            <IconBrandWhatsapp className="size-5" />
+          </Button>
+          <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <IconMenu2 className="size-6" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-72">
+              <SheetTitle className="sr-only">{brand.name}</SheetTitle>
+              <nav className="flex flex-col gap-2 mt-8">
+                {nav.items.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="px-4 py-3 text-base font-medium rounded-lg hover:bg-muted transition-colors"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </nav>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </header>
   );

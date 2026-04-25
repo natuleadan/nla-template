@@ -53,9 +53,10 @@ function StarRating({ rating, setRating }: { rating: number; setRating?: (r: num
           key={star}
           type="button"
           onClick={() => setRating?.(star)}
-          className={`${star <= rating ? "text-yellow-500" : "text-muted"} hover:scale-110 transition`}
+          className={`${star <= rating ? "text-yellow-500" : "text-muted"} hover:scale-110 transition p-1`}
+          aria-label={`${star} estrellas`}
         >
-          <IconStar className="size-5 fill-current" />
+          <IconStar className="size-6 fill-current" />
         </button>
       ))}
     </div>
@@ -255,12 +256,12 @@ export function ProductDetails({ product: initialProduct, initialInventory }: Pr
         <div className="border rounded-lg p-4 space-y-4 mt-6">
           <h3 className="font-medium">{store.reviews.writeTitle}</h3>
           
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             <Input
               placeholder={store.reviews.namePlaceholder}
               value={newReview.name}
               onChange={(e) => setNewReview({ ...newReview, name: e.target.value })}
-              className="max-w-xs"
+              className="w-full sm:max-w-xs"
             />
             <StarRating rating={newReview.rating} setRating={(r) => setNewReview({ ...newReview, rating: r })} />
           </div>
