@@ -1,0 +1,60 @@
+@import "@radix-ui/colors/green.css";
+@import "@radix-ui/colors/green-dark.css";
+@import "@radix-ui/colors/green-alpha.css";
+@import "@radix-ui/colors/green-dark-alpha.css";
+
+/* Light */
+:root[data-brand="green"] {
+  --brand-1: var(--green-1);
+  --brand-2: var(--green-2);
+  --brand-3: var(--green-3);
+  --brand-4: var(--green-4);
+  --brand-5: var(--green-5);
+  --brand-6: var(--green-6);
+  --brand-7: var(--green-7);
+  --brand-8: var(--green-8);
+  --brand-9: var(--green-9);
+  --brand-10: var(--green-10);
+  --brand-11: var(--green-11);
+  --brand-12: var(--green-12);
+  --brand-a1: var(--green-a1);
+  --brand-a2: var(--green-a2);
+  --brand-a3: var(--green-a3);
+  --brand-a4: var(--green-a4);
+  --brand-a5: var(--green-a5);
+  --brand-a6: var(--green-a6);
+  --brand-a7: var(--green-a7);
+  --brand-a8: var(--green-a8);
+  --brand-a9: var(--green-a9);
+  --brand-a10: var(--green-a10);
+  --brand-a11: var(--green-a11);
+  --brand-a12: var(--green-a12);
+}
+
+/* Dark */
+:root[data-brand="green"].dark {
+  --brand-1: var(--green-1);
+  --brand-2: var(--green-2);
+  --brand-3: var(--green-3);
+  --brand-4: var(--green-4);
+  --brand-5: var(--green-5);
+  --brand-6: var(--green-6);
+  --brand-7: var(--green-7);
+  --brand-8: var(--green-8);
+  --brand-9: var(--green-9);
+  --brand-10: var(--green-10);
+  --brand-11: var(--green-11);
+  --brand-12: var(--green-12);
+  --brand-a1: var(--green-a1);
+  --brand-a2: var(--green-a2);
+  --brand-a3: var(--green-a3);
+  --brand-a4: var(--green-a4);
+  --brand-a5: var(--green-a5);
+  --brand-a6: var(--green-a6);
+  --brand-a7: var(--green-a7);
+  --brand-a8: var(--green-a8);
+  --brand-a9: var(--green-a9);
+  --brand-a10: var(--green-a10);
+  --brand-a11: var(--green-a11);
+  --brand-a12: var(--green-a12);
+}

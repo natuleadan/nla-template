@@ -1,0 +1,60 @@
+@import "@radix-ui/colors/gold.css";
+@import "@radix-ui/colors/gold-dark.css";
+@import "@radix-ui/colors/gold-alpha.css";
+@import "@radix-ui/colors/gold-dark-alpha.css";
+
+/* Light */
+:root[data-brand="gold"] {
+  --brand-1: var(--gold-1);
+  --brand-2: var(--gold-2);
+  --brand-3: var(--gold-3);
+  --brand-4: var(--gold-4);
+  --brand-5: var(--gold-5);
+  --brand-6: var(--gold-6);
+  --brand-7: var(--gold-7);
+  --brand-8: var(--gold-8);
+  --brand-9: var(--gold-9);
+  --brand-10: var(--gold-10);
+  --brand-11: var(--gold-11);
+  --brand-12: var(--gold-12);
+  --brand-a1: var(--gold-a1);
+  --brand-a2: var(--gold-a2);
+  --brand-a3: var(--gold-a3);
+  --brand-a4: var(--gold-a4);
+  --brand-a5: var(--gold-a5);
+  --brand-a6: var(--gold-a6);
+  --brand-a7: var(--gold-a7);
+  --brand-a8: var(--gold-a8);
+  --brand-a9: var(--gold-a9);
+  --brand-a10: var(--gold-a10);
+  --brand-a11: var(--gold-a11);
+  --brand-a12: var(--gold-a12);
+}
+
+/* Dark */
+:root[data-brand="gold"].dark {
+  --brand-1: var(--gold-1);
+  --brand-2: var(--gold-2);
+  --brand-3: var(--gold-3);
+  --brand-4: var(--gold-4);
+  --brand-5: var(--gold-5);
+  --brand-6: var(--gold-6);
+  --brand-7: var(--gold-7);
+  --brand-8: var(--gold-8);
+  --brand-9: var(--gold-9);
+  --brand-10: var(--gold-10);
+  --brand-11: var(--gold-11);
+  --brand-12: var(--gold-12);
+  --brand-a1: var(--gold-a1);
+  --brand-a2: var(--gold-a2);
+  --brand-a3: var(--gold-a3);
+  --brand-a4: var(--gold-a4);
+  --brand-a5: var(--gold-a5);
+  --brand-a6: var(--gold-a6);
+  --brand-a7: var(--gold-a7);
+  --brand-a8: var(--gold-a8);
+  --brand-a9: var(--gold-a9);
+  --brand-a10: var(--gold-a10);
+  --brand-a11: var(--gold-a11);
+  --brand-a12: var(--gold-a12);
+}

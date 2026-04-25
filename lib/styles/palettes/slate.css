@@ -1,0 +1,60 @@
+@import "@radix-ui/colors/slate.css";
+@import "@radix-ui/colors/slate-dark.css";
+@import "@radix-ui/colors/slate-alpha.css";
+@import "@radix-ui/colors/slate-dark-alpha.css";
+
+/* Light */
+:root[data-brand="slate"] {
+  --brand-1: var(--slate-1);
+  --brand-2: var(--slate-2);
+  --brand-3: var(--slate-3);
+  --brand-4: var(--slate-4);
+  --brand-5: var(--slate-5);
+  --brand-6: var(--slate-6);
+  --brand-7: var(--slate-7);
+  --brand-8: var(--slate-8);
+  --brand-9: var(--slate-9);
+  --brand-10: var(--slate-10);
+  --brand-11: var(--slate-11);
+  --brand-12: var(--slate-12);
+  --brand-a1: var(--slate-a1);
+  --brand-a2: var(--slate-a2);
+  --brand-a3: var(--slate-a3);
+  --brand-a4: var(--slate-a4);
+  --brand-a5: var(--slate-a5);
+  --brand-a6: var(--slate-a6);
+  --brand-a7: var(--slate-a7);
+  --brand-a8: var(--slate-a8);
+  --brand-a9: var(--slate-a9);
+  --brand-a10: var(--slate-a10);
+  --brand-a11: var(--slate-a11);
+  --brand-a12: var(--slate-a12);
+}
+
+/* Dark */
+:root[data-brand="slate"].dark {
+  --brand-1: var(--slate-1);
+  --brand-2: var(--slate-2);
+  --brand-3: var(--slate-3);
+  --brand-4: var(--slate-4);
+  --brand-5: var(--slate-5);
+  --brand-6: var(--slate-6);
+  --brand-7: var(--slate-7);
+  --brand-8: var(--slate-8);
+  --brand-9: var(--slate-9);
+  --brand-10: var(--slate-10);
+  --brand-11: var(--slate-11);
+  --brand-12: var(--slate-12);
+  --brand-a1: var(--slate-a1);
+  --brand-a2: var(--slate-a2);
+  --brand-a3: var(--slate-a3);
+  --brand-a4: var(--slate-a4);
+  --brand-a5: var(--slate-a5);
+  --brand-a6: var(--slate-a6);
+  --brand-a7: var(--slate-a7);
+  --brand-a8: var(--slate-a8);
+  --brand-a9: var(--slate-a9);
+  --brand-a10: var(--slate-a10);
+  --brand-a11: var(--slate-a11);
+  --brand-a12: var(--slate-a12);
+}

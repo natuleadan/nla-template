@@ -1,0 +1,60 @@
+@import "@radix-ui/colors/jade.css";
+@import "@radix-ui/colors/jade-dark.css";
+@import "@radix-ui/colors/jade-alpha.css";
+@import "@radix-ui/colors/jade-dark-alpha.css";
+
+/* Light */
+:root[data-brand="jade"] {
+  --brand-1: var(--jade-1);
+  --brand-2: var(--jade-2);
+  --brand-3: var(--jade-3);
+  --brand-4: var(--jade-4);
+  --brand-5: var(--jade-5);
+  --brand-6: var(--jade-6);
+  --brand-7: var(--jade-7);
+  --brand-8: var(--jade-8);
+  --brand-9: var(--jade-9);
+  --brand-10: var(--jade-10);
+  --brand-11: var(--jade-11);
+  --brand-12: var(--jade-12);
+  --brand-a1: var(--jade-a1);
+  --brand-a2: var(--jade-a2);
+  --brand-a3: var(--jade-a3);
+  --brand-a4: var(--jade-a4);
+  --brand-a5: var(--jade-a5);
+  --brand-a6: var(--jade-a6);
+  --brand-a7: var(--jade-a7);
+  --brand-a8: var(--jade-a8);
+  --brand-a9: var(--jade-a9);
+  --brand-a10: var(--jade-a10);
+  --brand-a11: var(--jade-a11);
+  --brand-a12: var(--jade-a12);
+}
+
+/* Dark */
+:root[data-brand="jade"].dark {
+  --brand-1: var(--jade-1);
+  --brand-2: var(--jade-2);
+  --brand-3: var(--jade-3);
+  --brand-4: var(--jade-4);
+  --brand-5: var(--jade-5);
+  --brand-6: var(--jade-6);
+  --brand-7: var(--jade-7);
+  --brand-8: var(--jade-8);
+  --brand-9: var(--jade-9);
+  --brand-10: var(--jade-10);
+  --brand-11: var(--jade-11);
+  --brand-12: var(--jade-12);
+  --brand-a1: var(--jade-a1);
+  --brand-a2: var(--jade-a2);
+  --brand-a3: var(--jade-a3);
+  --brand-a4: var(--jade-a4);
+  --brand-a5: var(--jade-a5);
+  --brand-a6: var(--jade-a6);
+  --brand-a7: var(--jade-a7);
+  --brand-a8: var(--jade-a8);
+  --brand-a9: var(--jade-a9);
+  --brand-a10: var(--jade-a10);
+  --brand-a11: var(--jade-a11);
+  --brand-a12: var(--jade-a12);
+}

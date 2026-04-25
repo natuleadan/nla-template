@@ -1,0 +1,60 @@
+@import "@radix-ui/colors/lime.css";
+@import "@radix-ui/colors/lime-dark.css";
+@import "@radix-ui/colors/lime-alpha.css";
+@import "@radix-ui/colors/lime-dark-alpha.css";
+
+/* Light */
+:root[data-brand="lime"] {
+  --brand-1: var(--lime-1);
+  --brand-2: var(--lime-2);
+  --brand-3: var(--lime-3);
+  --brand-4: var(--lime-4);
+  --brand-5: var(--lime-5);
+  --brand-6: var(--lime-6);
+  --brand-7: var(--lime-7);
+  --brand-8: var(--lime-8);
+  --brand-9: var(--lime-9);
+  --brand-10: var(--lime-10);
+  --brand-11: var(--lime-11);
+  --brand-12: var(--lime-12);
+  --brand-a1: var(--lime-a1);
+  --brand-a2: var(--lime-a2);
+  --brand-a3: var(--lime-a3);
+  --brand-a4: var(--lime-a4);
+  --brand-a5: var(--lime-a5);
+  --brand-a6: var(--lime-a6);
+  --brand-a7: var(--lime-a7);
+  --brand-a8: var(--lime-a8);
+  --brand-a9: var(--lime-a9);
+  --brand-a10: var(--lime-a10);
+  --brand-a11: var(--lime-a11);
+  --brand-a12: var(--lime-a12);
+}
+
+/* Dark */
+:root[data-brand="lime"].dark {
+  --brand-1: var(--lime-1);
+  --brand-2: var(--lime-2);
+  --brand-3: var(--lime-3);
+  --brand-4: var(--lime-4);
+  --brand-5: var(--lime-5);
+  --brand-6: var(--lime-6);
+  --brand-7: var(--lime-7);
+  --brand-8: var(--lime-8);
+  --brand-9: var(--lime-9);
+  --brand-10: var(--lime-10);
+  --brand-11: var(--lime-11);
+  --brand-12: var(--lime-12);
+  --brand-a1: var(--lime-a1);
+  --brand-a2: var(--lime-a2);
+  --brand-a3: var(--lime-a3);
+  --brand-a4: var(--lime-a4);
+  --brand-a5: var(--lime-a5);
+  --brand-a6: var(--lime-a6);
+  --brand-a7: var(--lime-a7);
+  --brand-a8: var(--lime-a8);
+  --brand-a9: var(--lime-a9);
+  --brand-a10: var(--lime-a10);
+  --brand-a11: var(--lime-a11);
+  --brand-a12: var(--lime-a12);
+}

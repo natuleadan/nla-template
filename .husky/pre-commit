@@ -1,0 +1,9 @@
+#!/bin/bash
+# Pre-commit hook: Lint staged files (Tests run in CI/CD)
+
+# Run ESLint on staged files
+pnpm lint
+
+# Tests are executed in GitHub Actions CI/CD pipeline (.github/workflows/ci.yml)
+# Commenting out local test execution for faster commits
+# pnpm test

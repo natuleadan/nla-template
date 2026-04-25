@@ -1,0 +1,60 @@
+@import "@radix-ui/colors/crimson.css";
+@import "@radix-ui/colors/crimson-dark.css";
+@import "@radix-ui/colors/crimson-alpha.css";
+@import "@radix-ui/colors/crimson-dark-alpha.css";
+
+/* Light */
+:root[data-brand="crimson"] {
+  --brand-1: var(--crimson-1);
+  --brand-2: var(--crimson-2);
+  --brand-3: var(--crimson-3);
+  --brand-4: var(--crimson-4);
+  --brand-5: var(--crimson-5);
+  --brand-6: var(--crimson-6);
+  --brand-7: var(--crimson-7);
+  --brand-8: var(--crimson-8);
+  --brand-9: var(--crimson-9);
+  --brand-10: var(--crimson-10);
+  --brand-11: var(--crimson-11);
+  --brand-12: var(--crimson-12);
+  --brand-a1: var(--crimson-a1);
+  --brand-a2: var(--crimson-a2);
+  --brand-a3: var(--crimson-a3);
+  --brand-a4: var(--crimson-a4);
+  --brand-a5: var(--crimson-a5);
+  --brand-a6: var(--crimson-a6);
+  --brand-a7: var(--crimson-a7);
+  --brand-a8: var(--crimson-a8);
+  --brand-a9: var(--crimson-a9);
+  --brand-a10: var(--crimson-a10);
+  --brand-a11: var(--crimson-a11);
+  --brand-a12: var(--crimson-a12);
+}
+
+/* Dark */
+:root[data-brand="crimson"].dark {
+  --brand-1: var(--crimson-1);
+  --brand-2: var(--crimson-2);
+  --brand-3: var(--crimson-3);
+  --brand-4: var(--crimson-4);
+  --brand-5: var(--crimson-5);
+  --brand-6: var(--crimson-6);
+  --brand-7: var(--crimson-7);
+  --brand-8: var(--crimson-8);
+  --brand-9: var(--crimson-9);
+  --brand-10: var(--crimson-10);
+  --brand-11: var(--crimson-11);
+  --brand-12: var(--crimson-12);
+  --brand-a1: var(--crimson-a1);
+  --brand-a2: var(--crimson-a2);
+  --brand-a3: var(--crimson-a3);
+  --brand-a4: var(--crimson-a4);
+  --brand-a5: var(--crimson-a5);
+  --brand-a6: var(--crimson-a6);
+  --brand-a7: var(--crimson-a7);
+  --brand-a8: var(--crimson-a8);
+  --brand-a9: var(--crimson-a9);
+  --brand-a10: var(--crimson-a10);
+  --brand-a11: var(--crimson-a11);
+  --brand-a12: var(--crimson-a12);
+}

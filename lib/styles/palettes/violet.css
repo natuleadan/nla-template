@@ -1,0 +1,60 @@
+@import "@radix-ui/colors/violet.css";
+@import "@radix-ui/colors/violet-dark.css";
+@import "@radix-ui/colors/violet-alpha.css";
+@import "@radix-ui/colors/violet-dark-alpha.css";
+
+/* Light */
+:root[data-brand="violet"] {
+  --brand-1: var(--violet-1);
+  --brand-2: var(--violet-2);
+  --brand-3: var(--violet-3);
+  --brand-4: var(--violet-4);
+  --brand-5: var(--violet-5);
+  --brand-6: var(--violet-6);
+  --brand-7: var(--violet-7);
+  --brand-8: var(--violet-8);
+  --brand-9: var(--violet-9);
+  --brand-10: var(--violet-10);
+  --brand-11: var(--violet-11);
+  --brand-12: var(--violet-12);
+  --brand-a1: var(--violet-a1);
+  --brand-a2: var(--violet-a2);
+  --brand-a3: var(--violet-a3);
+  --brand-a4: var(--violet-a4);
+  --brand-a5: var(--violet-a5);
+  --brand-a6: var(--violet-a6);
+  --brand-a7: var(--violet-a7);
+  --brand-a8: var(--violet-a8);
+  --brand-a9: var(--violet-a9);
+  --brand-a10: var(--violet-a10);
+  --brand-a11: var(--violet-a11);
+  --brand-a12: var(--violet-a12);
+}
+
+/* Dark */
+:root[data-brand="violet"].dark {
+  --brand-1: var(--violet-1);
+  --brand-2: var(--violet-2);
+  --brand-3: var(--violet-3);
+  --brand-4: var(--violet-4);
+  --brand-5: var(--violet-5);
+  --brand-6: var(--violet-6);
+  --brand-7: var(--violet-7);
+  --brand-8: var(--violet-8);
+  --brand-9: var(--violet-9);
+  --brand-10: var(--violet-10);
+  --brand-11: var(--violet-11);
+  --brand-12: var(--violet-12);
+  --brand-a1: var(--violet-a1);
+  --brand-a2: var(--violet-a2);
+  --brand-a3: var(--violet-a3);
+  --brand-a4: var(--violet-a4);
+  --brand-a5: var(--violet-a5);
+  --brand-a6: var(--violet-a6);
+  --brand-a7: var(--violet-a7);
+  --brand-a8: var(--violet-a8);
+  --brand-a9: var(--violet-a9);
+  --brand-a10: var(--violet-a10);
+  --brand-a11: var(--violet-a11);
+  --brand-a12: var(--violet-a12);
+}

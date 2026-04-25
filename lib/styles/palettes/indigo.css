@@ -1,0 +1,60 @@
+@import "@radix-ui/colors/indigo.css";
+@import "@radix-ui/colors/indigo-dark.css";
+@import "@radix-ui/colors/indigo-alpha.css";
+@import "@radix-ui/colors/indigo-dark-alpha.css";
+
+/* Light */
+:root[data-brand="indigo"] {
+  --brand-1: var(--indigo-1);
+  --brand-2: var(--indigo-2);
+  --brand-3: var(--indigo-3);
+  --brand-4: var(--indigo-4);
+  --brand-5: var(--indigo-5);
+  --brand-6: var(--indigo-6);
+  --brand-7: var(--indigo-7);
+  --brand-8: var(--indigo-8);
+  --brand-9: var(--indigo-9);
+  --brand-10: var(--indigo-10);
+  --brand-11: var(--indigo-11);
+  --brand-12: var(--indigo-12);
+  --brand-a1: var(--indigo-a1);
+  --brand-a2: var(--indigo-a2);
+  --brand-a3: var(--indigo-a3);
+  --brand-a4: var(--indigo-a4);
+  --brand-a5: var(--indigo-a5);
+  --brand-a6: var(--indigo-a6);
+  --brand-a7: var(--indigo-a7);
+  --brand-a8: var(--indigo-a8);
+  --brand-a9: var(--indigo-a9);
+  --brand-a10: var(--indigo-a10);
+  --brand-a11: var(--indigo-a11);
+  --brand-a12: var(--indigo-a12);
+}
+
+/* Dark */
+:root[data-brand="indigo"].dark {
+  --brand-1: var(--indigo-1);
+  --brand-2: var(--indigo-2);
+  --brand-3: var(--indigo-3);
+  --brand-4: var(--indigo-4);
+  --brand-5: var(--indigo-5);
+  --brand-6: var(--indigo-6);
+  --brand-7: var(--indigo-7);
+  --brand-8: var(--indigo-8);
+  --brand-9: var(--indigo-9);
+  --brand-10: var(--indigo-10);
+  --brand-11: var(--indigo-11);
+  --brand-12: var(--indigo-12);
+  --brand-a1: var(--indigo-a1);
+  --brand-a2: var(--indigo-a2);
+  --brand-a3: var(--indigo-a3);
+  --brand-a4: var(--indigo-a4);
+  --brand-a5: var(--indigo-a5);
+  --brand-a6: var(--indigo-a6);
+  --brand-a7: var(--indigo-a7);
+  --brand-a8: var(--indigo-a8);
+  --brand-a9: var(--indigo-a9);
+  --brand-a10: var(--indigo-a10);
+  --brand-a11: var(--indigo-a11);
+  --brand-a12: var(--indigo-a12);
+}

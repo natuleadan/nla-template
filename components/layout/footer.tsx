@@ -1,0 +1,100 @@
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { IconBrandInstagram, IconBrandTwitter, IconBrandYoutube } from "@tabler/icons-react";
+
+const footerLinks = {
+  tienda: [
+    { href: "/tienda", label: "Todos los productos" },
+    { href: "/tienda?cat=suplemento", label: "Suplementos" },
+    { href: "/tienda?cat=comida", label: "Alimentos" },
+  ],
+  empresa: [
+    { href: "/contacto", label: "Contacto" },
+  ],
+  legal: [
+    { href: "/terminos", label: "Términos" },
+    { href: "/privacidad", label: "Privacidad" },
+    { href: "/datos", label: "Datos" },
+  ],
+};
+
+export function Footer() {
+  return (
+    <footer className="border-t bg-muted/30">
+      <div className="py-12 px-4 md:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="grid gap-8 md:grid-cols-5">
+          <div className="md:col-span-2">
+            <Link href="/" className="text-2xl font-bold">
+              Acme Inc
+            </Link>
+            <p className="mt-3 text-sm text-muted-foreground max-w-xs">
+              Tu tienda de confianza para suplementos nutricionales y alimentos saludables para el gym.
+            </p>
+            <div className="mt-4 flex gap-2">
+              <Button variant="ghost" size="icon">
+                <IconBrandInstagram className="size-5" />
+              </Button>
+              <Button variant="ghost" size="icon">
+                <IconBrandTwitter className="size-5" />
+              </Button>
+              <Button variant="ghost" size="icon">
+                <IconBrandYoutube className="size-5" />
+              </Button>
+            </div>
+            <p className="mt-4 text-sm text-muted-foreground">
+              © 2026 Acme Inc. Todos los derechos reservados.
+            </p>
+          </div>
+
+          <div>
+            <h3 className="mb-4 font-semibold">Tienda</h3>
+            <ul className="space-y-2">
+              {footerLinks.tienda.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="mb-4 font-semibold">Empresa</h3>
+            <ul className="space-y-2">
+              {footerLinks.empresa.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="mb-4 font-semibold">Legal</h3>
+            <ul className="space-y-2">
+              {footerLinks.legal.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}

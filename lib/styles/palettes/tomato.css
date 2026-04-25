@@ -1,0 +1,60 @@
+@import "@radix-ui/colors/tomato.css";
+@import "@radix-ui/colors/tomato-dark.css";
+@import "@radix-ui/colors/tomato-alpha.css";
+@import "@radix-ui/colors/tomato-dark-alpha.css";
+
+/* Light */
+:root[data-brand="tomato"] {
+  --brand-1: var(--tomato-1);
+  --brand-2: var(--tomato-2);
+  --brand-3: var(--tomato-3);
+  --brand-4: var(--tomato-4);
+  --brand-5: var(--tomato-5);
+  --brand-6: var(--tomato-6);
+  --brand-7: var(--tomato-7);
+  --brand-8: var(--tomato-8);
+  --brand-9: var(--tomato-9);
+  --brand-10: var(--tomato-10);
+  --brand-11: var(--tomato-11);
+  --brand-12: var(--tomato-12);
+  --brand-a1: var(--tomato-a1);
+  --brand-a2: var(--tomato-a2);
+  --brand-a3: var(--tomato-a3);
+  --brand-a4: var(--tomato-a4);
+  --brand-a5: var(--tomato-a5);
+  --brand-a6: var(--tomato-a6);
+  --brand-a7: var(--tomato-a7);
+  --brand-a8: var(--tomato-a8);
+  --brand-a9: var(--tomato-a9);
+  --brand-a10: var(--tomato-a10);
+  --brand-a11: var(--tomato-a11);
+  --brand-a12: var(--tomato-a12);
+}
+
+/* Dark */
+:root[data-brand="tomato"].dark {
+  --brand-1: var(--tomato-1);
+  --brand-2: var(--tomato-2);
+  --brand-3: var(--tomato-3);
+  --brand-4: var(--tomato-4);
+  --brand-5: var(--tomato-5);
+  --brand-6: var(--tomato-6);
+  --brand-7: var(--tomato-7);
+  --brand-8: var(--tomato-8);
+  --brand-9: var(--tomato-9);
+  --brand-10: var(--tomato-10);
+  --brand-11: var(--tomato-11);
+  --brand-12: var(--tomato-12);
+  --brand-a1: var(--tomato-a1);
+  --brand-a2: var(--tomato-a2);
+  --brand-a3: var(--tomato-a3);
+  --brand-a4: var(--tomato-a4);
+  --brand-a5: var(--tomato-a5);
+  --brand-a6: var(--tomato-a6);
+  --brand-a7: var(--tomato-a7);
+  --brand-a8: var(--tomato-a8);
+  --brand-a9: var(--tomato-a9);
+  --brand-a10: var(--tomato-a10);
+  --brand-a11: var(--tomato-a11);
+  --brand-a12: var(--tomato-a12);
+}

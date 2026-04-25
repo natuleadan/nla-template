@@ -1,0 +1,60 @@
+@import "@radix-ui/colors/sand.css";
+@import "@radix-ui/colors/sand-dark.css";
+@import "@radix-ui/colors/sand-alpha.css";
+@import "@radix-ui/colors/sand-dark-alpha.css";
+
+/* Light */
+:root[data-brand="sand"] {
+  --brand-1: var(--sand-1);
+  --brand-2: var(--sand-2);
+  --brand-3: var(--sand-3);
+  --brand-4: var(--sand-4);
+  --brand-5: var(--sand-5);
+  --brand-6: var(--sand-6);
+  --brand-7: var(--sand-7);
+  --brand-8: var(--sand-8);
+  --brand-9: var(--sand-9);
+  --brand-10: var(--sand-10);
+  --brand-11: var(--sand-11);
+  --brand-12: var(--sand-12);
+  --brand-a1: var(--sand-a1);
+  --brand-a2: var(--sand-a2);
+  --brand-a3: var(--sand-a3);
+  --brand-a4: var(--sand-a4);
+  --brand-a5: var(--sand-a5);
+  --brand-a6: var(--sand-a6);
+  --brand-a7: var(--sand-a7);
+  --brand-a8: var(--sand-a8);
+  --brand-a9: var(--sand-a9);
+  --brand-a10: var(--sand-a10);
+  --brand-a11: var(--sand-a11);
+  --brand-a12: var(--sand-a12);
+}
+
+/* Dark */
+:root[data-brand="sand"].dark {
+  --brand-1: var(--sand-1);
+  --brand-2: var(--sand-2);
+  --brand-3: var(--sand-3);
+  --brand-4: var(--sand-4);
+  --brand-5: var(--sand-5);
+  --brand-6: var(--sand-6);
+  --brand-7: var(--sand-7);
+  --brand-8: var(--sand-8);
+  --brand-9: var(--sand-9);
+  --brand-10: var(--sand-10);
+  --brand-11: var(--sand-11);
+  --brand-12: var(--sand-12);
+  --brand-a1: var(--sand-a1);
+  --brand-a2: var(--sand-a2);
+  --brand-a3: var(--sand-a3);
+  --brand-a4: var(--sand-a4);
+  --brand-a5: var(--sand-a5);
+  --brand-a6: var(--sand-a6);
+  --brand-a7: var(--sand-a7);
+  --brand-a8: var(--sand-a8);
+  --brand-a9: var(--sand-a9);
+  --brand-a10: var(--sand-a10);
+  --brand-a11: var(--sand-a11);
+  --brand-a12: var(--sand-a12);
+}

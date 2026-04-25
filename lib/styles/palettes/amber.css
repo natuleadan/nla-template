@@ -1,0 +1,60 @@
+@import "@radix-ui/colors/amber.css";
+@import "@radix-ui/colors/amber-dark.css";
+@import "@radix-ui/colors/amber-alpha.css";
+@import "@radix-ui/colors/amber-dark-alpha.css";
+
+/* Light */
+:root[data-brand="amber"] {
+  --brand-1: var(--amber-1);
+  --brand-2: var(--amber-2);
+  --brand-3: var(--amber-3);
+  --brand-4: var(--amber-4);
+  --brand-5: var(--amber-5);
+  --brand-6: var(--amber-6);
+  --brand-7: var(--amber-7);
+  --brand-8: var(--amber-8);
+  --brand-9: var(--amber-9);
+  --brand-10: var(--amber-10);
+  --brand-11: var(--amber-11);
+  --brand-12: var(--amber-12);
+  --brand-a1: var(--amber-a1);
+  --brand-a2: var(--amber-a2);
+  --brand-a3: var(--amber-a3);
+  --brand-a4: var(--amber-a4);
+  --brand-a5: var(--amber-a5);
+  --brand-a6: var(--amber-a6);
+  --brand-a7: var(--amber-a7);
+  --brand-a8: var(--amber-a8);
+  --brand-a9: var(--amber-a9);
+  --brand-a10: var(--amber-a10);
+  --brand-a11: var(--amber-a11);
+  --brand-a12: var(--amber-a12);
+}
+
+/* Dark */
+:root[data-brand="amber"].dark {
+  --brand-1: var(--amber-1);
+  --brand-2: var(--amber-2);
+  --brand-3: var(--amber-3);
+  --brand-4: var(--amber-4);
+  --brand-5: var(--amber-5);
+  --brand-6: var(--amber-6);
+  --brand-7: var(--amber-7);
+  --brand-8: var(--amber-8);
+  --brand-9: var(--amber-9);
+  --brand-10: var(--amber-10);
+  --brand-11: var(--amber-11);
+  --brand-12: var(--amber-12);
+  --brand-a1: var(--amber-a1);
+  --brand-a2: var(--amber-a2);
+  --brand-a3: var(--amber-a3);
+  --brand-a4: var(--amber-a4);
+  --brand-a5: var(--amber-a5);
+  --brand-a6: var(--amber-a6);
+  --brand-a7: var(--amber-a7);
+  --brand-a8: var(--amber-a8);
+  --brand-a9: var(--amber-a9);
+  --brand-a10: var(--amber-a10);
+  --brand-a11: var(--amber-a11);
+  --brand-a12: var(--amber-a12);
+}

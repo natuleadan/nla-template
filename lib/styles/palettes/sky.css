@@ -1,0 +1,60 @@
+@import "@radix-ui/colors/sky.css";
+@import "@radix-ui/colors/sky-dark.css";
+@import "@radix-ui/colors/sky-alpha.css";
+@import "@radix-ui/colors/sky-dark-alpha.css";
+
+/* Light */
+:root[data-brand="sky"] {
+  --brand-1: var(--sky-1);
+  --brand-2: var(--sky-2);
+  --brand-3: var(--sky-3);
+  --brand-4: var(--sky-4);
+  --brand-5: var(--sky-5);
+  --brand-6: var(--sky-6);
+  --brand-7: var(--sky-7);
+  --brand-8: var(--sky-8);
+  --brand-9: var(--sky-9);
+  --brand-10: var(--sky-10);
+  --brand-11: var(--sky-11);
+  --brand-12: var(--sky-12);
+  --brand-a1: var(--sky-a1);
+  --brand-a2: var(--sky-a2);
+  --brand-a3: var(--sky-a3);
+  --brand-a4: var(--sky-a4);
+  --brand-a5: var(--sky-a5);
+  --brand-a6: var(--sky-a6);
+  --brand-a7: var(--sky-a7);
+  --brand-a8: var(--sky-a8);
+  --brand-a9: var(--sky-a9);
+  --brand-a10: var(--sky-a10);
+  --brand-a11: var(--sky-a11);
+  --brand-a12: var(--sky-a12);
+}
+
+/* Dark */
+:root[data-brand="sky"].dark {
+  --brand-1: var(--sky-1);
+  --brand-2: var(--sky-2);
+  --brand-3: var(--sky-3);
+  --brand-4: var(--sky-4);
+  --brand-5: var(--sky-5);
+  --brand-6: var(--sky-6);
+  --brand-7: var(--sky-7);
+  --brand-8: var(--sky-8);
+  --brand-9: var(--sky-9);
+  --brand-10: var(--sky-10);
+  --brand-11: var(--sky-11);
+  --brand-12: var(--sky-12);
+  --brand-a1: var(--sky-a1);
+  --brand-a2: var(--sky-a2);
+  --brand-a3: var(--sky-a3);
+  --brand-a4: var(--sky-a4);
+  --brand-a5: var(--sky-a5);
+  --brand-a6: var(--sky-a6);
+  --brand-a7: var(--sky-a7);
+  --brand-a8: var(--sky-a8);
+  --brand-a9: var(--sky-a9);
+  --brand-a10: var(--sky-a10);
+  --brand-a11: var(--sky-a11);
+  --brand-a12: var(--sky-a12);
+}

@@ -1,0 +1,60 @@
+@import "@radix-ui/colors/grass.css";
+@import "@radix-ui/colors/grass-dark.css";
+@import "@radix-ui/colors/grass-alpha.css";
+@import "@radix-ui/colors/grass-dark-alpha.css";
+
+/* Light */
+:root[data-brand="grass"] {
+  --brand-1: var(--grass-1);
+  --brand-2: var(--grass-2);
+  --brand-3: var(--grass-3);
+  --brand-4: var(--grass-4);
+  --brand-5: var(--grass-5);
+  --brand-6: var(--grass-6);
+  --brand-7: var(--grass-7);
+  --brand-8: var(--grass-8);
+  --brand-9: var(--grass-9);
+  --brand-10: var(--grass-10);
+  --brand-11: var(--grass-11);
+  --brand-12: var(--grass-12);
+  --brand-a1: var(--grass-a1);
+  --brand-a2: var(--grass-a2);
+  --brand-a3: var(--grass-a3);
+  --brand-a4: var(--grass-a4);
+  --brand-a5: var(--grass-a5);
+  --brand-a6: var(--grass-a6);
+  --brand-a7: var(--grass-a7);
+  --brand-a8: var(--grass-a8);
+  --brand-a9: var(--grass-a9);
+  --brand-a10: var(--grass-a10);
+  --brand-a11: var(--grass-a11);
+  --brand-a12: var(--grass-a12);
+}
+
+/* Dark */
+:root[data-brand="grass"].dark {
+  --brand-1: var(--grass-1);
+  --brand-2: var(--grass-2);
+  --brand-3: var(--grass-3);
+  --brand-4: var(--grass-4);
+  --brand-5: var(--grass-5);
+  --brand-6: var(--grass-6);
+  --brand-7: var(--grass-7);
+  --brand-8: var(--grass-8);
+  --brand-9: var(--grass-9);
+  --brand-10: var(--grass-10);
+  --brand-11: var(--grass-11);
+  --brand-12: var(--grass-12);
+  --brand-a1: var(--grass-a1);
+  --brand-a2: var(--grass-a2);
+  --brand-a3: var(--grass-a3);
+  --brand-a4: var(--grass-a4);
+  --brand-a5: var(--grass-a5);
+  --brand-a6: var(--grass-a6);
+  --brand-a7: var(--grass-a7);
+  --brand-a8: var(--grass-a8);
+  --brand-a9: var(--grass-a9);
+  --brand-a10: var(--grass-a10);
+  --brand-a11: var(--grass-a11);
+  --brand-a12: var(--grass-a12);
+}

@@ -1,0 +1,60 @@
+@import "@radix-ui/colors/pink.css";
+@import "@radix-ui/colors/pink-dark.css";
+@import "@radix-ui/colors/pink-alpha.css";
+@import "@radix-ui/colors/pink-dark-alpha.css";
+
+/* Light */
+:root[data-brand="pink"] {
+  --brand-1: var(--pink-1);
+  --brand-2: var(--pink-2);
+  --brand-3: var(--pink-3);
+  --brand-4: var(--pink-4);
+  --brand-5: var(--pink-5);
+  --brand-6: var(--pink-6);
+  --brand-7: var(--pink-7);
+  --brand-8: var(--pink-8);
+  --brand-9: var(--pink-9);
+  --brand-10: var(--pink-10);
+  --brand-11: var(--pink-11);
+  --brand-12: var(--pink-12);
+  --brand-a1: var(--pink-a1);
+  --brand-a2: var(--pink-a2);
+  --brand-a3: var(--pink-a3);
+  --brand-a4: var(--pink-a4);
+  --brand-a5: var(--pink-a5);
+  --brand-a6: var(--pink-a6);
+  --brand-a7: var(--pink-a7);
+  --brand-a8: var(--pink-a8);
+  --brand-a9: var(--pink-a9);
+  --brand-a10: var(--pink-a10);
+  --brand-a11: var(--pink-a11);
+  --brand-a12: var(--pink-a12);
+}
+
+/* Dark */
+:root[data-brand="pink"].dark {
+  --brand-1: var(--pink-1);
+  --brand-2: var(--pink-2);
+  --brand-3: var(--pink-3);
+  --brand-4: var(--pink-4);
+  --brand-5: var(--pink-5);
+  --brand-6: var(--pink-6);
+  --brand-7: var(--pink-7);
+  --brand-8: var(--pink-8);
+  --brand-9: var(--pink-9);
+  --brand-10: var(--pink-10);
+  --brand-11: var(--pink-11);
+  --brand-12: var(--pink-12);
+  --brand-a1: var(--pink-a1);
+  --brand-a2: var(--pink-a2);
+  --brand-a3: var(--pink-a3);
+  --brand-a4: var(--pink-a4);
+  --brand-a5: var(--pink-a5);
+  --brand-a6: var(--pink-a6);
+  --brand-a7: var(--pink-a7);
+  --brand-a8: var(--pink-a8);
+  --brand-a9: var(--pink-a9);
+  --brand-a10: var(--pink-a10);
+  --brand-a11: var(--pink-a11);
+  --brand-a12: var(--pink-a12);
+}

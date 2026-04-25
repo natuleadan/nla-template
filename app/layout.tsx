@@ -1,0 +1,50 @@
+import type { Metadata } from "next"
+import { Roboto } from "next/font/google"
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/react"
+import { getBaseUrl } from "@/lib/config/env"
+import "./globals.css"
+import { Providers } from "@/components/providers"
+import { Navbar } from "@/components/layout/navbar"
+import { Footer } from "@/components/layout/footer"
+import { BrandColorScript } from "@/components/layout/brand-color-script"
+
+const baseUrl = getBaseUrl();
+
+const fontSans = Roboto({ 
+  subsets: ["latin"], 
+  variable: "--font-sans",
+  display: "swap",
+  preload: true,
+})
+
+export const metadata: Metadata = {
+  metadataBase: new URL(baseUrl),
+  title: "Acme Inc - Tienda de Suplementos y Alimentos",
+  description: "Tu tienda de suplementos nutricionales y alimentos saludables para el gym. Encuentra proteínas, creatina, pollo, huevos y más.",
+}
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
+  return (
+    <html lang="es" suppressHydrationWarning className={fontSans.variable}>
+      <head>
+        <BrandColorScript />
+      </head>
+      <body className="antialiased flex min-h-screen flex-col bg-background">
+        <Providers>
+          <Analytics />
+          <SpeedInsights />
+          <div className="flex min-h-screen flex-col">
+            <Navbar />
+            <main className="flex-1 flex flex-col">{children}</main>
+            <Footer />
+          </div>
+        </Providers>
+      </body>
+    </html>
+  )
+}

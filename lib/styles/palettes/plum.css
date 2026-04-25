@@ -1,0 +1,60 @@
+@import "@radix-ui/colors/plum.css";
+@import "@radix-ui/colors/plum-dark.css";
+@import "@radix-ui/colors/plum-alpha.css";
+@import "@radix-ui/colors/plum-dark-alpha.css";
+
+/* Light */
+:root[data-brand="plum"] {
+  --brand-1: var(--plum-1);
+  --brand-2: var(--plum-2);
+  --brand-3: var(--plum-3);
+  --brand-4: var(--plum-4);
+  --brand-5: var(--plum-5);
+  --brand-6: var(--plum-6);
+  --brand-7: var(--plum-7);
+  --brand-8: var(--plum-8);
+  --brand-9: var(--plum-9);
+  --brand-10: var(--plum-10);
+  --brand-11: var(--plum-11);
+  --brand-12: var(--plum-12);
+  --brand-a1: var(--plum-a1);
+  --brand-a2: var(--plum-a2);
+  --brand-a3: var(--plum-a3);
+  --brand-a4: var(--plum-a4);
+  --brand-a5: var(--plum-a5);
+  --brand-a6: var(--plum-a6);
+  --brand-a7: var(--plum-a7);
+  --brand-a8: var(--plum-a8);
+  --brand-a9: var(--plum-a9);
+  --brand-a10: var(--plum-a10);
+  --brand-a11: var(--plum-a11);
+  --brand-a12: var(--plum-a12);
+}
+
+/* Dark */
+:root[data-brand="plum"].dark {
+  --brand-1: var(--plum-1);
+  --brand-2: var(--plum-2);
+  --brand-3: var(--plum-3);
+  --brand-4: var(--plum-4);
+  --brand-5: var(--plum-5);
+  --brand-6: var(--plum-6);
+  --brand-7: var(--plum-7);
+  --brand-8: var(--plum-8);
+  --brand-9: var(--plum-9);
+  --brand-10: var(--plum-10);
+  --brand-11: var(--plum-11);
+  --brand-12: var(--plum-12);
+  --brand-a1: var(--plum-a1);
+  --brand-a2: var(--plum-a2);
+  --brand-a3: var(--plum-a3);
+  --brand-a4: var(--plum-a4);
+  --brand-a5: var(--plum-a5);
+  --brand-a6: var(--plum-a6);
+  --brand-a7: var(--plum-a7);
+  --brand-a8: var(--plum-a8);
+  --brand-a9: var(--plum-a9);
+  --brand-a10: var(--plum-a10);
+  --brand-a11: var(--plum-a11);
+  --brand-a12: var(--plum-a12);
+}

@@ -1,0 +1,60 @@
+@import "@radix-ui/colors/orange.css";
+@import "@radix-ui/colors/orange-dark.css";
+@import "@radix-ui/colors/orange-alpha.css";
+@import "@radix-ui/colors/orange-dark-alpha.css";
+
+/* Light */
+:root[data-brand="orange"] {
+  --brand-1: var(--orange-1);
+  --brand-2: var(--orange-2);
+  --brand-3: var(--orange-3);
+  --brand-4: var(--orange-4);
+  --brand-5: var(--orange-5);
+  --brand-6: var(--orange-6);
+  --brand-7: var(--orange-7);
+  --brand-8: var(--orange-8);
+  --brand-9: var(--orange-9);
+  --brand-10: var(--orange-10);
+  --brand-11: var(--orange-11);
+  --brand-12: var(--orange-12);
+  --brand-a1: var(--orange-a1);
+  --brand-a2: var(--orange-a2);
+  --brand-a3: var(--orange-a3);
+  --brand-a4: var(--orange-a4);
+  --brand-a5: var(--orange-a5);
+  --brand-a6: var(--orange-a6);
+  --brand-a7: var(--orange-a7);
+  --brand-a8: var(--orange-a8);
+  --brand-a9: var(--orange-a9);
+  --brand-a10: var(--orange-a10);
+  --brand-a11: var(--orange-a11);
+  --brand-a12: var(--orange-a12);
+}
+
+/* Dark */
+:root[data-brand="orange"].dark {
+  --brand-1: var(--orange-1);
+  --brand-2: var(--orange-2);
+  --brand-3: var(--orange-3);
+  --brand-4: var(--orange-4);
+  --brand-5: var(--orange-5);
+  --brand-6: var(--orange-6);
+  --brand-7: var(--orange-7);
+  --brand-8: var(--orange-8);
+  --brand-9: var(--orange-9);
+  --brand-10: var(--orange-10);
+  --brand-11: var(--orange-11);
+  --brand-12: var(--orange-12);
+  --brand-a1: var(--orange-a1);
+  --brand-a2: var(--orange-a2);
+  --brand-a3: var(--orange-a3);
+  --brand-a4: var(--orange-a4);
+  --brand-a5: var(--orange-a5);
+  --brand-a6: var(--orange-a6);
+  --brand-a7: var(--orange-a7);
+  --brand-a8: var(--orange-a8);
+  --brand-a9: var(--orange-a9);
+  --brand-a10: var(--orange-a10);
+  --brand-a11: var(--orange-a11);
+  --brand-a12: var(--orange-a12);
+}

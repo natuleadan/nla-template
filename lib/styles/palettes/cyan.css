@@ -1,0 +1,60 @@
+@import "@radix-ui/colors/cyan.css";
+@import "@radix-ui/colors/cyan-dark.css";
+@import "@radix-ui/colors/cyan-alpha.css";
+@import "@radix-ui/colors/cyan-dark-alpha.css";
+
+/* Light */
+:root[data-brand="cyan"] {
+  --brand-1: var(--cyan-1);
+  --brand-2: var(--cyan-2);
+  --brand-3: var(--cyan-3);
+  --brand-4: var(--cyan-4);
+  --brand-5: var(--cyan-5);
+  --brand-6: var(--cyan-6);
+  --brand-7: var(--cyan-7);
+  --brand-8: var(--cyan-8);
+  --brand-9: var(--cyan-9);
+  --brand-10: var(--cyan-10);
+  --brand-11: var(--cyan-11);
+  --brand-12: var(--cyan-12);
+  --brand-a1: var(--cyan-a1);
+  --brand-a2: var(--cyan-a2);
+  --brand-a3: var(--cyan-a3);
+  --brand-a4: var(--cyan-a4);
+  --brand-a5: var(--cyan-a5);
+  --brand-a6: var(--cyan-a6);
+  --brand-a7: var(--cyan-a7);
+  --brand-a8: var(--cyan-a8);
+  --brand-a9: var(--cyan-a9);
+  --brand-a10: var(--cyan-a10);
+  --brand-a11: var(--cyan-a11);
+  --brand-a12: var(--cyan-a12);
+}
+
+/* Dark */
+:root[data-brand="cyan"].dark {
+  --brand-1: var(--cyan-1);
+  --brand-2: var(--cyan-2);
+  --brand-3: var(--cyan-3);
+  --brand-4: var(--cyan-4);
+  --brand-5: var(--cyan-5);
+  --brand-6: var(--cyan-6);
+  --brand-7: var(--cyan-7);
+  --brand-8: var(--cyan-8);
+  --brand-9: var(--cyan-9);
+  --brand-10: var(--cyan-10);
+  --brand-11: var(--cyan-11);
+  --brand-12: var(--cyan-12);
+  --brand-a1: var(--cyan-a1);
+  --brand-a2: var(--cyan-a2);
+  --brand-a3: var(--cyan-a3);
+  --brand-a4: var(--cyan-a4);
+  --brand-a5: var(--cyan-a5);
+  --brand-a6: var(--cyan-a6);
+  --brand-a7: var(--cyan-a7);
+  --brand-a8: var(--cyan-a8);
+  --brand-a9: var(--cyan-a9);
+  --brand-a10: var(--cyan-a10);
+  --brand-a11: var(--cyan-a11);
+  --brand-a12: var(--cyan-a12);
+}

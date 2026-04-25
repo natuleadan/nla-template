@@ -1,0 +1,60 @@
+@import "@radix-ui/colors/sage.css";
+@import "@radix-ui/colors/sage-dark.css";
+@import "@radix-ui/colors/sage-alpha.css";
+@import "@radix-ui/colors/sage-dark-alpha.css";
+
+/* Light */
+:root[data-brand="sage"] {
+  --brand-1: var(--sage-1);
+  --brand-2: var(--sage-2);
+  --brand-3: var(--sage-3);
+  --brand-4: var(--sage-4);
+  --brand-5: var(--sage-5);
+  --brand-6: var(--sage-6);
+  --brand-7: var(--sage-7);
+  --brand-8: var(--sage-8);
+  --brand-9: var(--sage-9);
+  --brand-10: var(--sage-10);
+  --brand-11: var(--sage-11);
+  --brand-12: var(--sage-12);
+  --brand-a1: var(--sage-a1);
+  --brand-a2: var(--sage-a2);
+  --brand-a3: var(--sage-a3);
+  --brand-a4: var(--sage-a4);
+  --brand-a5: var(--sage-a5);
+  --brand-a6: var(--sage-a6);
+  --brand-a7: var(--sage-a7);
+  --brand-a8: var(--sage-a8);
+  --brand-a9: var(--sage-a9);
+  --brand-a10: var(--sage-a10);
+  --brand-a11: var(--sage-a11);
+  --brand-a12: var(--sage-a12);
+}
+
+/* Dark */
+:root[data-brand="sage"].dark {
+  --brand-1: var(--sage-1);
+  --brand-2: var(--sage-2);
+  --brand-3: var(--sage-3);
+  --brand-4: var(--sage-4);
+  --brand-5: var(--sage-5);
+  --brand-6: var(--sage-6);
+  --brand-7: var(--sage-7);
+  --brand-8: var(--sage-8);
+  --brand-9: var(--sage-9);
+  --brand-10: var(--sage-10);
+  --brand-11: var(--sage-11);
+  --brand-12: var(--sage-12);
+  --brand-a1: var(--sage-a1);
+  --brand-a2: var(--sage-a2);
+  --brand-a3: var(--sage-a3);
+  --brand-a4: var(--sage-a4);
+  --brand-a5: var(--sage-a5);
+  --brand-a6: var(--sage-a6);
+  --brand-a7: var(--sage-a7);
+  --brand-a8: var(--sage-a8);
+  --brand-a9: var(--sage-a9);
+  --brand-a10: var(--sage-a10);
+  --brand-a11: var(--sage-a11);
+  --brand-a12: var(--sage-a12);
+}

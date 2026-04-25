@@ -1,0 +1,60 @@
+@import "@radix-ui/colors/iris.css";
+@import "@radix-ui/colors/iris-dark.css";
+@import "@radix-ui/colors/iris-alpha.css";
+@import "@radix-ui/colors/iris-dark-alpha.css";
+
+/* Light */
+:root[data-brand="iris"] {
+  --brand-1: var(--iris-1);
+  --brand-2: var(--iris-2);
+  --brand-3: var(--iris-3);
+  --brand-4: var(--iris-4);
+  --brand-5: var(--iris-5);
+  --brand-6: var(--iris-6);
+  --brand-7: var(--iris-7);
+  --brand-8: var(--iris-8);
+  --brand-9: var(--iris-9);
+  --brand-10: var(--iris-10);
+  --brand-11: var(--iris-11);
+  --brand-12: var(--iris-12);
+  --brand-a1: var(--iris-a1);
+  --brand-a2: var(--iris-a2);
+  --brand-a3: var(--iris-a3);
+  --brand-a4: var(--iris-a4);
+  --brand-a5: var(--iris-a5);
+  --brand-a6: var(--iris-a6);
+  --brand-a7: var(--iris-a7);
+  --brand-a8: var(--iris-a8);
+  --brand-a9: var(--iris-a9);
+  --brand-a10: var(--iris-a10);
+  --brand-a11: var(--iris-a11);
+  --brand-a12: var(--iris-a12);
+}
+
+/* Dark */
+:root[data-brand="iris"].dark {
+  --brand-1: var(--iris-1);
+  --brand-2: var(--iris-2);
+  --brand-3: var(--iris-3);
+  --brand-4: var(--iris-4);
+  --brand-5: var(--iris-5);
+  --brand-6: var(--iris-6);
+  --brand-7: var(--iris-7);
+  --brand-8: var(--iris-8);
+  --brand-9: var(--iris-9);
+  --brand-10: var(--iris-10);
+  --brand-11: var(--iris-11);
+  --brand-12: var(--iris-12);
+  --brand-a1: var(--iris-a1);
+  --brand-a2: var(--iris-a2);
+  --brand-a3: var(--iris-a3);
+  --brand-a4: var(--iris-a4);
+  --brand-a5: var(--iris-a5);
+  --brand-a6: var(--iris-a6);
+  --brand-a7: var(--iris-a7);
+  --brand-a8: var(--iris-a8);
+  --brand-a9: var(--iris-a9);
+  --brand-a10: var(--iris-a10);
+  --brand-a11: var(--iris-a11);
+  --brand-a12: var(--iris-a12);
+}

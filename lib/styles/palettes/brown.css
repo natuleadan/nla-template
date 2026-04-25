@@ -1,0 +1,60 @@
+@import "@radix-ui/colors/brown.css";
+@import "@radix-ui/colors/brown-dark.css";
+@import "@radix-ui/colors/brown-alpha.css";
+@import "@radix-ui/colors/brown-dark-alpha.css";
+
+/* Light */
+:root[data-brand="brown"] {
+  --brand-1: var(--brown-1);
+  --brand-2: var(--brown-2);
+  --brand-3: var(--brown-3);
+  --brand-4: var(--brown-4);
+  --brand-5: var(--brown-5);
+  --brand-6: var(--brown-6);
+  --brand-7: var(--brown-7);
+  --brand-8: var(--brown-8);
+  --brand-9: var(--brown-9);
+  --brand-10: var(--brown-10);
+  --brand-11: var(--brown-11);
+  --brand-12: var(--brown-12);
+  --brand-a1: var(--brown-a1);
+  --brand-a2: var(--brown-a2);
+  --brand-a3: var(--brown-a3);
+  --brand-a4: var(--brown-a4);
+  --brand-a5: var(--brown-a5);
+  --brand-a6: var(--brown-a6);
+  --brand-a7: var(--brown-a7);
+  --brand-a8: var(--brown-a8);
+  --brand-a9: var(--brown-a9);
+  --brand-a10: var(--brown-a10);
+  --brand-a11: var(--brown-a11);
+  --brand-a12: var(--brown-a12);
+}
+
+/* Dark */
+:root[data-brand="brown"].dark {
+  --brand-1: var(--brown-1);
+  --brand-2: var(--brown-2);
+  --brand-3: var(--brown-3);
+  --brand-4: var(--brown-4);
+  --brand-5: var(--brown-5);
+  --brand-6: var(--brown-6);
+  --brand-7: var(--brown-7);
+  --brand-8: var(--brown-8);
+  --brand-9: var(--brown-9);
+  --brand-10: var(--brown-10);
+  --brand-11: var(--brown-11);
+  --brand-12: var(--brown-12);
+  --brand-a1: var(--brown-a1);
+  --brand-a2: var(--brown-a2);
+  --brand-a3: var(--brown-a3);
+  --brand-a4: var(--brown-a4);
+  --brand-a5: var(--brown-a5);
+  --brand-a6: var(--brown-a6);
+  --brand-a7: var(--brown-a7);
+  --brand-a8: var(--brown-a8);
+  --brand-a9: var(--brown-a9);
+  --brand-a10: var(--brown-a10);
+  --brand-a11: var(--brown-a11);
+  --brand-a12: var(--brown-a12);
+}

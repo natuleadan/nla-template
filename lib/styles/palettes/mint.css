@@ -1,0 +1,60 @@
+@import "@radix-ui/colors/mint.css";
+@import "@radix-ui/colors/mint-dark.css";
+@import "@radix-ui/colors/mint-alpha.css";
+@import "@radix-ui/colors/mint-dark-alpha.css";
+
+/* Light */
+:root[data-brand="mint"] {
+  --brand-1: var(--mint-1);
+  --brand-2: var(--mint-2);
+  --brand-3: var(--mint-3);
+  --brand-4: var(--mint-4);
+  --brand-5: var(--mint-5);
+  --brand-6: var(--mint-6);
+  --brand-7: var(--mint-7);
+  --brand-8: var(--mint-8);
+  --brand-9: var(--mint-9);
+  --brand-10: var(--mint-10);
+  --brand-11: var(--mint-11);
+  --brand-12: var(--mint-12);
+  --brand-a1: var(--mint-a1);
+  --brand-a2: var(--mint-a2);
+  --brand-a3: var(--mint-a3);
+  --brand-a4: var(--mint-a4);
+  --brand-a5: var(--mint-a5);
+  --brand-a6: var(--mint-a6);
+  --brand-a7: var(--mint-a7);
+  --brand-a8: var(--mint-a8);
+  --brand-a9: var(--mint-a9);
+  --brand-a10: var(--mint-a10);
+  --brand-a11: var(--mint-a11);
+  --brand-a12: var(--mint-a12);
+}
+
+/* Dark */
+:root[data-brand="mint"].dark {
+  --brand-1: var(--mint-1);
+  --brand-2: var(--mint-2);
+  --brand-3: var(--mint-3);
+  --brand-4: var(--mint-4);
+  --brand-5: var(--mint-5);
+  --brand-6: var(--mint-6);
+  --brand-7: var(--mint-7);
+  --brand-8: var(--mint-8);
+  --brand-9: var(--mint-9);
+  --brand-10: var(--mint-10);
+  --brand-11: var(--mint-11);
+  --brand-12: var(--mint-12);
+  --brand-a1: var(--mint-a1);
+  --brand-a2: var(--mint-a2);
+  --brand-a3: var(--mint-a3);
+  --brand-a4: var(--mint-a4);
+  --brand-a5: var(--mint-a5);
+  --brand-a6: var(--mint-a6);
+  --brand-a7: var(--mint-a7);
+  --brand-a8: var(--mint-a8);
+  --brand-a9: var(--mint-a9);
+  --brand-a10: var(--mint-a10);
+  --brand-a11: var(--mint-a11);
+  --brand-a12: var(--mint-a12);
+}

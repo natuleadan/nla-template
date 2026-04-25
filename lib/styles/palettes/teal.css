@@ -1,0 +1,60 @@
+@import "@radix-ui/colors/teal.css";
+@import "@radix-ui/colors/teal-dark.css";
+@import "@radix-ui/colors/teal-alpha.css";
+@import "@radix-ui/colors/teal-dark-alpha.css";
+
+/* Light */
+:root[data-brand="teal"] {
+  --brand-1: var(--teal-1);
+  --brand-2: var(--teal-2);
+  --brand-3: var(--teal-3);
+  --brand-4: var(--teal-4);
+  --brand-5: var(--teal-5);
+  --brand-6: var(--teal-6);
+  --brand-7: var(--teal-7);
+  --brand-8: var(--teal-8);
+  --brand-9: var(--teal-9);
+  --brand-10: var(--teal-10);
+  --brand-11: var(--teal-11);
+  --brand-12: var(--teal-12);
+  --brand-a1: var(--teal-a1);
+  --brand-a2: var(--teal-a2);
+  --brand-a3: var(--teal-a3);
+  --brand-a4: var(--teal-a4);
+  --brand-a5: var(--teal-a5);
+  --brand-a6: var(--teal-a6);
+  --brand-a7: var(--teal-a7);
+  --brand-a8: var(--teal-a8);
+  --brand-a9: var(--teal-a9);
+  --brand-a10: var(--teal-a10);
+  --brand-a11: var(--teal-a11);
+  --brand-a12: var(--teal-a12);
+}
+
+/* Dark */
+:root[data-brand="teal"].dark {
+  --brand-1: var(--teal-1);
+  --brand-2: var(--teal-2);
+  --brand-3: var(--teal-3);
+  --brand-4: var(--teal-4);
+  --brand-5: var(--teal-5);
+  --brand-6: var(--teal-6);
+  --brand-7: var(--teal-7);
+  --brand-8: var(--teal-8);
+  --brand-9: var(--teal-9);
+  --brand-10: var(--teal-10);
+  --brand-11: var(--teal-11);
+  --brand-12: var(--teal-12);
+  --brand-a1: var(--teal-a1);
+  --brand-a2: var(--teal-a2);
+  --brand-a3: var(--teal-a3);
+  --brand-a4: var(--teal-a4);
+  --brand-a5: var(--teal-a5);
+  --brand-a6: var(--teal-a6);
+  --brand-a7: var(--teal-a7);
+  --brand-a8: var(--teal-a8);
+  --brand-a9: var(--teal-a9);
+  --brand-a10: var(--teal-a10);
+  --brand-a11: var(--teal-a11);
+  --brand-a12: var(--teal-a12);
+}

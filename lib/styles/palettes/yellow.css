@@ -1,0 +1,60 @@
+@import "@radix-ui/colors/yellow.css";
+@import "@radix-ui/colors/yellow-dark.css";
+@import "@radix-ui/colors/yellow-alpha.css";
+@import "@radix-ui/colors/yellow-dark-alpha.css";
+
+/* Light */
+:root[data-brand="yellow"] {
+  --brand-1: var(--yellow-1);
+  --brand-2: var(--yellow-2);
+  --brand-3: var(--yellow-3);
+  --brand-4: var(--yellow-4);
+  --brand-5: var(--yellow-5);
+  --brand-6: var(--yellow-6);
+  --brand-7: var(--yellow-7);
+  --brand-8: var(--yellow-8);
+  --brand-9: var(--yellow-9);
+  --brand-10: var(--yellow-10);
+  --brand-11: var(--yellow-11);
+  --brand-12: var(--yellow-12);
+  --brand-a1: var(--yellow-a1);
+  --brand-a2: var(--yellow-a2);
+  --brand-a3: var(--yellow-a3);
+  --brand-a4: var(--yellow-a4);
+  --brand-a5: var(--yellow-a5);
+  --brand-a6: var(--yellow-a6);
+  --brand-a7: var(--yellow-a7);
+  --brand-a8: var(--yellow-a8);
+  --brand-a9: var(--yellow-a9);
+  --brand-a10: var(--yellow-a10);
+  --brand-a11: var(--yellow-a11);
+  --brand-a12: var(--yellow-a12);
+}
+
+/* Dark */
+:root[data-brand="yellow"].dark {
+  --brand-1: var(--yellow-1);
+  --brand-2: var(--yellow-2);
+  --brand-3: var(--yellow-3);
+  --brand-4: var(--yellow-4);
+  --brand-5: var(--yellow-5);
+  --brand-6: var(--yellow-6);
+  --brand-7: var(--yellow-7);
+  --brand-8: var(--yellow-8);
+  --brand-9: var(--yellow-9);
+  --brand-10: var(--yellow-10);
+  --brand-11: var(--yellow-11);
+  --brand-12: var(--yellow-12);
+  --brand-a1: var(--yellow-a1);
+  --brand-a2: var(--yellow-a2);
+  --brand-a3: var(--yellow-a3);
+  --brand-a4: var(--yellow-a4);
+  --brand-a5: var(--yellow-a5);
+  --brand-a6: var(--yellow-a6);
+  --brand-a7: var(--yellow-a7);
+  --brand-a8: var(--yellow-a8);
+  --brand-a9: var(--yellow-a9);
+  --brand-a10: var(--yellow-a10);
+  --brand-a11: var(--yellow-a11);
+  --brand-a12: var(--yellow-a12);
+}
