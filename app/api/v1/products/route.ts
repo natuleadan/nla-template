@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cacheLife, cacheTag } from "next/cache";
 import { getProducts, createProduct } from "@/lib/modules/products";
 import { validateApiKey, unauthorized, badRequest, serverError } from "@/lib/config/env";
 
