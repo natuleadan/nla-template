@@ -1,4 +1,4 @@
-import { reviewsData as seedData } from "@/lib/config/reviews"
+import { reviewsData as seedData } from "@/lib/config/reviews";
 
 export interface Review {
   id: string;
@@ -18,7 +18,7 @@ export async function getReviews(productSlug: string): Promise<Review[]> {
 
 export async function createReview(
   productSlug: string,
-  data: { name: string; comment: string; rating: number }
+  data: { name: string; comment: string; rating: number },
 ): Promise<Review> {
   const newReview: Review = {
     id: String(reviewsData.length + 1),

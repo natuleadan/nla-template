@@ -31,4 +31,4 @@ export const form = {
       network: "Error de conexi\u00f3n",
     },
   },
-}
+};

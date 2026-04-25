@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { ui } from "@/lib/config/site"
+import * as React from "react";
+import { ui } from "@/lib/config/site";
 
 import {
   AlertDialog,
@@ -13,18 +13,18 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { ButtonGroup } from '@/components/ui/button-group'
+} from "@/components/ui/alert-dialog";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ButtonGroup } from "@/components/ui/button-group";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card'
-import { Checkbox } from '@/components/ui/checkbox'
+} from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,35 +33,50 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { Field, FieldGroup } from '@/components/ui/field'
+} from "@/components/ui/dropdown-menu";
+import { Field, FieldGroup } from "@/components/ui/field";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
   InputGroupText,
-} from '@/components/ui/input-group'
+} from "@/components/ui/input-group";
 import {
   Item,
   ItemActions,
   ItemContent,
   ItemDescription,
   ItemTitle,
-} from '@/components/ui/item'
+} from "@/components/ui/item";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 import {
-  RadioGroup,
-  RadioGroupItem,
-} from '@/components/ui/radio-group'
-import { Slider } from '@/components/ui/slider'
-import { Switch } from '@/components/ui/switch'
-import { Textarea } from '@/components/ui/textarea'
-import { IconCopy, IconExclamationCircle, IconTrash, IconShare, IconShoppingBag, IconDots, IconLoader, IconPlus, IconMinus, IconArrowLeft, IconArrowRight, IconCheck, IconChevronDown, IconChevronRight, IconSearch, IconSettings, IconChevronUp } from "@tabler/icons-react"
+  IconCopy,
+  IconExclamationCircle,
+  IconTrash,
+  IconShare,
+  IconShoppingBag,
+  IconDots,
+  IconLoader,
+  IconPlus,
+  IconMinus,
+  IconArrowLeft,
+  IconArrowRight,
+  IconCheck,
+  IconChevronDown,
+  IconChevronRight,
+  IconSearch,
+  IconSettings,
+  IconChevronUp,
+} from "@tabler/icons-react";
 
 export function Demo() {
-  const [sliderValue, setSliderValue] = React.useState<number[]>([500])
+  const [sliderValue, setSliderValue] = React.useState<number[]>([500]);
   const handleSliderValueChange = React.useCallback((value: number[]) => {
-    setSliderValue(value)
-  }, [])
+    setSliderValue(value);
+  }, []);
 
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center bg-muted p-4 sm:p-6 lg:p-12 dark:bg-background">
@@ -114,68 +129,52 @@ export function Demo() {
             <CardContent>
               <div className="grid grid-cols-8 place-items-center gap-4">
                 <Card className="flex size-8 items-center justify-center p-0 shadow-none *:[svg]:size-4">
-                  <IconCopy
-                  />
+                  <IconCopy />
                 </Card>
                 <Card className="flex size-8 items-center justify-center p-0 shadow-none *:[svg]:size-4">
-                  <IconExclamationCircle
-                  />
+                  <IconExclamationCircle />
                 </Card>
                 <Card className="flex size-8 items-center justify-center p-0 shadow-none *:[svg]:size-4">
-                  <IconTrash
-                  />
+                  <IconTrash />
                 </Card>
                 <Card className="flex size-8 items-center justify-center p-0 shadow-none *:[svg]:size-4">
-                  <IconShare
-                  />
+                  <IconShare />
                 </Card>
                 <Card className="flex size-8 items-center justify-center p-0 shadow-none *:[svg]:size-4">
-                  <IconShoppingBag
-                  />
+                  <IconShoppingBag />
                 </Card>
                 <Card className="flex size-8 items-center justify-center p-0 shadow-none *:[svg]:size-4">
-                  <IconDots
-                  />
+                  <IconDots />
                 </Card>
                 <Card className="flex size-8 items-center justify-center p-0 shadow-none *:[svg]:size-4">
-                  <IconLoader
-                  />
+                  <IconLoader />
                 </Card>
                 <Card className="flex size-8 items-center justify-center p-0 shadow-none *:[svg]:size-4">
-                  <IconPlus
-                  />
+                  <IconPlus />
                 </Card>
                 <Card className="flex size-8 items-center justify-center p-0 shadow-none *:[svg]:size-4">
-                  <IconMinus
-                  />
+                  <IconMinus />
                 </Card>
                 <Card className="flex size-8 items-center justify-center p-0 shadow-none *:[svg]:size-4">
-                  <IconArrowLeft
-                  />
+                  <IconArrowLeft />
                 </Card>
                 <Card className="flex size-8 items-center justify-center p-0 shadow-none *:[svg]:size-4">
-                  <IconArrowRight
-                  />
+                  <IconArrowRight />
                 </Card>
                 <Card className="flex size-8 items-center justify-center p-0 shadow-none *:[svg]:size-4">
-                  <IconCheck
-                  />
+                  <IconCheck />
                 </Card>
                 <Card className="flex size-8 items-center justify-center p-0 shadow-none *:[svg]:size-4">
-                  <IconChevronDown
-                  />
+                  <IconChevronDown />
                 </Card>
                 <Card className="flex size-8 items-center justify-center p-0 shadow-none *:[svg]:size-4">
-                  <IconChevronRight
-                  />
+                  <IconChevronRight />
                 </Card>
                 <Card className="flex size-8 items-center justify-center p-0 shadow-none *:[svg]:size-4">
-                  <IconSearch
-                  />
+                  <IconSearch />
                 </Card>
                 <Card className="flex size-8 items-center justify-center p-0 shadow-none *:[svg]:size-4">
-                  <IconSettings
-                  />
+                  <IconSettings />
                 </Card>
               </div>
             </CardContent>
@@ -220,14 +219,16 @@ export function Demo() {
                     <InputGroupInput placeholder={ui.demo.namePlaceholder} />
                     <InputGroupAddon align="inline-end">
                       <InputGroupText>
-                        <IconSearch
-                        />
+                        <IconSearch />
                       </InputGroupText>
                     </InputGroupAddon>
                   </InputGroup>
                 </Field>
                 <Field className="flex-1">
-                  <Textarea placeholder={ui.demo.messagePlaceholder} className="resize-none" />
+                  <Textarea
+                    placeholder={ui.demo.messagePlaceholder}
+                    className="resize-none"
+                  />
                 </Field>
               </FieldGroup>
               <div className="flex items-center gap-2">
@@ -252,7 +253,9 @@ export function Demo() {
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <Button variant="outline">
-                      <span className="hidden md:block">{ui.demo.alertDialog}</span>
+                      <span className="hidden md:block">
+                        {ui.demo.alertDialog}
+                      </span>
                       <span className="block md:hidden">{ui.demo.dialog}</span>
                     </Button>
                   </AlertDialogTrigger>
@@ -276,8 +279,7 @@ export function Demo() {
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="outline" size="icon">
-                        <IconChevronUp
-                        />
+                        <IconChevronUp />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
@@ -286,14 +288,18 @@ export function Demo() {
                       className="w-fit"
                     >
                       <DropdownMenuGroup>
-                        <DropdownMenuLabel>{ui.demo.quickActions}</DropdownMenuLabel>
+                        <DropdownMenuLabel>
+                          {ui.demo.quickActions}
+                        </DropdownMenuLabel>
                         <DropdownMenuItem>{ui.demo.mute}</DropdownMenuItem>
                         <DropdownMenuItem>{ui.demo.markRead}</DropdownMenuItem>
                         <DropdownMenuItem>{ui.demo.blockUser}</DropdownMenuItem>
                       </DropdownMenuGroup>
                       <DropdownMenuSeparator />
                       <DropdownMenuGroup>
-                        <DropdownMenuLabel>{ui.demo.conversation}</DropdownMenuLabel>
+                        <DropdownMenuLabel>
+                          {ui.demo.conversation}
+                        </DropdownMenuLabel>
                         <DropdownMenuItem>{ui.demo.share}</DropdownMenuItem>
                         <DropdownMenuItem>{ui.demo.copy}</DropdownMenuItem>
                         <DropdownMenuItem>{ui.demo.report}</DropdownMenuItem>
@@ -314,5 +320,5 @@ export function Demo() {
         </div>
       </div>
     </div>
-  )
+  );
 }

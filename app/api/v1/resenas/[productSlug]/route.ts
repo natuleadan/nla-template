@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import { getReviews, createReview } from "@/lib/modules/reviews";
-import { validateApiKey, unauthorized, badRequest, serverError } from "@/lib/config/env";
+import {
+  validateApiKey,
+  unauthorized,
+  badRequest,
+  serverError,
+} from "@/lib/config/env";
 
 interface RouteParams {
   params: Promise<{ productSlug: string }>;
@@ -9,7 +14,8 @@ interface RouteParams {
 export async function GET(request: Request, { params }: RouteParams) {
   try {
     const { productSlug } = await params;
-    if (!productSlug || typeof productSlug !== "string") return badRequest("productSlug inválido");
+    if (!productSlug || typeof productSlug !== "string")
+      return badRequest("productSlug inválido");
 
     const reviews = await getReviews(productSlug);
     return NextResponse.json(reviews);
@@ -21,17 +27,23 @@ export async function GET(request: Request, { params }: RouteParams) {
 export async function POST(request: Request, { params }: RouteParams) {
   try {
     const { productSlug } = await params;
-    if (!productSlug || typeof productSlug !== "string") return badRequest("productSlug inválido");
+    if (!productSlug || typeof productSlug !== "string")
+      return badRequest("productSlug inválido");
 
     const body = await request.json();
-    if (!body || typeof body !== "object") return badRequest("Cuerpo JSON requerido");
+    if (!body || typeof body !== "object")
+      return badRequest("Cuerpo JSON requerido");
 
     const { name, comment, rating } = body;
 
     if (!name || typeof name !== "string" || name.trim().length === 0) {
       return badRequest("El campo 'name' es requerido (string, no vacío)");
     }
-    if (!comment || typeof comment !== "string" || comment.trim().length === 0) {
+    if (
+      !comment ||
+      typeof comment !== "string" ||
+      comment.trim().length === 0
+    ) {
       return badRequest("El campo 'comment' es requerido (string, no vacío)");
     }
     if (rating === undefined || typeof rating !== "number") {
@@ -41,10 +53,15 @@ export async function POST(request: Request, { params }: RouteParams) {
       return badRequest("El campo 'rating' debe estar entre 1 y 5");
     }
 
-    const newReview = await createReview(productSlug, { name: name.trim(), comment: comment.trim(), rating: Math.round(rating) });
+    const newReview = await createReview(productSlug, {
+      name: name.trim(),
+      comment: comment.trim(),
+      rating: Math.round(rating),
+    });
     return NextResponse.json(newReview, { status: 201 });
   } catch (error) {
-    if (error instanceof SyntaxError) return badRequest("JSON inválido en el cuerpo");
+    if (error instanceof SyntaxError)
+      return badRequest("JSON inválido en el cuerpo");
     return serverError(error);
   }
 }
@@ -57,9 +74,13 @@ export async function PUT(request: Request, { params }: RouteParams) {
     if (!productSlug) return badRequest("productSlug inválido");
 
     const body = await request.json();
-    if (!body || typeof body !== "object") return badRequest("Cuerpo JSON requerido");
+    if (!body || typeof body !== "object")
+      return badRequest("Cuerpo JSON requerido");
 
-    return NextResponse.json({ message: `Reseñas de ${productSlug} actualizadas`, ...body });
+    return NextResponse.json({
+      message: `Reseñas de ${productSlug} actualizadas`,
+      ...body,
+    });
   } catch (error) {
     if (error instanceof SyntaxError) return badRequest("JSON inválido");
     return serverError(error);
@@ -73,7 +94,9 @@ export async function DELETE(request: Request, { params }: RouteParams) {
     const { productSlug } = await params;
     if (!productSlug) return badRequest("productSlug inválido");
 
-    return NextResponse.json({ message: `Reseñas de ${productSlug} eliminadas` });
+    return NextResponse.json({
+      message: `Reseñas de ${productSlug} eliminadas`,
+    });
   } catch {
     return serverError("Error al eliminar reseñas");
   }

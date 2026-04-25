@@ -23,9 +23,7 @@ export const nav = {
       },
       {
         title: "Empresa",
-        links: [
-          { href: "/contacto", label: "Contacto" },
-        ],
+        links: [{ href: "/contacto", label: "Contacto" }],
       },
       {
         title: "Legal",
@@ -37,4 +35,4 @@ export const nav = {
       },
     ],
   },
-}
+};

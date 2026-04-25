@@ -1,4 +1,4 @@
-import { inventoryData as seedData } from "@/lib/config/inventory"
+import { inventoryData as seedData } from "@/lib/config/inventory";
 
 export interface InventoryItem {
   location: string;
@@ -7,9 +7,13 @@ export interface InventoryItem {
   available: number;
 }
 
-let inventoryData: Record<string, InventoryItem[]> = JSON.parse(JSON.stringify(seedData));
+let inventoryData: Record<string, InventoryItem[]> = JSON.parse(
+  JSON.stringify(seedData),
+);
 
-export async function getInventory(productSlug: string): Promise<InventoryItem[]> {
+export async function getInventory(
+  productSlug: string,
+): Promise<InventoryItem[]> {
   if (!productSlug || typeof productSlug !== "string") return [];
   return inventoryData[productSlug] || [];
 }
@@ -20,7 +24,7 @@ export async function getAllInventorySlugs(): Promise<string[]> {
 
 export async function updateInventory(
   productSlug: string,
-  locations: InventoryItem[]
+  locations: InventoryItem[],
 ): Promise<InventoryItem[]> {
   if (!productSlug) throw new Error("productSlug requerido");
   if (!Array.isArray(locations)) throw new Error("locations debe ser un array");
@@ -36,7 +40,7 @@ export async function deleteInventory(productSlug: string): Promise<boolean> {
 
 export async function createInventory(
   productSlug: string,
-  locations: InventoryItem[]
+  locations: InventoryItem[],
 ): Promise<InventoryItem[]> {
   if (!productSlug) throw new Error("productSlug requerido");
   if (!Array.isArray(locations)) throw new Error("locations debe ser un array");

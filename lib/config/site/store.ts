@@ -1,4 +1,4 @@
-const brandName = "Acme Inc"
+const brandName = "Acme Inc";
 
 export const store = {
   page: {
@@ -18,7 +18,8 @@ export const store = {
     showing: (total: number) => `Mostrando ${total} productos`,
   },
   product: {
-    badge: (category: string) => (category === "suplemento" ? "Suplemento" : "Alimento"),
+    badge: (category: string) =>
+      category === "suplemento" ? "Suplemento" : "Alimento",
     priceLabel: "IVA incluido",
     pedir: "Pedir",
     ver: "Detalles",
@@ -29,11 +30,11 @@ export const store = {
     lowStock: "Stock limitado",
     orderWhatsApp: "Pedir por WhatsApp",
     whatsappTemplate: (p: {
-      name: string
-      price: number
-      category: string
-      quantity: number
-      unit: string
+      name: string;
+      price: number;
+      category: string;
+      quantity: number;
+      unit: string;
     }) =>
       `\ud83e\udd1d *NUEVO PEDIDO*\n\n*Producto:* ${p.name}\n*Precio:* $${p.price.toFixed(2)}\n*Categor\u00eda:* ${p.category === "suplemento" ? "Suplemento" : "Alimento"}\n*Cantidad:* ${p.quantity} ${p.unit}\n\n\u00a1Quiero ordenar este producto!`,
     whatsappCompact: (name: string, price: number, category: string) =>
@@ -65,4 +66,4 @@ export const store = {
     whatsappTemplate: (items: string, total: number) =>
       `\ud83d\uded2 *NUEVO PEDIDO - ${brandName}*\n\n*Items:*\n${items}\n\n*Total:* $${total.toFixed(2)}\n\n\u00a1Confirmar pedido!`,
   },
-}
+};

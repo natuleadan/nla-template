@@ -1,4 +1,4 @@
-import type { InventoryItem } from "@/lib/modules/inventory"
+import type { InventoryItem } from "@/lib/modules/inventory";
 
 export const inventoryData: Record<string, InventoryItem[]> = {
   "proteina-whey": [
@@ -20,4 +20,4 @@ export const inventoryData: Record<string, InventoryItem[]> = {
     { location: "CDMX-Norte", quantity: 60, reserved: 0, available: 60 },
     { location: "GDL-Oeste", quantity: 50, reserved: 5, available: 45 },
   ],
-}
+};

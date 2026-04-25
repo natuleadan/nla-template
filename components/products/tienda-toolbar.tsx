@@ -35,7 +35,12 @@ interface TiendaToolbarProps {
   categories: Category[];
 }
 
-export function TiendaToolbar({ initialProducts, total, initialHasMore, categories }: TiendaToolbarProps) {
+export function TiendaToolbar({
+  initialProducts,
+  total,
+  initialHasMore,
+  categories,
+}: TiendaToolbarProps) {
   const [allLoaded, setAllLoaded] = useState<Product[]>(initialProducts);
   const [hasMore, setHasMore] = useState(initialHasMore);
   const [page, setPage] = useState(1);
@@ -65,7 +70,7 @@ export function TiendaToolbar({ initialProducts, total, initialHasMore, categori
       (entries) => {
         if (entries[0].isIntersecting) loadMore();
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
     const el = observerRef.current;
     if (el && hasMore) observer.observe(el);
@@ -79,8 +84,7 @@ export function TiendaToolbar({ initialProducts, total, initialHasMore, categori
       search === "" ||
       p.name.toLowerCase().includes(search.toLowerCase()) ||
       p.description.toLowerCase().includes(search.toLowerCase());
-    const matchesCategory =
-      category === "all" || p.category === category;
+    const matchesCategory = category === "all" || p.category === category;
     return matchesSearch && matchesCategory;
   });
 
@@ -100,7 +104,9 @@ export function TiendaToolbar({ initialProducts, total, initialHasMore, categori
           <SelectContent>
             <SelectItem value="all">{store.toolbar.allCategories}</SelectItem>
             {categories.map((cat) => (
-              <SelectItem key={cat.slug} value={cat.slug}>{cat.name}</SelectItem>
+              <SelectItem key={cat.slug} value={cat.slug}>
+                {cat.name}
+              </SelectItem>
             ))}
           </SelectContent>
         </Select>

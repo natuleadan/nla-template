@@ -1,6 +1,8 @@
-import type { OpenApiPath } from "../types"
+import type { OpenApiPath } from "../types";
 
-export function getOrdersPaths(examples: { orders: unknown[] }): Record<string, OpenApiPath> {
+export function getOrdersPaths(examples: {
+  orders: unknown[];
+}): Record<string, OpenApiPath> {
   return {
     "/api/v1/pedidos": {
       get: {
@@ -11,7 +13,15 @@ export function getOrdersPaths(examples: { orders: unknown[] }): Record<string, 
         responses: {
           "200": {
             description: "Lista de pedidos",
-            content: { "application/json": { schema: { type: "array", items: { $ref: "#/components/schemas/Order" } }, example: examples.orders } },
+            content: {
+              "application/json": {
+                schema: {
+                  type: "array",
+                  items: { $ref: "#/components/schemas/Order" },
+                },
+                example: examples.orders,
+              },
+            },
             "401": { description: "API key inválida" },
           },
         },
@@ -25,27 +35,48 @@ export function getOrdersPaths(examples: { orders: unknown[] }): Record<string, 
           required: true,
           content: {
             "application/json": {
-              schema: { type: "object", required: ["productId", "productName", "price"], properties: { productId: { type: "string" }, productName: { type: "string" }, price: { type: "number" } } },
-              example: { productId: "prod_123", productName: "Whey Protein", price: 29990 },
+              schema: {
+                type: "object",
+                required: ["productId", "productName", "price"],
+                properties: {
+                  productId: { type: "string" },
+                  productName: { type: "string" },
+                  price: { type: "number" },
+                },
+              },
+              example: {
+                productId: "prod_123",
+                productName: "Whey Protein",
+                price: 29990,
+              },
             },
           },
         },
-        responses: { "200": { description: "Pedido creado" }, "400": { description: "Datos inválidos" } },
+        responses: {
+          "200": { description: "Pedido creado" },
+          "400": { description: "Datos inválidos" },
+        },
       },
       put: {
         tags: ["Orders"],
         summary: "Actualiza todos los pedidos",
         description: "Requiere API key en header x-api-key",
         security: [{ ApiKeyAuth: [] }],
-        responses: { "200": { description: "Pedidos actualizados" }, "401": { description: "API key inválida" } },
+        responses: {
+          "200": { description: "Pedidos actualizados" },
+          "401": { description: "API key inválida" },
+        },
       },
       delete: {
         tags: ["Orders"],
         summary: "Elimina todos los pedidos",
         description: "Requiere API key en header x-api-key. Peligroso.",
         security: [{ ApiKeyAuth: [] }],
-        responses: { "200": { description: "Pedidos eliminados" }, "401": { description: "API key inválida" } },
+        responses: {
+          "200": { description: "Pedidos eliminados" },
+          "401": { description: "API key inválida" },
+        },
       },
     },
-  }
+  };
 }

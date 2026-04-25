@@ -1,6 +1,8 @@
-import type { OpenApiPath } from "../types"
+import type { OpenApiPath } from "../types";
 
-export function getFormPaths(examples: { messages: unknown[] }): Record<string, OpenApiPath> {
+export function getFormPaths(examples: {
+  messages: unknown[];
+}): Record<string, OpenApiPath> {
   return {
     "/api/v1/formulario": {
       get: {
@@ -11,7 +13,15 @@ export function getFormPaths(examples: { messages: unknown[] }): Record<string, 
         responses: {
           "200": {
             description: "Lista de mensajes",
-            content: { "application/json": { schema: { type: "array", items: { $ref: "#/components/schemas/FormMessage" } }, example: examples.messages } },
+            content: {
+              "application/json": {
+                schema: {
+                  type: "array",
+                  items: { $ref: "#/components/schemas/FormMessage" },
+                },
+                example: examples.messages,
+              },
+            },
             "401": { description: "API key inválida" },
           },
         },
@@ -25,27 +35,48 @@ export function getFormPaths(examples: { messages: unknown[] }): Record<string, 
           required: true,
           content: {
             "application/json": {
-              schema: { type: "object", required: ["nombre", "email", "mensaje"], properties: { nombre: { type: "string" }, email: { type: "string" }, mensaje: { type: "string" } } },
-              example: { nombre: "Juan Pérez", email: "juan@email.com", mensaje: "Quiero información sobre..." },
+              schema: {
+                type: "object",
+                required: ["nombre", "email", "mensaje"],
+                properties: {
+                  nombre: { type: "string" },
+                  email: { type: "string" },
+                  mensaje: { type: "string" },
+                },
+              },
+              example: {
+                nombre: "Juan Pérez",
+                email: "juan@email.com",
+                mensaje: "Quiero información sobre...",
+              },
             },
           },
         },
-        responses: { "200": { description: "Mensaje enviado" }, "400": { description: "Datos inválidos o email mal formado" } },
+        responses: {
+          "200": { description: "Mensaje enviado" },
+          "400": { description: "Datos inválidos o email mal formado" },
+        },
       },
       put: {
         tags: ["Contact"],
         summary: "Actualiza formularios",
         description: "Requiere API key en header x-api-key",
         security: [{ ApiKeyAuth: [] }],
-        responses: { "200": { description: "Formularios actualizados" }, "401": { description: "API key inválida" } },
+        responses: {
+          "200": { description: "Formularios actualizados" },
+          "401": { description: "API key inválida" },
+        },
       },
       delete: {
         tags: ["Contact"],
         summary: "Elimina formularios",
         description: "Requiere API key en header x-api-key",
         security: [{ ApiKeyAuth: [] }],
-        responses: { "200": { description: "Formularios eliminados" }, "401": { description: "API key inválida" } },
+        responses: {
+          "200": { description: "Formularios eliminados" },
+          "401": { description: "API key inválida" },
+        },
       },
     },
-  }
+  };
 }

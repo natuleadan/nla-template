@@ -1,4 +1,4 @@
-import type { OpenApiSchema } from "./types"
+import type { OpenApiSchema } from "./types";
 
 export const schemas: Record<string, OpenApiSchema> = {
   Product: {
@@ -9,7 +9,11 @@ export const schemas: Record<string, OpenApiSchema> = {
       name: { type: "string", example: "Whey Protein" },
       description: { type: "string", example: "Proteína de suero de leche" },
       price: { type: "number", example: 29990 },
-      category: { type: "string", enum: ["suplements", "food"], example: "suplements" },
+      category: {
+        type: "string",
+        enum: ["suplements", "food"],
+        example: "suplements",
+      },
       image: { type: "string", example: "/images/products/whey.jpg" },
       quantity: { type: "string", example: "2" },
       unit: { type: "string", example: "lb" },
@@ -29,7 +33,10 @@ export const schemas: Record<string, OpenApiSchema> = {
     properties: {
       id: { type: "string", example: "rev_1" },
       name: { type: "string", example: "Juan Pérez" },
-      comment: { type: "string", example: "Excelente producto, muy recomendado" },
+      comment: {
+        type: "string",
+        example: "Excelente producto, muy recomendado",
+      },
       rating: { type: "integer", minimum: 1, maximum: 5, example: 5 },
       createdAt: { type: "string", example: "2024-01-15T10:30:00Z" },
     },
@@ -48,7 +55,10 @@ export const schemas: Record<string, OpenApiSchema> = {
     properties: {
       productSlug: { type: "string", example: "whey-protein" },
       total: { type: "integer", example: 100 },
-      locations: { type: "array", items: { $ref: "#/components/schemas/InventoryLocation" } },
+      locations: {
+        type: "array",
+        items: { $ref: "#/components/schemas/InventoryLocation" },
+      },
     },
   },
   Order: {
@@ -58,10 +68,20 @@ export const schemas: Record<string, OpenApiSchema> = {
       productId: { type: "string", example: "prod_123" },
       productName: { type: "string", example: "Whey Protein" },
       price: { type: "number", example: 29990 },
-      cliente: { type: "object", properties: { nombre: { type: "string" }, telefono: { type: "string" } } },
+      cliente: {
+        type: "object",
+        properties: {
+          nombre: { type: "string" },
+          telefono: { type: "string" },
+        },
+      },
       geo: { $ref: "#/components/schemas/GeoData" },
       fecha: { type: "string", example: "2024-01-15T10:30:00Z" },
-      estado: { type: "string", enum: ["pendiente", "completado", "cancelado"], example: "pendiente" },
+      estado: {
+        type: "string",
+        enum: ["pendiente", "completado", "cancelado"],
+        example: "pendiente",
+      },
     },
   },
   GeoData: {
@@ -112,7 +132,7 @@ export const schemas: Record<string, OpenApiSchema> = {
       code: { type: "string", example: "BAD_REQUEST" },
     },
   },
-}
+};
 
 export const tags = [
   { name: "Products", description: "Gestión de productos" },
@@ -122,13 +142,14 @@ export const tags = [
   { name: "Categories", description: "Categorías de productos" },
   { name: "Pages", description: "Contenido de páginas estáticas" },
   { name: "Contact", description: "Formulario de contacto" },
-]
+];
 
 export const securitySchemes = {
   ApiKeyAuth: {
     type: "apiKey",
     in: "header",
     name: "x-api-key",
-    description: "API key requerida para endpoints protegidos (POST, PUT, DELETE). Obtener de variable de entorno API_KEY",
+    description:
+      "API key requerida para endpoints protegidos (POST, PUT, DELETE). Obtener de variable de entorno API_KEY",
   },
-}
+};

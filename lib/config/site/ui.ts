@@ -35,4 +35,4 @@ export const ui = {
     delete: "Delete Conversation",
     sliderLabel: "Volume",
   },
-}
+};

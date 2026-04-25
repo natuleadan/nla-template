@@ -3,10 +3,15 @@
 import { useEffect, useState } from "react";
 import { PageHeader } from "@/components/layout/page-header";
 import { ContactForm } from "@/components/contact-form";
-import { IconMapPin, IconPhone, IconMail, IconBrandWhatsapp } from "@tabler/icons-react";
+import {
+  IconMapPin,
+  IconPhone,
+  IconMail,
+  IconBrandWhatsapp,
+} from "@tabler/icons-react";
 import { ui, pages } from "@/lib/config/site";
 
-type Block = 
+type Block =
   | { type: "header"; title: string }
   | { type: "paragraph"; text: string }
   | { type: "heading"; title: string }
@@ -31,16 +36,30 @@ function renderBlock(block: Block, index: number) {
   switch (block.type) {
     case "header":
       return (
-        <h2 key={index} className="text-xl font-semibold mt-8 mb-4">{block.title}</h2>
+        <h2 key={index} className="text-xl font-semibold mt-8 mb-4">
+          {block.title}
+        </h2>
       );
     case "paragraph":
-      return <p key={index} className="text-muted-foreground leading-relaxed">{block.text}</p>;
+      return (
+        <p key={index} className="text-muted-foreground leading-relaxed">
+          {block.text}
+        </p>
+      );
     case "heading":
-      return <h3 key={index} className="text-xl font-semibold mt-8 mb-4">{block.title}</h3>;
+      return (
+        <h3 key={index} className="text-xl font-semibold mt-8 mb-4">
+          {block.title}
+        </h3>
+      );
     case "list":
       return (
         <ul key={index} className="list-disc pl-6 space-y-2">
-          {block.items.map((item, i) => <li key={i} className="leading-relaxed">{item}</li>)}
+          {block.items.map((item, i) => (
+            <li key={i} className="leading-relaxed">
+              {item}
+            </li>
+          ))}
         </ul>
       );
     case "info": {
@@ -56,7 +75,11 @@ function renderBlock(block: Block, index: number) {
       );
     }
     case "form":
-      return <div key={index} className="mt-4"><ContactForm /></div>;
+      return (
+        <div key={index} className="mt-4">
+          <ContactForm />
+        </div>
+      );
     default:
       return null;
   }
@@ -74,33 +97,40 @@ export function DynamicPage({ pageName }: { pageName: string }) {
   }, [pageName]);
 
   if (loading) {
-    return <div className="p-8 text-center text-muted-foreground">{ui.loading}</div>;
+    return (
+      <div className="p-8 text-center text-muted-foreground">{ui.loading}</div>
+    );
   }
 
   if (!data) {
-    return <div className="p-8 text-center text-muted-foreground">{ui.notFound}</div>;
+    return (
+      <div className="p-8 text-center text-muted-foreground">{ui.notFound}</div>
+    );
   }
 
   const isTwoColumns = pageName === "contacto";
 
   if (isTwoColumns) {
-    const findSectionIndex = (title: string) => 
-      data.content.findIndex(b => b.type === "header" && b.title === title);
-    
-    const findFormIndex = () => 
-      data.content.findIndex(b => b.type === "form");
+    const findSectionIndex = (title: string) =>
+      data.content.findIndex((b) => b.type === "header" && b.title === title);
+
+    const findFormIndex = () =>
+      data.content.findIndex((b) => b.type === "form");
 
     const encuenIndex = findSectionIndex(pages.contacto.findUs);
     const escribIndex = findSectionIndex(pages.contacto.writeUs);
     const formIndex = findFormIndex();
 
     const leftContent = data.content.slice(encuenIndex, escribIndex);
-    const rightContent = data.content.slice(escribIndex, formIndex > 0 ? formIndex + 1 : data.content.length);
+    const rightContent = data.content.slice(
+      escribIndex,
+      formIndex > 0 ? formIndex + 1 : data.content.length,
+    );
 
     return (
       <div className="px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full py-8">
         <PageHeader title={data.title} description={data.description} />
-        
+
         <div className="grid gap-12 md:grid-cols-2">
           <div className="space-y-4">
             {leftContent.map((block, i) => renderBlock(block, i))}

@@ -1,4 +1,4 @@
-import { allProducts as productsData } from "@/lib/config/products"
+import { allProducts as productsData } from "@/lib/config/products";
 
 export interface Product {
   id: string;
@@ -15,9 +15,12 @@ export interface Product {
   category: string;
 }
 
-const allProducts: Product[] = [...productsData]
+const allProducts: Product[] = [...productsData];
 
-export async function getProducts(page = 1, limit = 8): Promise<{ products: Product[]; total: number; hasMore: boolean }> {
+export async function getProducts(
+  page = 1,
+  limit = 8,
+): Promise<{ products: Product[]; total: number; hasMore: boolean }> {
   const start = (page - 1) * limit;
   const end = start + limit;
   const paginated = allProducts.slice(start, end);
@@ -37,7 +40,9 @@ export async function getProduct(slug: string): Promise<Product | null> {
   return allProducts.find((p) => p.slug === slug) || null;
 }
 
-export async function createProduct(data: Record<string, unknown>): Promise<Product | null> {
+export async function createProduct(
+  data: Record<string, unknown>,
+): Promise<Product | null> {
   if (!data.name || !data.price) return null;
   const id = String(allProducts.length + 1);
   const slug = String(data.name).toLowerCase().replace(/\s+/g, "-");

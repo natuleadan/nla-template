@@ -11,10 +11,11 @@ export const contentType = "image/png";
 export default async function Image() {
   const { products } = await getProducts();
   const count = products.length;
-  
-  const productList = products.slice(0, 3).map((p) => 
-    `• ${p.name} - $${p.price.toFixed(2)}`
-  ).join("\n");
+
+  const productList = products
+    .slice(0, 3)
+    .map((p) => `• ${p.name} - $${p.price.toFixed(2)}`)
+    .join("\n");
 
   return new ImageResponse(
     <div
@@ -69,6 +70,6 @@ export default async function Image() {
           {productList}
         </div>
       )}
-    </div>
+    </div>,
   );
 }

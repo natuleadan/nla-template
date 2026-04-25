@@ -1,29 +1,30 @@
-import type { OpenApiSpec, ApiExamples } from "./types"
-import { schemas, tags, securitySchemes } from "./schemas"
-import { 
-  getProductsPaths, 
-  getCategoriesPaths, 
-  getReviewsPaths, 
-  getInventoryPaths, 
-  getOrdersPaths, 
-  getPagesPaths, 
-  getFormPaths 
-} from "./endpoints"
+import type { OpenApiSpec, ApiExamples } from "./types";
+import { schemas, tags, securitySchemes } from "./schemas";
+import {
+  getProductsPaths,
+  getCategoriesPaths,
+  getReviewsPaths,
+  getInventoryPaths,
+  getOrdersPaths,
+  getPagesPaths,
+  getFormPaths,
+} from "./endpoints";
 
 export function buildOpenApiSpec(examples: ApiExamples): OpenApiSpec {
-  const productsPaths = getProductsPaths(examples)
-  const categoriesPaths = getCategoriesPaths(examples)
-  const reviewsPaths = getReviewsPaths(examples)
-  const inventoryPaths = getInventoryPaths(examples)
-  const ordersPaths = getOrdersPaths(examples)
-  const pagesPaths = getPagesPaths(examples)
-  const formularioPaths = getFormPaths(examples)
+  const productsPaths = getProductsPaths(examples);
+  const categoriesPaths = getCategoriesPaths(examples);
+  const reviewsPaths = getReviewsPaths(examples);
+  const inventoryPaths = getInventoryPaths(examples);
+  const ordersPaths = getOrdersPaths(examples);
+  const pagesPaths = getPagesPaths(examples);
+  const formularioPaths = getFormPaths(examples);
 
   return {
     openapi: "3.1.0",
     info: {
       title: "GymFood API",
-      description: "API para la tienda de suplementos y alimentos fitness. Todos los endpoints protegidos requieren `x-api-key` en el header.",
+      description:
+        "API para la tienda de suplementos y alimentos fitness. Todos los endpoints protegidos requieren `x-api-key` en el header.",
       version: "1.0.0",
       contact: {
         name: "Soporte GymFood",
@@ -55,5 +56,5 @@ export function buildOpenApiSpec(examples: ApiExamples): OpenApiSpec {
       ...pagesPaths,
       ...formularioPaths,
     },
-  }
+  };
 }

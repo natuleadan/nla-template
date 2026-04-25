@@ -42,6 +42,6 @@ export default function Image() {
       >
         Suplementos & Alimentos para Gimnasio
       </div>
-    </div>
+    </div>,
   );
 }

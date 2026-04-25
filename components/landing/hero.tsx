@@ -1,6 +1,14 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { IconArrowRight, IconBarbell, IconBolt, IconShieldCheck, IconPackage, IconClock, IconHeadset } from "@tabler/icons-react";
+import {
+  IconArrowRight,
+  IconBarbell,
+  IconBolt,
+  IconShieldCheck,
+  IconPackage,
+  IconClock,
+  IconHeadset,
+} from "@tabler/icons-react";
 import { home } from "@/lib/config/site";
 
 const features = [
@@ -31,7 +39,10 @@ export function Hero() {
               <Link href="/tienda">
                 <Button size="lg">
                   {home.hero.cta.primary}
-                  <IconArrowRight className="ml-2 size-4" data-icon="inline-end" />
+                  <IconArrowRight
+                    className="ml-2 size-4"
+                    data-icon="inline-end"
+                  />
                 </Button>
               </Link>
               <Link href="/contacto">
@@ -66,7 +77,9 @@ export function Hero() {
       <section className="py-16 md:py-20">
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold tracking-tight">{home.features.title}</h2>
+            <h2 className="text-3xl font-bold tracking-tight">
+              {home.features.title}
+            </h2>
             <p className="mt-2 text-muted-foreground">
               {home.features.subtitle}
             </p>
@@ -91,15 +104,18 @@ export function Hero() {
       <section className="border-t bg-muted/30 py-16 md:py-20">
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight">{home.cta.title}</h2>
-            <p className="mt-4 text-muted-foreground">
-              {home.cta.description}
-            </p>
+            <h2 className="text-3xl font-bold tracking-tight">
+              {home.cta.title}
+            </h2>
+            <p className="mt-4 text-muted-foreground">{home.cta.description}</p>
             <div className="mt-8">
               <Link href="/tienda">
                 <Button size="lg">
                   {home.cta.button}
-                  <IconArrowRight className="ml-2 size-4" data-icon="inline-end" />
+                  <IconArrowRight
+                    className="ml-2 size-4"
+                    data-icon="inline-end"
+                  />
                 </Button>
               </Link>
             </div>

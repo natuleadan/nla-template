@@ -13,7 +13,7 @@ interface ProductoContentProps {
 
 export async function ProductoContent({ params }: ProductoContentProps) {
   const { slug } = await params;
-  
+
   const product = await getProduct(slug);
   if (!product) return notFound();
 
@@ -22,12 +22,18 @@ export async function ProductoContent({ params }: ProductoContentProps) {
     getInventory(slug),
   ]);
 
-  const productWithReviews: Product & { reviews: Review[]; quantity: number; unit: string } = {
+  const productWithReviews: Product & {
+    reviews: Review[];
+    quantity: number;
+    unit: string;
+  } = {
     ...product,
     quantity: Number(product.quantity),
     unit: product.unit,
     reviews,
   };
 
-  return <ProductDetails product={productWithReviews} initialInventory={inventory} />;
+  return (
+    <ProductDetails product={productWithReviews} initialInventory={inventory} />
+  );
 }

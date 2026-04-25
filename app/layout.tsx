@@ -1,34 +1,34 @@
-import type { Metadata } from "next"
-import { Roboto } from "next/font/google"
-import { Analytics } from "@vercel/analytics/react"
-import { SpeedInsights } from "@vercel/speed-insights/react"
-import { getBaseUrl } from "@/lib/config/env"
-import "./globals.css"
-import { Providers } from "@/components/providers"
-import { Navbar } from "@/components/layout/navbar"
-import { Footer } from "@/components/layout/footer"
-import { BrandColorScript } from "@/components/layout/brand-color-script"
-import { brand } from "@/lib/config/site"
+import type { Metadata } from "next";
+import { Roboto } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
+import { getBaseUrl } from "@/lib/config/env";
+import "./globals.css";
+import { Providers } from "@/components/providers";
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
+import { BrandColorScript } from "@/components/layout/brand-color-script";
+import { brand } from "@/lib/config/site";
 
 const baseUrl = getBaseUrl();
 
-const fontSans = Roboto({ 
-  subsets: ["latin"], 
+const fontSans = Roboto({
+  subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
   preload: true,
-})
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: `${brand.name} - Tienda de Suplementos y Alimentos`,
   description: brand.description,
-}
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="es" suppressHydrationWarning className={fontSans.variable}>
@@ -47,5 +47,5 @@ export default function RootLayout({
         </Providers>
       </body>
     </html>
-  )
+  );
 }

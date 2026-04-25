@@ -24,7 +24,10 @@ export function validateApiKey(request: Request): boolean {
 }
 
 export function unauthorized(): Response {
-  return Response.json({ error: "No autorizado. Provee header x-api-key." }, { status: 401 });
+  return Response.json(
+    { error: "No autorizado. Provee header x-api-key." },
+    { status: 401 },
+  );
 }
 
 export function badRequest(message: string): Response {
@@ -37,5 +40,8 @@ export function notFound(entity: string): Response {
 
 export function serverError(error: unknown): Response {
   console.error("Server error:", error);
-  return Response.json({ error: "Error interno del servidor" }, { status: 500 });
+  return Response.json(
+    { error: "Error interno del servidor" },
+    { status: 500 },
+  );
 }
