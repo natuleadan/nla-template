@@ -22,7 +22,6 @@ export interface UserGeoData {
 }
 
 const ANON_ID_COOKIE_NAME = "tienda_anon_id"
-const ANON_ID_COOKIE_MAX_AGE = 60 * 60 * 24 * 365
 
 function generateAnonymousId(): string {
   const timestamp = Date.now().toString(36)

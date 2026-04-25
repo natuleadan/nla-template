@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { IconBrandWhatsapp, IconPackage, IconArrowRight } from "@tabler/icons-react";
+import { IconBrandWhatsapp, IconArrowRight } from "@tabler/icons-react";
 
 const FALLBACK_IMAGE = "/design/fallback.svg";
 import { getWhatsappNumber } from "@/lib/config/env";

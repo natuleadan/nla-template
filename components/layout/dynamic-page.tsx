@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { PageHeader } from "@/components/layout/page-header";
 import { ContactForm } from "@/components/contact-form";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { IconMapPin, IconPhone, IconMail, IconBrandWhatsapp } from "@tabler/icons-react";
 
 type Block = 

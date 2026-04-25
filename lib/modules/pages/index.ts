@@ -100,10 +100,17 @@ const pages: Record<string, PageContent> = {
   },
 }
 
+const DANGEROUS_PROPS = new Set(["__proto__", "constructor", "prototype"])
+
+function isValidPageName(name: string): boolean {
+  return !DANGEROUS_PROPS.has(name) && typeof name === "string" && name.length > 0 && name.length <= 50
+}
+
 export async function getPageContent(pageName: string): Promise<PageContent | undefined> {
   'use cache'
   cacheLife('days')
   cacheTag('pages', pageName)
+  if (!isValidPageName(pageName)) return undefined
   return pages[pageName]
 }
 
@@ -112,6 +119,9 @@ export function getAllPages(): Record<string, PageContent> {
 }
 
 export function createPage(pageName: string, content: Omit<PageContent, "description">): PageContent {
+  if (!isValidPageName(pageName)) {
+    throw new Error("Invalid page name")
+  }
   const newPage: PageContent = {
     ...content,
     description: content.description || "Página creada",

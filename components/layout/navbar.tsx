@@ -1,9 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { IconBrandWhatsapp, IconBarbell } from "@tabler/icons-react";
 import { getWhatsappNumber } from "@/lib/config/env";
 import notificationService from "@/lib/modules/notification";
@@ -20,8 +18,6 @@ const navItems = [
 ];
 
 export function Navbar() {
-  const router = useRouter();
-
   const handleWhatsAppClick = async () => {
     notificationService.info("Abriendo WhatsApp...");
     

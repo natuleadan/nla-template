@@ -9,10 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { IconBrandWhatsapp, IconPackage, IconArrowLeft, IconStar, IconSend, IconLoader2, IconMapPin } from "@tabler/icons-react";
-import { PageHeader } from "@/components/layout/page-header";
-import { getReviews, createReview, type Review } from "@/lib/modules/reviews";
-import { getInventory, type InventoryItem } from "@/lib/modules/inventory";
+import { IconBrandWhatsapp, IconArrowLeft, IconStar, IconSend, IconLoader2, IconMapPin } from "@tabler/icons-react";
 import { getWhatsappNumber } from "@/lib/config/env";
 import notificationService from "@/lib/modules/notification";
 
