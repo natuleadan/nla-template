@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { PageHeader } from "@/components/layout/page-header";
 import { ContactForm } from "@/components/contact-form";
 import { IconMapPin, IconPhone, IconMail, IconBrandWhatsapp } from "@tabler/icons-react";
+import { ui, pages } from "@/lib/config/site";
 
 type Block = 
   | { type: "header"; title: string }
@@ -73,11 +74,11 @@ export function DynamicPage({ pageName }: { pageName: string }) {
   }, [pageName]);
 
   if (loading) {
-    return <div className="p-8 text-center text-muted-foreground">Cargando...</div>;
+    return <div className="p-8 text-center text-muted-foreground">{ui.loading}</div>;
   }
 
   if (!data) {
-    return <div className="p-8 text-center text-muted-foreground">Página no encontrada</div>;
+    return <div className="p-8 text-center text-muted-foreground">{ui.notFound}</div>;
   }
 
   const isTwoColumns = pageName === "contacto";
@@ -89,8 +90,8 @@ export function DynamicPage({ pageName }: { pageName: string }) {
     const findFormIndex = () => 
       data.content.findIndex(b => b.type === "form");
 
-    const encuenIndex = findSectionIndex("Encuéntranos");
-    const escribIndex = findSectionIndex("Escríbenos");
+    const encuenIndex = findSectionIndex(pages.contacto.findUs);
+    const escribIndex = findSectionIndex(pages.contacto.writeUs);
     const formIndex = findFormIndex();
 
     const leftContent = data.content.slice(encuenIndex, escribIndex);

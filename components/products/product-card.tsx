@@ -18,23 +18,28 @@ import { IconBrandWhatsapp, IconArrowRight } from "@tabler/icons-react";
 const FALLBACK_IMAGE = "/design/fallback.svg";
 import { getWhatsappNumber } from "@/lib/config/env";
 import notificationService from "@/lib/modules/notification";
+import { store, ui } from "@/lib/config/site";
 
 const WHATSAPP_NUMBER = getWhatsappNumber();
+
+interface ProductCardProps {
+  id: string;
+  slug: string;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  image?: string;
+}
 
 export function ProductCard({ id, slug, name, description, price, category, image }: ProductCardProps) {
   const [imgSrc, setImgSrc] = useState(image || FALLBACK_IMAGE);
   const [fallbackUsed, setFallbackUsed] = useState(false);
 
   const handlePedir = () => {
-    notificationService.info("Abriendo WhatsApp...");
+    notificationService.info(ui.openingWhatsApp);
     
-    const mensaje = `🤝 *NUEVO PEDIDO*
-
-*Producto:* ${name}
-*Precio:* $${price.toFixed(2)}
-*Categoría:* ${category === "suplemento" ? "Suplemento" : "Alimento"}
-
-¡Quiero ordenar este producto!`;
+    const mensaje = store.product.whatsappCompact(name, price, category);
     const urlWhatsapp = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
     window.open(urlWhatsapp, "_blank");
   };
@@ -45,7 +50,7 @@ export function ProductCard({ id, slug, name, description, price, category, imag
         <div className="flex items-start justify-between">
           <CardTitle className="text-lg line-clamp-1">{name}</CardTitle>
           <Badge variant={category === "suplemento" ? "default" : "secondary"}>
-            {category === "suplemento" ? "Suplemento" : "Alimento"}
+            {store.product.badge(category)}
           </Badge>
         </div>
         <CardDescription className="line-clamp-2">{description}</CardDescription>
@@ -72,17 +77,17 @@ export function ProductCard({ id, slug, name, description, price, category, imag
       <CardFooter className="flex items-center justify-between gap-2">
         <div className="flex flex-col">
           <span className="text-lg font-bold">${price.toFixed(2)}</span>
-          <span className="text-xs text-muted-foreground">IVA incluido</span>
+          <span className="text-xs text-muted-foreground">{store.product.priceLabel}</span>
         </div>
         <div className="flex gap-1">
           <Button onClick={handlePedir} size="sm" variant="secondary" className="gap-1">
             <IconBrandWhatsapp className="size-4" data-icon="inline-start" />
-            Pedir
+            {store.product.pedir}
           </Button>
           <Link href={`/tienda/${slug}`}>
             <Button size="sm" variant="outline" className="gap-1">
               <IconArrowRight className="size-4" data-icon="inline-start" />
-              Ver
+              {store.product.ver}
             </Button>
           </Link>
         </div>

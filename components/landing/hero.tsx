@@ -1,41 +1,18 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { IconArrowRight, IconBarbell, IconBolt, IconShieldCheck, IconPackage, IconClock, IconHeadset } from "@tabler/icons-react";
+import { home } from "@/lib/config/site";
 
 const features = [
-  {
-    icon: IconBolt,
-    title: "Entrega rápida",
-    description: "Recibe tus productos en 24-48 horas",
-  },
-  {
-    icon: IconShieldCheck,
-    title: "Calidad garantizada",
-    description: "Productos de las mejores marcas",
-  },
-  {
-    icon: IconBarbell,
-    title: "Profesional",
-    description: "Asesoría personalizada para tu entrenamiento",
-  },
+  { icon: IconBolt, ...home.features.items[0] },
+  { icon: IconShieldCheck, ...home.features.items[1] },
+  { icon: IconBarbell, ...home.features.items[2] },
 ];
 
 const benefits = [
-  {
-    icon: IconPackage,
-    title: "Envío gratis",
-    description: "En pedidos mayores a $50",
-  },
-  {
-    icon: IconClock,
-    title: "Atención 24/7",
-    description: "Estamos siempre disponibles",
-  },
-  {
-    icon: IconHeadset,
-    title: "Soporte técnico",
-    description: "Te ayudamos con cualquier duda",
-  },
+  { icon: IconPackage, ...home.benefits[0] },
+  { icon: IconClock, ...home.benefits[1] },
+  { icon: IconHeadset, ...home.benefits[2] },
 ];
 
 export function Hero() {
@@ -45,22 +22,21 @@ export function Hero() {
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-              Tienda en línea por WhatsApp
+              {home.hero.title}
             </h1>
             <p className="mx-auto mt-6 text-lg text-muted-foreground md:text-xl">
-              Productos de calidad para tu día a día. Compra fácil y rápido por WhatsApp.
-              Entrega rápida y atención personalizada.
+              {home.hero.subtitle}
             </p>
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/tienda">
                 <Button size="lg">
-                  Ver tienda
+                  {home.hero.cta.primary}
                   <IconArrowRight className="ml-2 size-4" data-icon="inline-end" />
                 </Button>
               </Link>
               <Link href="/contacto">
                 <Button size="lg" variant="outline">
-                  Contactanos
+                  {home.hero.cta.secondary}
                 </Button>
               </Link>
             </div>
@@ -90,9 +66,9 @@ export function Hero() {
       <section className="py-16 md:py-20">
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold tracking-tight">¿Por qué elegirnos?</h2>
+            <h2 className="text-3xl font-bold tracking-tight">{home.features.title}</h2>
             <p className="mt-2 text-muted-foreground">
-              Nos diferenciamos por nuestro compromiso con tu éxito
+              {home.features.subtitle}
             </p>
           </div>
           <div className="grid gap-6 sm:grid-cols-3">
@@ -115,14 +91,14 @@ export function Hero() {
       <section className="border-t bg-muted/30 py-16 md:py-20">
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight">¿Listo para empezar?</h2>
+            <h2 className="text-3xl font-bold tracking-tight">{home.cta.title}</h2>
             <p className="mt-4 text-muted-foreground">
-              Explora nuestra tienda y encuentra los productos perfectos para tu entrenamiento.
+              {home.cta.description}
             </p>
             <div className="mt-8">
               <Link href="/tienda">
                 <Button size="lg">
-                  Ver todos los productos
+                  {home.cta.button}
                   <IconArrowRight className="ml-2 size-4" data-icon="inline-end" />
                 </Button>
               </Link>

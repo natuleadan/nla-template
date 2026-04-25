@@ -8,6 +8,7 @@ import { Providers } from "@/components/providers"
 import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
 import { BrandColorScript } from "@/components/layout/brand-color-script"
+import { brand } from "@/lib/config/site"
 
 const baseUrl = getBaseUrl();
 
@@ -20,8 +21,8 @@ const fontSans = Roboto({
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
-  title: "Acme Inc - Tienda de Suplementos y Alimentos",
-  description: "Tu tienda de suplementos nutricionales y alimentos saludables para el gym. Encuentra proteínas, creatina, pollo, huevos y más.",
+  title: `${brand.name} - Tienda de Suplementos y Alimentos`,
+  description: brand.description,
 }
 
 export default function RootLayout({

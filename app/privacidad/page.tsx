@@ -1,8 +1,9 @@
 import { DynamicPage } from "@/components/layout/dynamic-page";
+import { pages, brand } from "@/lib/config/site";
 
 export const metadata = {
-  title: "Política de Privacidad - NLA Template",
-  description: "Política de privacidad conforme a la legislación ecuatoriana.",
+  title: `${pages.privacidad.title} - ${brand.name}`,
+  description: pages.privacidad.description,
 };
 
 export default function PrivacidadPage() {

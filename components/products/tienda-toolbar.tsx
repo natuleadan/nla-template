@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/select";
 import { ProductGrid } from "./product-grid";
 import { Spinner } from "@/components/ui/spinner";
+import { store } from "@/lib/config/site";
 
 interface Product {
   id: string;
@@ -87,17 +88,17 @@ export function TiendaToolbar({ initialProducts, total, initialHasMore, categori
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row gap-4">
         <Input
-          placeholder="Buscar productos..."
+          placeholder={store.toolbar.searchPlaceholder}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="sm:max-w-xs"
         />
         <Select value={category} onValueChange={setCategory}>
           <SelectTrigger className="sm:max-w-xs ml-auto">
-            <SelectValue placeholder="Filtrar por categoría" />
+            <SelectValue placeholder={store.toolbar.filterLabel} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Todas las categorías</SelectItem>
+            <SelectItem value="all">{store.toolbar.allCategories}</SelectItem>
             {categories.map((cat) => (
               <SelectItem key={cat.slug} value={cat.slug}>{cat.name}</SelectItem>
             ))}
@@ -113,7 +114,7 @@ export function TiendaToolbar({ initialProducts, total, initialHasMore, categori
       {hasMore && !loading && <div ref={observerRef} className="h-10" />}
       {!hasMore && allLoaded.length > 0 && (
         <p className="text-center text-sm text-muted-foreground py-4">
-          Mostrando {total} productos
+          {store.toolbar.showing(total)}
         </p>
       )}
     </div>

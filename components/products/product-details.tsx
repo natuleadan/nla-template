@@ -13,6 +13,7 @@ import { createReview, type Review } from "@/lib/modules/reviews";
 import { type InventoryItem } from "@/lib/modules/inventory";
 import { getWhatsappNumber } from "@/lib/config/env";
 import notificationService from "@/lib/modules/notification";
+import { store, ui } from "@/lib/config/site";
 
 const FALLBACK_IMAGE = "/design/fallback.svg";
 
@@ -95,23 +96,16 @@ export function ProductDetails({ product: initialProduct, initialInventory }: Pr
   const totalInventory = inventory.reduce((sum, loc) => sum + loc.available, 0);
 
   const handlePedir = () => {
-    notificationService.info("Abriendo WhatsApp...");
+    notificationService.info(ui.openingWhatsApp);
     
-    const mensaje = `🤝 *NUEVO PEDIDO*
-
-*Producto:* ${product.name}
-*Precio:* $${product.price.toFixed(2)}
-*Categoría:* ${product.category === "suplemento" ? "Suplemento" : "Alimento"}
-*Cantidad:* ${product.quantity} ${product.unit}
-
-¡Quiero ordenar este producto!`;
+    const mensaje = store.product.whatsappTemplate(product);
     const urlWhatsapp = `https://wa.me/${getWhatsappNumber()}?text=${encodeURIComponent(mensaje)}`;
     window.open(urlWhatsapp, "_blank");
   };
 
   const handleSubmitReview = async () => {
     if (!newReview.name || !newReview.comment || newReview.rating === 0) {
-      notificationService.warning("Completa todos los campos");
+      notificationService.warning(store.reviews.validation);
       return;
     }
     
@@ -123,10 +117,10 @@ export function ProductDetails({ product: initialProduct, initialInventory }: Pr
         reviews: [...prev.reviews, savedReview],
       }));
       setNewReview({ name: "", comment: "", rating: 0 });
-      notificationService.success("¡Reseña publicada!");
+      notificationService.success(store.reviews.success);
     } catch (error) {
       console.error("Error submitting review:", error);
-      notificationService.error("Error al publicar la reseña");
+      notificationService.error(store.reviews.error);
     } finally {
       setIsSubmitting(false);
     }
@@ -139,7 +133,7 @@ export function ProductDetails({ product: initialProduct, initialInventory }: Pr
         <Link href="/tienda">
           <Button variant="ghost" size="sm" className="gap-1">
             <IconArrowLeft className="size-4" />
-            Volver
+            {store.product.back}
           </Button>
         </Link>
       </div>
@@ -196,17 +190,17 @@ export function ProductDetails({ product: initialProduct, initialInventory }: Pr
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-2">
             <Badge variant={product.category === "suplemento" ? "default" : "secondary"}>
-              {product.category === "suplemento" ? "Suplemento" : "Alimento"}
+              {store.product.badge(product.category)}
             </Badge>
           </div>
           
           <div>
             <span className="text-2xl font-bold">${product.price.toFixed(2)}</span>
-            <p className="text-sm text-muted-foreground">IVA incluido</p>
+            <p className="text-sm text-muted-foreground">{store.product.priceLabel}</p>
           </div>
           
           <div className="flex items-center gap-2 text-sm">
-            <span className="text-muted-foreground">Contenido:</span>
+            <span className="text-muted-foreground">{store.product.contentLabel}</span>
             <span className="font-medium">{product.quantity} {product.unit}</span>
           </div>
           
@@ -214,9 +208,9 @@ export function ProductDetails({ product: initialProduct, initialInventory }: Pr
             <div className="flex flex-col gap-2 mt-2">
               <div className="flex items-center gap-2">
                 <IconMapPin className="size-4 text-muted-foreground" />
-                <span className="text-sm text-muted-foreground">Disponibilidad:</span>
+                <span className="text-sm text-muted-foreground">{store.product.availabilityLabel}</span>
                 <Badge variant={totalInventory > 10 ? "default" : "destructive"}>
-                  {totalInventory > 10 ? "Disponible" : "Stock limitado"}
+                  {totalInventory > 10 ? store.product.inStock : store.product.lowStock}
                 </Badge>
               </div>
               <div className="flex flex-wrap gap-2">
@@ -235,19 +229,19 @@ export function ProductDetails({ product: initialProduct, initialInventory }: Pr
           
           <Button onClick={handlePedir} size="lg" className="gap-2 mt-4">
             <IconBrandWhatsapp className="size-5" />
-            Pedir por WhatsApp
+            {store.product.orderWhatsApp}
           </Button>
         </div>
       </div>
 
       <div className="mt-12">
-        <h2 className="text-xl font-bold mb-4">Reseñas ({product.reviews.length})</h2>
+        <h2 className="text-xl font-bold mb-4">{store.reviews.title(product.reviews.length)}</h2>
         
         {product.reviews.length > 0 && (
           <div className="flex items-center gap-2 mb-4">
             <StarRating rating={Math.round(avgRating)} />
             <span className="text-sm text-muted-foreground">
-              {avgRating.toFixed(1)} de 5 ({product.reviews.length} reseñas)
+              {store.reviews.summary(avgRating, product.reviews.length)}
             </span>
           </div>
         )}
@@ -259,11 +253,11 @@ export function ProductDetails({ product: initialProduct, initialInventory }: Pr
         </div>
         
         <div className="border rounded-lg p-4 space-y-4 mt-6">
-          <h3 className="font-medium">Escribe una reseña</h3>
+          <h3 className="font-medium">{store.reviews.writeTitle}</h3>
           
           <div className="flex gap-4">
             <Input
-              placeholder="Tu nombre"
+              placeholder={store.reviews.namePlaceholder}
               value={newReview.name}
               onChange={(e) => setNewReview({ ...newReview, name: e.target.value })}
               className="max-w-xs"
@@ -272,7 +266,7 @@ export function ProductDetails({ product: initialProduct, initialInventory }: Pr
           </div>
           
           <Textarea
-            placeholder="Tu comentario..."
+            placeholder={store.reviews.commentPlaceholder}
             value={newReview.comment}
             onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
             rows={3}
@@ -280,7 +274,7 @@ export function ProductDetails({ product: initialProduct, initialInventory }: Pr
           
           <Button onClick={handleSubmitReview} disabled={isSubmitting || !newReview.name || !newReview.comment || newReview.rating === 0}>
             {isSubmitting ? <IconLoader2 className="size-4 mr-2 animate-spin" /> : <IconSend className="size-4 mr-2" />}
-            {isSubmitting ? "Enviando..." : "Enviar reseña"}
+            {isSubmitting ? store.reviews.submitting : store.reviews.submit}
           </Button>
         </div>
       </div>

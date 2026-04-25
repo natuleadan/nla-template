@@ -5,32 +5,21 @@ import { Button } from "@/components/ui/button";
 import { IconBrandWhatsapp, IconBarbell } from "@tabler/icons-react";
 import { getWhatsappNumber } from "@/lib/config/env";
 import notificationService from "@/lib/modules/notification";
+import { brand, nav, ui } from "@/lib/config/site";
 
 const WHATSAPP_NUMBER = getWhatsappNumber();
 
-const navItems = [
-  { href: "/", label: "Inicio" },
-  { href: "/tienda", label: "Tienda" },
-  { href: "/terminos", label: "Términos" },
-  { href: "/privacidad", label: "Privacidad" },
-  { href: "/datos", label: "Datos" },
-  { href: "/contacto", label: "Contacto" },
-];
-
 export function Navbar() {
   const handleWhatsAppClick = async () => {
-    notificationService.info("Abriendo WhatsApp...");
-    
-    const mensaje = `Hola! Quiero información sobre los productos`;
-    const urlWhatsapp = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
+    notificationService.info(ui.openingWhatsApp);
 
     try {
       await fetch("/api/v1/pedidos", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          productId: "consulta-header",
-          productName: "Consulta desde header",
+          productId: brand.whatsappProductId,
+          productName: brand.whatsappProductName,
           price: 0,
         }),
       });
@@ -38,6 +27,7 @@ export function Navbar() {
       console.error("Error:", e);
     }
 
+    const urlWhatsapp = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(brand.whatsappMessage)}`;
     window.open(urlWhatsapp, "_blank");
   };
 
@@ -47,12 +37,12 @@ export function Navbar() {
         <div className="flex items-center gap-3 shrink-0">
           <Link href="/" className="flex items-center gap-3 text-2xl font-bold tracking-tight">
             <IconBarbell className="size-8" />
-            <span>Acme Inc</span>
+            <span>{brand.name}</span>
           </Link>
         </div>
 
         <nav className="flex-1 justify-end flex items-center gap-1">
-          {navItems.map((item) => (
+          {nav.items.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -67,8 +57,8 @@ export function Navbar() {
             className="gap-2 ml-2"
           >
             <IconBrandWhatsapp className="size-4" data-icon="inline-start" />
-            <span className="hidden sm:inline">Comprar por WhatsApp</span>
-            <span className="sm:hidden">WhatsApp</span>
+            <span className="hidden sm:inline">{nav.buttons.whatsappDesktop}</span>
+            <span className="sm:hidden">{nav.buttons.whatsappMobile}</span>
           </Button>
         </nav>
       </div>

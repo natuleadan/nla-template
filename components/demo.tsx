@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { ui } from "@/lib/config/site"
 
 import {
   AlertDialog,
@@ -68,10 +69,9 @@ export function Demo() {
         <div className="flex flex-col gap-4">
           <Card>
             <CardHeader>
-              <CardTitle>Style Overview</CardTitle>
+              <CardTitle>{ui.demo.title}</CardTitle>
               <CardDescription className="line-clamp-2">
-                Designers love packing quirky glyphs into test phrases. This is
-                a preview of the typography styles.
+                {ui.demo.description}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -186,21 +186,21 @@ export function Demo() {
             <CardContent className="flex flex-col gap-6">
               <div className="flex flex-col gap-4">
                 <div className="flex flex-wrap gap-2">
-                  <Button>Button</Button>
-                  <Button variant="secondary">Secondary</Button>
-                  <Button variant="outline">Outline</Button>
-                  <Button variant="ghost">Ghost</Button>
+                  <Button>{ui.demo.button}</Button>
+                  <Button variant="secondary">{ui.demo.secondary}</Button>
+                  <Button variant="outline">{ui.demo.outline}</Button>
+                  <Button variant="ghost">{ui.demo.ghost}</Button>
                 </div>
                 <Item variant="outline">
                   <ItemContent>
-                    <ItemTitle>Two-factor authentication</ItemTitle>
+                    <ItemTitle>{ui.demo.twoFactorAuth}</ItemTitle>
                     <ItemDescription className="text-pretty xl:hidden 2xl:block">
-                      Verify via email or phone number.
+                      {ui.demo.verifyVia}
                     </ItemDescription>
                   </ItemContent>
                   <ItemActions className="hidden md:flex">
                     <Button size="sm" variant="secondary">
-                      Enable
+                      {ui.demo.enable}
                     </Button>
                   </ItemActions>
                 </Item>
@@ -212,12 +212,12 @@ export function Demo() {
                 min={0}
                 step={10}
                 className="flex-1"
-                aria-label="Slider"
+                aria-label={ui.demo.sliderLabel}
               />
               <FieldGroup>
                 <Field>
                   <InputGroup>
-                    <InputGroupInput placeholder="Name" />
+                    <InputGroupInput placeholder={ui.demo.namePlaceholder} />
                     <InputGroupAddon align="inline-end">
                       <InputGroupText>
                         <IconSearch
@@ -227,14 +227,14 @@ export function Demo() {
                   </InputGroup>
                 </Field>
                 <Field className="flex-1">
-                  <Textarea placeholder="Message" className="resize-none" />
+                  <Textarea placeholder={ui.demo.messagePlaceholder} className="resize-none" />
                 </Field>
               </FieldGroup>
               <div className="flex items-center gap-2">
                 <div className="flex gap-2">
-                  <Badge>Badge</Badge>
-                  <Badge variant="secondary">Secondary</Badge>
-                  <Badge variant="outline">Outline</Badge>
+                  <Badge>{ui.demo.badge}</Badge>
+                  <Badge variant="secondary">{ui.demo.secondary}</Badge>
+                  <Badge variant="outline">{ui.demo.outline}</Badge>
                 </div>
                 <RadioGroup
                   defaultValue="apple"
@@ -252,28 +252,27 @@ export function Demo() {
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <Button variant="outline">
-                      <span className="hidden md:block">Alert Dialog</span>
-                      <span className="block md:hidden">Dialog</span>
+                      <span className="hidden md:block">{ui.demo.alertDialog}</span>
+                      <span className="block md:hidden">{ui.demo.dialog}</span>
                     </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent size="sm">
                     <AlertDialogHeader>
                       <AlertDialogTitle>
-                        Allow accessory to connect?
+                        {ui.demo.allowAccessory}
                       </AlertDialogTitle>
                       <AlertDialogDescription>
-                        Do you want to allow the USB accessory to connect to
-                        this device and your data?
+                        {ui.demo.allowAccessoryDesc}
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>Don&apos;t allow</AlertDialogCancel>
-                      <AlertDialogAction>Allow</AlertDialogAction>
+                      <AlertDialogCancel>{ui.demo.dontAllow}</AlertDialogCancel>
+                      <AlertDialogAction>{ui.demo.allow}</AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
                 <ButtonGroup>
-                  <Button variant="outline">Button Group</Button>
+                  <Button variant="outline">{ui.demo.buttonGroup}</Button>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="outline" size="icon">
@@ -287,22 +286,22 @@ export function Demo() {
                       className="w-fit"
                     >
                       <DropdownMenuGroup>
-                        <DropdownMenuLabel>Quick Actions</DropdownMenuLabel>
-                        <DropdownMenuItem>Mute Conversation</DropdownMenuItem>
-                        <DropdownMenuItem>Mark as Read</DropdownMenuItem>
-                        <DropdownMenuItem>Block User</DropdownMenuItem>
+                        <DropdownMenuLabel>{ui.demo.quickActions}</DropdownMenuLabel>
+                        <DropdownMenuItem>{ui.demo.mute}</DropdownMenuItem>
+                        <DropdownMenuItem>{ui.demo.markRead}</DropdownMenuItem>
+                        <DropdownMenuItem>{ui.demo.blockUser}</DropdownMenuItem>
                       </DropdownMenuGroup>
                       <DropdownMenuSeparator />
                       <DropdownMenuGroup>
-                        <DropdownMenuLabel>Conversation</DropdownMenuLabel>
-                        <DropdownMenuItem>Share Conversation</DropdownMenuItem>
-                        <DropdownMenuItem>Copy Conversation</DropdownMenuItem>
-                        <DropdownMenuItem>Report Conversation</DropdownMenuItem>
+                        <DropdownMenuLabel>{ui.demo.conversation}</DropdownMenuLabel>
+                        <DropdownMenuItem>{ui.demo.share}</DropdownMenuItem>
+                        <DropdownMenuItem>{ui.demo.copy}</DropdownMenuItem>
+                        <DropdownMenuItem>{ui.demo.report}</DropdownMenuItem>
                       </DropdownMenuGroup>
                       <DropdownMenuSeparator />
                       <DropdownMenuGroup>
                         <DropdownMenuItem variant="destructive">
-                          Delete Conversation
+                          {ui.demo.delete}
                         </DropdownMenuItem>
                       </DropdownMenuGroup>
                     </DropdownMenuContent>

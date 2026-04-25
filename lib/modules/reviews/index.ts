@@ -1,3 +1,5 @@
+import { reviewsData as seedData } from "@/lib/config/reviews"
+
 export interface Review {
   id: string;
   productSlug: string;
@@ -7,11 +9,7 @@ export interface Review {
   createdAt: string;
 }
 
-let reviewsData: Review[] = [
-  { id: "1", productSlug: "proteina-whey", name: "Carlos M.", comment: "Excelente proteína, se disuelve perfecto.", rating: 5, createdAt: "2026-04-15T10:00:00Z" },
-  { id: "2", productSlug: "proteina-whey", name: "Juan P.", comment: "Buena calidad, vale la pena.", rating: 4, createdAt: "2026-04-10T10:00:00Z" },
-  { id: "3", productSlug: "creatina-monohidratada", name: "Miguel R.", comment: "He notado mejora en mis entrenamientos.", rating: 5, createdAt: "2026-04-12T10:00:00Z" },
-];
+let reviewsData: Review[] = JSON.parse(JSON.stringify(seedData));
 
 export async function getReviews(productSlug: string): Promise<Review[]> {
   if (!productSlug || typeof productSlug !== "string") return [];

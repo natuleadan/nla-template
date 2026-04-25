@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator"
 import { IconShoppingCart, IconPlus, IconMinus, IconTrash } from "@tabler/icons-react"
 import { getWhatsappNumber } from "@/lib/config/env"
 import notificationService from "@/lib/modules/notification"
+import { store, ui, brand } from "@/lib/config/site"
 
 const WHATSAPP_NUMBER = getWhatsappNumber()
 
@@ -48,11 +49,9 @@ export function CartSheet({ children }: CartSheetProps) {
     
     const itemsList = cartItems.map(item => `- ${item.name} x${item.quantity}: $${(item.price * item.quantity).toFixed(2)}`).join("\n")
     
-    const mensaje = `🛒 *NUEVO PEDIDO - Acme Inc*\n\n*Items:*\n${itemsList}\n\n*Total:* $${total.toFixed(2)}\n\n¡Confirmar pedido!`
+    const mensaje = store.cart.whatsappTemplate(itemsList, total)
     
-    const urlWhatsapp = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`
-    
-    notificationService.info("Abriendo WhatsApp...")
+    notificationService.info(ui.openingWhatsApp)
     window.open(urlWhatsapp, "_blank")
   }
 
@@ -73,11 +72,11 @@ export function CartSheet({ children }: CartSheetProps) {
       
       <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
         <SheetHeader>
-          <SheetTitle>Carrito de Compras</SheetTitle>
+          <SheetTitle>{store.cart.title}</SheetTitle>
           <SheetDescription>
             {cartItems.length > 0 
-              ? `${totalItems} producto${totalItems > 1 ? "s" : ""} en tu carrito`
-              : "Tu carrito está vacío"}
+              ? store.cart.itemsCount(totalItems)
+              : store.cart.empty}
           </SheetDescription>
         </SheetHeader>
         
@@ -85,7 +84,7 @@ export function CartSheet({ children }: CartSheetProps) {
           {cartItems.length === 0 ? (
             <div className="text-center py-8">
               <IconShoppingCart className="size-12 mx-auto text-muted-foreground/50 mb-4" />
-              <p className="text-muted-foreground">Tu carrito está vacío</p>
+              <p className="text-muted-foreground">{store.cart.empty}</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -95,7 +94,7 @@ export function CartSheet({ children }: CartSheetProps) {
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
                         <p className="font-medium">{item.name}</p>
-                        <p className="text-sm text-muted-foreground">${item.price.toFixed(2)} c/u</p>
+                        <p className="text-sm text-muted-foreground">{store.cart.perUnit(item.price)}</p>
                       </div>
                       <div className="flex items-center gap-2">
                         <Button 
@@ -119,7 +118,7 @@ export function CartSheet({ children }: CartSheetProps) {
                     </div>
                     <div className="flex justify-between items-center mt-2">
                       <span className="text-sm text-muted-foreground">
-                        Subtotal: ${(item.price * item.quantity).toFixed(2)}
+                        {store.cart.subtotal(item.price * item.quantity)}
                       </span>
                       <Button 
                         variant="ghost" 
@@ -128,7 +127,7 @@ export function CartSheet({ children }: CartSheetProps) {
                         onClick={() => removeFromCart(item.id)}
                       >
                         <IconTrash className="size-4 mr-1" />
-                        Eliminar
+                        {store.cart.delete}
                       </Button>
                     </div>
                   </CardContent>
@@ -138,7 +137,7 @@ export function CartSheet({ children }: CartSheetProps) {
               <Separator />
               
               <div className="flex justify-between items-center">
-                <span className="font-medium">Total:</span>
+                <span className="font-medium">{store.cart.total}</span>
                 <span className="text-xl font-bold">${total.toFixed(2)}</span>
               </div>
             </div>
@@ -147,9 +146,9 @@ export function CartSheet({ children }: CartSheetProps) {
         
         {cartItems.length > 0 && (
           <SheetFooter>
-            <Button size="lg" className="w-full gap-2" onClick={handleWhatsAppOrder}>
-              <IconShoppingCart className="size-5" />
-              Pedir por WhatsApp
+              <Button size="lg" className="w-full gap-2" onClick={handleWhatsAppOrder}>
+                <IconShoppingCart className="size-5" />
+                {store.cart.orderWhatsApp}
             </Button>
           </SheetFooter>
         )}

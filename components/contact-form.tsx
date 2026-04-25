@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card } from "@/components/ui/card"
 import notificationService from "@/lib/modules/notification"
+import { form } from "@/lib/config/site"
 
 interface ContactFormData {
   nombre: string
@@ -26,11 +27,13 @@ interface ContactFormProps {
   className?: string
 }
 
+const t = form.contact
+
 export function ContactForm({ className }: ContactFormProps) {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  const form = useForm<ContactFormData>({
+  const contactForm = useForm<ContactFormData>({
     defaultValues: {
       nombre: "",
       email: "",
@@ -49,15 +52,15 @@ export function ContactForm({ className }: ContactFormProps) {
       })
 
       if (res.ok) {
-        notificationService.success("Mensaje enviado correctamente!")
+        notificationService.success(t.notifications.success)
         setSubmitted(true)
-        form.reset()
+        contactForm.reset()
       } else {
-        notificationService.error("Error al enviar el mensaje")
+        notificationService.error(t.notifications.error)
       }
     } catch (e) {
       console.error("Error al enviar formulario:", e)
-      notificationService.error("Error de conexión")
+      notificationService.error(t.notifications.network)
     } finally {
       setLoading(false)
     }
@@ -66,34 +69,34 @@ export function ContactForm({ className }: ContactFormProps) {
   if (submitted) {
     return (
       <Card className="p-6 text-center">
-        <p className="text-lg font-medium">¡Mensaje enviado!</p>
+        <p className="text-lg font-medium">{t.success.title}</p>
         <p className="mt-2 text-muted-foreground">
-          Gracias por contactarnos. Te responderemos en breve.
+          {t.success.description}
         </p>
         <Button 
           variant="outline" 
           className="mt-4" 
           onClick={() => setSubmitted(false)}
         >
-          Enviar otro mensaje
+          {t.success.button}
         </Button>
       </Card>
     )
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={className}>
+    <Form {...contactForm}>
+      <form onSubmit={contactForm.handleSubmit(onSubmit)} className={className}>
         <div className="space-y-4">
           <FormField
-            control={form.control}
+            control={contactForm.control}
             name="nombre"
-            rules={{ required: "Nombre es requerido", minLength: { value: 2, message: "Mínimo 2 caracteres" } }}
+            rules={{ required: t.name.required, minLength: { value: 2, message: t.name.minLength } }}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nombre</FormLabel>
+                <FormLabel>{t.name.label}</FormLabel>
                 <FormControl>
-                  <Input placeholder="Tu nombre" {...field} />
+                  <Input placeholder={t.name.placeholder} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -101,17 +104,17 @@ export function ContactForm({ className }: ContactFormProps) {
           />
 
           <FormField
-            control={form.control}
+            control={contactForm.control}
             name="email"
             rules={{ 
-              required: "Email es requerido",
-              pattern: { value: /^[^s@]+@[^s@]+.[^s@]+$/, message: "Email inválido" }
+              required: t.email.required,
+              pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: t.email.invalid }
             }}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Correo electrónico</FormLabel>
+                <FormLabel>{t.email.label}</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="tu@email.com" {...field} />
+                  <Input type="email" placeholder={t.email.placeholder} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -119,14 +122,14 @@ export function ContactForm({ className }: ContactFormProps) {
           />
 
           <FormField
-            control={form.control}
+            control={contactForm.control}
             name="mensaje"
-            rules={{ required: "Mensaje es requerido", minLength: { value: 10, message: "Mínimo 10 caracteres" } }}
+            rules={{ required: t.message.required, minLength: { value: 10, message: t.message.minLength } }}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Mensaje</FormLabel>
+                <FormLabel>{t.message.label}</FormLabel>
                 <FormControl>
-                  <Textarea placeholder="Tu mensaje..." rows={5} {...field} />
+                  <Textarea placeholder={t.message.placeholder} rows={5} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -134,7 +137,7 @@ export function ContactForm({ className }: ContactFormProps) {
           />
 
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? "Enviando..." : "Enviar mensaje"}
+            {loading ? t.submitting : t.submit}
           </Button>
         </div>
       </form>

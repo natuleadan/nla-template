@@ -1,3 +1,5 @@
+import { allProducts as productsData } from "@/lib/config/products"
+
 export interface Product {
   id: string;
   slug: string;
@@ -13,24 +15,7 @@ export interface Product {
   category: string;
 }
 
-const allProducts: Product[] = [
-  { id: "1", slug: "producto-1", name: "Producto Premium 1", quantity: "1", unit: "pz", price: 299, originalPrice: 399, description: "Producto de alta calidad para uso diario", longDescription: "Descripción detallada del producto.", image: "/design/fallback.svg", images: ["/design/fallback.svg"], category: "suplemento" },
-  { id: "2", slug: "producto-2", name: "Producto Premium 2", quantity: "1", unit: "pz", price: 499, originalPrice: 599, description: "Otro producto de alta calidad", longDescription: "Descripción detallada del segundo producto.", image: "/design/fallback.svg", images: ["/design/fallback.svg"], category: "suplemento" },
-  { id: "3", slug: "producto-3", name: "Producto Básico 1", quantity: "1", unit: "pz", price: 159, description: "Producto económico y de calidad", longDescription: "Descripción del tercer producto.", image: "/design/fallback.svg", images: ["/design/fallback.svg"], category: "comida" },
-  { id: "4", slug: "producto-4", name: "Producto Familiar 1", quantity: "1", unit: "pack", price: 299, description: "Pack familiar con varios productos", image: "/design/fallback.svg", images: ["/design/fallback.svg"], category: "comida" },
-  { id: "5", slug: "producto-5", name: "Producto Deluxe", quantity: "1", unit: "pz", price: 899, description: "Producto premium edición limitada", image: "/design/fallback.svg", images: ["/design/fallback.svg"], category: "suplemento" },
-  { id: "6", slug: "producto-6", name: "Proteína Whey 1kg", quantity: "1", unit: "kg", price: 1299, originalPrice: 1499, description: "Proteína de suero de leche sabor chocolate", longDescription: "Proteína Whey isolatada de alta calidad.", image: "/design/fallback.svg", images: ["/design/fallback.svg"], category: "suplemento" },
-  { id: "7", slug: "producto-7", name: "Creatina Monohidratada", quantity: "300", unit: "g", price: 899, description: "Creatina pura micronizada", longDescription: "300g de creatina monohidratada.", image: "/design/fallback.svg", images: ["/design/fallback.svg"], category: "suplemento" },
-  { id: "8", slug: "producto-8", name: "Barra Energética Pack x12", quantity: "12", unit: "pz", price: 459, description: "Barras energéticas de avena y miel", image: "/design/fallback.svg", images: ["/design/fallback.svg"], category: "comida" },
-  { id: "9", slug: "producto-9", name: "Pechuga de Pollo 1kg", quantity: "1", unit: "kg", price: 389, description: "Pechuga de pollo fresca congelada", image: "/design/fallback.svg", images: ["/design/fallback.svg"], category: "comida" },
-  { id: "10", slug: "producto-10", name: "Arroz Integral 2kg", quantity: "2", unit: "kg", price: 159, description: "Arroz integral orgánico", image: "/design/fallback.svg", images: ["/design/fallback.svg"], category: "comida" },
-  { id: "11", slug: "producto-11", name: "Pre-entreno Explosivo", quantity: "300", unit: "g", price: 749, originalPrice: 899, description: "Pre-entreno con cafeína y beta-alanina", image: "/design/fallback.svg", images: ["/design/fallback.svg"], category: "suplemento" },
-  { id: "12", slug: "producto-12", name: "Avena en Hojuelas 1kg", quantity: "1", unit: "kg", price: 129, description: "Avena en hojuelas finas", image: "/design/fallback.svg", images: ["/design/fallback.svg"], category: "comida" },
-  { id: "13", slug: "producto-13", name: "Manteca de Maní 500g", quantity: "500", unit: "g", price: 219, originalPrice: 259, description: "Manteca de maní natural sin azúcar", image: "/design/fallback.svg", images: ["/design/fallback.svg"], category: "comida" },
-  { id: "14", slug: "producto-14", name: "BCAA 2:1:1 200 caps", quantity: "200", unit: "caps", price: 599, description: "Aminoácidos ramificados para recuperación", image: "/design/fallback.svg", images: ["/design/fallback.svg"], category: "suplemento" },
-  { id: "15", slug: "producto-15", name: "Atún en Agua Lata x24", quantity: "24", unit: "latas", price: 699, description: "Atún en agua, pack 24 latas", image: "/design/fallback.svg", images: ["/design/fallback.svg"], category: "comida" },
-  { id: "16", slug: "producto-16", name: "Shaker 700ml", quantity: "1", unit: "pz", price: 179, description: "Shaker con mezclador integrado", image: "/design/fallback.svg", images: ["/design/fallback.svg"], category: "suplemento" },
-];
+const allProducts: Product[] = [...productsData]
 
 export async function getProducts(page = 1, limit = 8): Promise<{ products: Product[]; total: number; hasMore: boolean }> {
   const start = (page - 1) * limit;

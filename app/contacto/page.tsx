@@ -1,8 +1,9 @@
 import { DynamicPage } from "@/components/layout/dynamic-page";
+import { pages, brand } from "@/lib/config/site";
 
 export const metadata = {
-  title: "Contacto - Acme Inc",
-  description: "Contacta con Acme Inc para consultas y soporte.",
+  title: `${pages.contacto.title} - ${brand.name}`,
+  description: pages.contacto.description,
 };
 
 export default function ContactoPage() {
