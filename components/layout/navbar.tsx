@@ -56,7 +56,7 @@ export function Navbar() {
           </Link>
         </div>
 
-        <nav className="hidden md:flex flex-1 justify-end items-center gap-1" aria-label="Navegación principal">
+        <nav className="hidden lg:flex flex-1 justify-end items-center gap-1" aria-label="Navegación principal">
           {nav.items.map((item) => (
             <Link
               key={item.href}
@@ -81,7 +81,7 @@ export function Navbar() {
           </Button>
         </nav>
 
-        <div className="flex md:hidden items-center gap-1">
+        <div className="flex lg:hidden items-center gap-1">
           <GlobalSearch />
           <ThemeToggle />
           <Button onClick={handleWhatsAppClick} size="icon" variant="ghost" aria-label="Enviar mensaje por WhatsApp">

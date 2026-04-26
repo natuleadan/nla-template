@@ -6,6 +6,7 @@ import { DayColumn } from "./day-column";
 import { Button } from "@/components/ui/button";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import { agenda } from "@/lib/config/site";
+import { getWeekMax } from "@/lib/config/env";
 import type { AgendaDay } from "@/lib/modules/agenda";
 
 interface WeeklyCalendarProps {
@@ -49,8 +50,9 @@ export function WeeklyCalendar({ days }: WeeklyCalendarProps) {
   const weekStart = useMemo(() => getWeekStartDate(weekOffset), [weekOffset]);
   const weekDates = useMemo(() => getDatesForWeek(weekStart), [weekStart]);
 
-  const canGoNext = weekOffset < 0;
-  const canGoPrev = true;
+  const maxWeeks = getWeekMax();
+  const canGoNext = weekOffset < maxWeeks - 1;
+  const canGoPrev = weekOffset > 0;
 
   return (
     <div>
@@ -81,7 +83,7 @@ export function WeeklyCalendar({ days }: WeeklyCalendarProps) {
           <IconChevronRight className="size-4" />
         </Button>
       </div>
-      <div className="flex gap-3 overflow-x-auto pb-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-3">
         {days.map((day, idx) => (
           <DayColumn
             key={day.dayOfWeek}
