@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { PageHeader } from "@/components/layout/page-header";
 import { Skeleton } from "@/components/ui/skeleton";
 import { WeeklyCalendar } from "@/components/agenda/weekly-calendar";
+import { CurrentTime } from "@/components/agenda/current-time";
 import { AgendaSkeleton } from "@/components/agenda/agenda-skeleton";
 import { getWeekDays } from "@/lib/modules/agenda";
 import { agenda, brand } from "@/lib/config/site";
@@ -82,10 +83,18 @@ export default async function AgendaPage() {
       />
       <JsonLdAgendaList name={agenda.page.title} slots={availableSlots} baseUrl={baseUrl} />
       <div className="px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full py-8">
-        <PageHeader
-          title={agenda.page.title}
-          description={agenda.page.description}
-        />
+        <div className="flex flex-row items-start justify-between mb-8 gap-4">
+          <div className="flex-1 min-w-0">
+            <PageHeader
+              title={agenda.page.title}
+              description={agenda.page.description}
+              className=""
+            />
+          </div>
+          <div className="shrink-0 pt-1">
+            <CurrentTime />
+          </div>
+        </div>
         <Suspense fallback={<AgendaSkeleton />}>
           <WeeklyCalendar days={days} />
         </Suspense>
