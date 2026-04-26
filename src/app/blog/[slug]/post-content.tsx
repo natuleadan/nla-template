@@ -1,10 +1,12 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { BlogHeroImage } from "@/components/blog/blog-hero-image";
+import { BlogComments } from "@/components/blog/blog-comments";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/layout/page-header";
 import { getPost } from "@/lib/modules/blog";
+import { getComments } from "@/lib/modules/comments";
 import { blog } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/config/env";
 import { JsonLdBreadcrumb } from "@/components/metadata/breadcrumb-jsonld";
@@ -28,6 +30,8 @@ export async function PostContent({ params }: PostContentProps) {
 
   const post = await getPost(slug);
   if (!post) return notFound();
+
+  const comments = await getComments(slug);
 
   return (
     <>
@@ -107,6 +111,7 @@ export async function PostContent({ params }: PostContentProps) {
             <Prose html={post.content} />
           </div>
         </div>
+        <BlogComments postSlug={slug} initialComments={comments} />
       </article>
     </>
   );
