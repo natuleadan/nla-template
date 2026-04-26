@@ -12,6 +12,11 @@ export {
   getWhatsappNumber,
   getWeekMax,
   getIndexingEnabled,
+  getSocialEmail,
+  getSocialInstagram,
+  getSocialFacebook,
+  getSocialTwitter,
+  getSocialYoutube,
 } from "@/lib/env.public";
 
 // ─── Server-only env vars ─────────────────────────────────
