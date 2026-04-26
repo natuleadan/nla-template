@@ -23,18 +23,69 @@ Built with Next.js 16, TypeScript, Tailwind CSS, and shadcn/ui. Ready to deploy 
 
 ## 2. Features
 
+### E-commerce
 - **Next.js 16** with App Router and Turbopack
 - **shadcn/ui** components for modern UI
-- **REST API** with 8 categories and 4 endpoints each (GET/POST/PUT/DELETE)
+- **REST API** with 10+ categories and 4 endpoints each (GET/POST/PUT/DELETE)
 - **Scalar API Documentation** at `/api`
+- **WhatsApp ordering** — products, cart, and booking via WhatsApp
+- **Product Gallery** with carousel and fallback images
+- **Reviews** system with star rating
+- **Inventory** tracking by location
+- **Shopping Cart** with WhatsApp order summary
+- **Geolocation** service with Vercel headers
+- **Notifications** with Sonner
+
+### Content & Blog
+- **Blog module** — list with infinite scroll (6 items), search, category filter, 1/2/3 grid
+- **Blog detail** — 25/75 image/content layout, ShareDialog, reading time, author
+- **Blog API** — CRUD endpoints, JSON-LD structured data
+- **Blog OG/Twitter images** — dynamic per post and list
+
+### Pages
+- **Paginas module** — legal & policy pages (términos, privacidad, datos, etc.)
+- **Paginas list** — infinite scroll (6 items), search, category filter, 1/2/3 grid
+- **Paginas detail** — HTML prose rendering with ShareDialog
+- **Paginas API** — CRUD endpoints, JSON-LD structured data
+
+### Scheduling
+- **Agenda module** — weekly calendar view with navigation
+- **Time slots** — config-driven, per-day availability, product selection
+- **WhatsApp booking** — click slot → dialog → redirect to WhatsApp
+
+### Search
+- **GlobalSearch (Cmd+K)** — search products, blog posts, pages, and today's agenda slots
+- **Opening via Cmd+K** or search icon in navbar
+
+### SEO & Design
+- **Dynamic OG/Twitter images** for all pages (Satori/ImageResponse)
+- **JSON-LD structured data** — BreadcrumbList, Product, BlogPosting, Event, CollectionPage, etc.
+- **Dynamic brand colors** via `NEXT_PUBLIC_BRAND_COLOR` env var (Radix UI palettes, 32 palettes)
+- **Custom fonts** — Roboto via next/font/google
+- **PWA manifest**, sitemap.xml, robots.txt, llms.txt
+- **Cookie Consent** with shadcn components
+
+### Accessibility
+- **Skip-to-content link** — keyboard-accessible on page load
+- **ARIA landmarks** — `navigation`, `main`, `contentinfo` roles with labels
+- **ARIA labels** — all icon-only buttons (search, theme, whatsapp, hamburger, social sharing)
+- **ARIA live regions** — loading states, empty states, cart quantities, week calendar
+- **Dialog/Sheet descriptions** — `aria-describedby` properly wired for all dialogs
+- **Localized screen reader text** — all sr-only labels in Spanish
+- **Brand-colored table headers** — with white text using `var(--color-primary)`
+
+### UI Components
+- **Typography** — semantic H1–H4, P, Blockquote, List, Table, InlineCode, Lead
+- **Prose** — HTML content renderer with custom CSS (no external plugin)
+- **ShareDialog** — copy link + X, Facebook, LinkedIn, email (mailto) with contextual info
+- **Dark mode toggle** — sun/moon icons with keyboard shortcut (D key)
+- **ThemeProvider** — next-themes integration
+
+### DX
 - **Husky + Commitlint** for conventional commits
 - **GitHub Actions CI/CD** with build, lint, and test
 - **Semantic Release** for automated versioning
 - **CodeQL** security scanning
-- **Cookie Consent** with shadcn components
-- **Geolocation** service with Vercel headers
-- **Notifications** with Sonner
-- **Product Gallery** with carousel and fallback images
 
 ## 3. Technology Stack
 
@@ -70,6 +121,8 @@ pnpm dev
 | `API_KEY` | API key for protected endpoints | (required) |
 | `NEXT_PUBLIC_BASE_URL` | Base URL of the application | http://localhost:3000 |
 | `NEXT_PUBLIC_WHATSAPP_NUMBER` | WhatsApp number for orders | 1234567890 |
+| `NEXT_PUBLIC_BRAND_COLOR` | Radix UI color palette name | nla |
+| `NEXT_PUBLIC_INDEXING` | Enable search engine indexing | false |
 
 ## 6. API Endpoints
 
@@ -83,6 +136,11 @@ pnpm dev
 | `resenas` | GET, POST, PUT, DELETE |
 | `inventario` | GET, POST, PUT, DELETE |
 | `pedidos` | GET, POST, PUT, DELETE |
+| `blog` | GET, POST, PUT, DELETE |
+| `blog/[slug]` | GET, POST, PUT, DELETE |
+| `agenda` | GET, POST, PUT, DELETE |
+| `paginas` | GET, POST, PUT, DELETE |
+| `paginas/[slug]` | GET, POST, PUT, DELETE |
 
 ### Authentication
 
@@ -105,22 +163,43 @@ x-api-key: your_api_key
 
 ```
 app/
+├── agenda/           # Weekly calendar + WhatsApp booking
 ├── api/              # REST API endpoints
-│   └── v1/          # API v1 (8 categories)
+│   └── v1/          # API v1 (13+ categories)
+├── blog/             # Blog list, detail, OG/Twitter images
+├── contacto/         # Contact form page
+├── paginas/          # Legal/policy pages list + detail
+├── tienda/           # Product listing + detail
+├── [...]
 components/
-├── ui/               # shadcn/ui components
-├── layout/           # Navbar, Footer
-├── products/         # ProductCard, ProductDetails
+├── agenda/           # WeeklyCalendar, DayColumn, SlotDialog, SlotButton
+├── blog/             # PostCard, BlogToolbar, BlogHeroImage
+├── metadata/         # JSON-LD structured data (10+ components)
+├── paginas/          # PaginaCard, PaginaToolbar
+├── ui/               # shadcn/ui components (60+)
+│   ├── typography/   # H1–H4, P, Blockquote, List, Table, etc.
+│   ├── prose/        # HTML content renderer
+│   └── share-dialog/ # Social sharing with email (mailto)
+├── layout/           # Navbar, Footer, PageHeader, GlobalSearch, ThemeToggle
+├── products/         # ProductCard, ProductDetails, ProductGrid
+├── forms/            # ContactForm
+├── landing/          # Hero section
+├── cart/             # CartSheet with WhatsApp order
 lib/
-├── config/           # Environment variables
-└── modules/          # Business logic
-    ├── products/     # Product management
-    ├── reviews/      # Reviews
-    ├── inventory/    # Inventory
-    └── scalar/      # API documentation
+├── config/           # Seed data + text config (brand, nav, store, blog, agenda, paginas, etc.)
+│   └── site/        # All configurable text grouped by module
+├── modules/          # Business logic + API
+│   ├── products/     # Product CRUD
+│   ├── reviews/      # Review CRUD
+│   ├── inventory/    # Inventory CRUD
+│   ├── blog/         # Blog CRUD
+│   ├── agenda/       # Agenda CRUD with slots
+│   ├── paginas/      # Pages CRUD
+│   ├── scalar/      # Scalar API documentation
+│   └── notification/ # Sonner toast service
+├── styles/           # Radix UI color palettes (32)
 public/
-├── design/          # Icons and placeholders
-└── store/           # Product images
+├── design/          # Logo, background, fallback images
 ```
 
 ## 9. License
