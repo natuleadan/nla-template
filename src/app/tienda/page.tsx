@@ -46,12 +46,16 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       url,
       images: [{ url: `${baseUrl}/tienda/opengraph-image`, width: 1200, height: 630, alt: title }],
+      locale: "es_ES",
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
       images: [{ url: `${baseUrl}/tienda/twitter-image`, width: 1200, height: 600, alt: title }],
+    },
+    other: {
+      "og:logo": `${baseUrl}/design/logo.svg`,
     },
   };
 }

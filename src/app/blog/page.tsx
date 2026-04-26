@@ -53,6 +53,7 @@ export async function generateMetadata(): Promise<Metadata> {
           alt: title,
         },
       ],
+      locale: "es_ES",
     },
     twitter: {
       card: "summary_large_image",
@@ -66,6 +67,9 @@ export async function generateMetadata(): Promise<Metadata> {
           alt: title,
         },
       ],
+    },
+    other: {
+      "og:logo": `${baseUrl}/design/logo.svg`,
     },
   };
 }

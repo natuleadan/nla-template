@@ -43,6 +43,7 @@ export async function generateMetadata({
             alt: post.title,
           },
         ],
+        locale: "es_ES",
       },
       twitter: {
         card: "summary_large_image",
@@ -56,6 +57,9 @@ export async function generateMetadata({
             alt: post.title,
           },
         ],
+      },
+      other: {
+        "og:logo": `${baseUrl}/design/logo.svg`,
       },
     };
   } catch {

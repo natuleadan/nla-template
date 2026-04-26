@@ -101,8 +101,8 @@ export function FooterDynamicCards() {
           <ul className="space-y-2">
             {agenda.slots.map((slot, i) => (
               <li key={i}>
-                <span className="text-sm text-muted-foreground">
-                  {slot.dayName} {slot.time} {slot.type}
+                <span className="text-sm text-muted-foreground truncate block">
+                  {slot.time} {slot.type}
                 </span>
               </li>
             ))}

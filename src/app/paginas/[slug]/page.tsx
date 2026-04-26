@@ -32,11 +32,31 @@ export async function generateMetadata({
         siteName: brand.name,
         type: "article",
         url: `${baseUrl}/paginas/${slug}`,
+        locale: "es_ES",
+        images: [
+          {
+            url: `${baseUrl}/paginas/${slug}/opengraph-image`,
+            width: 1200,
+            height: 630,
+            alt: title,
+          },
+        ],
       },
       twitter: {
-        card: "summary",
+        card: "summary_large_image",
         title,
         description,
+        images: [
+          {
+            url: `${baseUrl}/paginas/${slug}/twitter-image`,
+            width: 1200,
+            height: 600,
+            alt: title,
+          },
+        ],
+      },
+      other: {
+        "og:logo": `${baseUrl}/design/logo.svg`,
       },
     };
   } catch {

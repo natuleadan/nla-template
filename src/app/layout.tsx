@@ -25,16 +25,6 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL(baseUrl),
     title: `${brand.name} - Tienda de Suplementos y Alimentos`,
     description: brand.description,
-    openGraph: {
-      siteName: brand.name,
-      type: "website",
-      url: baseUrl,
-      images: [{ url: `${baseUrl}/opengraph-image`, width: 1200, height: 630, alt: brand.name }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      images: [{ url: `${baseUrl}/twitter-image`, width: 1200, height: 600, alt: brand.name }],
-    },
     icons: {
       icon: "/icon",
       apple: "/apple-icon",
@@ -42,9 +32,6 @@ export async function generateMetadata(): Promise<Metadata> {
     robots: {
       index: indexing,
       follow: indexing,
-    },
-    other: {
-      "og:logo": `${baseUrl}/design/logo.svg`,
     },
   };
 }

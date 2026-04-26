@@ -15,12 +15,16 @@ export const metadata: Metadata = {
     type: "website",
     url: `${getBaseUrl()}/contacto`,
     images: [{ url: `${getBaseUrl()}/contacto/opengraph-image`, width: 1200, height: 630, alt: pages.contacto.title }],
+    locale: "es_ES",
   },
   twitter: {
     card: "summary_large_image",
     title: `${pages.contacto.title} - ${brand.name}`,
     description: pages.contacto.description,
     images: [{ url: `${getBaseUrl()}/contacto/twitter-image`, width: 1200, height: 600, alt: pages.contacto.title }],
+  },
+  other: {
+    "og:logo": `${getBaseUrl()}/design/logo.svg`,
   },
 };
 
