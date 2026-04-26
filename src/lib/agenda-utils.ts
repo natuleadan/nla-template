@@ -3,6 +3,7 @@ import { getWeekDays, type AgendaDay, type AgendaSlot } from "@/lib/modules/agen
 export interface AgendaSlotInfo {
   dayName: string;
   dayNumber: number;
+  monthName: string;
   time: string;
   type: string;
 }
@@ -22,29 +23,15 @@ export function getUpcomingSlots(days: AgendaDay[], limit = 10): AgendaSlotInfo[
   const todayDayOfWeek = now.getDay();
   const cutoffMinutes = now.getHours() * 60 + now.getMinutes() + 30;
 
-  const daysOrdered = [0, 1, 2, 3, 4, 5, 6]
-    .map((offset) => {
-      const d = new Date(now);
-      d.setDate(d.getDate() + offset);
-      return days.find((day) => day.dayOfWeek === d.getDay());
-    })
-    .filter(Boolean) as AgendaDay[];
-
-  const dayDateCache = new Map<string, number>();
-
-  for (let offset = 0; offset < 7; offset++) {
+  const daysOrdered = [0, 1, 2, 3, 4, 5, 6].map((offset) => {
     const d = new Date(now);
     d.setDate(d.getDate() + offset);
-    const dayOfWeek = d.getDay();
-    const dayData = days.find((dd) => dd.dayOfWeek === dayOfWeek);
-    if (dayData) {
-      dayDateCache.set(dayData.name, d.getDate());
-    }
-  }
+    return { offset, day: days.find((day) => day.dayOfWeek === d.getDay()) };
+  }).filter((e): e is { offset: number; day: AgendaDay } => e.day !== undefined);
 
   const result: AgendaSlotInfo[] = [];
 
-  for (const day of daysOrdered) {
+  for (const { offset, day } of daysOrdered) {
     if (result.length >= limit) break;
     const isToday = day.dayOfWeek === todayDayOfWeek;
 
@@ -55,11 +42,16 @@ export function getUpcomingSlots(days: AgendaDay[], limit = 10): AgendaSlotInfo[
       return h * 60 + m >= cutoffMinutes;
     });
 
+    const dateNum = new Date(now);
+    dateNum.setDate(dateNum.getDate() + offset);
+    const monthName = dateNum.toLocaleDateString("es-ES", { month: "short" }).replace(".", "");
+
     for (const slot of slots) {
       if (result.length >= limit) break;
       result.push({
         dayName: day.name,
-        dayNumber: dayDateCache.get(day.name) || 0,
+        dayNumber: dateNum.getDate(),
+        monthName,
         time: slot.time,
         type: slot.type || "",
       });
@@ -84,7 +76,9 @@ export function getNextAvailableDaySlots(
   }
 
   const firstDayName = upcoming[0].dayName;
-  return { slots: upcoming.slice(0, maxItems), title: `Agenda para ${firstDayName}` };
+  const daySlots = upcoming.filter((s) => s.dayName === firstDayName).slice(0, maxItems);
+  const firstDayNumber = daySlots[0]?.dayNumber || "";
+  return { slots: daySlots, title: `Agenda ${firstDayName} ${firstDayNumber}` };
 }
 
 export function getSlotsByType(days: AgendaDay[], type: string): AgendaSlotInfo[] {
@@ -113,10 +107,12 @@ export function getSlotsByType(days: AgendaDay[], type: string): AgendaSlotInfo[
     const dateNum = new Date(now);
     dateNum.setDate(dateNum.getDate() + offset);
 
+    const monthName = dateNum.toLocaleDateString("es-ES", { month: "short" }).replace(".", "");
     for (const slot of slots) {
       result.push({
         dayName: day.name,
         dayNumber: dateNum.getDate(),
+        monthName,
         time: slot.time,
         type: slot.type || "",
       });

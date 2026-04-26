@@ -12,8 +12,9 @@ import type { AgendaSlot, AgendaDay } from "@/lib/modules/agenda";
 interface DayColumnProps {
   day: AgendaDay;
   date: Date;
-  initialDay?: string;
-  initialTime?: string;
+  targetDay?: string;
+  targetTime?: string;
+  autoOpenDialog: boolean;
 }
 
 function isSlotExpired(slot: AgendaSlot, date: Date, isPastDay: boolean): boolean {
@@ -42,7 +43,7 @@ function isPastDay(date: Date): boolean {
   return date.getTime() < today.getTime();
 }
 
-export function DayColumn({ day, date, initialDay, initialTime }: DayColumnProps) {
+export function DayColumn({ day, date, targetDay, targetTime, autoOpenDialog }: DayColumnProps) {
   const [selectedSlot, setSelectedSlot] = useState<AgendaSlot | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -57,14 +58,13 @@ export function DayColumn({ day, date, initialDay, initialTime }: DayColumnProps
     date.getDate() === today.getDate();
 
   useEffect(() => {
-    if (initialDay && initialTime && day.name === initialDay) {
-      const slot = day.slots.find((s) => s.time === initialTime && s.available);
-      if (slot) {
-        setSelectedSlot(slot);
-        setDialogOpen(true);
-      }
+    if (!autoOpenDialog) return;
+    if (targetDay && targetTime) {
+      const slot = day.slots.find((s) => s.time === targetTime && s.available);
+      if (slot) setSelectedSlot(slot);
     }
-  }, [initialDay, initialTime, day]);
+    setDialogOpen(true);
+  }, [autoOpenDialog, targetDay, targetTime, day]);
 
   const handleSlotClick = (slot: AgendaSlot) => {
     if (isSlotExpired(slot, date, isPastDay(date))) {

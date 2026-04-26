@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import {
   Dialog,
@@ -72,37 +72,64 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
   const searchParams = useSearchParams();
   const [message, setMessage] = useState(searchParams.get("mensaje") || "");
   const [products, setProducts] = useState<ProductOption[]>([]);
-  const initialProductSlug = searchParams.get("producto") || "";
   const [selectedProduct, setSelectedProduct] = useState("");
 
   const [types, setTypes] = useState<string[]>([]);
   const [selectedType, setSelectedType] = useState(slot?.type || searchParams.get("tipo") || "");
   const [availableSlots, setAvailableSlots] = useState<AgendaSlotInfo[]>([]);
-  const [pickedSlot, setPickedSlot] = useState<AgendaSlotInfo | null>(
-    slot && dayName ? { dayName, time: slot.time, type: slot.type || "" } : null,
-  );
+  const [pickedSlotOverride, setPickedSlotOverride] = useState<AgendaSlotInfo | null | undefined>(undefined);
 
   useEffect(() => {
-    if (slot && dayName) {
-      setPickedSlot({ dayName, time: slot.time, type: slot.type || "" });
-      if (slot.type) setSelectedType(slot.type);
+    setMessage(searchParams.get("mensaje") || "");
+    setSelectedProduct("");
+    setPickedSlotOverride(undefined);
+    const tipo = searchParams.get("tipo");
+    if (tipo) setSelectedType(tipo);
+  }, [open, searchParams]);
+
+  const urlSlot = useMemo<AgendaSlotInfo | null>(() => {
+    const d = searchParams.get("dia");
+    const h = searchParams.get("hora");
+    const t = searchParams.get("tipo");
+    if (d && h) {
+      return { dayName: d, dayNumber: 0, monthName: "", time: h, type: t || "" };
     }
-  }, [slot, dayName]);
+    if (slot && dayName) {
+      const now = new Date();
+      const dayMap: Record<string, number> = { Domingo: 0, Lunes: 1, Martes: 2, Miércoles: 3, Jueves: 4, Viernes: 5, Sábado: 6 };
+      const targetDay = dayMap[dayName];
+      const today = now.getDay();
+      let diff = targetDay - today;
+      if (diff < 0) diff += 7;
+      const slotDate = new Date(now);
+      slotDate.setDate(now.getDate() + diff);
+      return {
+        dayName,
+        dayNumber: slotDate.getDate(),
+        monthName: slotDate.toLocaleDateString("es-ES", { month: "short" }).replace(".", ""),
+        time: slot.time,
+        type: slot.type || "",
+      };
+    }
+    return null;
+  }, [slot, dayName, searchParams]);
+
+  const pickedSlot = pickedSlotOverride !== undefined ? pickedSlotOverride : urlSlot;
 
   useEffect(() => {
     if (!open) return;
     getWeekDays().then((days) => {
-      const t = getAppointmentTypes(days);
-      setTypes(t);
-
-      const initial = selectedType || slot?.type || searchParams.get("tipo") || "";
-      if (initial) {
-        setSelectedType(initial);
-        const slots = getSlotsByType(days, initial);
+      const allTypes = getAppointmentTypes(days);
+      setTypes(allTypes);
+      const tipo = slot?.type || searchParams.get("tipo") || allTypes[0] || "";
+      if (tipo) {
+        setSelectedType(tipo);
+        setPickedSlotOverride(undefined);
+        const slots = getSlotsByType(days, tipo);
         setAvailableSlots(slots);
       }
     });
-  }, [open, slot, dayName, selectedType, searchParams]);
+  }, [open, slot, dayName, searchParams]);
 
   const loadProducts = useCallback(async () => {
     try {
@@ -124,28 +151,34 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
     if (open) loadProducts();
   }, [open, loadProducts]);
 
+  const productSlugFromUrl = searchParams.get("producto") || "";
   useEffect(() => {
-    if (initialProductSlug && products.length > 0) {
-      const match = products.find((p) => p.slug === initialProductSlug);
+    if (productSlugFromUrl && products.length > 0) {
+      const match = products.find((p) => p.slug === productSlugFromUrl);
       if (match) setSelectedProduct(match.id);
     }
-  }, [initialProductSlug, products]);
+  }, [productSlugFromUrl, products]);
 
   const handleTypeChange = async (type: string) => {
     setSelectedType(type);
-    setPickedSlot(null);
+    setPickedSlotOverride(null);
     const days = await getWeekDays();
     const slots = getSlotsByType(days, type);
     setAvailableSlots(slots);
   };
 
   const handlePickSlot = (s: AgendaSlotInfo) => {
-    setPickedSlot(s);
+    setPickedSlotOverride(s);
   };
 
   if (!pickedSlot && !availableSlots.length && !selectedType) {
     const initial = slot?.type || searchParams.get("tipo") || "";
     if (!initial) {
+      const dayLabel = date.toLocaleDateString("es-ES", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+      });
       return (
         <Dialog open={open} onOpenChange={onOpenChange}>
           <DialogContent>
@@ -156,6 +189,7 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
               </DialogDescription>
             </DialogHeader>
             <div className="py-4 space-y-3">
+              <p className="text-sm font-medium capitalize">{dayLabel}</p>
               {types.length > 0 && (
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Tipo de cita</label>
@@ -214,7 +248,7 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
                     onClick={() => handlePickSlot(s)}
                   >
                     <span className="text-sm">
-                      <span className="font-medium">{s.dayName}</span>{" "}
+                      <span className="font-medium">{s.dayName} {s.dayNumber} {s.monthName}</span>{" "}
                       <span className="text-muted-foreground">{s.time} h</span>
                     </span>
                   </Button>
@@ -300,7 +334,7 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
               variant="link"
               size="sm"
               className="h-auto p-0 text-xs"
-              onClick={() => setPickedSlot(null)}
+              onClick={() => setPickedSlotOverride(null)}
             >
               Cambiar horario
             </Button>
@@ -321,8 +355,8 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
             {selected && (
               <div className="flex items-center justify-between px-1">
                 <div className="flex items-center gap-2">
-                  <Badge variant={selected.category === "suplemento" ? "default" : "secondary"} className="text-xs">
-                    {selected.category === "suplemento" ? "Suplemento" : "Alimento"}
+                  <Badge variant={selected.category === "suplemento" ? "default" : selected.category === "servicio" ? "outline" : "secondary"} className="text-xs">
+                    {({ suplemento: "Suplemento", comida: "Alimento", nutricion: "Nutrición", servicio: "Servicio" })[selected.category] || selected.category}
                   </Badge>
                 </div>
                 <span className="text-sm font-semibold">

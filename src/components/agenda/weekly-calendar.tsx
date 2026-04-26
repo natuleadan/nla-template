@@ -46,9 +46,19 @@ export function WeeklyCalendar({ days }: WeeklyCalendarProps) {
   const searchParams = useSearchParams();
   const initialDay = searchParams.get("dia") || undefined;
   const initialTime = searchParams.get("hora") || undefined;
+  const initialProduct = searchParams.get("producto") || undefined;
 
   const weekStart = useMemo(() => getWeekStartDate(weekOffset), [weekOffset]);
   const weekDates = useMemo(() => getDatesForWeek(weekStart), [weekStart]);
+
+  const targetDayName = useMemo(() => {
+    if (initialDay) return initialDay;
+    if (initialProduct) {
+      const firstAvail = days.find((d) => d.slots.some((s) => s.available));
+      return firstAvail?.name;
+    }
+    return undefined;
+  }, [initialDay, initialProduct, days]);
 
   const maxWeeks = getWeekMax();
   const canGoNext = weekOffset < maxWeeks - 1;
@@ -89,8 +99,9 @@ export function WeeklyCalendar({ days }: WeeklyCalendarProps) {
             key={day.dayOfWeek}
             day={day}
             date={weekDates[idx]}
-            initialDay={initialDay}
-            initialTime={initialTime}
+            targetDay={targetDayName}
+            targetTime={initialTime}
+            autoOpenDialog={day.name === targetDayName}
           />
         ))}
       </div>
