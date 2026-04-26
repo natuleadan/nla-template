@@ -91,7 +91,7 @@ export function CookieBanner({ onAccept, onReject }: CookieBannerProps) {
       )}
 
       {showBanner && (
-        <div className="fixed bottom-4 left-4 z-50 max-w-md">
+        <div className="fixed bottom-4 left-4 right-4 z-50 sm:max-w-md sm:left-4 sm:right-auto">
       <Card className="shadow-lg">
         <CardHeader>
           <div className="flex items-center gap-2">
@@ -136,14 +136,14 @@ export function CookieBanner({ onAccept, onReject }: CookieBannerProps) {
           </div>
         </CardContent>
 
-        <CardFooter className="flex flex-col sm:flex-row gap-2">
-          <Button variant="outline" size="sm" onClick={handleRejectAll} className="flex-1">
+        <CardFooter className="flex flex-col sm:flex-row gap-2 w-full">
+          <Button variant="outline" size="sm" onClick={handleRejectAll} className="w-full sm:flex-1">
             Rechazar
           </Button>
-          <Button variant="secondary" size="sm" onClick={handleSavePreferences} className="flex-1">
+          <Button variant="outline" size="sm" onClick={handleSavePreferences} className="w-full sm:flex-1">
             Guardar
           </Button>
-          <Button size="sm" onClick={handleAcceptAll} className="flex-1">
+          <Button size="sm" onClick={handleAcceptAll} className="w-full sm:flex-1">
             Aceptar todo
           </Button>
         </CardFooter>

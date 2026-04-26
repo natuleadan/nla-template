@@ -61,7 +61,7 @@ export function Footer() {
           )}
         </div>
 
-        <div className="mt-12 pt-6 border-t flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-4 pt-4 border-t flex flex-col sm:flex-row items-center justify-between gap-4">
           <Copyright brandName={brand.name} />
           {socialLinks.length > 0 && (
             <div className="flex gap-2">
