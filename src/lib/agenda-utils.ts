@@ -2,6 +2,7 @@ import { getWeekDays, type AgendaDay, type AgendaSlot } from "@/lib/modules/agen
 
 export interface AgendaSlotInfo {
   dayName: string;
+  dayNumber: number;
   time: string;
   type: string;
 }
@@ -29,6 +30,18 @@ export function getUpcomingSlots(days: AgendaDay[], limit = 10): AgendaSlotInfo[
     })
     .filter(Boolean) as AgendaDay[];
 
+  const dayDateCache = new Map<string, number>();
+
+  for (let offset = 0; offset < 7; offset++) {
+    const d = new Date(now);
+    d.setDate(d.getDate() + offset);
+    const dayOfWeek = d.getDay();
+    const dayData = days.find((dd) => dd.dayOfWeek === dayOfWeek);
+    if (dayData) {
+      dayDateCache.set(dayData.name, d.getDate());
+    }
+  }
+
   const result: AgendaSlotInfo[] = [];
 
   for (const day of daysOrdered) {
@@ -46,6 +59,7 @@ export function getUpcomingSlots(days: AgendaDay[], limit = 10): AgendaSlotInfo[
       if (result.length >= limit) break;
       result.push({
         dayName: day.name,
+        dayNumber: dayDateCache.get(day.name) || 0,
         time: slot.time,
         type: slot.type || "",
       });
@@ -78,17 +92,15 @@ export function getSlotsByType(days: AgendaDay[], type: string): AgendaSlotInfo[
   const todayDayOfWeek = now.getDay();
   const cutoffMinutes = now.getHours() * 60 + now.getMinutes() + 30;
 
-  const daysOrdered = [0, 1, 2, 3, 4, 5, 6]
-    .map((offset) => {
-      const d = new Date(now);
-      d.setDate(d.getDate() + offset);
-      return days.find((day) => day.dayOfWeek === d.getDay());
-    })
-    .filter(Boolean) as AgendaDay[];
+  const daysOrdered = [0, 1, 2, 3, 4, 5, 6].map((offset) => {
+    const d = new Date(now);
+    d.setDate(d.getDate() + offset);
+    return { offset, day: days.find((day) => day.dayOfWeek === d.getDay()) };
+  }).filter((e): e is { offset: number; day: AgendaDay } => e.day !== undefined);
 
   const result: AgendaSlotInfo[] = [];
 
-  for (const day of daysOrdered) {
+  for (const { offset, day } of daysOrdered) {
     const isToday = day.dayOfWeek === todayDayOfWeek;
 
     const slots = day.slots.filter((s) => {
@@ -98,9 +110,13 @@ export function getSlotsByType(days: AgendaDay[], type: string): AgendaSlotInfo[
       return h * 60 + m >= cutoffMinutes;
     });
 
+    const dateNum = new Date(now);
+    dateNum.setDate(dateNum.getDate() + offset);
+
     for (const slot of slots) {
       result.push({
         dayName: day.name,
+        dayNumber: dateNum.getDate(),
         time: slot.time,
         type: slot.type || "",
       });

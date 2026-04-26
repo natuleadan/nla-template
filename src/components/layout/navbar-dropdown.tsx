@@ -6,7 +6,7 @@ import { getAllProducts } from "@/lib/modules/products";
 import { getAllPosts } from "@/lib/modules/blog";
 import { getWeekDays } from "@/lib/modules/agenda";
 import { getAllPaginas } from "@/lib/modules/paginas";
-import { getAppointmentTypes } from "@/lib/agenda-utils";
+import { getUpcomingSlots } from "@/lib/agenda-utils";
 
 type DropdownType = "products" | "posts" | "agenda" | "pages";
 
@@ -50,10 +50,9 @@ async function loadItems(type: DropdownType): Promise<NavLink[]> {
     }
     case "agenda": {
       const days = await getWeekDays();
-      const types = getAppointmentTypes(days);
-      return types.map((t) => ({
-        href: `/agenda?tipo=${encodeURIComponent(t)}`,
-        label: t,
+      return getUpcomingSlots(days, 5).map((s) => ({
+        href: `/agenda?dia=${encodeURIComponent(s.dayName)}&hora=${encodeURIComponent(s.time)}&tipo=${encodeURIComponent(s.type)}`,
+        label: `${s.dayName} ${s.dayNumber} ${s.time} ${s.type}`,
       }));
     }
     case "pages": {
