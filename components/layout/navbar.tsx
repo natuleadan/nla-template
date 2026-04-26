@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
@@ -55,7 +56,7 @@ export function Navbar() {
           </Link>
         </div>
 
-        <nav className="hidden md:flex flex-1 justify-end items-center gap-1">
+        <nav className="hidden md:flex flex-1 justify-end items-center gap-1" aria-label="Navegación principal">
           {nav.items.map((item) => (
             <Link
               key={item.href}
@@ -81,20 +82,23 @@ export function Navbar() {
         </nav>
 
         <div className="flex md:hidden items-center gap-1">
-          <Button onClick={handleWhatsAppClick} size="icon" variant="ghost">
+          <Button onClick={handleWhatsAppClick} size="icon" variant="ghost" aria-label="Enviar mensaje por WhatsApp">
             <IconBrandWhatsapp className="size-5" />
           </Button>
           <GlobalSearch />
           <ThemeToggle />
           <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" aria-label="Abrir menú">
                 <IconMenu2 className="size-6" />
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-72">
               <SheetTitle className="sr-only">{brand.name}</SheetTitle>
-              <nav className="flex flex-col gap-2 mt-8">
+              <SheetDescription className="sr-only">
+                {ui.mobileMenuDescription}
+              </SheetDescription>
+              <nav className="flex flex-col gap-2 mt-8" aria-label="Menú móvil">
                 {nav.items.map((item) => (
                   <Link
                     key={item.href}

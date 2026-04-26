@@ -3,6 +3,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -43,6 +44,9 @@ export function ShareDialog({ url, label = "Compartir" }: ShareDialogProps) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{label}</DialogTitle>
+          <DialogDescription>
+            Copia el enlace o comparte en redes sociales
+          </DialogDescription>
         </DialogHeader>
         <div className="space-y-3">
           <div>
@@ -54,6 +58,7 @@ export function ShareDialog({ url, label = "Compartir" }: ShareDialogProps) {
               onClick={handleCopy}
               role="button"
               tabIndex={0}
+              aria-label="Copiar enlace al portapapeles"
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") handleCopy();
               }}
@@ -71,6 +76,7 @@ export function ShareDialog({ url, label = "Compartir" }: ShareDialogProps) {
                 size="sm"
                 className="flex-1 gap-1.5"
                 onClick={() => window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`, "_blank")}
+                aria-label="Compartir en X"
               >
                 <IconBrandX className="size-4" />
                 <span className="text-xs">X</span>
@@ -80,6 +86,7 @@ export function ShareDialog({ url, label = "Compartir" }: ShareDialogProps) {
                 size="sm"
                 className="flex-1 gap-1.5"
                 onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, "_blank")}
+                aria-label="Compartir en Facebook"
               >
                 <IconBrandFacebook className="size-4" />
                 <span className="text-xs">FB</span>
@@ -89,6 +96,7 @@ export function ShareDialog({ url, label = "Compartir" }: ShareDialogProps) {
                 size="sm"
                 className="flex-1 gap-1.5"
                 onClick={() => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, "_blank")}
+                aria-label="Compartir en LinkedIn"
               >
                 <IconBrandLinkedin className="size-4" />
                 <span className="text-xs">IN</span>
@@ -98,6 +106,7 @@ export function ShareDialog({ url, label = "Compartir" }: ShareDialogProps) {
                 size="sm"
                 className="flex-1 gap-1.5"
                 onClick={() => window.open(`https://www.instagram.com/`, "_blank")}
+                aria-label="Compartir en Instagram"
               >
                 <IconBrandInstagram className="size-4" />
                 <span className="text-xs">IG</span>

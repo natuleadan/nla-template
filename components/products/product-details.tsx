@@ -162,7 +162,7 @@ export function ProductDetails({
         <div className="flex items-center gap-2 order-1 sm:order-2 w-full sm:w-auto shrink-0 sm:pt-1">
           <ShareDialog url={typeof window !== "undefined" ? window.location.href : ""} />
           <Link href="/tienda" className="ml-auto sm:ml-2">
-            <Button variant="outline" size="sm" className="gap-2">
+            <Button variant="outline" size="sm" className="gap-2" aria-label={store.product.back}>
               <IconArrowLeft className="size-4" />
               {store.product.back}
             </Button>
@@ -282,7 +282,7 @@ export function ProductDetails({
             </p>
           )}
 
-          <Button onClick={handlePedir} size="lg" className="gap-2 mt-4">
+          <Button onClick={handlePedir} size="lg" className="gap-2 mt-4" aria-label={`${store.product.orderWhatsApp} ${product.name}`}>
             <IconBrandWhatsapp className="size-5" />
             {store.product.orderWhatsApp}
           </Button>
@@ -320,6 +320,7 @@ export function ProductDetails({
                 setNewReview({ ...newReview, name: e.target.value })
               }
               className="w-full sm:max-w-xs"
+              aria-label={store.reviews.namePlaceholder}
             />
             <StarRating
               rating={newReview.rating}
@@ -334,6 +335,7 @@ export function ProductDetails({
               setNewReview({ ...newReview, comment: e.target.value })
             }
             rows={3}
+            aria-label={store.reviews.commentPlaceholder}
           />
 
           <Button

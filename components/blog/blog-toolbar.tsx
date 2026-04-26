@@ -99,6 +99,7 @@ export function BlogToolbar({
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="sm:max-w-xs"
+          aria-label={blog.toolbar.searchPlaceholder}
         />
         <Select value={category} onValueChange={setCategory}>
           <SelectTrigger className="sm:max-w-xs ml-auto">
@@ -122,19 +123,19 @@ export function BlogToolbar({
             ))}
           </div>
           {loading && (
-            <div className="flex justify-center py-4">
+            <div className="flex justify-center py-4" role="status" aria-live="polite">
               <Spinner />
             </div>
           )}
-          {hasMore && !loading && <div ref={observerRef} className="h-10" />}
+          {hasMore && !loading && <div ref={observerRef} className="h-10" aria-hidden="true" />}
           {!hasMore && allLoaded.length > 0 && (
-            <p className="text-center text-sm text-muted-foreground py-4">
+            <p className="text-center text-sm text-muted-foreground py-4" role="status" aria-live="polite">
               {blog.toolbar.showing(total)}
             </p>
           )}
         </>
       ) : (
-        <p className="text-center text-muted-foreground py-12">
+        <p className="text-center text-muted-foreground py-12" role="status" aria-live="polite">
           {blog.page.empty}
         </p>
       )}

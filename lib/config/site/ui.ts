@@ -1,7 +1,12 @@
 export const ui = {
   loading: "Cargando...",
-  notFound: "P\u00e1gina no encontrada",
+  notFound: "Página no encontrada",
   openingWhatsApp: "Abriendo WhatsApp...",
+  mobileMenuDescription: "Menú de navegación principal",
+  close: "Cerrar",
+  breadcrumbMore: "Más",
+  prevSlide: "Diapositiva anterior",
+  nextSlide: "Diapositiva siguiente",
   demo: {
     title: "Style Overview",
     description:

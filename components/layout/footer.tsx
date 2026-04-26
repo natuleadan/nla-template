@@ -19,20 +19,20 @@ export function Footer() {
               {brand.description}
             </p>
             <div className="mt-4 flex gap-2">
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" aria-label="Instagram">
                 <IconBrandInstagram className="size-5" />
               </Button>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" aria-label="Twitter">
                 <IconBrandTwitter className="size-5" />
               </Button>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" aria-label="YouTube">
                 <IconBrandYoutube className="size-5" />
               </Button>
             </div>
             <Copyright brandName={brand.name} />
           </div>
 
-          <div className="order-1 md:order-none col-span-1 md:col-span-1">
+          <nav className="order-1 md:order-none col-span-1 md:col-span-1" aria-label={storeCol.title}>
             <h3 className="mb-4 font-semibold">{storeCol.title}</h3>
             <ul className="space-y-2">
               {storeCol.links.map((link) => (
@@ -46,9 +46,9 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
-          <div className="order-1 md:order-none">
+          <nav className="order-1 md:order-none" aria-label={companyCol.title}>
             <h3 className="mb-4 font-semibold">{companyCol.title}</h3>
             <ul className="space-y-2">
               {companyCol.links.map((link) => (
@@ -62,9 +62,9 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
-          <div className="order-1 md:order-none">
+          <nav className="order-1 md:order-none" aria-label={legalCol.title}>
             <h3 className="mb-4 font-semibold">{legalCol.title}</h3>
             <ul className="space-y-2">
               {legalCol.links.map((link) => (
@@ -78,7 +78,7 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
         </div>
       </div>
     </footer>

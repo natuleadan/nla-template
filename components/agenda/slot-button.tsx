@@ -24,6 +24,7 @@ export function SlotButton({ slot, dayName, onClick }: SlotButtonProps) {
         "hover:border-primary hover:text-primary",
         "transition-colors",
       )}
+      aria-label={`${dayName} a las ${slot.time}${slot.type ? ` — ${slot.type}` : ""}`}
     >
       {slot.time}
     </Button>

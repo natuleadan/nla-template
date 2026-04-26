@@ -83,7 +83,7 @@ export function CartSheet({ children }: CartSheetProps) {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         {children || (
-          <Button variant="outline" size="icon" className="relative">
+          <Button variant="outline" size="icon" className="relative" aria-label="Abrir carrito">
             <IconShoppingCart className="size-5" />
             {totalItems > 0 && (
               <Badge className="absolute -top-2 -right-2 min-w-5 h-5 px-1 flex items-center justify-center text-[10px]">
@@ -106,7 +106,7 @@ export function CartSheet({ children }: CartSheetProps) {
 
         <div className="py-4">
           {cartItems.length === 0 ? (
-            <div className="text-center py-8">
+            <div className="text-center py-8" role="status" aria-live="polite">
               <IconShoppingCart className="size-12 mx-auto text-muted-foreground/50 mb-4" />
               <p className="text-muted-foreground">{store.cart.empty}</p>
             </div>
@@ -129,10 +129,11 @@ export function CartSheet({ children }: CartSheetProps) {
                           onClick={() =>
                             updateQuantity(item.id, item.quantity - 1)
                           }
+                          aria-label={`Disminuir cantidad de ${item.name}`}
                         >
                           <IconMinus className="size-4" />
                         </Button>
-                        <span className="w-10 text-center font-medium">
+                        <span className="w-10 text-center font-medium" aria-live="polite">
                           {item.quantity}
                         </span>
                         <Button
@@ -141,6 +142,7 @@ export function CartSheet({ children }: CartSheetProps) {
                           onClick={() =>
                             updateQuantity(item.id, item.quantity + 1)
                           }
+                          aria-label={`Aumentar cantidad de ${item.name}`}
                         >
                           <IconPlus className="size-4" />
                         </Button>
@@ -155,6 +157,7 @@ export function CartSheet({ children }: CartSheetProps) {
                         size="sm"
                         className="text-destructive"
                         onClick={() => removeFromCart(item.id)}
+                        aria-label={`Eliminar ${item.name} del carrito`}
                       >
                         <IconTrash className="size-4 mr-1" />
                         {store.cart.delete}

@@ -54,12 +54,20 @@ export default function RootLayout({
         <BrandColorScript />
       </head>
       <body className="antialiased flex min-h-screen flex-col bg-background">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-background focus:text-foreground focus:border focus:rounded-md"
+        >
+          Saltar al contenido principal
+        </a>
         <Providers>
           <Analytics />
           <SpeedInsights />
           <div className="flex min-h-screen flex-col">
             <Navbar />
-            <main className="flex-1 flex flex-col">{children}</main>
+            <main id="main-content" className="flex-1 flex flex-col" tabIndex={-1}>
+              {children}
+            </main>
             <Footer />
           </div>
         </Providers>

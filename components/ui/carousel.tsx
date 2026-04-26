@@ -196,7 +196,7 @@ function CarouselPrevious({
       {...props}
     >
       <IconChevronLeft className="cn-rtl-flip" />
-      <span className="sr-only">Previous slide</span>
+      <span className="sr-only">Diapositiva anterior</span>
     </Button>
   );
 }
@@ -226,7 +226,7 @@ function CarouselNext({
       {...props}
     >
       <IconChevronRight className="cn-rtl-flip" />
-      <span className="sr-only">Next slide</span>
+      <span className="sr-only">Diapositiva siguiente</span>
     </Button>
   );
 }

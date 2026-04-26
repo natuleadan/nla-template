@@ -92,7 +92,7 @@ export function PostCard({
           </span>
         </div>
         <Link href={`/blog/${slug}`} className="w-full">
-          <Button variant="outline" className="gap-2 w-full">
+          <Button variant="outline" className="gap-2 w-full" aria-label={`${blog.post.readMore}: ${title}`}>
             {blog.post.readMore}
             <IconArrowRight className="size-4" />
           </Button>

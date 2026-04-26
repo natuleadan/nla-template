@@ -96,13 +96,14 @@ export function ProductCard({
               onClick={handlePedir}
               variant="outline"
               className="gap-1 w-full border-green-600 text-green-700 hover:bg-green-50 dark:border-green-500 dark:text-green-400 dark:hover:bg-green-950"
+              aria-label={`${store.product.pedir} ${name}`}
             >
               <IconBrandWhatsapp className="size-4" data-icon="inline-start" />
               {store.product.pedir}
             </Button>
           </div>
           <Link href={`/tienda/${slug}`} className="flex-1">
-            <Button variant="outline" className="gap-1 w-full">
+            <Button variant="outline" className="gap-1 w-full" aria-label={`${store.product.ver} ${name}`}>
               <IconEye className="size-4" data-icon="inline-start" />
               {store.product.ver}
             </Button>

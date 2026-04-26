@@ -61,11 +61,12 @@ export function WeeklyCalendar({ days }: WeeklyCalendarProps) {
           onClick={() => setWeekOffset((p) => p - 1)}
           disabled={!canGoPrev}
           className="gap-2 shrink-0"
+          aria-label={agenda.calendar.previousWeek}
         >
           <IconChevronLeft className="size-4" />
           <span className="hidden sm:inline">{agenda.calendar.previousWeek}</span>
         </Button>
-        <p className="text-sm font-medium text-muted-foreground text-center truncate min-w-0 px-2">
+        <p className="text-sm font-medium text-muted-foreground text-center truncate min-w-0 px-2" aria-live="polite" aria-atomic="true">
           {agenda.calendar.weekOf(formatDate(weekStart))}
         </p>
         <Button
@@ -74,6 +75,7 @@ export function WeeklyCalendar({ days }: WeeklyCalendarProps) {
           onClick={() => setWeekOffset((p) => p + 1)}
           disabled={!canGoNext}
           className="gap-2 shrink-0"
+          aria-label={agenda.calendar.nextWeek}
         >
           <span className="hidden sm:inline">{agenda.calendar.nextWeek}</span>
           <IconChevronRight className="size-4" />

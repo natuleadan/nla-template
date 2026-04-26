@@ -96,6 +96,7 @@ export function TiendaToolbar({
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="sm:max-w-xs"
+          aria-label={store.toolbar.searchPlaceholder}
         />
         <Select value={category} onValueChange={setCategory}>
           <SelectTrigger className="sm:max-w-xs ml-auto">
@@ -113,13 +114,13 @@ export function TiendaToolbar({
       </div>
       <ProductGrid products={filteredProducts} />
       {loading && (
-        <div className="flex justify-center py-4">
+        <div className="flex justify-center py-4" role="status" aria-live="polite">
           <Spinner />
         </div>
       )}
-      {hasMore && !loading && <div ref={observerRef} className="h-10" />}
+      {hasMore && !loading && <div ref={observerRef} className="h-10" aria-hidden="true" />}
       {!hasMore && allLoaded.length > 0 && (
-        <p className="text-center text-sm text-muted-foreground py-4">
+        <p className="text-center text-sm text-muted-foreground py-4" role="status" aria-live="polite">
           {store.toolbar.showing(total)}
         </p>
       )}
