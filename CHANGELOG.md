@@ -1,3 +1,21 @@
+## [1.1.3](https://github.com/natuleadan/nla-template/compare/v1.1.2...v1.1.3) (2026-04-26)
+
+### Bug Fixes
+
+* **agenda:** limit cmd+k to 5 slots, add type tooltip on slots ([52d7db7](https://github.com/natuleadan/nla-template/commit/52d7db7729f205dba236353ed450dc4da733d7e7))
+* **agenda:** show upcoming slots with day number in nav dropdown ([b2ffa48](https://github.com/natuleadan/nla-template/commit/b2ffa484dfb05753342bd8dab44345cc0088b380))
+* **agenda:** sync slot state with props on late mount ([f7e9aa1](https://github.com/natuleadan/nla-template/commit/f7e9aa1efc8c01ee790319cecb18d6ee8683e8c7))
+* **deploy:** exclude jsdom from server bundle for vercel ([6405801](https://github.com/natuleadan/nla-template/commit/64058011e02a1233a7c23f34c7ccf86aae6dc1da))
+* **deploy:** load isomorphic-dompurify only on client to avoid jsdom on server ([0dcacbc](https://github.com/natuleadan/nla-template/commit/0dcacbc13c7bfcc61941d08f79ab964ddca9f251))
+* **header:** use min-w-max for desktop dropdown width ([8094a4f](https://github.com/natuleadan/nla-template/commit/8094a4f171ac26c66b62cd04c03fe608825c1bd9))
+
+### Refactoring
+
+* **agenda:** centralize utils, type-first dialog, fix cmd+k ([274663a](https://github.com/natuleadan/nla-template/commit/274663a408a847e0b47b683076a650ff4832c114))
+* **agenda:** hover reveal type with color variants, remove tooltip ([3226dd3](https://github.com/natuleadan/nla-template/commit/3226dd3017e876fe759b21c7a69634391b9ca9b3))
+* **footer:** dynamic columns with social env vars and agenda fallback ([1501275](https://github.com/natuleadan/nla-template/commit/1501275e884eb7f592026814db6326730a884cca))
+* **seo:** normalize og metadata across all pages ([1af107e](https://github.com/natuleadan/nla-template/commit/1af107ef755433d96a25aa6285cdd97d92cc53c0))
+
 ## [1.1.2](https://github.com/natuleadan/nla-template/compare/v1.1.1...v1.1.2) (2026-04-26)
 
 ### Bug Fixes
