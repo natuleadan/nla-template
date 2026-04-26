@@ -1,17 +1,13 @@
 import type { MetadataRoute } from "next";
-import { getBaseUrl } from "@/lib/config/env";
+import { getBaseUrl, getIndexingEnabled } from "@/lib/config/env";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 300;
 
-function isIndexingEnabled(): boolean {
-  return process.env.NEXT_PUBLIC_INDEXING === "true";
-}
-
 export default function robots(): MetadataRoute.Robots {
   const baseUrl = getBaseUrl();
 
-  if (!isIndexingEnabled()) {
+  if (!getIndexingEnabled()) {
     return {
       rules: {
         userAgent: "*",

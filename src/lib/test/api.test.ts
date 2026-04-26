@@ -1,10 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { getBaseUrl, getApiKey } from "@/lib/config/env";
 
 const mockFetch = vi.fn();
 vi.stubGlobal("fetch", mockFetch);
 
-const BASE_URL = "http://localhost:3000";
-const API_KEY = "dev-key-change-in-production";
+const BASE_URL = getBaseUrl();
+const API_KEY = getApiKey();
 
 describe("API Products", () => {
   beforeEach(() => {

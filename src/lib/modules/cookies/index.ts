@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { isProduction } from "@/lib/config/env";
 
 const COOKIE_PREFIX = "str_";
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
@@ -29,7 +30,7 @@ export async function setCookie(
   cookieStore.set(getCookieName(key), value, {
     maxAge,
     httpOnly: false,
-    secure: process.env.NODE_ENV === "production",
+    secure: isProduction(),
     sameSite: "lax",
     path: "/",
   });

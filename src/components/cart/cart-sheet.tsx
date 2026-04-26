@@ -24,8 +24,6 @@ import { getWhatsappNumber } from "@/lib/config/env";
 import notificationService from "@/lib/modules/notification";
 import { store, ui, brand } from "@/lib/config/site";
 
-const WHATSAPP_NUMBER = getWhatsappNumber();
-
 export interface CartItem {
   id: string;
   name: string;
@@ -73,7 +71,7 @@ export function CartSheet({ children }: CartSheetProps) {
       .join("\n");
 
     const mensaje = store.cart.whatsappTemplate(itemsList, total);
-    const urlWhatsapp = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
+    const urlWhatsapp = `https://wa.me/${getWhatsappNumber()}?text=${encodeURIComponent(mensaje)}`;
 
     notificationService.info(ui.openingWhatsApp);
     window.open(urlWhatsapp, "_blank");

@@ -1,5 +1,6 @@
 import type { OpenApiSpec, ApiExamples } from "./types";
 import { schemas, tags, securitySchemes } from "./schemas";
+import { getBaseUrl } from "@/lib/config/env";
 import {
   getProductsPaths,
   getCategoriesPaths,
@@ -43,7 +44,7 @@ export function buildOpenApiSpec(examples: ApiExamples): OpenApiSpec {
     },
     servers: [
       {
-        url: process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000",
+        url: getBaseUrl(),
         description: "Servidor de desarrollo",
       },
     ],

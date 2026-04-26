@@ -17,7 +17,7 @@
 
 ## 1. What is NLA Template?
 
-NLA Template is a Next.js 16 e-commerce starter template with shadcn/ui components. It provides a complete foundation for building modern e-commerce applications with REST API, authentication, and best practices.
+NLA Template is a Next.js 16 e-commerce starter template with shadcn/ui components. It provides a complete foundation for building modern e-commerce applications with REST API, config-driven modules, and WhatsApp-based ordering.
 
 Built with Next.js 16, TypeScript, Tailwind CSS, and shadcn/ui. Ready to deploy to Vercel with CI/CD and automated releases.
 
@@ -26,36 +26,38 @@ Built with Next.js 16, TypeScript, Tailwind CSS, and shadcn/ui. Ready to deploy 
 ### E-commerce
 - **Next.js 16** with App Router and Turbopack
 - **shadcn/ui** components for modern UI
-- **REST API** with 10+ categories and 4 endpoints each (GET/POST/PUT/DELETE)
+- **REST API** with 13+ categories and CRUD endpoints (GET/POST/PUT/DELETE)
 - **Scalar API Documentation** at `/api`
-- **WhatsApp ordering** — products, cart, and booking via WhatsApp
+- **WhatsApp ordering** — products, booking, and inquiries via WhatsApp
 - **Product Gallery** with carousel and fallback images
 - **Reviews** system with star rating
 - **Inventory** tracking by location
-- **Shopping Cart** with WhatsApp order summary
 - **Geolocation** service with Vercel headers
-- **Notifications** with Sonner
+- **Cookie Consent** banner with shadcn components
+- **Notifications** with Sonner toasts
+- **Product filtering** — search + category filter + infinite scroll (4 items)
 
-### Content & Blog
+### Pages
+- **Paginas module** — legal & policy pages config-driven
+- **Paginas list** — infinite scroll (6 items), search, category filter, 1/2/3 grid
+- **Paginas detail** — HTML prose rendering with ShareDialog
+- **Paginas API** — CRUD endpoints, JSON-LD structured data
+
+### Blog
 - **Blog module** — list with infinite scroll (6 items), search, category filter, 1/2/3 grid
 - **Blog detail** — 25/75 image/content layout, ShareDialog, reading time, author
 - **Blog API** — CRUD endpoints, JSON-LD structured data
 - **Blog OG/Twitter images** — dynamic per post and list
 
-### Pages
-- **Paginas module** — legal & policy pages (términos, privacidad, datos, etc.)
-- **Paginas list** — infinite scroll (6 items), search, category filter, 1/2/3 grid
-- **Paginas detail** — HTML prose rendering with ShareDialog
-- **Paginas API** — CRUD endpoints, JSON-LD structured data
-
 ### Scheduling
-- **Agenda module** — weekly calendar view with navigation
-- **Time slots** — config-driven, per-day availability, product selection
-- **WhatsApp booking** — click slot → dialog → redirect to WhatsApp
+- **Agenda module** — weekly calendar with responsive grid (2/4/6/7 cols)
+- **Time slots** — config-driven per-day, past slots disabled with toast
+- **Week navigation** — limited to `NEXT_PUBLIC_WEEK_MAX` weeks ahead, no past navigation
+- **Current time** badge with live clock
+- **WhatsApp booking** — slot dialog → product selector → WhatsApp redirect
 
 ### Search
 - **GlobalSearch (Cmd+K)** — search products, blog posts, pages, and today's agenda slots
-- **Opening via Cmd+K** or search icon in navbar
 
 ### SEO & Design
 - **Dynamic OG/Twitter images** for all pages (Satori/ImageResponse)
@@ -63,7 +65,7 @@ Built with Next.js 16, TypeScript, Tailwind CSS, and shadcn/ui. Ready to deploy 
 - **Dynamic brand colors** via `NEXT_PUBLIC_BRAND_COLOR` env var (Radix UI palettes, 32 palettes)
 - **Custom fonts** — Roboto via next/font/google
 - **PWA manifest**, sitemap.xml, robots.txt, llms.txt
-- **Cookie Consent** with shadcn components
+- **CORS proxy** — security headers and cross-origin support via `proxy.ts`
 
 ### Accessibility
 - **Skip-to-content link** — keyboard-accessible on page load
@@ -75,7 +77,7 @@ Built with Next.js 16, TypeScript, Tailwind CSS, and shadcn/ui. Ready to deploy 
 - **Brand-colored table headers** — with white text using `var(--color-primary)`
 
 ### UI Components
-- **Typography** — semantic H1–H4, P, Blockquote, List, Table, InlineCode, Lead
+- **Typography** — H1–H4, P, Blockquote, List, Table, InlineCode, Lead
 - **Prose** — HTML content renderer with custom CSS (no external plugin)
 - **ShareDialog** — copy link + X, Facebook, LinkedIn, email (mailto) with contextual info
 - **Dark mode toggle** — sun/moon icons with keyboard shortcut (D key)
@@ -116,14 +118,21 @@ pnpm dev
 
 ## 5. Environment Variables
 
+### Public (safe for browser — `src/lib/env.public.ts`)
+
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `API_KEY` | API key for protected endpoints | (required) |
-| `NEXT_PUBLIC_BASE_URL` | Base URL of the application | http://localhost:3000 |
-| `NEXT_PUBLIC_WHATSAPP_NUMBER` | WhatsApp number for orders | 1234567890 |
 | `NEXT_PUBLIC_BRAND_COLOR` | Radix UI color palette name | nla |
-| `NEXT_PUBLIC_INDEXING` | Enable search engine indexing | false |
-| `NEXT_PUBLIC_WEEK_MAX` | Maximum weeks ahead for agenda booking | 4 |
+| `NEXT_PUBLIC_BASE_URL` | Base URL (OG images, sitemap, canonical, API docs) | http://localhost:3000 |
+| `NEXT_PUBLIC_WHATSAPP_NUMBER` | WhatsApp number for orders and bookings | 1234567890 |
+| `NEXT_PUBLIC_INDEXING` | Enable search engine indexing (robots.txt) | false |
+| `NEXT_PUBLIC_WEEK_MAX` | Max future weeks for agenda booking | 4 |
+
+### Private (server-only — `src/lib/config/env.ts`)
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `API_KEY` | API key for protected endpoints (POST, PUT, DELETE) | dev-key-change-in-production |
 
 ## 6. API Endpoints
 
@@ -163,44 +172,37 @@ x-api-key: your_api_key
 ## 8. Project Structure
 
 ```
-app/
-├── agenda/           # Weekly calendar + WhatsApp booking
-├── api/              # REST API endpoints
-│   └── v1/          # API v1 (13+ categories)
-├── blog/             # Blog list, detail, OG/Twitter images
-├── contacto/         # Contact form page
-├── paginas/          # Legal/policy pages list + detail
-├── tienda/           # Product listing + detail
-├── [...]
-components/
-├── agenda/           # WeeklyCalendar, DayColumn, SlotDialog, SlotButton
-├── blog/             # PostCard, BlogToolbar, BlogHeroImage
-├── metadata/         # JSON-LD structured data (10+ components)
-├── paginas/          # PaginaCard, PaginaToolbar
-├── ui/               # shadcn/ui components (60+)
-│   ├── typography/   # H1–H4, P, Blockquote, List, Table, etc.
-│   ├── prose/        # HTML content renderer
-│   └── share-dialog/ # Social sharing with email (mailto)
-├── layout/           # Navbar, Footer, PageHeader, GlobalSearch, ThemeToggle
-├── products/         # ProductCard, ProductDetails, ProductGrid
-├── forms/            # ContactForm
-├── landing/          # Hero section
-├── cart/             # CartSheet with WhatsApp order
-lib/
-├── config/           # Seed data + text config (brand, nav, store, blog, agenda, paginas, etc.)
-│   └── site/        # All configurable text grouped by module
-├── modules/          # Business logic + API
-│   ├── products/     # Product CRUD
-│   ├── reviews/      # Review CRUD
-│   ├── inventory/    # Inventory CRUD
-│   ├── blog/         # Blog CRUD
-│   ├── agenda/       # Agenda CRUD with slots
-│   ├── paginas/      # Pages CRUD
-│   ├── scalar/      # Scalar API documentation
-│   └── notification/ # Sonner toast service
-├── styles/           # Radix UI color palettes (32)
+src/
+├── proxy.ts          # Edge middleware (CORS, security headers)
+├── app/
+│   ├── agenda/       # Weekly calendar + WhatsApp booking
+│   ├── api/          # REST API endpoints (v1 + legacy)
+│   ├── blog/         # Blog list, detail, OG/Twitter images
+│   ├── contacto/     # Contact form page
+│   ├── paginas/      # Legal/policy pages list + detail
+│   ├── tienda/       # Product listing + detail
+│   └── ...
+├── components/
+│   ├── agenda/       # WeeklyCalendar, DayColumn, SlotDialog, SlotButton
+│   ├── blog/         # PostCard, BlogToolbar, BlogHeroImage
+│   ├── metadata/     # JSON-LD structured data components
+│   ├── paginas/      # PaginaCard, PaginaToolbar
+│   ├── ui/           # shadcn/ui primitives + Typography, Prose, ShareDialog
+│   ├── layout/       # Navbar, Footer, PageHeader, GlobalSearch, ThemeToggle
+│   ├── products/     # ProductCard, ProductDetails, ProductGrid, TiendaToolbar
+│   ├── forms/        # ContactForm
+│   ├── cart/         # CartSheet with WhatsApp order summary
+│   └── landing/      # Hero section
+├── hooks/
+├── lib/
+│   ├── env.public.ts     # Public environment variable helpers
+│   ├── config/           # env.ts + seed data (products, categories, blog, agenda, paginas...)
+│   │   └── site/        # All configurable text grouped by module
+│   ├── modules/          # Business logic modules (CRUD, notification, scalar...)
+│   ├── styles/           # Radix UI color palettes (32)
+│   └── test/             # API tests
 public/
-├── design/          # Logo, background, fallback images
+└── design/               # Logo, background, fallback images
 ```
 
 ## 9. License

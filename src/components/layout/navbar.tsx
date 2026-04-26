@@ -17,8 +17,6 @@ import { getWhatsappNumber } from "@/lib/config/env";
 import notificationService from "@/lib/modules/notification";
 import { brand, nav, ui } from "@/lib/config/site";
 
-const WHATSAPP_NUMBER = getWhatsappNumber();
-
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -39,7 +37,7 @@ export function Navbar() {
       console.error("Error:", e);
     }
 
-    const urlWhatsapp = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(brand.whatsappMessage)}`;
+    const urlWhatsapp = `https://wa.me/${getWhatsappNumber()}?text=${encodeURIComponent(brand.whatsappMessage)}`;
     window.open(urlWhatsapp, "_blank");
   };
 
