@@ -2,15 +2,13 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
-import { getBaseUrl } from "@/lib/config/env";
+import { getBaseUrl, getIndexingEnabled } from "@/lib/config/env";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { BrandColorScript } from "@/components/layout/brand-color-script";
 import { brand } from "@/lib/config/site";
-
-const baseUrl = getBaseUrl();
 
 const fontSans = Roboto({
   subsets: ["latin"],
@@ -19,29 +17,37 @@ const fontSans = Roboto({
   preload: true,
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(baseUrl),
-  title: `${brand.name} - Tienda de Suplementos y Alimentos`,
-  description: brand.description,
-  openGraph: {
-    siteName: brand.name,
-    type: "website",
-    url: baseUrl,
-    images: [{ url: `${baseUrl}/opengraph-image`, width: 1200, height: 630, alt: brand.name }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    images: [{ url: `${baseUrl}/twitter-image`, width: 1200, height: 600, alt: brand.name }],
-  },
-  icons: {
-    icon: "/icon",
-    apple: "/apple-icon",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const baseUrl = getBaseUrl();
+  const indexing = getIndexingEnabled();
+
+  return {
+    metadataBase: new URL(baseUrl),
+    title: `${brand.name} - Tienda de Suplementos y Alimentos`,
+    description: brand.description,
+    openGraph: {
+      siteName: brand.name,
+      type: "website",
+      url: baseUrl,
+      images: [{ url: `${baseUrl}/opengraph-image`, width: 1200, height: 630, alt: brand.name }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      images: [{ url: `${baseUrl}/twitter-image`, width: 1200, height: 600, alt: brand.name }],
+    },
+    icons: {
+      icon: "/icon",
+      apple: "/apple-icon",
+    },
+    robots: {
+      index: indexing,
+      follow: indexing,
+    },
+    other: {
+      "og:logo": `${baseUrl}/design/logo.svg`,
+    },
+  };
+}
 
 export default function RootLayout({
   children,

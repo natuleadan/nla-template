@@ -22,9 +22,6 @@ export async function generateMetadata({ params }: RouteParams): Promise<Metadat
 
     const title = `${product.name} | ${brand.name}`;
     const description = product.description?.slice(0, 160) || brand.description;
-    const image = product.image
-      ? `${baseUrl}${product.image}`
-      : `${baseUrl}/opengraph-image`;
 
     return {
       title,
