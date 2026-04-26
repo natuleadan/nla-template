@@ -49,9 +49,11 @@ export const store = {
     commentPlaceholder: "Tu comentario...",
     submit: "Enviar rese\u00f1a",
     submitting: "Enviando...",
-    success: "\u00a1Rese\u00f1a publicada!",
-    error: "Error al publicar la rese\u00f1a",
+    success: "La rese\u00f1a se enviar\u00e1 por WhatsApp para publicarla",
+    error: "Error al enviar rese\u00f1a",
     validation: "Completa todos los campos",
+    whatsappTemplate: (name: string, comment: string, rating: number, productSlug: string, baseUrl: string) =>
+      `\ud83d\udcdd *NUEVA RESE\u00d1A - ${brandName}*\n\n*Producto:* ${baseUrl}/tienda/${productSlug}\n*Nombre:* ${name}\n*Comentario:* ${comment}\n*Valoraci\u00f3n:* ${rating}/5\n\n\u00bfPublicar esta rese\u00f1a?`,
   },
   cart: {
     title: "Carrito de Compras",

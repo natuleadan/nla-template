@@ -8,6 +8,7 @@ export const reviewsData: Review[] = [
     comment: "Excelente proteína, se disuelve perfecto.",
     rating: 5,
     createdAt: "2026-04-15T10:00:00Z",
+    status: "published",
   },
   {
     id: "2",
@@ -16,6 +17,7 @@ export const reviewsData: Review[] = [
     comment: "Buena calidad, vale la pena.",
     rating: 4,
     createdAt: "2026-04-10T10:00:00Z",
+    status: "published",
   },
   {
     id: "3",
@@ -24,5 +26,6 @@ export const reviewsData: Review[] = [
     comment: "He notado mejora en mis entrenamientos.",
     rating: 5,
     createdAt: "2026-04-12T10:00:00Z",
+    status: "published",
   },
 ];

@@ -38,6 +38,7 @@ interface ProductReview {
   comment: string;
   rating: number;
   createdAt: string;
+  status: "pending" | "published";
 }
 
 interface Product {
@@ -95,7 +96,12 @@ function ReviewCard({ review }: { review: Review }) {
     <div className="border rounded-lg p-4 space-y-2">
       <div className="flex items-center justify-between">
         <span className="font-medium">{review.name}</span>
-        <StarRating rating={review.rating} />
+        <div className="flex items-center gap-2">
+          {review.status === "pending" && (
+            <Badge variant="outline" className="text-xs">Pendiente</Badge>
+          )}
+          <StarRating rating={review.rating} />
+        </div>
       </div>
       <p className="text-muted-foreground text-sm">{review.comment}</p>
       <span className="text-xs text-muted-foreground">{date}</span>
@@ -148,6 +154,15 @@ export function ProductDetails({
       }));
       setNewReview({ name: "", comment: "", rating: 0 });
       notificationService.success(store.reviews.success);
+      const mensaje = store.reviews.whatsappTemplate(
+        savedReview.name,
+        savedReview.comment,
+        savedReview.rating,
+        product.slug,
+        typeof window !== "undefined" ? window.location.origin : "",
+      );
+      const urlWhatsapp = `https://wa.me/${getWhatsappNumber()}?text=${encodeURIComponent(mensaje)}`;
+      window.open(urlWhatsapp, "_blank");
     } catch (error) {
       console.error("Error submitting review:", error);
       notificationService.error(store.reviews.error);

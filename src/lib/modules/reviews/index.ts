@@ -7,6 +7,7 @@ export interface Review {
   comment: string;
   rating: number;
   createdAt: string;
+  status: "pending" | "published";
 }
 
 let reviewsData: Review[] = JSON.parse(JSON.stringify(seedData));
@@ -27,6 +28,7 @@ export async function createReview(
     comment: String(data.comment).trim(),
     rating: Math.round(Number(data.rating)),
     createdAt: new Date().toISOString(),
+    status: "pending",
   };
   reviewsData.push(newReview);
   return newReview;
