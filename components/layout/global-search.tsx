@@ -18,7 +18,7 @@ interface SearchItem {
   id: string;
   title: string;
   slug: string;
-  type: "product" | "post" | "slot";
+  type: "product" | "post" | "slot" | "page";
   category?: string;
   slotDay?: string;
   slotTime?: string;
@@ -44,14 +44,16 @@ export function GlobalSearch() {
   const loadData = useCallback(async () => {
     if (loaded) return;
     try {
-      const [productsRes, postsRes, agendaRes] = await Promise.all([
+      const [productsRes, postsRes, agendaRes, pagesRes] = await Promise.all([
         fetch("/api/v1/products?limit=100"),
         fetch("/api/v1/blog?limit=100"),
         fetch("/api/v1/agenda"),
+        fetch("/api/v1/paginas?limit=100"),
       ]);
       const productsData = await productsRes.json();
       const postsData = await postsRes.json();
       const agendaData = await agendaRes.json();
+      const pagesData = await pagesRes.json();
 
       const today = new Date().getDay();
       const todayDay = agendaData.days?.find((d: { dayOfWeek: number }) => d.dayOfWeek === today);
@@ -82,6 +84,13 @@ export function GlobalSearch() {
           type: "post" as const,
           category: p.category,
         })),
+        ...(pagesData.pages || []).map((p: { id: string; title: string; slug: string; category: string }) => ({
+          id: p.id,
+          title: p.title,
+          slug: p.slug,
+          type: "page" as const,
+          category: p.category,
+        })),
       ];
       setItems(searchItems);
       setLoaded(true);
@@ -96,6 +105,8 @@ export function GlobalSearch() {
       router.push(`/tienda/${item.slug}`);
     } else if (item.type === "slot") {
       router.push(`/agenda?dia=${encodeURIComponent(item.slotDay!)}&hora=${encodeURIComponent(item.slotTime!)}`);
+    } else if (item.type === "page") {
+      router.push(`/paginas/${item.slug}`);
     } else {
       router.push(`/blog/${item.slug}`);
     }
@@ -121,10 +132,10 @@ export function GlobalSearch() {
           if (v) loadData();
         }}
         title="Búsqueda global"
-        description="Busca productos y artículos"
+        description="Busca productos, artículos y páginas"
       >
         <Command>
-          <CommandInput placeholder="Buscar productos o artículos..." />
+          <CommandInput placeholder="Buscar productos, artículos o páginas..." />
           <CommandList>
             <CommandEmpty>Sin resultados</CommandEmpty>
             {items.filter((i) => i.type === "slot").length > 0 && (
@@ -146,6 +157,21 @@ export function GlobalSearch() {
               <CommandGroup heading="Productos">
                 {items
                   .filter((i) => i.type === "product")
+                  .map((item) => (
+                    <CommandItem
+                      key={item.id}
+                      value={item.title}
+                      onSelect={() => handleSelect(item)}
+                    >
+                      <span>{item.title}</span>
+                    </CommandItem>
+                  ))}
+              </CommandGroup>
+            )}
+            {items.filter((i) => i.type === "page").length > 0 && (
+              <CommandGroup heading="Páginas">
+                {items
+                  .filter((i) => i.type === "page")
                   .map((item) => (
                     <CommandItem
                       key={item.id}
