@@ -59,7 +59,7 @@ export async function PostContent({ params }: PostContentProps) {
       <article className="px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full py-8">
         <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-8 gap-4">
           <div className="flex items-center gap-2 order-1 sm:order-2 w-full sm:w-auto shrink-0 sm:pt-1">
-            <ShareDialog url={`${baseUrl}/blog/${slug}`} />
+            <ShareDialog url={`${baseUrl}/blog/${slug}`} title={post.title} description={post.excerpt} />
             <Link href="/blog" className="ml-auto sm:ml-2">
               <Button variant="outline" size="sm" className="gap-2">
                 <IconArrowLeft className="size-4" />

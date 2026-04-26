@@ -13,17 +13,20 @@ import {
   IconShare,
   IconBrandX,
   IconBrandFacebook,
-  IconBrandInstagram,
   IconBrandLinkedin,
+  IconMail,
 } from "@tabler/icons-react";
 import { toast } from "sonner";
 
 interface ShareDialogProps {
   url: string;
   label?: string;
+  title?: string;
+  description?: string;
+  price?: number;
 }
 
-export function ShareDialog({ url, label = "Compartir" }: ShareDialogProps) {
+export function ShareDialog({ url, label = "Compartir", title, description, price }: ShareDialogProps) {
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(url);
@@ -105,11 +108,18 @@ export function ShareDialog({ url, label = "Compartir" }: ShareDialogProps) {
                 variant="outline"
                 size="sm"
                 className="flex-1 gap-1.5"
-                onClick={() => window.open(`https://www.instagram.com/`, "_blank")}
-                aria-label="Compartir en Instagram"
+                onClick={() => {
+                  const parts: string[] = [];
+                  if (title) parts.push(title);
+                  if (price !== undefined) parts.push(`$${price.toFixed(2)}`);
+                  if (description) parts.push(description);
+                  parts.push(url);
+                  window.open(`mailto:?subject=${encodeURIComponent(title ? `Compartir: ${title}` : "Compartir enlace")}&body=${encodeURIComponent(parts.join("\n\n"))}`);
+                }}
+                aria-label="Compartir por correo"
               >
-                <IconBrandInstagram className="size-4" />
-                <span className="text-xs">IG</span>
+                <IconMail className="size-4" />
+                <span className="text-xs">ML</span>
               </Button>
             </div>
           </div>
