@@ -14,6 +14,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { ShareDialog } from "@/components/ui/share-dialog";
+import { PageHeader } from "@/components/layout/page-header";
 import {
   IconBrandWhatsapp,
   IconArrowLeft,
@@ -156,19 +158,18 @@ export function ProductDetails({
 
   return (
     <div className="px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full py-8">
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold">{product.name}</h1>
-        <Link href="/tienda">
-          <Button variant="ghost" size="sm" className="gap-1">
-            <IconArrowLeft className="size-4" />
-            {store.product.back}
-          </Button>
-        </Link>
+      <div className="flex items-start justify-between mb-8 gap-4">
+        <PageHeader title={product.name} description={product.description} className="flex-1" />
+        <div className="flex items-center gap-2 shrink-0 pt-1">
+          <ShareDialog url={typeof window !== "undefined" ? window.location.href : ""} />
+          <Link href="/tienda">
+            <Button variant="outline" size="sm" className="gap-2">
+              <IconArrowLeft className="size-4" />
+              {store.product.back}
+            </Button>
+          </Link>
+        </div>
       </div>
-
-      {product.description && (
-        <p className="text-muted-foreground mb-4">{product.description}</p>
-      )}
 
       <div className="grid gap-8 md:grid-cols-2 mt-8">
         <div className="rounded-lg bg-muted overflow-hidden">

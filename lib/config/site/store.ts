@@ -23,7 +23,7 @@ export const store = {
     priceLabel: "IVA incluido",
     pedir: "Pedir",
     ver: "Detalles",
-    back: "Volver",
+    back: "Volver a la tienda",
     contentLabel: "Contenido:",
     availabilityLabel: "Disponibilidad:",
     inStock: "Disponible",
