@@ -6,3 +6,4 @@ export { pages } from "./pages";
 export { form } from "./form";
 export { ui } from "./ui";
 export { blog } from "./blog";
+export { agenda } from "./agenda";

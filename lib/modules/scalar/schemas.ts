@@ -125,6 +125,26 @@ export const schemas: Record<string, OpenApiSchema> = {
       fecha: { type: "string", example: "2024-01-15T10:30:00Z" },
     },
   },
+  AgendaSlot: {
+    type: "object",
+    properties: {
+      time: { type: "string", example: "09:00" },
+      available: { type: "boolean", example: true },
+      type: { type: "string", example: "Consulta general" },
+    },
+  },
+  AgendaDay: {
+    type: "object",
+    properties: {
+      name: { type: "string", example: "Lunes" },
+      nameShort: { type: "string", example: "Lun" },
+      dayOfWeek: { type: "integer", example: 1 },
+      slots: {
+        type: "array",
+        items: { $ref: "#/components/schemas/AgendaSlot" },
+      },
+    },
+  },
   BlogPost: {
     type: "object",
     properties: {
@@ -159,6 +179,7 @@ export const tags = [
   { name: "Pages", description: "Contenido de páginas estáticas" },
   { name: "Contact", description: "Formulario de contacto" },
   { name: "Blog", description: "Gestión del blog" },
+  { name: "Agenda", description: "Gestión de agenda y horarios" },
 ];
 
 export const securitySchemes = {

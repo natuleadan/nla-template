@@ -69,4 +69,5 @@ export interface ApiExamples {
   orders: unknown[];
   page: unknown;
   posts: unknown[];
+  days: unknown[];
 }

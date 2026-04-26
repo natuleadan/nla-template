@@ -10,6 +10,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { IconBrandWhatsapp, IconBarbell, IconMenu2 } from "@tabler/icons-react";
+import { GlobalSearch } from "@/components/layout/global-search";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { getWhatsappNumber } from "@/lib/config/env";
 import notificationService from "@/lib/modules/notification";
 import { brand, nav, ui } from "@/lib/config/site";
@@ -63,6 +65,8 @@ export function Navbar() {
               {item.label}
             </Link>
           ))}
+          <GlobalSearch />
+          <ThemeToggle />
           <Button
             onClick={handleWhatsAppClick}
             size="sm"

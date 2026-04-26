@@ -3,14 +3,15 @@ export const nav = {
     { href: "/", label: "Inicio" },
     { href: "/tienda", label: "Tienda" },
     { href: "/blog", label: "Blog" },
+    { href: "/agenda", label: "Agenda" },
     { href: "/terminos", label: "T\u00e9rminos" },
     { href: "/privacidad", label: "Privacidad" },
     { href: "/datos", label: "Datos" },
     { href: "/contacto", label: "Contacto" },
   ] as const,
   buttons: {
-    whatsappDesktop: "Comprar por WhatsApp",
-    whatsappMobile: "WhatsApp",
+    whatsappDesktop: "Escríbenos",
+    whatsappMobile: "Escríbenos",
   },
   footer: {
     columns: [
@@ -25,6 +26,10 @@ export const nav = {
       {
         title: "Blog",
         links: [{ href: "/blog", label: "Últimos artículos" }],
+      },
+      {
+        title: "Agenda",
+        links: [{ href: "/agenda", label: "Agendar cita" }],
       },
       {
         title: "Empresa",

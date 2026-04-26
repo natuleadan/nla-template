@@ -1,0 +1,52 @@
+import { NextRequest, NextResponse } from "next/server";
+import { getWeekDays, clearAgenda, resetAgenda } from "@/lib/modules/agenda";
+import {
+  validateApiKey,
+  unauthorized,
+  badRequest,
+  serverError,
+} from "@/lib/config/env";
+
+export async function GET() {
+  try {
+    const days = await getWeekDays();
+    return NextResponse.json({ days });
+  } catch {
+    return NextResponse.json(
+      { error: "Error al obtener la agenda" },
+      { status: 500 },
+    );
+  }
+}
+
+export async function POST(request: Request) {
+  if (!validateApiKey(request)) return unauthorized();
+  try {
+    const body = await request.json();
+    if (!body || typeof body !== "object")
+      return badRequest("RequestBody inválido");
+    return NextResponse.json(
+      { message: "Semana creada" },
+      { status: 201 },
+    );
+  } catch (error) {
+    if (error instanceof SyntaxError)
+      return badRequest("JSON inválido");
+    return serverError(error);
+  }
+}
+
+export async function PUT(request: Request) {
+  if (!validateApiKey(request)) return unauthorized();
+  try {
+    const body = await request.json();
+    return NextResponse.json({ message: "Semana actualizada" });
+  } catch {
+    return badRequest("JSON inválido");
+  }
+}
+
+export async function DELETE() {
+  clearAgenda();
+  return NextResponse.json({ message: "Agenda eliminada" });
+}

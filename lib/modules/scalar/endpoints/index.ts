@@ -6,3 +6,4 @@ export * from "./orders";
 export * from "./pages";
 export * from "./form";
 export * from "./blog";
+export * from "./agenda";

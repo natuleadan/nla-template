@@ -1,0 +1,90 @@
+import type { AgendaDay } from "@/lib/modules/agenda";
+
+export const agendaData: AgendaDay[] = [
+  {
+    name: "Lunes",
+    nameShort: "Lun",
+    dayOfWeek: 1,
+    slots: [
+      { time: "09:00", available: true, type: "Consulta general" },
+      { time: "10:00", available: true, type: "Consulta general" },
+      { time: "11:00", available: true, type: "Seguimiento" },
+      { time: "12:00", available: true, type: "Valoración" },
+      { time: "15:00", available: true, type: "Primera visita" },
+      { time: "16:00", available: true, type: "Consulta general" },
+      { time: "17:00", available: true, type: "Seguimiento" },
+    ],
+  },
+  {
+    name: "Martes",
+    nameShort: "Mar",
+    dayOfWeek: 2,
+    slots: [
+      { time: "09:00", available: true, type: "Primera visita" },
+      { time: "10:00", available: true, type: "Consulta general" },
+      { time: "11:00", available: true, type: "Valoración" },
+      { time: "12:00", available: true, type: "Seguimiento" },
+      { time: "15:00", available: true, type: "Consulta general" },
+      { time: "16:00", available: true, type: "Primera visita" },
+      { time: "17:00", available: true, type: "Consulta general" },
+      { time: "18:00", available: true, type: "Seguimiento" },
+    ],
+  },
+  {
+    name: "Miércoles",
+    nameShort: "Mié",
+    dayOfWeek: 3,
+    slots: [
+      { time: "09:00", available: true, type: "Consulta general" },
+      { time: "10:00", available: true, type: "Seguimiento" },
+      { time: "11:00", available: true, type: "Valoración" },
+      { time: "12:00", available: true, type: "Primera visita" },
+      { time: "15:00", available: true, type: "Consulta general" },
+      { time: "16:00", available: true, type: "Consulta general" },
+    ],
+  },
+  {
+    name: "Jueves",
+    nameShort: "Jue",
+    dayOfWeek: 4,
+    slots: [
+      { time: "09:00", available: true, type: "Valoración" },
+      { time: "10:00", available: true, type: "Consulta general" },
+      { time: "11:00", available: true, type: "Primera visita" },
+      { time: "12:00", available: true, type: "Seguimiento" },
+      { time: "15:00", available: true, type: "Consulta general" },
+      { time: "16:00", available: true, type: "Seguimiento" },
+      { time: "17:00", available: true, type: "Consulta general" },
+    ],
+  },
+  {
+    name: "Viernes",
+    nameShort: "Vie",
+    dayOfWeek: 5,
+    slots: [
+      { time: "09:00", available: true, type: "Consulta general" },
+      { time: "10:00", available: true, type: "Primera visita" },
+      { time: "11:00", available: true, type: "Seguimiento" },
+      { time: "12:00", available: true, type: "Valoración" },
+      { time: "15:00", available: true, type: "Consulta general" },
+      { time: "16:00", available: true, type: "Consulta general" },
+    ],
+  },
+  {
+    name: "Sábado",
+    nameShort: "Sáb",
+    dayOfWeek: 6,
+    slots: [
+      { time: "09:00", available: true, type: "Consulta general" },
+      { time: "10:00", available: true, type: "Primera visita" },
+      { time: "11:00", available: true, type: "Seguimiento" },
+      { time: "12:00", available: true, type: "Valoración" },
+    ],
+  },
+  {
+    name: "Domingo",
+    nameShort: "Dom",
+    dayOfWeek: 0,
+    slots: [],
+  },
+];
