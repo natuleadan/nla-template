@@ -80,10 +80,12 @@ export function Navbar() {
           </Button>
         </nav>
 
-        <div className="flex md:hidden items-center gap-2">
-          <Button onClick={handleWhatsAppClick} size="icon" variant="outline">
+        <div className="flex md:hidden items-center gap-1">
+          <Button onClick={handleWhatsAppClick} size="icon" variant="ghost">
             <IconBrandWhatsapp className="size-5" />
           </Button>
+          <GlobalSearch />
+          <ThemeToggle />
           <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
