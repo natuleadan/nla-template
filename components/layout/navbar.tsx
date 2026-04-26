@@ -82,11 +82,11 @@ export function Navbar() {
         </nav>
 
         <div className="flex md:hidden items-center gap-1">
+          <GlobalSearch />
+          <ThemeToggle />
           <Button onClick={handleWhatsAppClick} size="icon" variant="ghost" aria-label="Enviar mensaje por WhatsApp">
             <IconBrandWhatsapp className="size-5" />
           </Button>
-          <GlobalSearch />
-          <ThemeToggle />
           <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" aria-label="Abrir menú">
