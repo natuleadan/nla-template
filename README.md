@@ -123,6 +123,7 @@ pnpm dev
 | `NEXT_PUBLIC_WHATSAPP_NUMBER` | WhatsApp number for orders | 1234567890 |
 | `NEXT_PUBLIC_BRAND_COLOR` | Radix UI color palette name | nla |
 | `NEXT_PUBLIC_INDEXING` | Enable search engine indexing | false |
+| `NEXT_PUBLIC_WEEK_MAX` | Maximum weeks ahead for agenda booking | 4 |
 
 ## 6. API Endpoints
 
