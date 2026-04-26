@@ -83,6 +83,13 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
   );
 
   useEffect(() => {
+    if (slot && dayName) {
+      setPickedSlot({ dayName, time: slot.time, type: slot.type || "" });
+      if (slot.type) setSelectedType(slot.type);
+    }
+  }, [slot, dayName]);
+
+  useEffect(() => {
     if (!open) return;
     getWeekDays().then((days) => {
       const t = getAppointmentTypes(days);
