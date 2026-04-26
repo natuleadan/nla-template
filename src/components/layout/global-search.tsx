@@ -56,7 +56,7 @@ export function GlobalSearch() {
       const pagesData = await pagesRes.json();
 
       const { getUpcomingSlots } = await import("@/lib/agenda-utils");
-      const upcomingSlots = getUpcomingSlots(agendaData.days || [], 10);
+      const upcomingSlots = getUpcomingSlots(agendaData.days || [], 5);
       const slots: SearchItem[] = upcomingSlots.map((s, i) => ({
         id: `slot-${i}`,
         title: `${s.dayName} ${s.time}${s.type ? ` — ${s.type}` : ""}`,
