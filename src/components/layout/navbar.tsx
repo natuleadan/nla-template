@@ -13,9 +13,17 @@ import {
 import { IconBrandWhatsapp, IconBarbell, IconMenu2 } from "@tabler/icons-react";
 import { GlobalSearch } from "@/components/layout/global-search";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
+import { NavDropdown } from "@/components/layout/navbar-dropdown";
 import { getWhatsappNumber } from "@/lib/config/env";
 import notificationService from "@/lib/modules/notification";
 import { brand, nav, ui } from "@/lib/config/site";
+
+const dropdownItems: Record<string, "products" | "posts" | "agenda" | "pages"> = {
+  Tienda: "products",
+  Blog: "posts",
+  Agenda: "agenda",
+  Páginas: "pages",
+};
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -55,15 +63,28 @@ export function Navbar() {
         </div>
 
         <nav className="hidden lg:flex flex-1 justify-end items-center gap-1" aria-label="Navegación principal">
-          {nav.items.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-muted transition-colors"
-            >
-              {item.label}
-            </Link>
-          ))}
+          {nav.items.map((item) => {
+            const dropdownType = dropdownItems[item.label];
+            if (dropdownType) {
+              return (
+                <NavDropdown
+                  key={item.href}
+                  label={item.label}
+                  href={item.href}
+                  type={dropdownType}
+                />
+              );
+            }
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-muted transition-colors"
+              >
+                {item.label}
+              </Link>
+            );
+          })}
           <GlobalSearch />
           <ThemeToggle />
           <Button
@@ -96,17 +117,32 @@ export function Navbar() {
               <SheetDescription className="sr-only">
                 {ui.mobileMenuDescription}
               </SheetDescription>
-              <nav className="flex flex-col gap-2 mt-8" aria-label="Menú móvil">
-                {nav.items.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setMenuOpen(false)}
-                    className="px-4 py-3 text-base font-medium rounded-lg hover:bg-muted transition-colors"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+              <nav className="flex flex-col gap-1 mt-8" aria-label="Menú móvil">
+                {nav.items.map((item) => {
+                  const dropdownType = dropdownItems[item.label];
+                  if (dropdownType) {
+                    return (
+                      <NavDropdown
+                        key={item.href}
+                        label={item.label}
+                        href={item.href}
+                        type={dropdownType}
+                        variant="accordion"
+                        onNav={() => setMenuOpen(false)}
+                      />
+                    );
+                  }
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setMenuOpen(false)}
+                      className="px-4 py-3 text-base font-medium rounded-lg hover:bg-muted transition-colors"
+                    >
+                      {item.label}
+                    </Link>
+                  );
+                })}
               </nav>
             </SheetContent>
           </Sheet>

@@ -25,7 +25,10 @@ import { toast } from "sonner";
 import { getWhatsappNumber, getBaseUrl } from "@/lib/config/env";
 import notificationService from "@/lib/modules/notification";
 import { agenda, ui } from "@/lib/config/site";
+import { getWeekDays } from "@/lib/modules/agenda";
+import { getAppointmentTypes, getSlotsByType } from "@/lib/agenda-utils";
 import type { AgendaSlot } from "@/lib/modules/agenda";
+import type { AgendaSlotInfo } from "@/lib/agenda-utils";
 
 interface SlotDialogProps {
   slot: AgendaSlot | null;
@@ -43,8 +46,21 @@ interface ProductOption {
   category: string;
 }
 
-function formatFullDate(date: Date): string {
-  return date.toLocaleDateString("es-ES", {
+function formatFullDate(dayName: string, time: string): string {
+  const now = new Date();
+  const todayDayOfWeek = now.getDay();
+  const dayMap: Record<string, number> = {
+    Domingo: 0, Lunes: 1, Martes: 2, Miércoles: 3, Jueves: 4, Viernes: 5, Sábado: 6,
+  };
+  const targetDay = dayMap[dayName];
+  if (targetDay === undefined) return `${dayName} ${time}`;
+
+  let diff = targetDay - todayDayOfWeek;
+  if (diff < 0) diff += 7;
+  const d = new Date(now);
+  d.setDate(d.getDate() + diff);
+
+  return d.toLocaleDateString("es-ES", {
     weekday: "long",
     day: "numeric",
     month: "long",
@@ -58,6 +74,28 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
   const [products, setProducts] = useState<ProductOption[]>([]);
   const initialProductSlug = searchParams.get("producto") || "";
   const [selectedProduct, setSelectedProduct] = useState("");
+
+  const [types, setTypes] = useState<string[]>([]);
+  const [selectedType, setSelectedType] = useState(slot?.type || searchParams.get("tipo") || "");
+  const [availableSlots, setAvailableSlots] = useState<AgendaSlotInfo[]>([]);
+  const [pickedSlot, setPickedSlot] = useState<AgendaSlotInfo | null>(
+    slot && dayName ? { dayName, time: slot.time, type: slot.type || "" } : null,
+  );
+
+  useEffect(() => {
+    if (!open) return;
+    getWeekDays().then((days) => {
+      const t = getAppointmentTypes(days);
+      setTypes(t);
+
+      const initial = selectedType || slot?.type || searchParams.get("tipo") || "";
+      if (initial) {
+        setSelectedType(initial);
+        const slots = getSlotsByType(days, initial);
+        setAvailableSlots(slots);
+      }
+    });
+  }, [open, slot, dayName, selectedType, searchParams]);
 
   const loadProducts = useCallback(async () => {
     try {
@@ -86,7 +124,112 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
     }
   }, [initialProductSlug, products]);
 
-  if (!slot) return null;
+  const handleTypeChange = async (type: string) => {
+    setSelectedType(type);
+    setPickedSlot(null);
+    const days = await getWeekDays();
+    const slots = getSlotsByType(days, type);
+    setAvailableSlots(slots);
+  };
+
+  const handlePickSlot = (s: AgendaSlotInfo) => {
+    setPickedSlot(s);
+  };
+
+  if (!pickedSlot && !availableSlots.length && !selectedType) {
+    const initial = slot?.type || searchParams.get("tipo") || "";
+    if (!initial) {
+      return (
+        <Dialog open={open} onOpenChange={onOpenChange}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{agenda.slot.dialogTitle}</DialogTitle>
+              <DialogDescription>
+                {agenda.slot.dialogDescription}
+              </DialogDescription>
+            </DialogHeader>
+            <div className="py-4 space-y-3">
+              {types.length > 0 && (
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Tipo de cita</label>
+                  <Select value={selectedType} onValueChange={handleTypeChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccionar tipo de cita" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {types.map((t) => (
+                        <SelectItem key={t} value={t}>{t}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => onOpenChange(false)}>
+                {agenda.slot.cancel}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      );
+    }
+  }
+
+  if (!pickedSlot && selectedType) {
+    return (
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{selectedType}</DialogTitle>
+            <DialogDescription>
+              Selecciona un horario disponible
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4 space-y-3">
+            <Select value={selectedType} onValueChange={handleTypeChange}>
+              <SelectTrigger>
+                <SelectValue placeholder="Tipo de cita" />
+              </SelectTrigger>
+              <SelectContent>
+                {types.map((t) => (
+                  <SelectItem key={t} value={t}>{t}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {availableSlots.length > 0 ? (
+              <div className="grid gap-2 max-h-64 overflow-y-auto">
+                {availableSlots.map((s, i) => (
+                  <Button
+                    key={i}
+                    variant="outline"
+                    className="justify-start h-auto py-2.5"
+                    onClick={() => handlePickSlot(s)}
+                  >
+                    <span className="text-sm">
+                      <span className="font-medium">{s.dayName}</span>{" "}
+                      <span className="text-muted-foreground">{s.time} h</span>
+                    </span>
+                  </Button>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground text-center py-4">
+                No hay horarios disponibles
+              </p>
+            )}
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => onOpenChange(false)}>
+              {agenda.slot.cancel}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  if (!pickedSlot) return null;
 
   const selected = products.find((p) => p.id === selectedProduct);
 
@@ -94,13 +237,13 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
     ? `${window.location.protocol}//${window.location.host}`
     : getBaseUrl();
 
-  const fullDate = formatFullDate(date);
+  const fullDate = formatFullDate(pickedSlot.dayName, pickedSlot.time);
 
-  const shareUrl = `${baseUrl}/agenda?dia=${encodeURIComponent(dayName)}&hora=${encodeURIComponent(slot.time)}${slot.type ? `&tipo=${encodeURIComponent(slot.type)}` : ""}${selected ? `&producto=${encodeURIComponent(selected.slug)}` : ""}${message.trim() ? `&mensaje=${encodeURIComponent(message.trim())}` : ""}`;
+  const shareUrl = `${baseUrl}/agenda?dia=${encodeURIComponent(pickedSlot.dayName)}&hora=${encodeURIComponent(pickedSlot.time)}&tipo=${encodeURIComponent(selectedType)}${selected ? `&producto=${encodeURIComponent(selected.slug)}` : ""}${message.trim() ? `&mensaje=${encodeURIComponent(message.trim())}` : ""}`;
 
   const handleConsultar = () => {
     notificationService.info(ui.openingWhatsApp);
-    let mensaje = agenda.slot.whatsappTemplate(fullDate, slot.time, slot.type);
+    let mensaje = agenda.slot.whatsappTemplate(fullDate, pickedSlot.time, selectedType);
     if (selected) {
       mensaje += `\n\nProducto de interés: ${selected.name} ($${selected.price.toFixed(2)})`;
     }
@@ -131,11 +274,29 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
           </DialogDescription>
         </DialogHeader>
         <div className="py-2 space-y-3">
+          <Select value={selectedType} onValueChange={handleTypeChange}>
+            <SelectTrigger>
+              <SelectValue placeholder="Tipo de cita" />
+            </SelectTrigger>
+            <SelectContent>
+              {types.map((t) => (
+                <SelectItem key={t} value={t}>{t}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           <div className="bg-muted rounded-lg p-3 text-sm space-y-1">
             <p className="font-medium">{fullDate}</p>
             <p className="text-muted-foreground">
-              {slot.time} horas{slot.type ? <> &mdash; {slot.type}</> : null}
+              {pickedSlot.time} horas &mdash; {selectedType}
             </p>
+            <Button
+              variant="link"
+              size="sm"
+              className="h-auto p-0 text-xs"
+              onClick={() => setPickedSlot(null)}
+            >
+              Cambiar horario
+            </Button>
           </div>
           <div className="space-y-2">
             <Select value={selectedProduct} onValueChange={setSelectedProduct}>

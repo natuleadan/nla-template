@@ -4,8 +4,9 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { getAllProducts, type Product } from "@/lib/modules/products";
 import { getAllPosts, type BlogPost } from "@/lib/modules/blog";
-import { getWeekDays, type AgendaDay } from "@/lib/modules/agenda";
+import { getWeekDays } from "@/lib/modules/agenda";
 import { getAllPaginas, type PaginaPost } from "@/lib/modules/paginas";
+import { getNextAvailableDaySlots } from "@/lib/agenda-utils";
 
 function shuffleArray<T>(array: T[]): T[] {
   const a = [...array];
@@ -16,45 +17,10 @@ function shuffleArray<T>(array: T[]): T[] {
   return a;
 }
 
-function getTodaySlots(
-  days: AgendaDay[],
-): { slots: { time: string; type?: string }[]; title: string } {
-  const now = new Date();
-  const todayDayOfWeek = now.getDay();
-  const today = days.find((d) => d.dayOfWeek === todayDayOfWeek);
-  const cutoffMinutes = now.getHours() * 60 + now.getMinutes() + 30;
-
-  if (today) {
-    const slots = today.slots
-      .filter((s) => {
-        if (!s.available) return false;
-        const [h, m] = s.time.split(":").map(Number);
-        return h * 60 + m >= cutoffMinutes;
-      })
-      .slice(0, 3);
-    if (slots.length > 0) return { slots, title: "Agenda" };
-  }
-
-  const nextDays = [1, 2, 3, 4, 5, 6]
-    .map((offset) => {
-      const d = new Date(now);
-      d.setDate(d.getDate() + offset);
-      return days.find((day) => day.dayOfWeek === d.getDay());
-    })
-    .filter(Boolean) as AgendaDay[];
-
-  for (const day of nextDays) {
-    const slots = day.slots.filter((s) => s.available).slice(0, 3);
-    if (slots.length > 0) return { slots, title: `Agenda para ${day.name}` };
-  }
-
-  return { slots: [], title: "Agenda" };
-}
-
 export function FooterDynamicCards() {
   const [randomProducts, setRandomProducts] = useState<Product[]>([]);
   const [recentPosts, setRecentPosts] = useState<BlogPost[]>([]);
-  const [agenda, setAgenda] = useState<{ slots: { time: string; type?: string }[]; title: string }>({ slots: [], title: "Agenda" });
+  const [agenda, setAgenda] = useState<{ slots: { dayName: string; time: string; type: string }[]; title: string }>({ slots: [], title: "Agenda" });
   const [paginas, setPaginas] = useState<PaginaPost[]>([]);
 
   useEffect(() => {
@@ -72,7 +38,7 @@ export function FooterDynamicCards() {
       );
     });
     getWeekDays().then((days) => {
-      setAgenda(getTodaySlots(days));
+      setAgenda(getNextAvailableDaySlots(days));
     });
     getAllPaginas().then((p) => {
       setPaginas(p.slice(0, 3));
@@ -136,8 +102,7 @@ export function FooterDynamicCards() {
             {agenda.slots.map((slot, i) => (
               <li key={i}>
                 <span className="text-sm text-muted-foreground">
-                  {slot.time}
-                  {slot.type ? ` - ${slot.type}` : ""}
+                  {slot.dayName} {slot.time} {slot.type}
                 </span>
               </li>
             ))}

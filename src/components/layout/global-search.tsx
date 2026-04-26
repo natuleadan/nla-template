@@ -55,21 +55,19 @@ export function GlobalSearch() {
       const agendaData = await agendaRes.json();
       const pagesData = await pagesRes.json();
 
-      const today = new Date().getDay();
-      const todayDay = agendaData.days?.find((d: { dayOfWeek: number }) => d.dayOfWeek === today);
-      const todaySlots: SearchItem[] = (todayDay?.slots || [])
-        .filter((s: { available: boolean }) => s.available)
-        .map((s: { time: string; type?: string }, i: number) => ({
-          id: `slot-${i}`,
-          title: `${todayDay.name} ${s.time}${s.type ? ` — ${s.type}` : ""}`,
-          slug: "",
-          type: "slot" as const,
-          slotDay: todayDay.name,
-          slotTime: s.time,
-        }));
+      const { getUpcomingSlots } = await import("@/lib/agenda-utils");
+      const upcomingSlots = getUpcomingSlots(agendaData.days || [], 10);
+      const slots: SearchItem[] = upcomingSlots.map((s, i) => ({
+        id: `slot-${i}`,
+        title: `${s.dayName} ${s.time}${s.type ? ` — ${s.type}` : ""}`,
+        slug: "",
+        type: "slot" as const,
+        slotDay: s.dayName,
+        slotTime: s.time,
+      }));
 
       const searchItems: SearchItem[] = [
-        ...todaySlots,
+        ...slots,
         ...(productsData.products || []).map((p: { id: string; name: string; slug: string; category: string }) => ({
           id: p.id,
           title: p.name,
@@ -139,7 +137,7 @@ export function GlobalSearch() {
           <CommandList>
             <CommandEmpty>Sin resultados</CommandEmpty>
             {items.filter((i) => i.type === "slot").length > 0 && (
-              <CommandGroup heading="Citas hoy">
+              <CommandGroup heading="Próximas citas">
                 {items
                   .filter((i) => i.type === "slot")
                   .map((item) => (
