@@ -1,3 +1,13 @@
+## [1.1.1](https://github.com/natuleadan/nla-template/compare/v1.1.0...v1.1.1) (2026-04-26)
+
+### Bug Fixes
+
+* **codeql:** resolve xss and unused variable alerts ([0494d84](https://github.com/natuleadan/nla-template/commit/0494d849e897f815e1a23b66836de8f4c640554f))
+
+### Refactoring
+
+* **project:** restructure with src/ directory, split env public/private, add cors proxy ([510becb](https://github.com/natuleadan/nla-template/commit/510becb5ac2923e6f7bf1fec8b3bdb261dbd2923))
+
 ## [1.1.0](https://github.com/natuleadan/nla-template/compare/v1.0.1...v1.1.0) (2026-04-26)
 
 ### Features
