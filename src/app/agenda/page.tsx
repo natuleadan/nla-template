@@ -2,7 +2,6 @@ import { Suspense } from "react";
 import { cacheLife } from "next/cache";
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/layout/page-header";
-import { Skeleton } from "@/components/ui/skeleton";
 import { WeeklyCalendar } from "@/components/agenda/weekly-calendar";
 import { CurrentTime } from "@/components/agenda/current-time";
 import { AgendaSkeleton } from "@/components/agenda/agenda-skeleton";

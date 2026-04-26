@@ -1,5 +1,5 @@
 import { getBaseUrl } from "@/lib/config/env";
-import { brand, pages } from "@/lib/config/site";
+import { brand } from "@/lib/config/site";
 import { getAllProducts } from "@/lib/modules/products";
 
 export async function GET() {

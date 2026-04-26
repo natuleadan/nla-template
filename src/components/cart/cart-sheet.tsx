@@ -22,7 +22,7 @@ import {
 } from "@tabler/icons-react";
 import { getWhatsappNumber } from "@/lib/config/env";
 import notificationService from "@/lib/modules/notification";
-import { store, ui, brand } from "@/lib/config/site";
+import { store, ui } from "@/lib/config/site";
 
 export interface CartItem {
   id: string;

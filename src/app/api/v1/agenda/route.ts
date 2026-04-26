@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getWeekDays, clearAgenda, resetAgenda } from "@/lib/modules/agenda";
+import { NextResponse } from "next/server";
+import { getWeekDays, clearAgenda } from "@/lib/modules/agenda";
 import {
   validateApiKey,
   unauthorized,
@@ -39,7 +39,7 @@ export async function POST(request: Request) {
 export async function PUT(request: Request) {
   if (!validateApiKey(request)) return unauthorized();
   try {
-    const body = await request.json();
+    await request.json();
     return NextResponse.json({ message: "Semana actualizada" });
   } catch {
     return badRequest("JSON inválido");

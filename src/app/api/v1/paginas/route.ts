@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   getPaginas,
-  getAllPaginas,
   createPagina,
   clearPaginas,
 } from "@/lib/modules/paginas";
@@ -57,7 +56,7 @@ export async function POST(request: Request) {
 export async function PUT(request: Request) {
   if (!validateApiKey(request)) return unauthorized();
   try {
-    const body = await request.json();
+    await request.json();
     return NextResponse.json({ message: "Páginas actualizadas" });
   } catch {
     return badRequest("JSON inválido");

@@ -22,9 +22,7 @@ export async function generateMetadata({
 
     const title = `${post.title} | ${brand.name}`;
     const description = post.excerpt?.slice(0, 160) || brand.description;
-    const image = post.image
-      ? `${baseUrl}${post.image}`
-      : `${baseUrl}/opengraph-image`;
+
 
     return {
       title,

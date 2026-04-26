@@ -31,7 +31,7 @@ export async function POST(request: Request, { params }: RouteParams) {
     const { slug } = await params;
     if (!slug || typeof slug !== "string")
       return badRequest("Slug inválido");
-    const body = await request.json();
+    await request.json();
     return NextResponse.json(
       { message: "Artículo creado", slug },
       { status: 201 },

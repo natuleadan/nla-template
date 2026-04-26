@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   getPosts,
-  getAllPosts,
   createPost,
   clearPosts,
 } from "@/lib/modules/blog";
@@ -57,7 +56,7 @@ export async function POST(request: Request) {
 export async function PUT(request: Request) {
   if (!validateApiKey(request)) return unauthorized();
   try {
-    const body = await request.json();
+    await request.json();
     return NextResponse.json({ message: "Artículos actualizados" });
   } catch {
     return badRequest("JSON inválido");

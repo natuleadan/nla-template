@@ -1,7 +1,6 @@
 import { safeJsonLd } from "@/lib/utils";
 import type { WithContext, CollectionPage } from "schema-dts";
-import { store } from "@/lib/config/site";
-import { getBaseUrl } from "@/lib/config/env";
+
 
 interface ProductItem {
   name: string;
