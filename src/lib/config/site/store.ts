@@ -5,7 +5,7 @@ export const store = {
     title: "Nuestra Tienda",
     description: "Encuentra los mejores productos para tu entrenamiento",
     empty: "No hay productos disponibles",
-    metaTitle: (count: number) => `Tienda (${count} productos) - ${brandName}`,
+    metaTitle: (count: number) => `Tienda (${count} productos) | ${brandName}`,
     metaDescription: (count: number) =>
       count > 0
         ? `Explora nuestra selecci\u00f3n de ${count} suplementos y alimentos para el gym.`

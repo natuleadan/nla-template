@@ -19,9 +19,11 @@ async function getInitialData() {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
+  const days = await getWeekDays();
   const baseUrl = getBaseUrl();
-  const title = agenda.page.metaTitle;
-  const description = agenda.page.metaDescription;
+  const totalSlots = days.reduce((sum, d) => sum + d.slots.filter((s) => s.available).length, 0);
+  const title = agenda.page.metaTitle(totalSlots);
+  const description = agenda.page.metaDescription(totalSlots);
   const url = `${baseUrl}/agenda`;
 
   return {

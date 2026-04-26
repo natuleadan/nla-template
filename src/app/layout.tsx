@@ -23,7 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     metadataBase: new URL(baseUrl),
-    title: `${brand.name} - Tienda de Suplementos y Alimentos`,
+    title: `${brand.name} | Tienda de Suplementos y Alimentos`,
     description: brand.description,
     icons: {
       icon: "/icon",

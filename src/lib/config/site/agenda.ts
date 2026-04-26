@@ -5,9 +5,11 @@ export const agenda = {
     title: "Agenda",
     description: "Consulta nuestros horarios disponibles y agenda tu cita",
     empty: "No hay horarios disponibles esta semana",
-    metaTitle: "Agenda - " + brandName,
-    metaDescription:
-      "Revisa los horarios disponibles y agenda tu cita por WhatsApp.",
+    metaTitle: (count: number) => `Agenda (${count} citas) | ${brandName}`,
+    metaDescription: (count: number) =>
+      count > 0
+        ? `Revisa nuestros ${count} horarios disponibles y agenda tu cita por WhatsApp.`
+        : "Revisa los horarios disponibles y agenda tu cita por WhatsApp.",
   },
   calendar: {
     loading: "Cargando agenda...",

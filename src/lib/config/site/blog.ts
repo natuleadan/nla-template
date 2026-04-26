@@ -5,7 +5,7 @@ export const blog = {
     title: "Blog",
     description: "Artículos sobre nutrición, entrenamiento y salud",
     empty: "No hay artículos disponibles",
-    metaTitle: (count: number) => `Blog (${count} artículos) - ${brandName}`,
+    metaTitle: (count: number) => `Blog (${count} artículos) | ${brandName}`,
     metaDescription: (count: number) =>
       count > 0
         ? `Lee nuestros ${count} artículos sobre nutrición, entrenamiento y salud.`
