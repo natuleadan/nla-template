@@ -6,7 +6,84 @@ export const blogPostsData: BlogPost[] = [
     slug: "nutricion-para-el-gym",
     title: "Nutrición para el Gym",
     excerpt: "Descubre los mejores alimentos para potenciar tu rendimiento en el gimnasio y acelerar tu recuperación muscular.",
-    content: "<p>La nutrición es un pilar fundamental para cualquier persona que busque mejorar su rendimiento en el gimnasio. Una alimentación adecuada no solo te proporciona la energía necesaria para entrenar, sino que también acelera la recuperación y previene lesiones.</p><h2>Proteínas: El bloque constructor</h2><p>Las proteínas son esenciales para la reparación y crecimiento muscular. Fuentes como pollo, pescado, huevos y legumbres deben estar presentes en tu dieta diaria. Se recomienda consumir entre 1.6 y 2.2 gramos de proteína por kilogramo de peso corporal.</p><h2>Carbohidratos: Tu combustible</h2><p>Los carbohidratos complejos como avena, arroz integral y batata te proporcionan energía sostenida para tus entrenamientos. Consúmelos principalmente antes y después de entrenar.</p><h2>Grasas saludables</h2><p>No le temas a las grasas. El aguacate, frutos secos y aceite de oliva son fuentes de grasas saludables que apoyan la producción hormonal y la absorción de vitaminas.</p>",
+    content: `<p>La nutrición es un pilar fundamental para cualquier persona que busque mejorar su rendimiento en el gimnasio. Una alimentación adecuada no solo te proporciona la energía necesaria para entrenar, sino que también acelera la recuperación y previene lesiones.</p>
+
+<blockquote>"Que el alimento sea tu medicina y la medicina sea tu alimento." — Hipócrates</blockquote>
+
+<h2>Proteínas: El bloque constructor</h2>
+<p>Las proteínas son esenciales para la reparación y crecimiento muscular. Fuentes como pollo, pescado, huevos y legumbres deben estar presentes en tu dieta diaria. Se recomienda consumir entre <strong>1.6 y 2.2 gramos</strong> de proteína por kilogramo de peso corporal.</p>
+
+<h3>Fuentes de proteína recomendadas</h3>
+<ul>
+  <li>Pollo y pavo — hasta 25g de proteína por 100g</li>
+  <li>Pescados como salmón y atún — ricos en omega-3</li>
+  <li>Huevos — la proteína de referencia biológica</li>
+  <li>Legumbres como lentejas y garbanzos</li>
+  <li>Suero de leche (whey) — absorción rápida post-entreno</li>
+</ul>
+
+<h2>Carbohidratos: Tu combustible</h2>
+<p>Los carbohidratos complejos como avena, arroz integral y batata te proporcionan <strong>energía sostenida</strong> para tus entrenamientos. Consúmelos principalmente antes y después de entrenar.</p>
+
+<h3>Distribución semanal sugerida</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Día</th>
+      <th>Pre-entreno</th>
+      <th>Post-entreno</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Lunes</td>
+      <td>Avena + plátano</td>
+      <td>Arroz + pollo</td>
+    </tr>
+    <tr>
+      <td>Miércoles</td>
+      <td>Batata + huevos</td>
+      <td>Pasta + salmón</td>
+    </tr>
+    <tr>
+      <td>Viernes</td>
+      <td>Tostadas + aguacate</td>
+      <td>Quinoa + ternera</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Grasas saludables</h2>
+<p>No le temas a las grasas. El aguacate, frutos secos y aceite de oliva son fuentes de grasas saludables que apoyan la producción hormonal y la absorción de vitaminas.</p>
+
+<h3>Ejemplo de menú diario</h3>
+<ol>
+  <li><strong>Desayuno (7:00):</strong> Avena con proteína en polvo y frutos rojos</li>
+  <li><strong>Snack (10:00):</strong> Puñado de almendras y una manzana</li>
+  <li><strong>Almuerzo (13:00):</strong> Pechuga de pollo con arroz integral y brócoli</li>
+  <li><strong>Pre-entreno (16:00):</strong> Plátano con mantequilla de maní</li>
+  <li><strong>Post-entreno (18:30):</strong> Batido de whey con leche y avena</li>
+  <li><strong>Cena (21:00):</strong> Salmón con batata y espárragos</li>
+</ol>
+
+<h2>Hidratación: el factor olvidado</h2>
+<p>Una correcta hidratación puede mejorar tu rendimiento hasta en un <strong>20%</strong>. Bebe al menos <code>2-3 litros</code> de agua al día, y más si entrenas intensamente.</p>
+
+<p>Para cálculos personalizados, puedes usar la fórmula:</p>
+<pre><code>Agua diaria (L) = Peso (kg) × 0.033
+Ejemplo: 70kg × 0.033 = 2.31L/día</code></pre>
+
+<h2>Suplementación recomendada</h2>
+<p>Si bien la base debe ser siempre la comida real, algunos suplementos pueden ayudarte a cubrir carencias:</p>
+<ul>
+  <li><strong>Whey Protein:</strong> Ideal para alcanzar tus requerimientos proteicos diarios</li>
+  <li><strong>Creatina:</strong> El suplemento con más respaldo científico para fuerza y potencia</li>
+  <li><strong>Omega-3:</strong> Antiinflamatorio natural que apoya la recuperación articular</li>
+</ul>
+
+<hr />
+
+<p><em>Recuerda que cada cuerpo es diferente. Te recomendamos consultar con un nutricionista deportivo para obtener un plan personalizado ajustado a tus necesidades y objetivos específicos.</em></p>`,
     image: "/images/blog/nutricion.jpg",
     author: "María García",
     category: "nutricion",
