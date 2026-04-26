@@ -6,7 +6,7 @@ import { getAllProducts, type Product } from "@/lib/modules/products";
 import { getAllPosts, type BlogPost } from "@/lib/modules/blog";
 import { getWeekDays } from "@/lib/modules/agenda";
 import { getAllPaginas, type PaginaPost } from "@/lib/modules/paginas";
-import { getNextAvailableDaySlots } from "@/lib/agenda-utils";
+import { getNextAvailableDaySlots, type AgendaSlotInfo } from "@/lib/agenda-utils";
 
 function shuffleArray<T>(array: T[]): T[] {
   const a = [...array];
@@ -20,7 +20,7 @@ function shuffleArray<T>(array: T[]): T[] {
 export function FooterDynamicCards() {
   const [randomProducts, setRandomProducts] = useState<Product[]>([]);
   const [recentPosts, setRecentPosts] = useState<BlogPost[]>([]);
-  const [agenda, setAgenda] = useState<{ slots: { dayName: string; time: string; type: string }[]; title: string }>({ slots: [], title: "Agenda" });
+  const [agenda, setAgenda] = useState<{ slots: AgendaSlotInfo[]; title: string }>({ slots: [], title: "Agenda" });
   const [paginas, setPaginas] = useState<PaginaPost[]>([]);
 
   useEffect(() => {
@@ -91,24 +91,29 @@ export function FooterDynamicCards() {
         </nav>
       )}
 
-      {agenda.slots.length > 0 && (
-        <nav aria-label="Agenda">
-          <h3 className="mb-4 font-semibold">
-            <Link href="/agenda" className="hover:underline">
-              {agenda.title}
-            </Link>
-          </h3>
+      <nav aria-label="Agenda">
+        <h3 className="mb-4 font-semibold">
+          <Link href="/agenda" className="hover:underline">
+            {agenda.title}
+          </Link>
+        </h3>
+        {agenda.slots.length > 0 ? (
           <ul className="space-y-2">
             {agenda.slots.map((slot, i) => (
               <li key={i}>
-                <span className="text-sm text-muted-foreground truncate block">
+                <Link
+                  href={`/agenda?dia=${encodeURIComponent(slot.dayName)}&hora=${encodeURIComponent(slot.time)}&tipo=${encodeURIComponent(slot.type)}`}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors line-clamp-1"
+                >
                   {slot.time} {slot.type}
-                </span>
+                </Link>
               </li>
             ))}
           </ul>
-        </nav>
-      )}
+        ) : (
+          <p className="text-sm text-muted-foreground">No citas disponibles</p>
+        )}
+      </nav>
 
       {paginas.length > 0 && (
         <nav aria-label="Páginas">

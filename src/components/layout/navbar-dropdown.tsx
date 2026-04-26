@@ -99,21 +99,25 @@ function DesktopDropdown({ label, href, type }: NavDropdownProps) {
         </svg>
       </Link>
 
-      {open && items.length > 0 && (
+      {open && (
         <div
           className="absolute top-full left-0 mt-1 min-w-max rounded-lg border bg-popover p-1.5 shadow-lg z-50"
           onMouseEnter={show}
           onMouseLeave={hide}
         >
-          {items.map((item, i) => (
-            <Link
-              key={`${item.href}-${i}`}
-              href={item.href}
-              className="block px-3 py-1.5 text-sm rounded-md hover:bg-muted transition-colors line-clamp-1"
-            >
-              {item.label}
-            </Link>
-          ))}
+          {items.length > 0 ? (
+            items.map((item, i) => (
+              <Link
+                key={`${item.href}-${i}`}
+                href={item.href}
+                className="block px-3 py-1.5 text-sm rounded-md hover:bg-muted transition-colors line-clamp-1"
+              >
+                {item.label}
+              </Link>
+            ))
+          ) : (
+            <p className="px-3 py-1.5 text-sm text-muted-foreground">No citas disponibles</p>
+          )}
         </div>
       )}
     </div>
@@ -149,18 +153,22 @@ function MobileAccordion({ label, href, type, onNav }: NavDropdownProps) {
           <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
         </svg>
       </button>
-      {open && items.length > 0 && (
+      {open && (
         <div className="ml-4 border-l pl-2 space-y-0.5">
-          {items.map((item, i) => (
-            <Link
-              key={`${item.href}-${i}`}
-              href={item.href}
-              onClick={onNav}
-              className="block px-4 py-2 text-sm rounded-md hover:bg-muted transition-colors line-clamp-1"
-            >
-              {item.label}
-            </Link>
-          ))}
+          {items.length > 0 ? (
+            items.map((item, i) => (
+              <Link
+                key={`${item.href}-${i}`}
+                href={item.href}
+                onClick={onNav}
+                className="block px-4 py-2 text-sm rounded-md hover:bg-muted transition-colors line-clamp-1"
+              >
+                {item.label}
+              </Link>
+            ))
+          ) : (
+            <p className="px-4 py-2 text-sm text-muted-foreground">No citas disponibles</p>
+          )}
         </div>
       )}
     </div>
