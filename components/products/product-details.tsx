@@ -158,16 +158,18 @@ export function ProductDetails({
 
   return (
     <div className="px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full py-8">
-      <div className="flex items-start justify-between mb-8 gap-4">
-        <PageHeader title={product.name} description={product.description} className="flex-1" />
-        <div className="flex items-center gap-2 shrink-0 pt-1">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-8 gap-4">
+        <div className="flex items-center gap-2 order-1 sm:order-2 w-full sm:w-auto shrink-0 sm:pt-1">
           <ShareDialog url={typeof window !== "undefined" ? window.location.href : ""} />
-          <Link href="/tienda">
+          <Link href="/tienda" className="ml-auto sm:ml-2">
             <Button variant="outline" size="sm" className="gap-2">
               <IconArrowLeft className="size-4" />
               {store.product.back}
             </Button>
           </Link>
+        </div>
+        <div className="order-2 sm:order-1 flex-1">
+          <PageHeader title={product.name} description={product.description} />
         </div>
       </div>
 

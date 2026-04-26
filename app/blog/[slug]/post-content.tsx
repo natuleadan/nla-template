@@ -10,6 +10,7 @@ import { getBaseUrl } from "@/lib/config/env";
 import { JsonLdBreadcrumb } from "@/components/metadata/breadcrumb-jsonld";
 import { JsonLdBlogPost } from "@/components/metadata/blog-post-jsonld";
 import { ShareDialog } from "@/components/ui/share-dialog";
+import { Prose } from "@/components/ui/prose";
 import {
   IconArrowLeft,
   IconCalendar,
@@ -56,16 +57,18 @@ export async function PostContent({ params }: PostContentProps) {
         ]}
       />
       <article className="px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full py-8">
-        <div className="flex items-start justify-between mb-8 gap-4">
-          <PageHeader title={post.title} description={post.excerpt} className="flex-1" />
-          <div className="flex items-center gap-2 shrink-0 pt-1">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-8 gap-4">
+          <div className="flex items-center gap-2 order-1 sm:order-2 w-full sm:w-auto shrink-0 sm:pt-1">
             <ShareDialog url={`${baseUrl}/blog/${slug}`} />
-            <Link href="/blog">
+            <Link href="/blog" className="ml-auto sm:ml-2">
               <Button variant="outline" size="sm" className="gap-2">
                 <IconArrowLeft className="size-4" />
                 {blog.post.back}
               </Button>
             </Link>
+          </div>
+          <div className="order-2 sm:order-1 flex-1">
+            <PageHeader title={post.title} description={post.excerpt} />
           </div>
         </div>
         <div className="flex flex-col lg:flex-row gap-8">
@@ -101,10 +104,7 @@ export async function PostContent({ params }: PostContentProps) {
                 {blog.post.readingTime(post.readingTime)}
               </span>
             </div>
-            <div
-              className="prose prose-lg dark:prose-invert max-w-none"
-              dangerouslySetInnerHTML={{ __html: post.content }}
-            />
+            <Prose html={post.content} />
           </div>
         </div>
       </article>
