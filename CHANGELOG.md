@@ -1,3 +1,9 @@
+## [1.1.2](https://github.com/natuleadan/nla-template/compare/v1.1.1...v1.1.2) (2026-04-26)
+
+### Bug Fixes
+
+* **layout:** use generate metadata for robots ([3880236](https://github.com/natuleadan/nla-template/commit/38802366afeba61e4e97d7d691f079392d62cefd))
+
 ## [1.1.1](https://github.com/natuleadan/nla-template/compare/v1.1.0...v1.1.1) (2026-04-26)
 
 ### Bug Fixes
