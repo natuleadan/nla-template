@@ -161,6 +161,18 @@ export const schemas: Record<string, OpenApiSchema> = {
       readingTime: { type: "integer", example: 5 },
     },
   },
+  PaginaPost: {
+    type: "object",
+    properties: {
+      id: { type: "string", example: "pag_1" },
+      slug: { type: "string", example: "terminos" },
+      title: { type: "string", example: "Términos y Condiciones" },
+      excerpt: { type: "string", example: "Conoce los términos..." },
+      content: { type: "string", example: "<p>Contenido</p>" },
+      category: { type: "string", example: "legal" },
+      publishedAt: { type: "string", example: "2026-01-01" },
+    },
+  },
   Error: {
     type: "object",
     properties: {
@@ -180,6 +192,7 @@ export const tags = [
   { name: "Contact", description: "Formulario de contacto" },
   { name: "Blog", description: "Gestión del blog" },
   { name: "Agenda", description: "Gestión de agenda y horarios" },
+  { name: "Páginas", description: "Gestión de páginas de contenido" },
 ];
 
 export const securitySchemes = {

@@ -4,9 +4,7 @@ export const nav = {
     { href: "/tienda", label: "Tienda" },
     { href: "/blog", label: "Blog" },
     { href: "/agenda", label: "Agenda" },
-    { href: "/terminos", label: "T\u00e9rminos" },
-    { href: "/privacidad", label: "Privacidad" },
-    { href: "/datos", label: "Datos" },
+    { href: "/paginas", label: "P\u00e1ginas" },
     { href: "/contacto", label: "Contacto" },
   ] as const,
   buttons: {
@@ -38,9 +36,9 @@ export const nav = {
       {
         title: "Legal",
         links: [
-          { href: "/terminos", label: "T\u00e9rminos" },
-          { href: "/privacidad", label: "Privacidad" },
-          { href: "/datos", label: "Datos" },
+          { href: "/paginas/terminos", label: "T\u00e9rminos" },
+          { href: "/paginas/privacidad", label: "Privacidad" },
+          { href: "/paginas/datos", label: "Datos" },
         ],
       },
     ],

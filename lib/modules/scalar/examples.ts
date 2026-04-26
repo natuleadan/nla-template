@@ -8,6 +8,7 @@ import { getOrders } from "@/lib/modules/orders";
 import { getPageContent } from "@/lib/modules/pages";
 import { getAllPosts } from "@/lib/modules/blog";
 import { getWeekDays } from "@/lib/modules/agenda";
+import { getAllPaginas } from "@/lib/modules/paginas";
 
 export async function getApiExamples(): Promise<ApiExamples> {
   const [result, categories] = await Promise.all([
@@ -18,7 +19,7 @@ export async function getApiExamples(): Promise<ApiExamples> {
   const exampleProducts = result.products.slice(0, 2);
   const exampleSlug = exampleProducts[0]?.slug || "example-product";
 
-  const [reviews, inventory, messages, orders, page, posts, days] =
+  const [reviews, inventory, messages, orders, page, posts, days, pages] =
     await Promise.all([
       getReviews(exampleSlug),
       getInventory(exampleSlug),
@@ -27,6 +28,7 @@ export async function getApiExamples(): Promise<ApiExamples> {
       getPageContent("inicio"),
       getAllPosts(),
       getWeekDays(),
+      getAllPaginas(),
     ]);
 
   return {
@@ -39,5 +41,6 @@ export async function getApiExamples(): Promise<ApiExamples> {
     page,
     posts,
     days,
+    pages,
   };
 }

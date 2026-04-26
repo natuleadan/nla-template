@@ -1,0 +1,98 @@
+import { Suspense } from "react";
+import { cacheLife } from "next/cache";
+import type { Metadata } from "next";
+import { PageHeader } from "@/components/layout/page-header";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Empty } from "@/components/ui/empty";
+import { PaginaToolbar } from "@/components/paginas/pagina-toolbar";
+import { getAllPaginas, getPaginas } from "@/lib/modules/paginas";
+import { paginas, brand } from "@/lib/config/site";
+import { getBaseUrl } from "@/lib/config/env";
+import { JsonLdBreadcrumb } from "@/components/metadata/breadcrumb-jsonld";
+import { JsonLdPaginasList } from "@/components/metadata/paginas-list-jsonld";
+
+async function getInitialData() {
+  "use cache";
+  cacheLife("hours");
+  const allPages = await getAllPaginas();
+  const initial = await getPaginas(1, 6);
+  const categories = [
+    { slug: "legal", name: "Legal" },
+    { slug: "politicas", name: "Políticas" },
+  ];
+  return {
+    pages: allPages,
+    categories,
+    initialPages: initial.pages,
+    total: initial.total,
+    hasMore: initial.hasMore,
+  };
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const { pages } = await getInitialData();
+  const baseUrl = getBaseUrl();
+  const title = paginas.page.metaTitle(pages.length);
+  const description = paginas.page.metaDescription(pages.length);
+  const url = `${baseUrl}/paginas`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      siteName: brand.name,
+      type: "website",
+      url,
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
+    },
+  };
+}
+
+export default async function PaginasPage() {
+  const { categories, initialPages, total, hasMore, pages } =
+    await getInitialData();
+  const baseUrl = getBaseUrl();
+
+  const jsonLdPages = pages.map((p) => ({
+    title: p.title,
+    url: `${baseUrl}/paginas/${p.slug}`,
+  }));
+
+  return (
+    <>
+      <JsonLdBreadcrumb
+        levels={[
+          { name: "Inicio", item: baseUrl },
+          { name: paginas.page.title, item: `${baseUrl}/paginas` },
+        ]}
+      />
+      <JsonLdPaginasList name={paginas.page.title} pages={jsonLdPages} />
+      <div className="px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full py-8">
+        <PageHeader
+          title={paginas.page.title}
+          description={paginas.page.description}
+        />
+        <Suspense fallback={<Skeleton className="h-64" />}>
+          {total > 0 ? (
+            <PaginaToolbar
+              initialPages={initialPages}
+              total={total}
+              initialHasMore={hasMore}
+              categories={categories}
+            />
+          ) : (
+            <Empty className="py-12">
+              <p className="text-muted-foreground">{paginas.page.empty}</p>
+            </Empty>
+          )}
+        </Suspense>
+      </div>
+    </>
+  );
+}

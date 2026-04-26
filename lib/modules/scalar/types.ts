@@ -70,4 +70,5 @@ export interface ApiExamples {
   page: unknown;
   posts: unknown[];
   days: unknown[];
+  pages: unknown[];
 }
