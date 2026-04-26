@@ -20,6 +20,7 @@ export const agenda = {
   slot: {
     available: "Disponible",
     unavailable: "No disponible",
+    slotUnavailable: "No puedes agendar en un horario que ya pasó",
     dialogTitle: "Consultar disponibilidad",
     dialogDescription:
       "¿Desea consultar disponibilidad de cita?",

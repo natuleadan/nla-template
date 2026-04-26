@@ -18,6 +18,10 @@ export function getWhatsappNumber(): string {
   return getEnv("NEXT_PUBLIC_WHATSAPP_NUMBER", "1234567890");
 }
 
+export function getWeekMax(): number {
+  return parseInt(getEnv("NEXT_PUBLIC_WEEK_MAX", "4"), 10);
+}
+
 export function validateApiKey(request: Request): boolean {
   const authHeader = request.headers.get("x-api-key");
   return authHeader === getApiKey();

@@ -5,7 +5,8 @@ import { SlotDialog } from "./slot-dialog";
 import { Badge } from "@/components/ui/badge";
 import { agenda } from "@/lib/config/site";
 import { cn } from "@/lib/config/utils";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { toast } from "sonner";
 import type { AgendaSlot, AgendaDay } from "@/lib/modules/agenda";
 
 interface DayColumnProps {
@@ -15,11 +16,41 @@ interface DayColumnProps {
   initialTime?: string;
 }
 
+function isSlotExpired(slot: AgendaSlot, date: Date, isPastDay: boolean): boolean {
+  if (!slot.available || isPastDay) return true;
+  if (!isTodayDate(date)) return false;
+  const now = new Date();
+  const cutoff = new Date(now.getTime() + 30 * 60 * 1000);
+  const [h, m] = slot.time.split(":").map(Number);
+  const slotDate = new Date(date);
+  slotDate.setHours(h, m, 0, 0);
+  return slotDate.getTime() <= cutoff.getTime();
+}
+
+function isTodayDate(date: Date): boolean {
+  const today = new Date();
+  return (
+    date.getFullYear() === today.getFullYear() &&
+    date.getMonth() === today.getMonth() &&
+    date.getDate() === today.getDate()
+  );
+}
+
+function isPastDay(date: Date): boolean {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return date.getTime() < today.getTime();
+}
+
 export function DayColumn({ day, date, initialDay, initialTime }: DayColumnProps) {
   const [selectedSlot, setSelectedSlot] = useState<AgendaSlot | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const today = new Date();
+  const today = useMemo(() => {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }, []);
   const isToday =
     date.getFullYear() === today.getFullYear() &&
     date.getMonth() === today.getMonth() &&
@@ -36,6 +67,10 @@ export function DayColumn({ day, date, initialDay, initialTime }: DayColumnProps
   }, [initialDay, initialTime, day]);
 
   const handleSlotClick = (slot: AgendaSlot) => {
+    if (isSlotExpired(slot, date, isPastDay(date))) {
+      toast.error(agenda.slot.slotUnavailable);
+      return;
+    }
     setSelectedSlot(slot);
     setDialogOpen(true);
   };
@@ -43,7 +78,7 @@ export function DayColumn({ day, date, initialDay, initialTime }: DayColumnProps
   return (
     <div
       className={cn(
-        "flex flex-col gap-2 p-3 rounded-lg border min-w-[130px] flex-1",
+        "flex flex-col gap-2 p-3 rounded-lg border",
         isToday && "border-primary bg-primary/5",
       )}
     >
@@ -69,6 +104,7 @@ export function DayColumn({ day, date, initialDay, initialTime }: DayColumnProps
                 slot={slot}
                 dayName={day.name}
                 onClick={handleSlotClick}
+                disabled={isSlotExpired(slot, date, isPastDay(date))}
               />
             ))
         )}
