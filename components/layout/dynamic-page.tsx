@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { PageHeader } from "@/components/layout/page-header";
-import { ContactForm } from "@/components/contact-form";
+import { ContactForm } from "@/components/forms/contact-form";
 import {
   IconMapPin,
   IconPhone,

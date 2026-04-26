@@ -125,6 +125,22 @@ export const schemas: Record<string, OpenApiSchema> = {
       fecha: { type: "string", example: "2024-01-15T10:30:00Z" },
     },
   },
+  BlogPost: {
+    type: "object",
+    properties: {
+      id: { type: "string", example: "blog_1" },
+      slug: { type: "string", example: "nutricion-para-el-gym" },
+      title: { type: "string", example: "Nutrición para el Gym" },
+      excerpt: { type: "string", example: "Descubre los mejores alimentos..." },
+      content: { type: "string", example: "<p>Contenido del artículo</p>" },
+      image: { type: "string", example: "/images/blog/nutricion.jpg" },
+      author: { type: "string", example: "María García" },
+      category: { type: "string", example: "nutricion" },
+      tags: { type: "array", items: { type: "string" }, example: ["nutrición", "proteínas"] },
+      publishedAt: { type: "string", example: "2025-12-15" },
+      readingTime: { type: "integer", example: 5 },
+    },
+  },
   Error: {
     type: "object",
     properties: {
@@ -142,6 +158,7 @@ export const tags = [
   { name: "Categories", description: "Categorías de productos" },
   { name: "Pages", description: "Contenido de páginas estáticas" },
   { name: "Contact", description: "Formulario de contacto" },
+  { name: "Blog", description: "Gestión del blog" },
 ];
 
 export const securitySchemes = {

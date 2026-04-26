@@ -2,6 +2,7 @@ export const nav = {
   items: [
     { href: "/", label: "Inicio" },
     { href: "/tienda", label: "Tienda" },
+    { href: "/blog", label: "Blog" },
     { href: "/terminos", label: "T\u00e9rminos" },
     { href: "/privacidad", label: "Privacidad" },
     { href: "/datos", label: "Datos" },
@@ -20,6 +21,10 @@ export const nav = {
           { href: "/tienda?cat=suplemento", label: "Suplementos" },
           { href: "/tienda?cat=comida", label: "Alimentos" },
         ],
+      },
+      {
+        title: "Blog",
+        links: [{ href: "/blog", label: "Últimos artículos" }],
       },
       {
         title: "Empresa",

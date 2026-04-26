@@ -68,4 +68,5 @@ export interface ApiExamples {
   messages: unknown[];
   orders: unknown[];
   page: unknown;
+  posts: unknown[];
 }

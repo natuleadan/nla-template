@@ -8,6 +8,7 @@ import {
   getOrdersPaths,
   getPagesPaths,
   getFormPaths,
+  getBlogPaths,
 } from "./endpoints";
 
 export function buildOpenApiSpec(examples: ApiExamples): OpenApiSpec {
@@ -18,6 +19,7 @@ export function buildOpenApiSpec(examples: ApiExamples): OpenApiSpec {
   const ordersPaths = getOrdersPaths(examples);
   const pagesPaths = getPagesPaths(examples);
   const formularioPaths = getFormPaths(examples);
+  const blogPaths = getBlogPaths(examples);
 
   return {
     openapi: "3.1.0",
@@ -55,6 +57,7 @@ export function buildOpenApiSpec(examples: ApiExamples): OpenApiSpec {
       ...categoriesPaths,
       ...pagesPaths,
       ...formularioPaths,
+      ...blogPaths,
     },
   };
 }

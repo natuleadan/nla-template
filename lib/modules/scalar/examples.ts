@@ -6,6 +6,7 @@ import { getInventory } from "@/lib/modules/inventory";
 import { getFormMessages } from "@/lib/modules/form";
 import { getOrders } from "@/lib/modules/orders";
 import { getPageContent } from "@/lib/modules/pages";
+import { getAllPosts } from "@/lib/modules/blog";
 
 export async function getApiExamples(): Promise<ApiExamples> {
   const [result, categories] = await Promise.all([
@@ -16,13 +17,15 @@ export async function getApiExamples(): Promise<ApiExamples> {
   const exampleProducts = result.products.slice(0, 2);
   const exampleSlug = exampleProducts[0]?.slug || "example-product";
 
-  const [reviews, inventory, messages, orders, page] = await Promise.all([
-    getReviews(exampleSlug),
-    getInventory(exampleSlug),
-    getFormMessages(),
-    getOrders(),
-    getPageContent("inicio"),
-  ]);
+  const [reviews, inventory, messages, orders, page, posts] =
+    await Promise.all([
+      getReviews(exampleSlug),
+      getInventory(exampleSlug),
+      getFormMessages(),
+      getOrders(),
+      getPageContent("inicio"),
+      getAllPosts(),
+    ]);
 
   return {
     products: exampleProducts,
@@ -32,5 +35,6 @@ export async function getApiExamples(): Promise<ApiExamples> {
     messages,
     orders,
     page,
+    posts,
   };
 }
