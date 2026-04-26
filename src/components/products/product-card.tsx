@@ -76,7 +76,7 @@ export function ProductCard({
           />
         </Link>
         <div className="absolute top-2 left-2 z-10">
-          <Badge variant={category === "suplemento" ? "default" : "secondary"}>
+          <Badge variant={category === "suplemento" ? "default" : category === "servicio" ? "outline" : "secondary"}>
             {store.product.badge(category)}
           </Badge>
         </div>

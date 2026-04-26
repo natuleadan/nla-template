@@ -13,6 +13,8 @@ export interface Product {
   image: string;
   images?: string[];
   category: string;
+  type?: "product" | "service";
+  appointment?: boolean;
 }
 
 const allProducts: Product[] = [...productsData];

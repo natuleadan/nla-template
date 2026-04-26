@@ -23,6 +23,7 @@ import {
   IconSend,
   IconLoader2,
   IconMapPin,
+  IconCalendar,
 } from "@tabler/icons-react";
 import { createReview, type Review } from "@/lib/modules/reviews";
 import { type InventoryItem } from "@/lib/modules/inventory";
@@ -48,7 +49,9 @@ interface Product {
   description: string;
   longDescription?: string;
   price: number;
-  category: "suplemento" | "comida";
+  category: string;
+  type?: "product" | "service";
+  appointment?: boolean;
   image?: string;
   images?: string[];
   quantity: number;
@@ -241,7 +244,7 @@ export function ProductDetails({
           <div className="flex items-center gap-2">
             <Badge
               variant={
-                product.category === "suplemento" ? "default" : "secondary"
+                product.category === "suplemento" ? "default" : product.category === "servicio" ? "outline" : "secondary"
               }
             >
               {store.product.badge(product.category)}
@@ -297,10 +300,18 @@ export function ProductDetails({
             </p>
           )}
 
-          <Button onClick={handlePedir} size="lg" className="gap-2 mt-4" aria-label={`${store.product.orderWhatsApp} ${product.name}`}>
-            <IconBrandWhatsapp className="size-5" />
-            {store.product.orderWhatsApp}
-          </Button>
+          <div className="flex flex-wrap gap-2 mt-4">
+            <Button onClick={handlePedir} className="gap-2" aria-label={`${store.product.orderWhatsApp} ${product.name}`}>
+              <IconBrandWhatsapp className="size-5" />
+              {store.product.orderWhatsApp}
+            </Button>
+            {(product.type === "service" || product.appointment) && (
+              <Button variant="outline" className="gap-2" onClick={() => window.location.href = `/agenda?producto=${product.slug}`}>
+                <IconCalendar className="size-5" />
+                {product.type === "service" ? store.product.agendaService : store.product.separateProduct}
+              </Button>
+            )}
+          </div>
         </div>
       </div>
 

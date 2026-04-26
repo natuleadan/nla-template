@@ -19,7 +19,7 @@ export const store = {
   },
   product: {
     badge: (category: string) =>
-      category === "suplemento" ? "Suplemento" : "Alimento",
+      ({ suplemento: "Suplemento", comida: "Alimento", nutricion: "Nutrición", servicio: "Servicio" })[category] || category,
     priceLabel: "IVA incluido",
     pedir: "Pedir",
     ver: "Detalles",
@@ -29,6 +29,8 @@ export const store = {
     inStock: "Disponible",
     lowStock: "Stock limitado",
     orderWhatsApp: "Pedir por WhatsApp",
+    agendaService: "Agenda este servicio",
+    separateProduct: "Separa este producto",
     whatsappTemplate: (p: {
       name: string;
       price: number;

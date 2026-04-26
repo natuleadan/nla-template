@@ -6,7 +6,7 @@ interface Product {
   name: string;
   description: string;
   price: number;
-  category: "suplemento" | "comida";
+  category: string;
   image?: string;
 }
 
