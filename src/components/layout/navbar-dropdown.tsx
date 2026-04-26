@@ -101,7 +101,7 @@ function DesktopDropdown({ label, href, type }: NavDropdownProps) {
 
       {open && items.length > 0 && (
         <div
-          className="absolute top-full left-0 mt-1 w-56 rounded-lg border bg-popover p-1.5 shadow-lg z-50"
+          className="absolute top-full left-0 mt-1 min-w-max rounded-lg border bg-popover p-1.5 shadow-lg z-50"
           onMouseEnter={show}
           onMouseLeave={hide}
         >
