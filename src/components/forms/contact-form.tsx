@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+import { IconBrandWhatsapp } from "@tabler/icons-react";
 import {
   Form,
   FormControl,
@@ -14,8 +15,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
+import { getWhatsappNumber } from "@/lib/env";
 import notificationService from "@/lib/modules/notification";
-import { form } from "@/lib/config/site";
+import { form, ui } from "@/lib/config/site";
 
 interface ContactFormData {
   nombre: string;
@@ -43,6 +45,12 @@ export function ContactForm({ className }: ContactFormProps) {
 
   async function onSubmit(values: ContactFormData) {
     setLoading(true);
+
+    notificationService.info(ui.openingWhatsApp);
+
+    const mensaje = t.whatsappTemplate(values.nombre, values.email, values.mensaje);
+    const urlWhatsapp = `https://wa.me/${getWhatsappNumber()}?text=${encodeURIComponent(mensaje)}`;
+    window.open(urlWhatsapp, "_blank");
 
     try {
       const res = await fetch("/api/v1/formulario", {
@@ -151,7 +159,8 @@ export function ContactForm({ className }: ContactFormProps) {
             )}
           />
 
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button type="submit" className="w-full gap-2" disabled={loading}>
+            <IconBrandWhatsapp className="size-5" />
             {loading ? t.submitting : t.submit}
           </Button>
         </div>

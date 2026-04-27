@@ -30,5 +30,7 @@ export const form = {
       error: "Error al enviar el mensaje",
       network: "Error de conexi\u00f3n",
     },
+    whatsappTemplate: (name: string, email: string, message: string) =>
+      `\u00a1Hola! Soy ${name} (${email}). ${message}`,
   },
 };
