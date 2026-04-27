@@ -18,6 +18,8 @@ export {
   isProd,
   isTest,
   NODE_ENV,
+  VERCEL,
+  VERCEL_ENV,
 } from "@/lib/env.public";
 
 // ─── Server-only env vars ─────────────────────────────────

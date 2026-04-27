@@ -9,6 +9,10 @@ export const isDev = NODE_ENV === "development";
 export const isProd = NODE_ENV === "production";
 export const isTest = NODE_ENV === "test";
 
+export const VERCEL = process.env.VERCEL === "1";
+export const VERCEL_ENV = (process.env.NEXT_PUBLIC_VERCEL_ENV ||
+  "development") as "production" | "preview" | "development";
+
 export function getBrandColor(): string {
   return process.env.NEXT_PUBLIC_BRAND_COLOR || "nla";
 }
