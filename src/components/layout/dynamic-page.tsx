@@ -10,6 +10,7 @@ import {
   IconBrandWhatsapp,
 } from "@tabler/icons-react";
 import { ui, pages } from "@/lib/config/site";
+import { ContactPageSkeleton } from "@/components/layout/contact-page-skeleton";
 
 type Block =
   | { type: "header"; title: string }
@@ -97,6 +98,7 @@ export function DynamicPage({ pageName }: { pageName: string }) {
   }, [pageName]);
 
   if (loading) {
+    if (pageName === "contacto") return <ContactPageSkeleton />;
     return (
       <div className="p-8 text-center text-muted-foreground">{ui.loading}</div>
     );

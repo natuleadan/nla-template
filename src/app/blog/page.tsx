@@ -3,7 +3,7 @@ import { cacheLife } from "next/cache";
 import type { Metadata } from "next";
 import { BlogToolbar } from "@/components/blog/blog-toolbar";
 import { PageHeader } from "@/components/layout/page-header";
-import { Skeleton } from "@/components/ui/skeleton";
+import { PostCardSkeleton } from "@/components/blog/post-card-skeleton";
 import { Empty } from "@/components/ui/empty";
 import { getAllPosts, getPosts } from "@/lib/modules/blog";
 import { getCategories } from "@/lib/modules/categories";
@@ -99,7 +99,13 @@ export default async function BlogPage() {
           title={blog.page.title}
           description={blog.page.description}
         />
-        <Suspense fallback={<Skeleton className="h-64" />}>
+        <Suspense fallback={
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <PostCardSkeleton key={i} />
+            ))}
+          </div>
+        }>
           {total > 0 ? (
             <BlogToolbar
               initialPosts={initialPosts}

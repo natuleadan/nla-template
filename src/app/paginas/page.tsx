@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { cacheLife } from "next/cache";
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/layout/page-header";
-import { Skeleton } from "@/components/ui/skeleton";
+import { PaginaCardSkeleton } from "@/components/paginas/pagina-card-skeleton";
 import { Empty } from "@/components/ui/empty";
 import { PaginaToolbar } from "@/components/paginas/pagina-toolbar";
 import { getAllPaginas, getPaginas } from "@/lib/modules/paginas";
@@ -98,7 +98,13 @@ export default async function PaginasPage() {
           title={paginas.page.title}
           description={paginas.page.description}
         />
-        <Suspense fallback={<Skeleton className="h-64" />}>
+        <Suspense fallback={
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <PaginaCardSkeleton key={i} />
+            ))}
+          </div>
+        }>
           {total > 0 ? (
             <PaginaToolbar
               initialPages={initialPages}

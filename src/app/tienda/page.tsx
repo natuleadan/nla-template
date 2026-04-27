@@ -3,7 +3,7 @@ import { cacheLife } from "next/cache";
 import type { Metadata } from "next";
 import { TiendaToolbar } from "@/components/products/tienda-toolbar";
 import { PageHeader } from "@/components/layout/page-header";
-import { Skeleton } from "@/components/ui/skeleton";
+import { ProductCardSkeleton } from "@/components/products/product-card-skeleton";
 import { Empty } from "@/components/ui/empty";
 import { getAllProducts, getProducts } from "@/lib/modules/products";
 import { getCategories } from "@/lib/modules/categories";
@@ -88,7 +88,13 @@ export default async function TiendaPage() {
           title={store.page.title}
           description={store.page.description}
         />
-        <Suspense fallback={<Skeleton className="h-64" />}>
+        <Suspense fallback={
+          <div className="grid gap-4 grid-cols-1 xs:grid-cols-2 lg:grid-cols-4">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <ProductCardSkeleton key={i} />
+            ))}
+          </div>
+        }>
           {total > 0 ? (
             <TiendaToolbar
               initialProducts={initialProducts}
