@@ -1,3 +1,9 @@
+## [1.3.3](https://github.com/natuleadan/nla-template/compare/v1.3.2...v1.3.3) (2026-04-27)
+
+### Bug Fixes
+
+* **blog:** replace isomorphic-dompurify with xss to fix jsdom esm error ([228e57e](https://github.com/natuleadan/nla-template/commit/228e57ea31b1cfbd768e0b79bc2821c985135013))
+
 ## [1.3.2](https://github.com/natuleadan/nla-template/compare/v1.3.1...v1.3.2) (2026-04-27)
 
 ### Bug Fixes
