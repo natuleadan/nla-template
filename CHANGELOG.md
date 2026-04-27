@@ -1,3 +1,17 @@
+## [1.3.2](https://github.com/natuleadan/nla-template/compare/v1.3.1...v1.3.2) (2026-04-27)
+
+### Bug Fixes
+
+* **env:** wrap dev console logs in isdev guard ([8954ad1](https://github.com/natuleadan/nla-template/commit/8954ad1ce285a8745bb4154a3d4dde7a9956a69a))
+
+### Refactoring
+
+* **env:** add vercel constants and conditionally render analytics ([c3b38cd](https://github.com/natuleadan/nla-template/commit/c3b38cd64678100326c9348d5819e42082f3ae95))
+
+### Tests
+
+* **env:** add isdev guard validation and agents.md link ([3f19958](https://github.com/natuleadan/nla-template/commit/3f19958afe82ddab7a74607736827ba09835ba20))
+
 ## [1.3.1](https://github.com/natuleadan/nla-template/compare/v1.3.0...v1.3.1) (2026-04-27)
 
 ### Bug Fixes
