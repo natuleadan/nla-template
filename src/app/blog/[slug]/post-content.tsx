@@ -61,7 +61,7 @@ export async function PostContent({ params }: PostContentProps) {
           { name: post.title, item: `${baseUrl}/blog/${slug}` },
         ]}
       />
-      <article className="px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full py-8">
+      <article className="px-4 md:px-6 lg:px-8 max-w-4xl mx-auto w-full py-8">
         <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-8 gap-4">
           <div className="flex items-center gap-2 order-1 sm:order-2 w-full sm:w-auto shrink-0 sm:pt-1">
             <ShareDialog url={`${baseUrl}/blog/${slug}`} title={post.title} description={post.excerpt} />
@@ -76,41 +76,37 @@ export async function PostContent({ params }: PostContentProps) {
             <PageHeader title={post.title} description={post.excerpt} />
           </div>
         </div>
-        <div className="flex flex-col lg:flex-row gap-8">
-          <div className="w-full lg:w-1/4 lg:sticky lg:top-8 lg:self-start">
-            <div className="relative aspect-video lg:aspect-auto lg:h-[calc(100vh-12rem)] rounded-lg overflow-hidden">
-              <BlogHeroImage
-                src={post.image || "/design/fallback.svg"}
-                alt={post.title}
-                priority
-              />
-            </div>
+        <div className="relative aspect-video rounded-lg overflow-hidden mb-8">
+          <BlogHeroImage
+            src={post.image || "/design/fallback.svg"}
+            alt={post.title}
+            priority
+          />
+        </div>
+        <div className="space-y-4">
+          <div className="flex flex-wrap gap-2">
+            <Badge variant="secondary">{post.category}</Badge>
+            {post.tags?.map((tag) => (
+              <Badge key={tag} variant="outline">
+                {tag}
+              </Badge>
+            ))}
           </div>
-          <div className="w-full lg:w-3/4 space-y-4">
-            <div className="flex flex-wrap gap-2">
-              <Badge variant="secondary">{post.category}</Badge>
-              {post.tags?.map((tag) => (
-                <Badge key={tag} variant="outline">
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-            <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-              <span className="flex items-center gap-1">
-                <IconUser className="size-4" />
-                {blog.post.by(post.author)}
-              </span>
-              <span className="flex items-center gap-1">
-                <IconCalendar className="size-4" />
-                {blog.post.publishedAt(post.publishedAt)}
-              </span>
-              <span className="flex items-center gap-1">
-                <IconClock className="size-4" />
-                {blog.post.readingTime(post.readingTime)}
-              </span>
-            </div>
-            <Prose html={post.content} />
+          <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+            <span className="flex items-center gap-1">
+              <IconUser className="size-4" />
+              {blog.post.by(post.author)}
+            </span>
+            <span className="flex items-center gap-1">
+              <IconCalendar className="size-4" />
+              {blog.post.publishedAt(post.publishedAt)}
+            </span>
+            <span className="flex items-center gap-1">
+              <IconClock className="size-4" />
+              {blog.post.readingTime(post.readingTime)}
+            </span>
           </div>
+          <Prose html={post.content} />
         </div>
         <BlogComments postSlug={slug} initialComments={comments} />
       </article>

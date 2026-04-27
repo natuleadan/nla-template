@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { TiendaToolbar } from "@/components/products/tienda-toolbar";
 import { PageHeader } from "@/components/layout/page-header";
 import { ProductCardSkeleton } from "@/components/products/product-card-skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Empty } from "@/components/ui/empty";
 import { getAllProducts, getProducts } from "@/lib/modules/products";
 import { getCategories } from "@/lib/modules/categories";
@@ -90,10 +91,16 @@ export default async function TiendaPage() {
           description={store.page.description}
         />
         <Suspense fallback={
-          <div className="grid gap-4 grid-cols-1 xs:grid-cols-2 lg:grid-cols-4">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <ProductCardSkeleton key={i} />
-            ))}
+          <div className="space-y-6">
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Skeleton className="h-10 sm:max-w-xs flex-1" />
+              <Skeleton className="h-10 sm:max-w-xs ml-auto w-full sm:w-auto" />
+            </div>
+            <div className="grid gap-4 grid-cols-1 xs:grid-cols-2 lg:grid-cols-4">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <ProductCardSkeleton key={i} />
+              ))}
+            </div>
           </div>
         }>
           {total > 0 ? (

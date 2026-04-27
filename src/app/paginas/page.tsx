@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { PaginaCardSkeleton } from "@/components/paginas/pagina-card-skeleton";
 import { Empty } from "@/components/ui/empty";
 import { PaginaToolbar } from "@/components/paginas/pagina-toolbar";
+import { Skeleton } from "@/components/ui/skeleton";
 import { getAllPaginas, getPaginas } from "@/lib/modules/paginas";
 import { paginas, brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
@@ -99,10 +100,16 @@ export default async function PaginasPage() {
           description={paginas.page.description}
         />
         <Suspense fallback={
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <PaginaCardSkeleton key={i} />
-            ))}
+          <div className="space-y-6">
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Skeleton className="h-10 sm:max-w-xs flex-1" />
+              <Skeleton className="h-10 sm:max-w-xs ml-auto w-full sm:w-auto" />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <PaginaCardSkeleton key={i} />
+              ))}
+            </div>
           </div>
         }>
           {total > 0 ? (

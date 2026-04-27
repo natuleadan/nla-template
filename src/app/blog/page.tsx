@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { BlogToolbar } from "@/components/blog/blog-toolbar";
 import { PageHeader } from "@/components/layout/page-header";
 import { PostCardSkeleton } from "@/components/blog/post-card-skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Empty } from "@/components/ui/empty";
 import { getAllPosts, getPosts } from "@/lib/modules/blog";
 import { getCategories } from "@/lib/modules/categories";
@@ -100,10 +101,16 @@ export default async function BlogPage() {
           description={blog.page.description}
         />
         <Suspense fallback={
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <PostCardSkeleton key={i} />
-            ))}
+          <div className="space-y-6">
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Skeleton className="h-10 sm:max-w-xs flex-1" />
+              <Skeleton className="h-10 sm:max-w-xs ml-auto w-full sm:w-auto" />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <PostCardSkeleton key={i} />
+              ))}
+            </div>
           </div>
         }>
           {total > 0 ? (
