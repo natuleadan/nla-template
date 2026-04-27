@@ -1,3 +1,21 @@
+## [1.3.0](https://github.com/natuleadan/nla-template/compare/v1.2.0...v1.3.0) (2026-04-27)
+
+### Features
+
+* **contact:** submit form via whatsapp with api fallback ([0167d7a](https://github.com/natuleadan/nla-template/commit/0167d7a4f3ba7aa88b1a096d97eb0e26cbbbdba8))
+* **nav:** add icon-only tablet nav with hover tooltips ([e037aa3](https://github.com/natuleadan/nla-template/commit/e037aa372f3ca9a23613425d67145a898fde60bd))
+* **nav:** add icons to menu items, fix mobile accordion navigation ([fbd5ad9](https://github.com/natuleadan/nla-template/commit/fbd5ad939806c4bb720ef1a69d1c93eda70e0bcc))
+* **nav:** compact tablet nav with hover-to-reveal labels and dropdowns ([6030ff1](https://github.com/natuleadan/nla-template/commit/6030ff15cbfd4dcebb1a69a6192952d5e21ff7a6))
+
+### Bug Fixes
+
+* **ui:** add toolbar skeletons to list pages, center blog detail layout ([b659426](https://github.com/natuleadan/nla-template/commit/b659426c691c6faebe9fb3dfba5e3897d9555b97))
+* **ui:** og images for paginas slug, aligned skeletons, image counter ([1ff1ee5](https://github.com/natuleadan/nla-template/commit/1ff1ee5f793b2d85271a26cadb3229aa9bd087a0))
+
+### Refactoring
+
+* **config:** separate data from ui translations, move all hardcoded strings to config ([3495cb8](https://github.com/natuleadan/nla-template/commit/3495cb8e2c440ced178d96c1dd9cb638771b9a89))
+
 ## [1.2.0](https://github.com/natuleadan/nla-template/compare/v1.1.3...v1.2.0) (2026-04-27)
 
 ### Features
