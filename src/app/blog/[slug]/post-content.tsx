@@ -53,7 +53,7 @@ export async function PostContent({ params }: PostContentProps) {
         url={`${baseUrl}/blog/${slug}`}
         author={post.author}
         publishedAt={post.publishedAt}
-        dateModified={post.dateModified}
+        dateModified={post.updatedAt}
         readingTime={post.readingTime}
         breadcrumbs={[
           { name: "Inicio", item: baseUrl },

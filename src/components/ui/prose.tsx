@@ -1,5 +1,5 @@
 import { cn } from "@/lib/config/utils";
-import DOMPurify from "isomorphic-dompurify";
+import xss from "xss";
 
 interface ProseProps {
   html: string;
@@ -7,7 +7,7 @@ interface ProseProps {
 }
 
 export function Prose({ html, className }: ProseProps) {
-  const sanitized = DOMPurify.sanitize(html);
+  const sanitized = xss(html);
 
   return (
     <div
