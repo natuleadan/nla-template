@@ -51,7 +51,7 @@ export const store = {
     commentPlaceholder: "Tu comentario...",
     submit: "Enviar rese\u00f1a",
     submitting: "Enviando...",
-    success: "La rese\u00f1a se enviar\u00e1 por WhatsApp para publicarla",
+    success: "Enviando rese\u00f1a para revisarla",
     error: "Error al enviar rese\u00f1a",
     validation: "Completa todos los campos",
     whatsappTemplate: (name: string, comment: string, rating: number, productSlug: string, baseUrl: string) =>

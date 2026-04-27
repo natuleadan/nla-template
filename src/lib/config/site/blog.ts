@@ -31,7 +31,7 @@ export const blog = {
     commentPlaceholder: "Tu comentario...",
     submit: "Enviar comentario",
     submitting: "Enviando...",
-    success: "El comentario se enviará por WhatsApp para publicarlo",
+    success: "Enviando comentario para revisarlo",
     error: "Error al enviar comentario",
     validation: "Completa todos los campos",
     whatsappTemplate: (name: string, comment: string, postSlug: string, baseUrl: string) =>

@@ -1,8 +1,8 @@
 export const home = {
   hero: {
-    title: "Tienda en l\u00ednea por WhatsApp",
+    title: "Tienda en l\u00ednea",
     subtitle:
-      "Productos de calidad para tu d\u00eda a d\u00eda. Compra f\u00e1cil y r\u00e1pido por WhatsApp. Entrega r\u00e1pida y atenci\u00f3n personalizada.",
+      "Productos de calidad para tu d\u00eda a d\u00eda. Compra f\u00e1cil y r\u00e1pido. Entrega r\u00e1pida y atenci\u00f3n personalizada.",
     cta: {
       primary: "Ver tienda",
       secondary: "Cont\u00e1ctanos",

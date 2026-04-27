@@ -21,6 +21,5 @@ export const paginas = {
   detail: {
     back: "Volver a páginas",
     updatedAt: (date: string) => `Actualizado el ${date}`,
-    categoryLabel: "Categoría:",
   },
 };
