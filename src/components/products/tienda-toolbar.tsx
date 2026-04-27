@@ -12,6 +12,7 @@ import {
 import { ProductGrid } from "./product-grid";
 import { Spinner } from "@/components/ui/spinner";
 import { store } from "@/lib/config/site";
+import { isDev } from "@/lib/env";
 
 interface Product {
   id: string;
@@ -59,7 +60,7 @@ export function TiendaToolbar({
       setHasMore(data.hasMore);
       setPage((prev) => prev + 1);
     } catch (e) {
-      console.error("Error loading more products", e);
+      if (isDev) console.error("Error loading more products", e);
     } finally {
       setLoading(false);
     }

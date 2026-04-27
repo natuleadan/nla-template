@@ -28,7 +28,7 @@ import {
 } from "@tabler/icons-react";
 import { createReview, type Review } from "@/lib/modules/reviews";
 import { type InventoryItem } from "@/lib/modules/inventory";
-import { getWhatsappNumber } from "@/lib/env";
+import { getWhatsappNumber, isDev } from "@/lib/env";
 import notificationService from "@/lib/modules/notification";
 import { store, ui } from "@/lib/config/site";
 
@@ -175,7 +175,7 @@ export function ProductDetails({
       const urlWhatsapp = `https://wa.me/${getWhatsappNumber()}?text=${encodeURIComponent(mensaje)}`;
       window.open(urlWhatsapp, "_blank");
     } catch (error) {
-      console.error("Error submitting review:", error);
+      if (isDev) console.error("Error submitting review:", error);
       notificationService.error(store.reviews.error);
     } finally {
       setIsSubmitting(false);

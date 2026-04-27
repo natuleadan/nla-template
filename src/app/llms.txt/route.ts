@@ -1,4 +1,4 @@
-import { getBaseUrl } from "@/lib/env";
+import { getBaseUrl, isDev } from "@/lib/env";
 import { brand } from "@/lib/config/site";
 import { getAllProducts } from "@/lib/modules/products";
 
@@ -44,7 +44,7 @@ export async function GET() {
       },
     });
   } catch (error) {
-    console.error("Error generating llms.txt:", error);
+    if (isDev) console.error("Error generating llms.txt:", error);
     return new Response("Error generating LLM manifest.", { status: 500 });
   }
 }

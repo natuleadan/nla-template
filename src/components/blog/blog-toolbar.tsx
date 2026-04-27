@@ -12,6 +12,7 @@ import {
 import { PostCard } from "./post-card";
 import { Spinner } from "@/components/ui/spinner";
 import { blog } from "@/lib/config/site";
+import { isDev } from "@/lib/env";
 
 interface BlogPost {
   id: string;
@@ -62,7 +63,7 @@ export function BlogToolbar({
       setHasMore(data.hasMore);
       setPage((prev) => prev + 1);
     } catch (e) {
-      console.error("Error loading more posts", e);
+      if (isDev) console.error("Error loading more posts", e);
     } finally {
       setLoading(false);
     }

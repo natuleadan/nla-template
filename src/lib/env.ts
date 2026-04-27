@@ -6,12 +6,18 @@
  * - Private vars: here — server-only (API keys, secrets, etc.)
  */
 
+import { isDev } from "@/lib/env.public";
+
 export {
   getBrandColor,
   getBaseUrl,
   getWhatsappNumber,
   getWeekMax,
   getIndexingEnabled,
+  isDev,
+  isProd,
+  isTest,
+  NODE_ENV,
 } from "@/lib/env.public";
 
 // ─── Server-only env vars ─────────────────────────────────
@@ -49,7 +55,7 @@ export function notFound(entity: string): Response {
 }
 
 export function serverError(error: unknown): Response {
-  console.error("Server error:", error);
+  if (isDev) console.error("Server error:", error);
   return Response.json(
     { error: "Error interno del servidor" },
     { status: 500 },

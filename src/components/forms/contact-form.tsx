@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
-import { getWhatsappNumber } from "@/lib/env";
+import { getWhatsappNumber, isDev } from "@/lib/env";
 import notificationService from "@/lib/modules/notification";
 import { form, ui } from "@/lib/config/site";
 
@@ -67,7 +67,7 @@ export function ContactForm({ className }: ContactFormProps) {
         notificationService.error(t.notifications.error);
       }
     } catch (e) {
-      console.error("Error al enviar formulario:", e);
+      if (isDev) console.error("Error al enviar formulario:", e);
       notificationService.error(t.notifications.network);
     } finally {
       setLoading(false);

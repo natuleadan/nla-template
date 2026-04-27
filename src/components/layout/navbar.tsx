@@ -15,7 +15,7 @@ import { GlobalSearch } from "@/components/layout/global-search";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { NavDropdown } from "@/components/layout/navbar-dropdown";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { getWhatsappNumber } from "@/lib/env";
+import { getWhatsappNumber, isDev } from "@/lib/env";
 import notificationService from "@/lib/modules/notification";
 import { brand, nav, ui } from "@/lib/config/site";
 
@@ -52,7 +52,7 @@ export function Navbar() {
         }),
       });
     } catch (e) {
-      console.error("Error:", e);
+      if (isDev) console.error("Error:", e);
     }
 
     const urlWhatsapp = `https://wa.me/${getWhatsappNumber()}?text=${encodeURIComponent(brand.whatsappMessage)}`;

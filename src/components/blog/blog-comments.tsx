@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { IconSend, IconLoader2 } from "@tabler/icons-react";
 import { createComment, type Comment } from "@/lib/modules/comments";
-import { getWhatsappNumber } from "@/lib/env";
+import { getWhatsappNumber, isDev } from "@/lib/env";
 import notificationService from "@/lib/modules/notification";
 import { blog } from "@/lib/config/site";
 
@@ -63,7 +63,7 @@ export function BlogComments({ postSlug, initialComments }: BlogCommentsProps) {
       const urlWhatsapp = `https://wa.me/${getWhatsappNumber()}?text=${encodeURIComponent(mensaje)}`;
       window.open(urlWhatsapp, "_blank");
     } catch (error) {
-      console.error("Error submitting comment:", error);
+      if (isDev) console.error("Error submitting comment:", error);
       notificationService.error(blog.comments.error);
     } finally {
       setIsSubmitting(false);
