@@ -1,3 +1,28 @@
+## [1.2.0](https://github.com/natuleadan/nla-template/compare/v1.1.3...v1.2.0) (2026-04-27)
+
+### Features
+
+* **blog:** add comment system with whatsapp submission ([5bdbcdf](https://github.com/natuleadan/nla-template/commit/5bdbcdf756667c4656bc7ecd7da8dc41fb67e878))
+* **skeletons:** add dedicated skeleton components for all loading states ([4d517ca](https://github.com/natuleadan/nla-template/commit/4d517cabee4e4880f909de3192984328eb5df52f))
+
+### Bug Fixes
+
+* **agenda:** dialog state sync, auto-open from url, full date in slots ([05645c9](https://github.com/natuleadan/nla-template/commit/05645c99cc67337be2618250678463c2a9b99263))
+* **jsonld:** comply with google structured data standards ([73fab41](https://github.com/natuleadan/nla-template/commit/73fab41d7ef01338623f066d816576f527aca304))
+* **seo:** metadata separator |, agenda count total, anonymize product names ([737bed6](https://github.com/natuleadan/nla-template/commit/737bed6dd72ecddd8fa0ad6e5e5f4666d208ccf0))
+* **ui:** footer agenda format, empty state for header and footer ([ce32627](https://github.com/natuleadan/nla-template/commit/ce326270f2b1368310a50997a52e62c4645a82b5))
+* **ui:** reduce footer spacing and fix cookie banner mobile layout ([6cf10f7](https://github.com/natuleadan/nla-template/commit/6cf10f734aceef9f742b985cf7e871ef1c15cc15))
+
+### Refactoring
+
+* **config:** remove 39 dead translation keys ([3e59d18](https://github.com/natuleadan/nla-template/commit/3e59d182840cbeccde315868b68e45f234222bc1))
+* **products:** 16 products with type/appointment and agenda button ([2f941ae](https://github.com/natuleadan/nla-template/commit/2f941ae6c2a6f74cea1c0b0ae323f8b70056aee1))
+* **reviews:** submit via whatsapp with pending status ([33aecdb](https://github.com/natuleadan/nla-template/commit/33aecdb679fd521f92ee20631403a190618816b0))
+
+### Tests
+
+* **config:** validate all translation keys in both directions ([96579c1](https://github.com/natuleadan/nla-template/commit/96579c1b8c695f2c8359a34b33f9c13165447100))
+
 ## [1.1.3](https://github.com/natuleadan/nla-template/compare/v1.1.2...v1.1.3) (2026-04-26)
 
 ### Bug Fixes
