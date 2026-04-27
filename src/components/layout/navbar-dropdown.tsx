@@ -8,6 +8,7 @@ import { getWeekDays } from "@/lib/modules/agenda";
 import { getAllPaginas } from "@/lib/modules/paginas";
 import { getUpcomingSlots } from "@/lib/agenda-utils";
 import { ui } from "@/lib/config/site";
+import { IconHome, IconBuildingStore, IconNews, IconCalendar, IconFiles, IconMail } from "@tabler/icons-react";
 
 type DropdownType = "products" | "posts" | "agenda" | "pages";
 
@@ -22,7 +23,17 @@ interface NavDropdownProps {
   type: DropdownType;
   variant?: "dropdown" | "accordion";
   onNav?: () => void;
+  icon?: string;
 }
+
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  home: IconHome,
+  store: IconBuildingStore,
+  news: IconNews,
+  calendar: IconCalendar,
+  files: IconFiles,
+  mail: IconMail,
+};
 
 function shuffleArray<T>(array: T[]): T[] {
   const a = [...array];
@@ -66,10 +77,11 @@ async function loadItems(type: DropdownType): Promise<NavLink[]> {
   }
 }
 
-function DesktopDropdown({ label, href, type }: NavDropdownProps) {
+function DesktopDropdown({ label, href, type, icon }: NavDropdownProps) {
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState<NavLink[]>([]);
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const IconComp = icon ? iconMap[icon] : null;
 
   useEffect(() => {
     let cancelled = false;
@@ -92,8 +104,9 @@ function DesktopDropdown({ label, href, type }: NavDropdownProps) {
     <div className="relative" onMouseEnter={show} onMouseLeave={hide}>
       <Link
         href={href}
-        className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-muted transition-colors inline-flex items-center gap-1"
+        className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-muted transition-colors inline-flex items-center gap-1.5"
       >
+        {IconComp && <IconComp className="size-4" />}
         {label}
         <svg className="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
@@ -125,9 +138,10 @@ function DesktopDropdown({ label, href, type }: NavDropdownProps) {
   );
 }
 
-function MobileAccordion({ label, href, type, onNav }: NavDropdownProps) {
+function MobileAccordion({ label, href, type, onNav, icon }: NavDropdownProps) {
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState<NavLink[]>([]);
+  const IconComp = icon ? iconMap[icon] : null;
 
   useEffect(() => {
     let cancelled = false;
@@ -139,21 +153,31 @@ function MobileAccordion({ label, href, type, onNav }: NavDropdownProps) {
 
   return (
     <div>
-      <button
-        onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between px-4 py-3 text-base font-medium rounded-lg hover:bg-muted transition-colors"
-      >
-        {label}
-        <svg
-          className={`size-4 transition-transform ${open ? "rotate-180" : ""}`}
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
+      <div className="flex items-center">
+        <Link
+          href={href}
+          onClick={onNav}
+          className="flex-1 px-4 py-3 text-base font-medium rounded-l-lg hover:bg-muted transition-colors inline-flex items-center gap-2"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-        </svg>
-      </button>
+          {IconComp && <IconComp className="size-5" />}
+          {label}
+        </Link>
+        <button
+          onClick={() => setOpen(!open)}
+          className="px-3 py-3 text-base font-medium rounded-r-lg hover:bg-muted transition-colors"
+          aria-label={open ? "Cerrar" : "Abrir"}
+        >
+          <svg
+            className={`size-4 transition-transform ${open ? "rotate-180" : ""}`}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+          </svg>
+        </button>
+      </div>
       {open && (
         <div className="ml-4 border-l pl-2 space-y-0.5">
           {items.length > 0 ? (

@@ -10,7 +10,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { IconBrandWhatsapp, IconBarbell, IconMenu2 } from "@tabler/icons-react";
+import { IconBrandWhatsapp, IconBarbell, IconMenu2, IconHome, IconBuildingStore, IconNews, IconCalendar, IconFiles, IconMail } from "@tabler/icons-react";
 import { GlobalSearch } from "@/components/layout/global-search";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { NavDropdown } from "@/components/layout/navbar-dropdown";
@@ -23,6 +23,15 @@ const dropdownItems: Record<string, "products" | "posts" | "agenda" | "pages"> =
   Blog: "posts",
   Agenda: "agenda",
   Páginas: "pages",
+};
+
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  home: IconHome,
+  store: IconBuildingStore,
+  news: IconNews,
+  calendar: IconCalendar,
+  files: IconFiles,
+  mail: IconMail,
 };
 
 export function Navbar() {
@@ -64,6 +73,7 @@ export function Navbar() {
 
         <nav className="hidden lg:flex flex-1 justify-end items-center gap-1" aria-label={ui.navbar.desktopAriaLabel}>
           {nav.items.map((item) => {
+            const IconComp = iconMap[item.icon];
             const dropdownType = dropdownItems[item.label];
             if (dropdownType) {
               return (
@@ -72,6 +82,7 @@ export function Navbar() {
                   label={item.label}
                   href={item.href}
                   type={dropdownType}
+                  icon={item.icon}
                 />
               );
             }
@@ -79,8 +90,9 @@ export function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-muted transition-colors"
+                className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-muted transition-colors inline-flex items-center gap-1.5"
               >
+                {IconComp && <IconComp className="size-4" />}
                 {item.label}
               </Link>
             );
@@ -119,6 +131,7 @@ export function Navbar() {
               </SheetDescription>
               <nav className="flex flex-col gap-1 mt-8" aria-label={ui.navbar.mobileNavAriaLabel}>
                 {nav.items.map((item) => {
+                  const IconComp = iconMap[item.icon];
                   const dropdownType = dropdownItems[item.label];
                   if (dropdownType) {
                     return (
@@ -129,6 +142,7 @@ export function Navbar() {
                         type={dropdownType}
                         variant="accordion"
                         onNav={() => setMenuOpen(false)}
+                        icon={item.icon}
                       />
                     );
                   }
@@ -137,8 +151,9 @@ export function Navbar() {
                       key={item.href}
                       href={item.href}
                       onClick={() => setMenuOpen(false)}
-                      className="px-4 py-3 text-base font-medium rounded-lg hover:bg-muted transition-colors"
+                      className="px-4 py-3 text-base font-medium rounded-lg hover:bg-muted transition-colors inline-flex items-center gap-2"
                     >
+                      {IconComp && <IconComp className="size-5" />}
                       {item.label}
                     </Link>
                   );

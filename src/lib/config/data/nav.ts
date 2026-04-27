@@ -1,11 +1,11 @@
 export const nav = {
   items: [
-    { href: "/", label: "Inicio" },
-    { href: "/tienda", label: "Tienda" },
-    { href: "/blog", label: "Blog" },
-    { href: "/agenda", label: "Agenda" },
-    { href: "/paginas", label: "P\u00e1ginas" },
-    { href: "/contacto", label: "Contacto" },
+    { href: "/", label: "Inicio", icon: "home" },
+    { href: "/tienda", label: "Tienda", icon: "store" },
+    { href: "/blog", label: "Blog", icon: "news" },
+    { href: "/agenda", label: "Agenda", icon: "calendar" },
+    { href: "/paginas", label: "P\u00e1ginas", icon: "files" },
+    { href: "/contacto", label: "Contacto", icon: "mail" },
   ] as const,
   buttons: {
     whatsappDesktop: "Escríbenos",
