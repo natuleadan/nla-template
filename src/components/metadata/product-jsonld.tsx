@@ -34,25 +34,6 @@ export function JsonLdProduct({
   ratingValue,
   reviewCount,
 }: JsonLdProductProps) {
-  const offer: Offer = {
-    "@type": "Offer",
-    "@id": `${url}/#offer`,
-    price,
-    priceCurrency: currency,
-    priceValidUntil: new Date(
-      new Date().getFullYear(),
-      new Date().getMonth() + 1,
-      0,
-    )
-      .toISOString()
-      .split("T")[0],
-    availability: inStock
-      ? "https://schema.org/InStock"
-      : "https://schema.org/OutOfStock",
-    url,
-    seller: { "@id": `${brandUrl}/#organization` },
-  };
-
   const jsonLd: Graph = {
     "@context": "https://schema.org",
     "@graph": [
@@ -82,6 +63,24 @@ export function JsonLdProduct({
         name: brandName,
         url: brandUrl,
       },
+      {
+        "@type": "Offer",
+        "@id": `${url}/#offer`,
+        price,
+        priceCurrency: currency,
+        priceValidUntil: new Date(
+          new Date().getFullYear(),
+          new Date().getMonth() + 1,
+          0,
+        )
+          .toISOString()
+          .split("T")[0],
+        availability: inStock
+          ? "https://schema.org/InStock"
+          : "https://schema.org/OutOfStock",
+        url,
+        seller: { "@id": `${brandUrl}/#organization` },
+      } as Offer,
       ...(breadcrumbs.length > 0
         ? [
             {

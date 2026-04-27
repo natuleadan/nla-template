@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Hero } from "@/components/landing/hero";
 import { HomeJsonLd } from "@/components/metadata/home-jsonld";
-import { brand, home } from "@/lib/config/site";
+import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
 
 export const metadata: Metadata = {

@@ -1,7 +1,5 @@
-"use client";
-
-import { useState, useEffect } from "react";
 import { cn } from "@/lib/config/utils";
+import DOMPurify from "isomorphic-dompurify";
 
 interface ProseProps {
   html: string;
@@ -9,15 +7,7 @@ interface ProseProps {
 }
 
 export function Prose({ html, className }: ProseProps) {
-  const [sanitized, setSanitized] = useState(html);
-
-  useEffect(() => {
-    let cancelled = false;
-    import("isomorphic-dompurify").then((mod) => {
-      if (!cancelled) setSanitized(mod.default.sanitize(html));
-    });
-    return () => { cancelled = true; };
-  }, [html]);
+  const sanitized = DOMPurify.sanitize(html);
 
   return (
     <div

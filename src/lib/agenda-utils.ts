@@ -1,4 +1,4 @@
-import { getWeekDays, type AgendaDay, type AgendaSlot } from "@/lib/modules/agenda";
+import type { AgendaDay } from "@/lib/modules/agenda";
 
 export interface AgendaSlotInfo {
   dayName: string;

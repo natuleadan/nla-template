@@ -6,7 +6,7 @@ import { WeeklyCalendar } from "@/components/agenda/weekly-calendar";
 import { CurrentTime } from "@/components/agenda/current-time";
 import { AgendaSkeleton } from "@/components/agenda/agenda-skeleton";
 import { getWeekDays } from "@/lib/modules/agenda";
-import { agenda, brand, ui } from "@/lib/config/site";
+import { agenda, brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
 import { JsonLdBreadcrumb } from "@/components/metadata/breadcrumb-jsonld";
 import { JsonLdAgendaList } from "@/components/metadata/agenda-list-jsonld";
