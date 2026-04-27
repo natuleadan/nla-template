@@ -8,17 +8,18 @@ interface PageItem {
 
 interface JsonLdPaginasListProps {
   name: string;
+  total: number;
   pages: PageItem[];
 }
 
-export function JsonLdPaginasList({ name, pages }: JsonLdPaginasListProps) {
+export function JsonLdPaginasList({ name, total, pages }: JsonLdPaginasListProps) {
   const jsonLd: WithContext<CollectionPage> = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name,
     mainEntity: {
       "@type": "ItemList",
-      numberOfItems: pages.length,
+      numberOfItems: total,
       itemListElement: pages.map((p, index) => ({
         "@type": "ListItem",
         position: index + 1,

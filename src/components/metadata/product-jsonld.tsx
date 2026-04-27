@@ -10,6 +10,7 @@ interface JsonLdProductProps {
   currency?: string;
   inStock?: boolean;
   sku?: string;
+  category?: string;
   brandName: string;
   brandUrl: string;
   breadcrumbs?: Array<{ name: string; item: string }>;
@@ -26,6 +27,7 @@ export function JsonLdProduct({
   currency = "USD",
   inStock = true,
   sku,
+  category,
   brandName,
   brandUrl,
   breadcrumbs = [],
@@ -34,6 +36,7 @@ export function JsonLdProduct({
 }: JsonLdProductProps) {
   const offer: Offer = {
     "@type": "Offer",
+    "@id": `${url}/#offer`,
     price,
     priceCurrency: currency,
     priceValidUntil: new Date(
@@ -55,12 +58,15 @@ export function JsonLdProduct({
     "@graph": [
       {
         "@type": "Product",
+        "@id": `${url}/#product`,
         name,
         description,
         image,
+        url,
         sku,
+        ...(category && { category }),
         brand: { "@id": `${brandUrl}/#organization` },
-        offers: offer,
+        offers: { "@id": `${url}/#offer` },
         aggregateRating:
           reviewCount && reviewCount > 0
             ? {

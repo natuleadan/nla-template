@@ -11,11 +11,34 @@ import { getBaseUrl } from "@/lib/config/env";
 import { JsonLdBreadcrumb } from "@/components/metadata/breadcrumb-jsonld";
 import { JsonLdAgendaList } from "@/components/metadata/agenda-list-jsonld";
 
+function getNextDateForDay(dayName: string, time: string): string {
+  const days = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+  const dayIndex = days.indexOf(dayName);
+  if (dayIndex === -1) return "";
+  const now = new Date();
+  const todayDay = now.getDay();
+  let diff = dayIndex - todayDay;
+  if (diff <= 0) diff += 7;
+  const next = new Date(now);
+  next.setDate(now.getDate() + diff);
+  const dateStr = next.toISOString().split("T")[0];
+  return `${dateStr}T${time}:00`;
+}
+
 async function getInitialData() {
   "use cache";
   cacheLife("hours");
   const days = await getWeekDays();
-  return { days };
+  const availableSlots = days.flatMap((d) =>
+    d.slots
+      .filter((s) => s.available)
+      .map((s) => ({
+        startDate: getNextDateForDay(d.name, s.time),
+        type: s.type,
+        description: s.type ? `Cita de ${s.type}` : "Cita disponible",
+      })),
+  );
+  return { days, availableSlots };
 }
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -65,18 +88,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AgendaPage() {
-  const { days } = await getInitialData();
+  const { days, availableSlots } = await getInitialData();
   const baseUrl = getBaseUrl();
-
-  const availableSlots = days.flatMap((d) =>
-    d.slots
-      .filter((s) => s.available)
-      .map((s) => ({
-        day: d.name,
-        time: s.time,
-        type: s.type,
-      })),
-  );
 
   return (
     <>
@@ -86,7 +99,12 @@ export default async function AgendaPage() {
           { name: agenda.page.title, item: `${baseUrl}/agenda` },
         ]}
       />
-      <JsonLdAgendaList name={agenda.page.title} slots={availableSlots} baseUrl={baseUrl} />
+      <JsonLdAgendaList
+        name={agenda.page.title}
+        slots={availableSlots}
+        baseUrl={baseUrl}
+        businessName={brand.name}
+      />
       <div className="px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full py-8">
         <div className="flex flex-row items-start justify-between mb-8 gap-4">
           <div className="flex-1 min-w-0">

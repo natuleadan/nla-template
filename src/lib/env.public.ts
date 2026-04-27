@@ -27,22 +27,4 @@ export function getIndexingEnabled(): boolean {
   return process.env.NEXT_PUBLIC_INDEXING === "true";
 }
 
-export function getSocialEmail(): string {
-  return process.env.NEXT_PUBLIC_SOCIAL_EMAIL || "";
-}
 
-export function getSocialInstagram(): string {
-  return process.env.NEXT_PUBLIC_SOCIAL_INSTAGRAM || "";
-}
-
-export function getSocialFacebook(): string {
-  return process.env.NEXT_PUBLIC_SOCIAL_FACEBOOK || "";
-}
-
-export function getSocialTwitter(): string {
-  return process.env.NEXT_PUBLIC_SOCIAL_TWITTER || "";
-}
-
-export function getSocialYoutube(): string {
-  return process.env.NEXT_PUBLIC_SOCIAL_YOUTUBE || "";
-}

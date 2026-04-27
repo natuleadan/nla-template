@@ -10,6 +10,7 @@ interface JsonLdBlogPostProps {
   url: string;
   author: string;
   publishedAt: string;
+  dateModified?: string;
   readingTime: number;
   breadcrumbs?: Array<{ name: string; item: string }>;
 }
@@ -21,6 +22,7 @@ export function JsonLdBlogPost({
   url,
   author,
   publishedAt,
+  dateModified,
   readingTime,
   breadcrumbs = [],
 }: JsonLdBlogPostProps) {
@@ -31,10 +33,12 @@ export function JsonLdBlogPost({
     "@graph": [
       {
         "@type": "BlogPosting",
+        "@id": `${url}/#article`,
         headline: title,
         description,
         image,
         datePublished: publishedAt,
+        ...(dateModified && { dateModified }),
         author: {
           "@type": "Person",
           name: author,

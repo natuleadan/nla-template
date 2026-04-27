@@ -26,6 +26,7 @@ export function JsonLdContact() {
       address: {
         "@type": "PostalAddress",
         addressLocality: brand.address,
+        addressCountry: brand.addressCountry,
       },
     } as Organization,
   };

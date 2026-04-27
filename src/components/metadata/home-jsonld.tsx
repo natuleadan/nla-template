@@ -6,6 +6,14 @@ import type { Graph, Organization, WebSite, WebPage, BreadcrumbList } from "sche
 export function HomeJsonLd() {
   const baseUrl = getBaseUrl();
 
+  const sameAs = [
+    brand.socialInstagram && `https://instagram.com/${brand.socialInstagram}`,
+    brand.socialFacebook && `https://facebook.com/${brand.socialFacebook}`,
+    brand.socialTwitter && `https://x.com/${brand.socialTwitter}`,
+    brand.socialYoutube && `https://youtube.com/${brand.socialYoutube}`,
+    brand.socialEmail && `mailto:${brand.socialEmail}`,
+  ].filter(Boolean);
+
   const jsonLd: Graph = {
     "@context": "https://schema.org",
     "@graph": [
@@ -16,6 +24,8 @@ export function HomeJsonLd() {
         url: baseUrl,
         description: brand.description,
         logo: `${baseUrl}/design/logo.svg`,
+        image: `${baseUrl}/design/logo.svg`,
+        ...(sameAs.length > 0 && { sameAs }),
         contactPoint: {
           "@type": "ContactPoint",
           telephone: brand.phone,

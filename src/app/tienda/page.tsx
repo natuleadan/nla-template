@@ -81,6 +81,7 @@ export default async function TiendaPage() {
       />
       <JsonLdProductList
         name={store.page.title}
+        total={total}
         products={jsonLdProducts}
       />
       <div className="px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full py-8">

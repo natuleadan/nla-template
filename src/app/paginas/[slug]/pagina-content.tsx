@@ -10,6 +10,7 @@ import { getPagina } from "@/lib/modules/paginas";
 import { paginas } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/config/env";
 import { JsonLdBreadcrumb } from "@/components/metadata/breadcrumb-jsonld";
+import { JsonLdWebPage } from "@/components/metadata/page-jsonld";
 
 interface PaginaContentProps {
   params: Promise<{ slug: string }>;
@@ -26,6 +27,18 @@ export async function PaginaContent({ params }: PaginaContentProps) {
     <>
       <JsonLdBreadcrumb
         levels={[
+          { name: "Inicio", item: baseUrl },
+          { name: paginas.page.title, item: `${baseUrl}/paginas` },
+          { name: page.title, item: `${baseUrl}/paginas/${slug}` },
+        ]}
+      />
+      <JsonLdWebPage
+        pageUrl={`${baseUrl}/paginas/${slug}`}
+        pageName={page.title}
+        pageDescription={page.excerpt}
+        datePublished={page.publishedAt}
+        dateModified={page.updatedAt}
+        breadcrumbs={[
           { name: "Inicio", item: baseUrl },
           { name: paginas.page.title, item: `${baseUrl}/paginas` },
           { name: page.title, item: `${baseUrl}/paginas/${slug}` },

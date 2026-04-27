@@ -2,18 +2,19 @@ import { safeJsonLd } from "@/lib/utils";
 import type { WithContext, CollectionPage } from "schema-dts";
 
 interface SlotItem {
-  day: string;
-  time: string;
+  startDate: string;
   type?: string;
+  description?: string;
 }
 
 interface JsonLdAgendaListProps {
   name: string;
   slots: SlotItem[];
   baseUrl: string;
+  businessName: string;
 }
 
-export function JsonLdAgendaList({ name, slots, baseUrl }: JsonLdAgendaListProps) {
+export function JsonLdAgendaList({ name, slots, baseUrl, businessName }: JsonLdAgendaListProps) {
   const jsonLd: WithContext<CollectionPage> = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -26,12 +27,14 @@ export function JsonLdAgendaList({ name, slots, baseUrl }: JsonLdAgendaListProps
         position: index + 1,
         item: {
           "@type": "Event",
-          name: `Cita ${slot.day} ${slot.time}`,
-          description: slot.type || "Cita",
-          startDate: slot.day,
+          name: slot.type
+            ? `Cita de ${slot.type} - ${businessName}`
+            : `Cita - ${businessName}`,
+          description: slot.description || slot.type || "Cita disponible",
+          startDate: slot.startDate,
           location: {
             "@type": "Place",
-            name: baseUrl,
+            name: businessName,
           },
           offers: {
             "@type": "Offer",

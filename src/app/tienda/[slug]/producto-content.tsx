@@ -55,6 +55,7 @@ export async function ProductoContent({ params }: ProductoContentProps) {
         price={product.price}
         inStock={inventory.length > 0}
         sku={product.id}
+        category={product.category}
         brandName={brand.name}
         brandUrl={baseUrl}
         breadcrumbs={[

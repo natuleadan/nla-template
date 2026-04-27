@@ -93,7 +93,7 @@ export default async function BlogPage() {
           { name: blog.page.title, item: `${baseUrl}/blog` },
         ]}
       />
-      <JsonLdBlogList name={blog.page.title} posts={jsonLdPosts} />
+      <JsonLdBlogList name={blog.page.title} total={total} posts={jsonLdPosts} />
       <div className="px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full py-8">
         <PageHeader
           title={blog.page.title}

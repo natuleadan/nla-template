@@ -92,7 +92,7 @@ export default async function PaginasPage() {
           { name: paginas.page.title, item: `${baseUrl}/paginas` },
         ]}
       />
-      <JsonLdPaginasList name={paginas.page.title} pages={jsonLdPages} />
+      <JsonLdPaginasList name={paginas.page.title} total={total} pages={jsonLdPages} />
       <div className="px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full py-8">
         <PageHeader
           title={paginas.page.title}

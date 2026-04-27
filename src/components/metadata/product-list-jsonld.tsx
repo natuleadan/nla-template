@@ -10,17 +10,18 @@ interface ProductItem {
 
 interface JsonLdProductListProps {
   name: string;
+  total: number;
   products: ProductItem[];
 }
 
-export function JsonLdProductList({ name, products }: JsonLdProductListProps) {
+export function JsonLdProductList({ name, total, products }: JsonLdProductListProps) {
   const jsonLd: WithContext<CollectionPage> = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name,
     mainEntity: {
       "@type": "ItemList",
-      numberOfItems: products.length,
+      numberOfItems: total,
       itemListElement: products.map((product, index) => ({
         "@type": "ListItem",
         position: index + 1,

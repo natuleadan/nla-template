@@ -9,17 +9,18 @@ interface PostItem {
 
 interface JsonLdBlogListProps {
   name: string;
+  total: number;
   posts: PostItem[];
 }
 
-export function JsonLdBlogList({ name, posts }: JsonLdBlogListProps) {
+export function JsonLdBlogList({ name, total, posts }: JsonLdBlogListProps) {
   const jsonLd: WithContext<CollectionPage> = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name,
     mainEntity: {
       "@type": "ItemList",
-      numberOfItems: posts.length,
+      numberOfItems: total,
       itemListElement: posts.map((post, index) => ({
         "@type": "ListItem",
         position: index + 1,
