@@ -1,3 +1,9 @@
+## [1.3.1](https://github.com/natuleadan/nla-template/compare/v1.3.0...v1.3.1) (2026-04-27)
+
+### Bug Fixes
+
+* **codeql:** resolve unused imports and xss warnings ([0370b04](https://github.com/natuleadan/nla-template/commit/0370b04b10eaea197b6be13f57c74f09068afbf0))
+
 ## [1.3.0](https://github.com/natuleadan/nla-template/compare/v1.2.0...v1.3.0) (2026-04-27)
 
 ### Features
