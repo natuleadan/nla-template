@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,6 +13,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  type CarouselApi,
 } from "@/components/ui/carousel";
 import { ShareDialog } from "@/components/ui/share-dialog";
 import { PageHeader } from "@/components/layout/page-header";
@@ -125,6 +126,7 @@ export function ProductDetails({
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [fallbackUsed, setFallbackUsed] = useState(false);
+  const [currentImage, setCurrentImage] = useState(1);
 
   const reviews = product.reviews || [];
   const avgRating =
@@ -133,6 +135,12 @@ export function ProductDetails({
       : 0;
 
   const totalInventory = inventory.reduce((sum, loc) => sum + loc.available, 0);
+
+  const handleCarouselApi = useCallback((api: CarouselApi) => {
+    if (!api) return;
+    setCurrentImage(api.selectedScrollSnap() + 1);
+    api.on("select", () => setCurrentImage(api.selectedScrollSnap() + 1));
+  }, []);
 
   const handlePedir = () => {
     notificationService.info(ui.openingWhatsApp);
@@ -192,9 +200,12 @@ export function ProductDetails({
       </div>
 
       <div className="grid gap-8 md:grid-cols-2 mt-8">
-        <div className="rounded-lg bg-muted overflow-hidden">
+        <div className="rounded-lg bg-muted overflow-hidden relative">
           {product.images && product.images.length > 1 ? (
-            <Carousel className="w-full">
+            <Carousel
+              className="w-full"
+              setApi={handleCarouselApi}
+            >
               <CarouselContent>
                 {product.images.map((img, idx) => (
                   <CarouselItem key={idx}>
@@ -217,6 +228,11 @@ export function ProductDetails({
               </CarouselContent>
               <CarouselPrevious className="left-2" />
               <CarouselNext className="right-2" />
+              <div className="absolute bottom-3 right-3">
+                <Badge variant="secondary" className="text-xs font-mono">
+                  {currentImage}/{product.images.length}
+                </Badge>
+              </div>
             </Carousel>
           ) : (
             <div className="relative h-80 md:h-96">

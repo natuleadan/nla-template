@@ -30,7 +30,8 @@ Built with Next.js 16, TypeScript, Tailwind CSS, and shadcn/ui. Ready to deploy 
 - **Scalar API Documentation** at `/api`
 - **WhatsApp ordering** — products, booking, and inquiries via WhatsApp
 - **Product Gallery** with carousel and fallback images
-- **Reviews** system with star rating
+- **Reviews** system with star rating + WhatsApp moderation (approval flow)
+- **Blog comments** system with WhatsApp moderation (approval flow)
 - **Inventory** tracking by location
 - **Geolocation** service with Vercel headers
 - **Cookie Consent** banner with shadcn components
@@ -54,14 +55,15 @@ Built with Next.js 16, TypeScript, Tailwind CSS, and shadcn/ui. Ready to deploy 
 - **Time slots** — config-driven per-day, past slots disabled with toast
 - **Week navigation** — limited to `NEXT_PUBLIC_WEEK_MAX` weeks ahead, no past navigation
 - **Current time** badge with live clock
-- **WhatsApp booking** — slot dialog → product selector → WhatsApp redirect
+- **WhatsApp booking** — 3-step type-first dialog with URL param auto-open
+- **Navbar dropdown** — slot preview with hover reveal (time→type cross-fade)
 
 ### Search
 - **GlobalSearch (Cmd+K)** — search products, blog posts, pages, and today's agenda slots
 
 ### SEO & Design
 - **Dynamic OG/Twitter images** for all pages (Satori/ImageResponse)
-- **JSON-LD structured data** — BreadcrumbList, Product, BlogPosting, Event, CollectionPage, etc.
+- **JSON-LD structured data** — BreadcrumbList, Product, BlogPosting, WebPage, Event, CollectionPage, ContactPage, Organization, WebSite; all with Google-compliant `@id`, ISO 8601 dates, and conditional types
 - **Dynamic brand colors** via `NEXT_PUBLIC_BRAND_COLOR` env var (Radix UI palettes, 32 palettes)
 - **Custom fonts** — Roboto via next/font/google
 - **PWA manifest**, sitemap.xml, robots.txt, llms.txt
@@ -76,11 +78,18 @@ Built with Next.js 16, TypeScript, Tailwind CSS, and shadcn/ui. Ready to deploy 
 - **Localized screen reader text** — all sr-only labels in Spanish
 - **Brand-colored table headers** — with white text using `var(--color-primary)`
 
+### Loading States
+- **Dedicated skeletons** for every async page — ProductCard, PostCard, PaginaCard, PageHeader, CurrentTime, ContactPage, Agenda grid
+- **Grid skeletons** match actual card layouts (aspect ratios, badges, buttons)
+- **ContactPageSkeleton** replaces generic "Cargando..." text
+
 ### UI Components
 - **Typography** — H1–H4, P, Blockquote, List, Table, InlineCode, Lead
 - **Prose** — HTML content renderer with custom CSS (no external plugin)
 - **ShareDialog** — copy link + X, Facebook, LinkedIn, email (mailto) with contextual info
 - **Dark mode toggle** — sun/moon icons with keyboard shortcut (D key)
+- **Navbar dropdowns** — hover/accordion with 5 items per column
+- **Footer** — 6-column responsive grid with dynamic cards (products, blog, agenda, paginas) + social icons
 - **ThemeProvider** — next-themes integration
 
 ### DX
@@ -96,7 +105,7 @@ Built with Next.js 16, TypeScript, Tailwind CSS, and shadcn/ui. Ready to deploy 
 - **UI**: shadcn/ui + Tailwind CSS
 - **API**: Next.js Route Handlers (REST)
 - **Documentation**: Scalar
-- **Testing**: Vitest
+- **Testing**: Vitest (API tests + config keys coverage)
 - **CI/CD**: GitHub Actions
 - **Hosting**: Vercel
 
@@ -127,6 +136,8 @@ pnpm dev
 | `NEXT_PUBLIC_WHATSAPP_NUMBER` | WhatsApp number for orders and bookings | 1234567890 |
 | `NEXT_PUBLIC_INDEXING` | Enable search engine indexing (robots.txt) | false |
 | `NEXT_PUBLIC_WEEK_MAX` | Max future weeks for agenda booking | 4 |
+
+> Social media handles moved to `brand.ts` (see `socialEmail`, `socialInstagram`, `socialFacebook`, `socialTwitter`, `socialYoutube`).
 
 ### Private (server-only — `src/lib/config/env.ts`)
 
@@ -167,7 +178,10 @@ x-api-key: your_api_key
 | `pnpm build` | Build for production |
 | `pnpm start` | Start production server |
 | `pnpm lint` | Run ESLint |
-| `pnpm test` | Run tests |
+| `pnpm test` | Run tests (Vitest) |
+| `pnpm test:watch` | Run tests in watch mode |
+| `pnpm typecheck` | TypeScript type check (`tsc --noEmit`) |
+| `pnpm format` | Format with Prettier |
 
 ## 8. Project Structure
 
@@ -185,7 +199,7 @@ src/
 ├── components/
 │   ├── agenda/       # WeeklyCalendar, DayColumn, SlotDialog, SlotButton
 │   ├── blog/         # PostCard, BlogToolbar, BlogHeroImage
-│   ├── metadata/     # JSON-LD structured data components
+│   ├── metadata/     # JSON-LD structured data (Product, BlogPost, WebPage, Contact, Breadcrumb, etc.)
 │   ├── paginas/      # PaginaCard, PaginaToolbar
 │   ├── ui/           # shadcn/ui primitives + Typography, Prose, ShareDialog
 │   ├── layout/       # Navbar, Footer, PageHeader, GlobalSearch, ThemeToggle
@@ -197,10 +211,10 @@ src/
 ├── lib/
 │   ├── env.public.ts     # Public environment variable helpers
 │   ├── config/           # env.ts + seed data (products, categories, blog, agenda, paginas...)
-│   │   └── site/        # All configurable text grouped by module
+│   │   └── site/        # All configurable text (brand, store, blog, agenda, form, nav, ui, etc.)
 │   ├── modules/          # Business logic modules (CRUD, notification, scalar...)
 │   ├── styles/           # Radix UI color palettes (32)
-│   └── test/             # API tests
+│   └── test/             # API tests + config keys coverage
 public/
 └── design/               # Logo, background, fallback images
 ```

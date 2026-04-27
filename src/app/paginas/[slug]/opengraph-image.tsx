@@ -1,11 +1,11 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { getPost } from "@/lib/modules/blog";
+import { getPagina } from "@/lib/modules/paginas";
 
 export const size = {
   width: 1200,
-  height: 600,
+  height: 630,
 };
 
 export const contentType = "image/png";
@@ -16,17 +16,17 @@ interface RouteParams {
   params: Promise<{ slug: string }>;
 }
 
-export default async function TwitterImage({ params }: RouteParams) {
+export default async function OpenGraphImage({ params }: RouteParams) {
   const { slug } = await params;
 
-  let postTitle = "Blog";
-  let postDesc = "";
+  let pageName = "Página";
+  let pageDesc = "";
 
   try {
-    const post = await getPost(slug);
-    if (post) {
-      postTitle = post.title || "Blog";
-      postDesc = post.excerpt || "";
+    const page = await getPagina(slug);
+    if (page) {
+      pageName = page.title || "Página";
+      pageDesc = page.excerpt || "";
     }
   } catch {}
 
@@ -56,7 +56,7 @@ export default async function TwitterImage({ params }: RouteParams) {
           src={`data:image/svg+xml;base64,${fallbackBase64}`}
           alt="background"
           width={1200}
-          height={600}
+          height={630}
           style={{
             position: "absolute",
             top: 0,
@@ -107,9 +107,9 @@ export default async function TwitterImage({ params }: RouteParams) {
                 lineHeight: 1.1,
               }}
             >
-              {postTitle}
+              {pageName}
             </div>
-            {postDesc && (
+            {pageDesc && (
               <div
                 style={{
                   fontSize: 21,
@@ -118,7 +118,7 @@ export default async function TwitterImage({ params }: RouteParams) {
                   lineHeight: "1.2",
                 }}
               >
-                {postDesc.slice(0, 120)}
+                {pageDesc.slice(0, 120)}
               </div>
             )}
           </div>

@@ -18,15 +18,25 @@ interface RouteParams {
 
 export default async function OpenGraphImage({ params }: RouteParams) {
   const { slug } = await params;
-  const post = await getPost(slug);
 
-  const [bgData, logoData] = await Promise.all([
-    readFile(join(process.cwd(), "public/design/fondo.svg")),
+  let postTitle = "Blog";
+  let postDesc = "";
+
+  try {
+    const post = await getPost(slug);
+    if (post) {
+      postTitle = post.title || "Blog";
+      postDesc = post.excerpt || "";
+    }
+  } catch {}
+
+  const [logoData, fallbackData] = await Promise.all([
     readFile(join(process.cwd(), "public/design/logo.svg")),
+    readFile(join(process.cwd(), "public/design/fallback.svg")),
   ]);
 
-  const bgBase64 = bgData.toString("base64");
   const logoBase64 = logoData.toString("base64");
+  const fallbackBase64 = fallbackData.toString("base64");
 
   return new ImageResponse(
     (
@@ -39,10 +49,11 @@ export default async function OpenGraphImage({ params }: RouteParams) {
           alignItems: "center",
           justifyContent: "center",
           position: "relative",
+          backgroundColor: "#ffffff",
         }}
       >
         <img
-          src={`data:image/svg+xml;base64,${bgBase64}`}
+          src={`data:image/svg+xml;base64,${fallbackBase64}`}
           alt="background"
           width={1200}
           height={630}
@@ -55,56 +66,62 @@ export default async function OpenGraphImage({ params }: RouteParams) {
             objectFit: "cover",
           }}
         />
-        <img
-          src={`data:image/svg+xml;base64,${logoBase64}`}
-          alt="logo"
-          width={120}
-          height={120}
-          style={{
-            position: "absolute",
-            top: "30px",
-            left: "50%",
-            transform: "translateX(-50%)",
-            borderRadius: "12px",
-          }}
-        />
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
             alignItems: "center",
-            textAlign: "center",
-            zIndex: 1,
-            padding: "0 48px",
-            marginTop: 60,
+            backgroundColor: "rgba(0, 0, 0, 0.85)",
+            borderRadius: 75,
+            padding: "10px",
+            position: "absolute",
+            bottom: "30px",
+            left: "30px",
+            maxWidth: 840,
           }}
         >
+          <img
+            src={`data:image/svg+xml;base64,${logoBase64}`}
+            alt="logo"
+            width={90}
+            height={90}
+            style={{
+              borderRadius: 75,
+              marginRight: 24,
+              objectFit: "contain",
+              backgroundColor: "white",
+            }}
+          />
           <div
             style={{
-              fontSize: 48,
-              fontWeight: 700,
-              color: "#ffffff",
-              textShadow: "2px 2px 8px rgba(0,0,0,0.7)",
-              marginBottom: 16,
-              maxWidth: 900,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
             }}
           >
-            {post?.title || "Blog"}
-          </div>
-          {post?.excerpt && (
             <div
               style={{
-                fontSize: 22,
-                color: "#ffffff",
-                textShadow: "1px 1px 4px rgba(0,0,0,0.7)",
-                textAlign: "center",
+                fontSize: 33,
+                fontWeight: 700,
                 maxWidth: 700,
-                lineHeight: 1.4,
+                color: "#ffffff",
+                lineHeight: 1.1,
               }}
             >
-              {post.excerpt.slice(0, 120)}
+              {postTitle}
             </div>
-          )}
+            {postDesc && (
+              <div
+                style={{
+                  fontSize: 21,
+                  maxWidth: 700,
+                  color: "rgba(255, 255, 255, 0.85)",
+                  lineHeight: "1.2",
+                }}
+              >
+                {postDesc.slice(0, 120)}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     ),
