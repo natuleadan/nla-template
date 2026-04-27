@@ -9,7 +9,7 @@ import {
   unauthorized,
   badRequest,
   serverError,
-} from "@/lib/config/env";
+} from "@/lib/env";
 
 export async function GET(request: NextRequest) {
   try {

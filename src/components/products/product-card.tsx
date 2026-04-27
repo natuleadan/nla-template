@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { IconBrandWhatsapp, IconEye } from "@tabler/icons-react";
 
 const FALLBACK_IMAGE = "/design/fallback.svg";
-import { getWhatsappNumber } from "@/lib/config/env";
+import { getWhatsappNumber } from "@/lib/env";
 import notificationService from "@/lib/modules/notification";
 import { store, ui } from "@/lib/config/site";
 

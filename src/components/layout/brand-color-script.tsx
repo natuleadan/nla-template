@@ -1,4 +1,4 @@
-import { getBrandColor } from "@/lib/config/env";
+import { getBrandColor } from "@/lib/env";
 
 export function BrandColorScript() {
   const brand = getBrandColor();

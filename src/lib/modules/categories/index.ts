@@ -1,5 +1,5 @@
 import { cacheLife, cacheTag } from "next/cache";
-import { categoriesData } from "@/lib/config/categories";
+import { categoriesData } from "@/lib/config/data/categories";
 
 export interface Category {
   id: string;

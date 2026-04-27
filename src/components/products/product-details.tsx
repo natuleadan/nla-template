@@ -28,7 +28,7 @@ import {
 } from "@tabler/icons-react";
 import { createReview, type Review } from "@/lib/modules/reviews";
 import { type InventoryItem } from "@/lib/modules/inventory";
-import { getWhatsappNumber } from "@/lib/config/env";
+import { getWhatsappNumber } from "@/lib/env";
 import notificationService from "@/lib/modules/notification";
 import { store, ui } from "@/lib/config/site";
 
@@ -80,7 +80,7 @@ function StarRating({
           type="button"
           onClick={() => setRating?.(star)}
           className={`${star <= rating ? "text-yellow-500" : "text-muted"} hover:scale-110 transition p-1`}
-          aria-label={`${star} estrellas`}
+          aria-label={store.product.starAriaLabel(star)}
         >
           <IconStar className="size-6 fill-current" />
         </button>
@@ -102,7 +102,7 @@ function ReviewCard({ review }: { review: Review }) {
         <span className="font-medium">{review.name}</span>
         <div className="flex items-center gap-2">
           {review.status === "pending" && (
-            <Badge variant="outline" className="text-xs">Pendiente</Badge>
+            <Badge variant="outline" className="text-xs">{store.reviews.pending}</Badge>
           )}
           <StarRating rating={review.rating} />
         </div>

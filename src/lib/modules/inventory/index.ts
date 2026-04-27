@@ -1,4 +1,4 @@
-import { inventoryData as seedData } from "@/lib/config/inventory";
+import { inventoryData as seedData } from "@/lib/config/data/inventory";
 
 export interface InventoryItem {
   location: string;

@@ -8,7 +8,7 @@ import { IconArrowLeft } from "@tabler/icons-react";
 import { Prose } from "@/components/ui/prose";
 import { getPagina } from "@/lib/modules/paginas";
 import { paginas } from "@/lib/config/site";
-import { getBaseUrl } from "@/lib/config/env";
+import { getBaseUrl } from "@/lib/env";
 import { JsonLdBreadcrumb } from "@/components/metadata/breadcrumb-jsonld";
 import { JsonLdWebPage } from "@/components/metadata/page-jsonld";
 
@@ -61,7 +61,7 @@ export async function PaginaContent({ params }: PaginaContentProps) {
         </div>
         <div className="flex items-center gap-3 mb-6">
           <Badge variant="secondary" className="text-xs">
-            {page.category === "legal" ? "Legal" : "Políticas"}
+            {page.category === "legal" ? paginas.category.legal : paginas.category.politicas}
           </Badge>
           <span className="text-xs text-muted-foreground">
             {paginas.detail.updatedAt(page.updatedAt || page.publishedAt)}

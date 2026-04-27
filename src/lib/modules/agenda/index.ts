@@ -1,4 +1,4 @@
-import { agendaData } from "@/lib/config/agenda";
+import { agendaData } from "@/lib/config/data/agenda";
 
 export interface AgendaSlot {
   time: string;

@@ -1,6 +1,6 @@
 import type { OpenApiSpec, ApiExamples } from "./types";
 import { schemas, tags, securitySchemes } from "./schemas";
-import { getBaseUrl } from "@/lib/config/env";
+import { getBaseUrl } from "@/lib/env";
 import {
   getProductsPaths,
   getCategoriesPaths,

@@ -17,6 +17,7 @@ import {
   IconMail,
 } from "@tabler/icons-react";
 import { toast } from "sonner";
+import { ui } from "@/lib/config/site";
 
 interface ShareDialogProps {
   url: string;
@@ -26,13 +27,14 @@ interface ShareDialogProps {
   price?: number;
 }
 
-export function ShareDialog({ url, label = "Compartir", title, description, price }: ShareDialogProps) {
+export function ShareDialog({ url, label, title, description, price }: ShareDialogProps) {
+  const resolvedLabel = label || ui.share.label;
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(url);
-      toast.success("Enlace copiado al portapapeles");
+      toast.success(ui.share.toastSuccess);
     } catch {
-      toast.error("Error al copiar el enlace");
+      toast.error(ui.share.toastError);
     }
   };
 
@@ -41,27 +43,27 @@ export function ShareDialog({ url, label = "Compartir", title, description, pric
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="gap-2">
           <IconShare className="size-4" />
-          {label}
+          {resolvedLabel}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{label}</DialogTitle>
+          <DialogTitle>{resolvedLabel}</DialogTitle>
           <DialogDescription>
-            Copia el enlace o comparte en redes sociales
+            {ui.share.description}
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-3">
           <div>
             <p className="text-sm text-muted-foreground mb-2">
-              Copia el enlace para compartir:
+              {ui.share.copyLabel}
             </p>
             <div
               className="bg-muted p-3 rounded-md cursor-pointer select-all text-sm break-all hover:bg-muted/80 transition-colors"
               onClick={handleCopy}
               role="button"
               tabIndex={0}
-              aria-label="Copiar enlace al portapapeles"
+              aria-label={ui.share.copyAriaLabel}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") handleCopy();
               }}
@@ -71,7 +73,7 @@ export function ShareDialog({ url, label = "Compartir", title, description, pric
           </div>
           <div>
             <p className="text-sm text-muted-foreground mb-2">
-              Compartir en redes:
+              {ui.share.socialLabel}
             </p>
             <div className="flex gap-2">
               <Button
@@ -79,7 +81,7 @@ export function ShareDialog({ url, label = "Compartir", title, description, pric
                 size="sm"
                 className="flex-1 gap-1.5"
                 onClick={() => window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`, "_blank")}
-                aria-label="Compartir en X"
+                aria-label={ui.share.twitter}
               >
                 <IconBrandX className="size-4" />
                 <span className="text-xs">X</span>
@@ -89,7 +91,7 @@ export function ShareDialog({ url, label = "Compartir", title, description, pric
                 size="sm"
                 className="flex-1 gap-1.5"
                 onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, "_blank")}
-                aria-label="Compartir en Facebook"
+                aria-label={ui.share.facebook}
               >
                 <IconBrandFacebook className="size-4" />
                 <span className="text-xs">FB</span>
@@ -99,7 +101,7 @@ export function ShareDialog({ url, label = "Compartir", title, description, pric
                 size="sm"
                 className="flex-1 gap-1.5"
                 onClick={() => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, "_blank")}
-                aria-label="Compartir en LinkedIn"
+                aria-label={ui.share.linkedin}
               >
                 <IconBrandLinkedin className="size-4" />
                 <span className="text-xs">IN</span>
@@ -114,9 +116,9 @@ export function ShareDialog({ url, label = "Compartir", title, description, pric
                   if (price !== undefined) parts.push(`$${price.toFixed(2)}`);
                   if (description) parts.push(description);
                   parts.push(url);
-                  window.open(`mailto:?subject=${encodeURIComponent(title ? `Compartir: ${title}` : "Compartir enlace")}&body=${encodeURIComponent(parts.join("\n\n"))}`);
+                  window.open(`mailto:?subject=${encodeURIComponent(title ? ui.share.emailSubject(title) : ui.share.emailSubjectFallback)}&body=${encodeURIComponent(parts.join("\n\n"))}`);
                 }}
-                aria-label="Compartir por correo"
+                aria-label={ui.share.email}
               >
                 <IconMail className="size-4" />
                 <span className="text-xs">ML</span>

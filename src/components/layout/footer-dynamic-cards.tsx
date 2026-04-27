@@ -7,6 +7,7 @@ import { getAllPosts, type BlogPost } from "@/lib/modules/blog";
 import { getWeekDays } from "@/lib/modules/agenda";
 import { getAllPaginas, type PaginaPost } from "@/lib/modules/paginas";
 import { getNextAvailableDaySlots, type AgendaSlotInfo } from "@/lib/agenda-utils";
+import { nav, ui, agenda } from "@/lib/config/site";
 
 function shuffleArray<T>(array: T[]): T[] {
   const a = [...array];
@@ -20,7 +21,7 @@ function shuffleArray<T>(array: T[]): T[] {
 export function FooterDynamicCards() {
   const [randomProducts, setRandomProducts] = useState<Product[]>([]);
   const [recentPosts, setRecentPosts] = useState<BlogPost[]>([]);
-  const [agenda, setAgenda] = useState<{ slots: AgendaSlotInfo[]; title: string }>({ slots: [], title: "Agenda" });
+  const [agendaState, setAgendaState] = useState<{ slots: AgendaSlotInfo[]; title: string }>({ slots: [], title: agenda.page.title });
   const [paginas, setPaginas] = useState<PaginaPost[]>([]);
 
   useEffect(() => {
@@ -38,20 +39,24 @@ export function FooterDynamicCards() {
       );
     });
     getWeekDays().then((days) => {
-      setAgenda(getNextAvailableDaySlots(days));
+      setAgendaState(getNextAvailableDaySlots(days));
     });
     getAllPaginas().then((p) => {
       setPaginas(p.slice(0, 3));
     });
   }, []);
 
+  const tiendaCol = nav.footer.columns.find((c) => c.title === "Tienda");
+  const blogCol = nav.footer.columns.find((c) => c.title === "Blog");
+  const pagesCol = nav.footer.columns.find((c) => c.title === "Legal");
+
   return (
     <>
       {randomProducts.length > 0 && (
-        <nav aria-label="Tienda">
+        <nav aria-label={tiendaCol?.title || "Tienda"}>
           <h3 className="mb-4 font-semibold">
             <Link href="/tienda" className="hover:underline">
-              Tienda
+              {tiendaCol?.title || "Tienda"}
             </Link>
           </h3>
           <ul className="space-y-2">
@@ -70,10 +75,10 @@ export function FooterDynamicCards() {
       )}
 
       {recentPosts.length > 0 && (
-        <nav aria-label="Blog">
+        <nav aria-label={blogCol?.title || "Blog"}>
           <h3 className="mb-4 font-semibold">
             <Link href="/blog" className="hover:underline">
-              Blog
+              {blogCol?.title || "Blog"}
             </Link>
           </h3>
           <ul className="space-y-2">
@@ -91,15 +96,15 @@ export function FooterDynamicCards() {
         </nav>
       )}
 
-      <nav aria-label="Agenda">
+      <nav aria-label={agenda.page.title}>
         <h3 className="mb-4 font-semibold">
           <Link href="/agenda" className="hover:underline">
-            {agenda.title}
+            {agendaState.title}
           </Link>
         </h3>
-        {agenda.slots.length > 0 ? (
+        {agendaState.slots.length > 0 ? (
           <ul className="space-y-2">
-            {agenda.slots.map((slot, i) => (
+            {agendaState.slots.map((slot, i) => (
               <li key={i}>
                 <Link
                   href={`/agenda?dia=${encodeURIComponent(slot.dayName)}&hora=${encodeURIComponent(slot.time)}&tipo=${encodeURIComponent(slot.type)}`}
@@ -111,15 +116,15 @@ export function FooterDynamicCards() {
             ))}
           </ul>
         ) : (
-          <p className="text-sm text-muted-foreground">No citas disponibles</p>
+          <p className="text-sm text-muted-foreground">{ui.footer.noSlots}</p>
         )}
       </nav>
 
       {paginas.length > 0 && (
-        <nav aria-label="Páginas">
+        <nav aria-label={pagesCol?.title || "Legal"}>
           <h3 className="mb-4 font-semibold">
             <Link href="/paginas" className="hover:underline">
-              Páginas
+              {pagesCol?.title || "Legal"}
             </Link>
           </h3>
           <ul className="space-y-2">

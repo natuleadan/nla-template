@@ -10,7 +10,7 @@ import {
   unauthorized,
   badRequest,
   serverError,
-} from "@/lib/config/env";
+} from "@/lib/env";
 
 interface RouteParams {
   params: Promise<{ productSlug: string }>;

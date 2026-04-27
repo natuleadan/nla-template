@@ -1,4 +1,4 @@
-import { paginasData } from "@/lib/config/paginas";
+import { paginasData } from "@/lib/config/data/paginas";
 
 export interface PaginaPost {
   id: string;

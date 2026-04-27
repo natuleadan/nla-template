@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { getBaseUrl } from "@/lib/config/env";
+import { getBaseUrl } from "@/lib/env";
 
 export const size = {
   width: 32,

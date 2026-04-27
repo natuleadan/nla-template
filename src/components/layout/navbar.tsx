@@ -14,7 +14,7 @@ import { IconBrandWhatsapp, IconBarbell, IconMenu2 } from "@tabler/icons-react";
 import { GlobalSearch } from "@/components/layout/global-search";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { NavDropdown } from "@/components/layout/navbar-dropdown";
-import { getWhatsappNumber } from "@/lib/config/env";
+import { getWhatsappNumber } from "@/lib/env";
 import notificationService from "@/lib/modules/notification";
 import { brand, nav, ui } from "@/lib/config/site";
 
@@ -62,7 +62,7 @@ export function Navbar() {
           </Link>
         </div>
 
-        <nav className="hidden lg:flex flex-1 justify-end items-center gap-1" aria-label="Navegación principal">
+        <nav className="hidden lg:flex flex-1 justify-end items-center gap-1" aria-label={ui.navbar.desktopAriaLabel}>
           {nav.items.map((item) => {
             const dropdownType = dropdownItems[item.label];
             if (dropdownType) {
@@ -103,12 +103,12 @@ export function Navbar() {
         <div className="flex lg:hidden items-center gap-1">
           <GlobalSearch />
           <ThemeToggle />
-          <Button onClick={handleWhatsAppClick} size="icon" variant="ghost" aria-label="Enviar mensaje por WhatsApp">
+          <Button onClick={handleWhatsAppClick} size="icon" variant="ghost" aria-label={ui.navbar.whatsappAriaLabel}>
             <IconBrandWhatsapp className="size-5" />
           </Button>
           <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" aria-label="Abrir menú">
+              <Button variant="ghost" size="icon" aria-label={ui.navbar.menuAriaLabel}>
                 <IconMenu2 className="size-6" />
               </Button>
             </SheetTrigger>
@@ -117,7 +117,7 @@ export function Navbar() {
               <SheetDescription className="sr-only">
                 {ui.mobileMenuDescription}
               </SheetDescription>
-              <nav className="flex flex-col gap-1 mt-8" aria-label="Menú móvil">
+              <nav className="flex flex-col gap-1 mt-8" aria-label={ui.navbar.mobileNavAriaLabel}>
                 {nav.items.map((item) => {
                   const dropdownType = dropdownItems[item.label];
                   if (dropdownType) {

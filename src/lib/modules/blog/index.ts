@@ -1,4 +1,4 @@
-import { blogPostsData } from "@/lib/config/blog";
+import { blogPostsData } from "@/lib/config/data/blog";
 
 export interface BlogPost {
   id: string;

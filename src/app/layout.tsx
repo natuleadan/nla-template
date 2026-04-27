@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
-import { getBaseUrl, getIndexingEnabled } from "@/lib/config/env";
+import { getBaseUrl, getIndexingEnabled } from "@/lib/env";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { BrandColorScript } from "@/components/layout/brand-color-script";
-import { brand } from "@/lib/config/site";
+import { brand, ui } from "@/lib/config/site";
 
 const fontSans = Roboto({
   subsets: ["latin"],
@@ -23,7 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     metadataBase: new URL(baseUrl),
-    title: `${brand.name} | Tienda de Suplementos y Alimentos`,
+    title: brand.metadata.titleSuffix(brand.name),
     description: brand.description,
     icons: {
       icon: "/icon",
@@ -51,7 +51,7 @@ export default function RootLayout({
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-background focus:text-foreground focus:border focus:rounded-md"
         >
-          Saltar al contenido principal
+          {ui.skipToContent}
         </a>
         <Providers>
           <Analytics />

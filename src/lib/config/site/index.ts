@@ -1,8 +1,8 @@
-export { brand } from "./brand";
-export { nav } from "./nav";
-export { home } from "./home";
-export { store } from "./store";
-export { pages } from "./pages";
+export { brand } from "../data/brand";
+export { nav } from "../data/nav";
+export { home } from "../data/home";
+export { store, categoryBadge } from "./store";
+export { pages } from "../data/contacto";
 export { form } from "./form";
 export { ui } from "./ui";
 export { blog } from "./blog";

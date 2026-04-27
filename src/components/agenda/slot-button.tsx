@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/config/utils";
 import type { AgendaSlot } from "@/lib/modules/agenda";
+import { agenda } from "@/lib/config/site";
 
 interface SlotButtonProps {
   slot: AgendaSlot;
@@ -42,7 +43,7 @@ export function SlotButton({ slot, dayName, onClick, disabled }: SlotButtonProps
           ? "opacity-40 cursor-not-allowed line-through hover:bg-transparent hover:text-inherit pointer-events-auto"
           : colorClass,
       )}
-      aria-label={`${dayName} a las ${slot.time}${slot.type ? ` — ${slot.type}` : ""}${disabled ? " — no disponible" : ""}`}
+      aria-label={`${dayName} a las ${slot.time}${slot.type ? ` — ${slot.type}` : ""}${disabled ? agenda.slotButton.unavailable : ""}`}
     >
       {slot.type ? (
         <>

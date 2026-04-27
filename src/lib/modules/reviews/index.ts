@@ -1,4 +1,4 @@
-import { reviewsData as seedData } from "@/lib/config/reviews";
+import { reviewsData as seedData } from "@/lib/config/data/reviews";
 
 export interface Review {
   id: string;

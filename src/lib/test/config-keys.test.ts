@@ -58,18 +58,18 @@ function findImportFiles(
 const configModules: Record<string, () => Promise<Record<string, unknown>>> = {
   agenda: () => import("@/lib/config/site/agenda").then((m) => m.agenda),
   blog: () => import("@/lib/config/site/blog").then((m) => m.blog),
-  brand: () => import("@/lib/config/site/brand").then((m) => m.brand),
+  brand: () => import("@/lib/config/data/brand").then((m) => m.brand),
   form: () => import("@/lib/config/site/form").then((m) => m.form),
-  home: () => import("@/lib/config/site/home").then((m) => m.home),
-  nav: () => import("@/lib/config/site/nav").then((m) => m.nav),
-  pages: () => import("@/lib/config/site/pages").then((m) => m.pages),
+  home: () => import("@/lib/config/data/home").then((m) => m.home),
+  nav: () => import("@/lib/config/data/nav").then((m) => m.nav),
+  pages: () => import("@/lib/config/data/contacto").then((m) => m.pages),
   paginas: () => import("@/lib/config/site/paginas").then((m) => m.paginas),
   store: () => import("@/lib/config/site/store").then((m) => m.store),
   ui: () => import("@/lib/config/site/ui").then((m) => m.ui),
 };
 
 const allFiles = getAllTsFiles(SRC_DIR).filter(
-  (f) => !f.includes("node_modules") && !f.includes(".test.") && !f.includes("/config/site/"),
+  (f) => !f.includes("node_modules") && !f.includes(".test.") && !f.includes("/config/site/") && !f.includes("/config/data/"),
 );
 
 describe("config keys coverage", () => {

@@ -7,7 +7,7 @@ import { Empty } from "@/components/ui/empty";
 import { PaginaToolbar } from "@/components/paginas/pagina-toolbar";
 import { getAllPaginas, getPaginas } from "@/lib/modules/paginas";
 import { paginas, brand } from "@/lib/config/site";
-import { getBaseUrl } from "@/lib/config/env";
+import { getBaseUrl } from "@/lib/env";
 import { JsonLdBreadcrumb } from "@/components/metadata/breadcrumb-jsonld";
 import { JsonLdPaginasList } from "@/components/metadata/paginas-list-jsonld";
 
@@ -17,8 +17,8 @@ async function getInitialData() {
   const allPages = await getAllPaginas();
   const initial = await getPaginas(1, 6);
   const categories = [
-    { slug: "legal", name: "Legal" },
-    { slug: "politicas", name: "Políticas" },
+    { slug: "legal", name: paginas.category.legal },
+    { slug: "politicas", name: paginas.category.politicas },
   ];
   return {
     pages: allPages,

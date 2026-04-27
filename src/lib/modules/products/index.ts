@@ -1,4 +1,4 @@
-import { allProducts as productsData } from "@/lib/config/products";
+import { allProducts as productsData } from "@/lib/config/data/products";
 
 export interface Product {
   id: string;

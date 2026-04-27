@@ -2,6 +2,7 @@ import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { getPost } from "@/lib/modules/blog";
+import { blog } from "@/lib/config/site";
 
 export const size = {
   width: 1200,
@@ -19,13 +20,13 @@ interface RouteParams {
 export default async function TwitterImage({ params }: RouteParams) {
   const { slug } = await params;
 
-  let postTitle = "Blog";
+  let postTitle = blog.og.fallbackTitle;
   let postDesc = "";
 
   try {
     const post = await getPost(slug);
     if (post) {
-      postTitle = post.title || "Blog";
+      postTitle = post.title || blog.og.fallbackTitle;
       postDesc = post.excerpt || "";
     }
   } catch {}

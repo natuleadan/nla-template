@@ -7,7 +7,7 @@ import {
   badRequest,
   notFound,
   serverError,
-} from "@/lib/config/env";
+} from "@/lib/env";
 
 interface RouteParams {
   params: Promise<{ slug: string }>;

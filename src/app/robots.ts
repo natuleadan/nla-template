@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getBaseUrl, getIndexingEnabled } from "@/lib/config/env";
+import { getBaseUrl, getIndexingEnabled } from "@/lib/env";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 300;

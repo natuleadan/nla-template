@@ -4,7 +4,7 @@ import { PostDetailsSkeleton } from "./post-details-skeleton";
 import { PostContent } from "./post-content";
 import { getPost } from "@/lib/modules/blog";
 import { brand } from "@/lib/config/site";
-import { getBaseUrl } from "@/lib/config/env";
+import { getBaseUrl } from "@/lib/env";
 
 interface RouteParams {
   params: Promise<{ slug: string }>;

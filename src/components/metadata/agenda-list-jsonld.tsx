@@ -1,5 +1,6 @@
 import { safeJsonLd } from "@/lib/utils";
 import type { WithContext, CollectionPage } from "schema-dts";
+import { agenda } from "@/lib/config/site";
 
 interface SlotItem {
   startDate: string;
@@ -28,9 +29,9 @@ export function JsonLdAgendaList({ name, slots, baseUrl, businessName }: JsonLdA
         item: {
           "@type": "Event",
           name: slot.type
-            ? `Cita de ${slot.type} - ${businessName}`
-            : `Cita - ${businessName}`,
-          description: slot.description || slot.type || "Cita disponible",
+            ? agenda.jsonld.citaDe(slot.type, businessName)
+            : agenda.jsonld.cita(businessName),
+          description: slot.description || slot.type || agenda.jsonld.citaDisponible,
           startDate: slot.startDate,
           location: {
             "@type": "Place",

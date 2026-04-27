@@ -2,6 +2,7 @@ import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { getPagina } from "@/lib/modules/paginas";
+import { paginas } from "@/lib/config/site";
 
 export const size = {
   width: 1200,
@@ -19,13 +20,13 @@ interface RouteParams {
 export default async function TwitterImage({ params }: RouteParams) {
   const { slug } = await params;
 
-  let pageName = "Página";
+  let pageName = paginas.og.fallbackTitle;
   let pageDesc = "";
 
   try {
     const page = await getPagina(slug);
     if (page) {
-      pageName = page.title || "Página";
+      pageName = page.title || paginas.og.fallbackTitle;
       pageDesc = page.excerpt || "";
     }
   } catch {}

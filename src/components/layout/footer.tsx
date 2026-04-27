@@ -2,17 +2,17 @@ import Link from "next/link";
 import { IconMail, IconBrandInstagram, IconBrandFacebook, IconBrandTwitter, IconBrandYoutube } from "@tabler/icons-react";
 import { Copyright } from "./copyright";
 import { FooterDynamicCards } from "./footer-dynamic-cards";
-import { brand, nav } from "@/lib/config/site";
+import { brand, nav, ui } from "@/lib/config/site";
 
 export function Footer() {
   const empresaCol = nav.footer.columns.find((c) => c.title === "Empresa");
 
   const socialLinks: { href: string; label: string; icon: React.ReactNode }[] = [];
-  if (brand.socialEmail) socialLinks.push({ href: `mailto:${brand.socialEmail}`, label: "Correo", icon: <IconMail className="size-5" /> });
-  if (brand.socialInstagram) socialLinks.push({ href: `https://instagram.com/${brand.socialInstagram}`, label: "Instagram", icon: <IconBrandInstagram className="size-5" /> });
-  if (brand.socialFacebook) socialLinks.push({ href: `https://facebook.com/${brand.socialFacebook}`, label: "Facebook", icon: <IconBrandFacebook className="size-5" /> });
-  if (brand.socialTwitter) socialLinks.push({ href: `https://x.com/${brand.socialTwitter}`, label: "Twitter", icon: <IconBrandTwitter className="size-5" /> });
-  if (brand.socialYoutube) socialLinks.push({ href: `https://youtube.com/${brand.socialYoutube}`, label: "YouTube", icon: <IconBrandYoutube className="size-5" /> });
+  if (brand.socialEmail) socialLinks.push({ href: `mailto:${brand.socialEmail}`, label: ui.social.correo, icon: <IconMail className="size-5" /> });
+  if (brand.socialInstagram) socialLinks.push({ href: `https://instagram.com/${brand.socialInstagram}`, label: ui.social.instagram, icon: <IconBrandInstagram className="size-5" /> });
+  if (brand.socialFacebook) socialLinks.push({ href: `https://facebook.com/${brand.socialFacebook}`, label: ui.social.facebook, icon: <IconBrandFacebook className="size-5" /> });
+  if (brand.socialTwitter) socialLinks.push({ href: `https://x.com/${brand.socialTwitter}`, label: ui.social.twitter, icon: <IconBrandTwitter className="size-5" /> });
+  if (brand.socialYoutube) socialLinks.push({ href: `https://youtube.com/${brand.socialYoutube}`, label: ui.social.youtube, icon: <IconBrandYoutube className="size-5" /> });
 
   return (
     <footer className="border-t bg-muted/30">

@@ -22,9 +22,9 @@ import {
 } from "@/components/ui/select";
 import { IconBrandWhatsapp, IconCopy } from "@tabler/icons-react";
 import { toast } from "sonner";
-import { getWhatsappNumber, getBaseUrl } from "@/lib/config/env";
+import { getWhatsappNumber, getBaseUrl } from "@/lib/env";
 import notificationService from "@/lib/modules/notification";
-import { agenda, ui } from "@/lib/config/site";
+import { agenda, ui, categoryBadge } from "@/lib/config/site";
 import { getWeekDays } from "@/lib/modules/agenda";
 import { getAppointmentTypes, getSlotsByType } from "@/lib/agenda-utils";
 import type { AgendaSlot } from "@/lib/modules/agenda";
@@ -46,13 +46,12 @@ interface ProductOption {
   category: string;
 }
 
+import { dayNames } from "@/lib/config/site/agenda";
+
 function formatFullDate(dayName: string, time: string): string {
   const now = new Date();
   const todayDayOfWeek = now.getDay();
-  const dayMap: Record<string, number> = {
-    Domingo: 0, Lunes: 1, Martes: 2, Miércoles: 3, Jueves: 4, Viernes: 5, Sábado: 6,
-  };
-  const targetDay = dayMap[dayName];
+  const targetDay = dayNames[dayName];
   if (targetDay === undefined) return `${dayName} ${time}`;
 
   let diff = targetDay - todayDayOfWeek;
@@ -96,8 +95,7 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
     }
     if (slot && dayName) {
       const now = new Date();
-      const dayMap: Record<string, number> = { Domingo: 0, Lunes: 1, Martes: 2, Miércoles: 3, Jueves: 4, Viernes: 5, Sábado: 6 };
-      const targetDay = dayMap[dayName];
+      const targetDay = dayNames[dayName];
       const today = now.getDay();
       let diff = targetDay - today;
       if (diff < 0) diff += 7;
@@ -192,10 +190,10 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
               <p className="text-sm font-medium capitalize">{dayLabel}</p>
               {types.length > 0 && (
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Tipo de cita</label>
+                  <label className="text-sm font-medium">{agenda.slot.typeLabel}</label>
                   <Select value={selectedType} onValueChange={handleTypeChange}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Seleccionar tipo de cita" />
+                      <SelectValue placeholder={agenda.slot.typePlaceholder} />
                     </SelectTrigger>
                     <SelectContent>
                       {types.map((t) => (
@@ -224,13 +222,13 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
           <DialogHeader>
             <DialogTitle>{selectedType}</DialogTitle>
             <DialogDescription>
-              Selecciona un horario disponible
+              {agenda.slot.timeDescription}
             </DialogDescription>
           </DialogHeader>
           <div className="py-4 space-y-3">
             <Select value={selectedType} onValueChange={handleTypeChange}>
               <SelectTrigger>
-                <SelectValue placeholder="Tipo de cita" />
+              <SelectValue placeholder={agenda.slot.typePlaceholder} />
               </SelectTrigger>
               <SelectContent>
                 {types.map((t) => (
@@ -256,7 +254,7 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
               </div>
             ) : (
               <p className="text-sm text-muted-foreground text-center py-4">
-                No hay horarios disponibles
+                {agenda.slot.noSlots}
               </p>
             )}
           </div>
@@ -286,7 +284,7 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
     notificationService.info(ui.openingWhatsApp);
     let mensaje = agenda.slot.whatsappTemplate(fullDate, pickedSlot.time, selectedType);
     if (selected) {
-      mensaje += `\n\nProducto de interés: ${selected.name} ($${selected.price.toFixed(2)})`;
+      mensaje += `\n\n${agenda.slot.productInterest}: ${selected.name} ($${selected.price.toFixed(2)})`;
     }
     if (message.trim()) {
       mensaje += `\n\n${message.trim()}`;
@@ -299,9 +297,9 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(shareUrl);
-      toast.success("Enlace copiado al portapapeles");
+      toast.success(ui.share.toastSuccess);
     } catch {
-      toast.error("Error al copiar el enlace");
+      toast.error(ui.share.toastError);
     }
   };
 
@@ -317,7 +315,7 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
         <div className="py-2 space-y-3">
           <Select value={selectedType} onValueChange={handleTypeChange}>
             <SelectTrigger>
-              <SelectValue placeholder="Tipo de cita" />
+               <SelectValue placeholder={agenda.slot.typePlaceholder} />
             </SelectTrigger>
             <SelectContent>
               {types.map((t) => (
@@ -336,13 +334,13 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
               className="h-auto p-0 text-xs"
               onClick={() => setPickedSlotOverride(null)}
             >
-              Cambiar horario
+              {agenda.slot.changeSlot}
             </Button>
           </div>
           <div className="space-y-2">
             <Select value={selectedProduct} onValueChange={setSelectedProduct}>
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Seleccionar producto (opcional)" />
+                <SelectValue placeholder={agenda.slot.productPlaceholder} />
               </SelectTrigger>
               <SelectContent>
                 {products.map((p) => (
@@ -356,7 +354,7 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
               <div className="flex items-center justify-between px-1">
                 <div className="flex items-center gap-2">
                   <Badge variant={selected.category === "suplemento" ? "default" : selected.category === "servicio" ? "outline" : "secondary"} className="text-xs">
-                    {({ suplemento: "Suplemento", comida: "Alimento", nutricion: "Nutrición", servicio: "Servicio" })[selected.category] || selected.category}
+                    {categoryBadge[selected.category] || selected.category}
                   </Badge>
                 </div>
                 <span className="text-sm font-semibold">
@@ -366,7 +364,7 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
             )}
           </div>
           <Textarea
-            placeholder="Escribe tu mensaje o consulta..."
+            placeholder={agenda.slot.messagePlaceholder}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             rows={3}
@@ -378,11 +376,11 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
           </Button>
           <Button variant="outline" onClick={handleCopyLink} className="gap-2">
             <IconCopy className="size-4" />
-            Compartir
+            {agenda.slot.share}
           </Button>
           <Button onClick={handleConsultar} className="gap-2" disabled={message.trim().length < 10}>
             <IconBrandWhatsapp className="size-4" />
-            Consultar
+            {agenda.slot.consult}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -8,7 +8,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { getPost } from "@/lib/modules/blog";
 import { getComments } from "@/lib/modules/comments";
 import { blog } from "@/lib/config/site";
-import { getBaseUrl } from "@/lib/config/env";
+import { getBaseUrl } from "@/lib/env";
 import { JsonLdBreadcrumb } from "@/components/metadata/breadcrumb-jsonld";
 import { JsonLdBlogPost } from "@/components/metadata/blog-post-jsonld";
 import { ShareDialog } from "@/components/ui/share-dialog";

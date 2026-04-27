@@ -8,7 +8,7 @@ import { Empty } from "@/components/ui/empty";
 import { getAllPosts, getPosts } from "@/lib/modules/blog";
 import { getCategories } from "@/lib/modules/categories";
 import { blog, brand } from "@/lib/config/site";
-import { getBaseUrl } from "@/lib/config/env";
+import { getBaseUrl } from "@/lib/env";
 import { JsonLdBreadcrumb } from "@/components/metadata/breadcrumb-jsonld";
 import { JsonLdBlogList } from "@/components/metadata/blog-list-jsonld";
 

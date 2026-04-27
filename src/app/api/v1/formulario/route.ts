@@ -4,7 +4,7 @@ import {
   unauthorized,
   badRequest,
   serverError,
-} from "@/lib/config/env";
+} from "@/lib/env";
 import { getFormMessages, addFormMessage } from "@/lib/modules/form";
 
 export async function GET(request: Request) {

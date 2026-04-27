@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { DynamicPage } from "@/components/layout/dynamic-page";
 import { pages, brand } from "@/lib/config/site";
-import { getBaseUrl } from "@/lib/config/env";
+import { getBaseUrl } from "@/lib/env";
 import { JsonLdContact } from "@/components/metadata/contact-jsonld";
 import { JsonLdBreadcrumb } from "@/components/metadata/breadcrumb-jsonld";
 

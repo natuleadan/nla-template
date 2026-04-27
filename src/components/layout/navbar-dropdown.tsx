@@ -7,6 +7,7 @@ import { getAllPosts } from "@/lib/modules/blog";
 import { getWeekDays } from "@/lib/modules/agenda";
 import { getAllPaginas } from "@/lib/modules/paginas";
 import { getUpcomingSlots } from "@/lib/agenda-utils";
+import { ui } from "@/lib/config/site";
 
 type DropdownType = "products" | "posts" | "agenda" | "pages";
 
@@ -116,7 +117,7 @@ function DesktopDropdown({ label, href, type }: NavDropdownProps) {
               </Link>
             ))
           ) : (
-            <p className="px-3 py-1.5 text-sm text-muted-foreground">No citas disponibles</p>
+            <p className="px-3 py-1.5 text-sm text-muted-foreground">{ui.dropdown.noSlots}</p>
           )}
         </div>
       )}
@@ -167,7 +168,7 @@ function MobileAccordion({ label, href, type, onNav }: NavDropdownProps) {
               </Link>
             ))
           ) : (
-            <p className="px-4 py-2 text-sm text-muted-foreground">No citas disponibles</p>
+            <p className="px-4 py-2 text-sm text-muted-foreground">{ui.dropdown.noSlots}</p>
           )}
         </div>
       )}

@@ -1,4 +1,4 @@
-import { commentsData as seedData } from "@/lib/config/comments";
+import { commentsData as seedData } from "@/lib/config/data/comments";
 
 export interface Comment {
   id: string;

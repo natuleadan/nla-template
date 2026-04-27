@@ -8,7 +8,7 @@ import { Empty } from "@/components/ui/empty";
 import { getAllProducts, getProducts } from "@/lib/modules/products";
 import { getCategories } from "@/lib/modules/categories";
 import { store, brand } from "@/lib/config/site";
-import { getBaseUrl } from "@/lib/config/env";
+import { getBaseUrl } from "@/lib/env";
 import { JsonLdProductList } from "@/components/metadata/product-list-jsonld";
 import { JsonLdBreadcrumb } from "@/components/metadata/breadcrumb-jsonld";
 

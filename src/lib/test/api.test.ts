@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { getBaseUrl, getApiKey } from "@/lib/config/env";
+import { getBaseUrl, getApiKey } from "@/lib/env";
 
 const mockFetch = vi.fn();
 vi.stubGlobal("fetch", mockFetch);

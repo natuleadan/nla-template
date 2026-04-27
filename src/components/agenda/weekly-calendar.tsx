@@ -6,7 +6,7 @@ import { DayColumn } from "./day-column";
 import { Button } from "@/components/ui/button";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import { agenda } from "@/lib/config/site";
-import { getWeekMax } from "@/lib/config/env";
+import { getWeekMax } from "@/lib/env";
 import type { AgendaDay } from "@/lib/modules/agenda";
 
 interface WeeklyCalendarProps {

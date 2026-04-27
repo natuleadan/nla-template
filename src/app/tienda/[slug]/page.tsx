@@ -4,7 +4,7 @@ import { ProductDetailsSkeleton } from "./product-details-skeleton";
 import { ProductoContent } from "./producto-content";
 import { getProduct } from "@/lib/modules/products";
 import { brand } from "@/lib/config/site";
-import { getBaseUrl } from "@/lib/config/env";
+import { getBaseUrl } from "@/lib/env";
 
 interface RouteParams {
   params: Promise<{ slug: string }>;

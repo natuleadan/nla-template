@@ -6,8 +6,8 @@ import { getInventory } from "@/lib/modules/inventory";
 import type { Product } from "@/lib/modules/products";
 import type { Review } from "@/lib/modules/reviews";
 import type { InventoryItem } from "@/lib/modules/inventory";
-import { brand } from "@/lib/config/site";
-import { getBaseUrl } from "@/lib/config/env";
+import { brand, store } from "@/lib/config/site";
+import { getBaseUrl } from "@/lib/env";
 import { JsonLdProduct } from "@/components/metadata/product-jsonld";
 import { JsonLdBreadcrumb } from "@/components/metadata/breadcrumb-jsonld";
 
@@ -43,7 +43,7 @@ export async function ProductoContent({ params }: ProductoContentProps) {
       <JsonLdBreadcrumb
         levels={[
           { name: "Inicio", item: baseUrl },
-          { name: "Tienda", item: `${baseUrl}/tienda` },
+          { name: store.page.title, item: `${baseUrl}/tienda` },
           { name: product.name, item: `${baseUrl}/tienda/${slug}` },
         ]}
       />

@@ -5,7 +5,7 @@ import {
   unauthorized,
   badRequest,
   notFound,
-} from "@/lib/config/env";
+} from "@/lib/env";
 import { getPageContent, getAllPages, createPage } from "@/lib/modules/pages";
 
 async function getPageData(pageName: string) {

@@ -1,4 +1,4 @@
-const brandName = "Acme Inc";
+import { brand } from "../data/brand";
 
 export const paginas = {
   page: {
@@ -6,7 +6,7 @@ export const paginas = {
     description: "Documentos legales, políticas y normativas de la empresa",
     empty: "No hay páginas disponibles",
     metaTitle: (count: number) =>
-      `Páginas (${count}) | ${brandName}`,
+      `Páginas (${count}) | ${brand.name}`,
     metaDescription: (count: number) =>
       count > 0
         ? `Revisa nuestras ${count} páginas legales y políticas.`
@@ -21,5 +21,12 @@ export const paginas = {
   detail: {
     back: "Volver a páginas",
     updatedAt: (date: string) => `Actualizado el ${date}`,
+  },
+  category: {
+    legal: "Legal",
+    politicas: "Políticas",
+  },
+  og: {
+    fallbackTitle: "Página",
   },
 };

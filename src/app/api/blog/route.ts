@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getBaseUrl } from "@/lib/config/env";
+import { getBaseUrl } from "@/lib/env";
 
 export async function GET() {
   const baseUrl = getBaseUrl();

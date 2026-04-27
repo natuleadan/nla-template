@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Hero } from "@/components/landing/hero";
 import { HomeJsonLd } from "@/components/metadata/home-jsonld";
-import { brand } from "@/lib/config/site";
-import { getBaseUrl } from "@/lib/config/env";
+import { brand, home } from "@/lib/config/site";
+import { getBaseUrl } from "@/lib/env";
 
 export const metadata: Metadata = {
   title: {
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   other: {
     "og:logo": `${getBaseUrl()}/design/logo.svg`,
   },
-  keywords: ["tienda", "suplementos", "alimentos", "gym", "entrenamiento"],
+  keywords: brand.metadata.keywords,
 };
 
 export default function HomePage() {

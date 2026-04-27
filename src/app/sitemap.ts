@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getBaseUrl } from "@/lib/config/env";
+import { getBaseUrl } from "@/lib/env";
 import { getAllProducts } from "@/lib/modules/products";
 
 export const dynamic = "force-dynamic";

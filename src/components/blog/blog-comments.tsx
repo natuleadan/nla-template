@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { IconSend, IconLoader2 } from "@tabler/icons-react";
 import { createComment, type Comment } from "@/lib/modules/comments";
-import { getWhatsappNumber } from "@/lib/config/env";
+import { getWhatsappNumber } from "@/lib/env";
 import notificationService from "@/lib/modules/notification";
 import { blog } from "@/lib/config/site";
 
@@ -23,7 +23,7 @@ function CommentCard({ comment }: { comment: Comment }) {
       <div className="flex items-center justify-between">
         <span className="font-medium">{comment.name}</span>
         {comment.status === "pending" && (
-          <Badge variant="outline" className="text-xs">Pendiente</Badge>
+          <Badge variant="outline" className="text-xs">{blog.comments.pending}</Badge>
         )}
       </div>
       <p className="text-muted-foreground text-sm">{comment.comment}</p>

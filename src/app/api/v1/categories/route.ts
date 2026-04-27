@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { cacheLife, cacheTag } from "next/cache";
-import { validateApiKey, unauthorized, badRequest } from "@/lib/config/env";
+import { validateApiKey, unauthorized, badRequest } from "@/lib/env";
 import { getCategories, addCategory } from "@/lib/modules/categories";
 
 async function getCategoriesData() {

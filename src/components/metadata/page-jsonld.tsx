@@ -1,7 +1,7 @@
 import { safeJsonLd } from "@/lib/utils";
 import type { Graph, WebPage, BreadcrumbList } from "schema-dts";
 import { brand } from "@/lib/config/site";
-import { getBaseUrl } from "@/lib/config/env";
+import { getBaseUrl } from "@/lib/env";
 
 interface JsonLdWebPageProps {
   pageUrl: string;

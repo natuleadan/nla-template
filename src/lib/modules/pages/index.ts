@@ -1,5 +1,5 @@
 import { cacheLife, cacheTag } from "next/cache";
-import { pagesData } from "@/lib/config/pages";
+import { pagesData } from "@/lib/config/data/pages";
 
 export interface PageContent {
   title: string;

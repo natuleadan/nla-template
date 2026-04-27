@@ -20,7 +20,7 @@ import {
   IconMinus,
   IconTrash,
 } from "@tabler/icons-react";
-import { getWhatsappNumber } from "@/lib/config/env";
+import { getWhatsappNumber } from "@/lib/env";
 import notificationService from "@/lib/modules/notification";
 import { store, ui } from "@/lib/config/site";
 
@@ -81,7 +81,7 @@ export function CartSheet({ children }: CartSheetProps) {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         {children || (
-          <Button variant="outline" size="icon" className="relative" aria-label="Abrir carrito">
+          <Button variant="outline" size="icon" className="relative" aria-label={store.cart.openAriaLabel}>
             <IconShoppingCart className="size-5" />
             {totalItems > 0 && (
               <Badge className="absolute -top-2 -right-2 min-w-5 h-5 px-1 flex items-center justify-center text-[10px]">
@@ -127,7 +127,7 @@ export function CartSheet({ children }: CartSheetProps) {
                           onClick={() =>
                             updateQuantity(item.id, item.quantity - 1)
                           }
-                          aria-label={`Disminuir cantidad de ${item.name}`}
+                          aria-label={store.cart.decreaseAriaLabel(item.name)}
                         >
                           <IconMinus className="size-4" />
                         </Button>
@@ -140,7 +140,7 @@ export function CartSheet({ children }: CartSheetProps) {
                           onClick={() =>
                             updateQuantity(item.id, item.quantity + 1)
                           }
-                          aria-label={`Aumentar cantidad de ${item.name}`}
+                          aria-label={store.cart.increaseAriaLabel(item.name)}
                         >
                           <IconPlus className="size-4" />
                         </Button>
@@ -155,7 +155,7 @@ export function CartSheet({ children }: CartSheetProps) {
                         size="sm"
                         className="text-destructive"
                         onClick={() => removeFromCart(item.id)}
-                        aria-label={`Eliminar ${item.name} del carrito`}
+                        aria-label={store.cart.removeAriaLabel(item.name)}
                       >
                         <IconTrash className="size-4 mr-1" />
                         {store.cart.delete}

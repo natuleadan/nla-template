@@ -11,7 +11,11 @@ export const brand = {
   socialFacebook: "natuleadan",
   socialTwitter: "natuleadan",
   socialYoutube: "@natuleadan",
-  whatsappMessage: "Hola! Quiero informaci\u00f3n sobre los productos",
+  whatsappMessage: "Hola! Quiero información sobre los productos",
   whatsappProductId: "consulta-header",
   whatsappProductName: "Consulta desde header",
+  metadata: {
+    titleSuffix: (name: string) => `${name} | Tienda de Suplementos y Alimentos`,
+    keywords: ["tienda", "suplementos", "alimentos", "gym", "entrenamiento"],
+  },
 };

@@ -1,6 +1,6 @@
 import { safeJsonLd } from "@/lib/utils";
-import { brand } from "@/lib/config/site";
-import { getBaseUrl } from "@/lib/config/env";
+import { brand, nav } from "@/lib/config/site";
+import { getBaseUrl } from "@/lib/env";
 import type { Graph, Organization, WebSite, WebPage, BreadcrumbList } from "schema-dts";
 
 export function HomeJsonLd() {
@@ -68,7 +68,7 @@ export function HomeJsonLd() {
           {
             "@type": "ListItem",
             position: 1,
-            name: "Inicio",
+            name: nav.items[0].label,
             item: baseUrl,
           },
         ],

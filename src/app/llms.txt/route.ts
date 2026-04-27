@@ -1,4 +1,4 @@
-import { getBaseUrl } from "@/lib/config/env";
+import { getBaseUrl } from "@/lib/env";
 import { brand } from "@/lib/config/site";
 import { getAllProducts } from "@/lib/modules/products";
 

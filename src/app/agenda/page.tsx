@@ -6,14 +6,15 @@ import { WeeklyCalendar } from "@/components/agenda/weekly-calendar";
 import { CurrentTime } from "@/components/agenda/current-time";
 import { AgendaSkeleton } from "@/components/agenda/agenda-skeleton";
 import { getWeekDays } from "@/lib/modules/agenda";
-import { agenda, brand } from "@/lib/config/site";
-import { getBaseUrl } from "@/lib/config/env";
+import { agenda, brand, ui } from "@/lib/config/site";
+import { getBaseUrl } from "@/lib/env";
 import { JsonLdBreadcrumb } from "@/components/metadata/breadcrumb-jsonld";
 import { JsonLdAgendaList } from "@/components/metadata/agenda-list-jsonld";
 
+import { dayList } from "@/lib/config/site/agenda";
+
 function getNextDateForDay(dayName: string, time: string): string {
-  const days = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
-  const dayIndex = days.indexOf(dayName);
+  const dayIndex = dayList.indexOf(dayName);
   if (dayIndex === -1) return "";
   const now = new Date();
   const todayDay = now.getDay();
@@ -35,7 +36,7 @@ async function getInitialData() {
       .map((s) => ({
         startDate: getNextDateForDay(d.name, s.time),
         type: s.type,
-        description: s.type ? `Cita de ${s.type}` : "Cita disponible",
+        description: s.type ? agenda.jsonld.citaDe(s.type, brand.name) : agenda.jsonld.citaDisponible,
       })),
   );
   return { days, availableSlots };

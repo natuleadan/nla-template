@@ -4,7 +4,7 @@ import { PaginaDetailsSkeleton } from "./pagina-details-skeleton";
 import { PaginaContent } from "./pagina-content";
 import { getPagina } from "@/lib/modules/paginas";
 import { brand } from "@/lib/config/site";
-import { getBaseUrl } from "@/lib/config/env";
+import { getBaseUrl } from "@/lib/env";
 
 interface RouteParams {
   params: Promise<{ slug: string }>;
