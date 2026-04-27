@@ -24,6 +24,7 @@ interface NavDropdownProps {
   variant?: "dropdown" | "accordion";
   onNav?: () => void;
   icon?: string;
+  compact?: boolean;
 }
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -77,7 +78,7 @@ async function loadItems(type: DropdownType): Promise<NavLink[]> {
   }
 }
 
-function DesktopDropdown({ label, href, type, icon }: NavDropdownProps) {
+function DesktopDropdown({ label, href, type, icon, compact }: NavDropdownProps) {
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState<NavLink[]>([]);
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
@@ -101,16 +102,27 @@ function DesktopDropdown({ label, href, type, icon }: NavDropdownProps) {
   };
 
   return (
-    <div className="relative" onMouseEnter={show} onMouseLeave={hide}>
+    <div className={`relative ${compact ? "group" : ""}`} onMouseEnter={show} onMouseLeave={hide}>
       <Link
         href={href}
-        className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-muted transition-colors inline-flex items-center gap-1.5"
+        className={`px-3 py-2 text-sm font-medium rounded-lg hover:bg-muted transition-colors inline-flex items-center ${compact ? "gap-1" : "gap-1.5"}`}
       >
         {IconComp && <IconComp className="size-4" />}
-        {label}
-        <svg className="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-        </svg>
+        {compact ? (
+          <span className="max-w-0 group-hover:max-w-40 overflow-hidden transition-all duration-200 whitespace-nowrap inline-flex items-center gap-1">
+            <span className="pl-1">{label}</span>
+            <svg className="size-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            </svg>
+          </span>
+        ) : (
+          <>
+            {label}
+            <svg className="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            </svg>
+          </>
+        )}
       </Link>
 
       {open && (

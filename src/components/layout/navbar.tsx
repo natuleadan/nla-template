@@ -14,7 +14,7 @@ import { IconBrandWhatsapp, IconBarbell, IconMenu2, IconHome, IconBuildingStore,
 import { GlobalSearch } from "@/components/layout/global-search";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { NavDropdown } from "@/components/layout/navbar-dropdown";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { getWhatsappNumber } from "@/lib/env";
 import notificationService from "@/lib/modules/notification";
 import { brand, nav, ui } from "@/lib/config/site";
@@ -117,34 +117,37 @@ export function Navbar() {
           <nav className="hidden md:flex lg:hidden flex-1 justify-end items-center gap-0.5" aria-label={ui.navbar.desktopAriaLabel}>
             {nav.items.map((item) => {
               const IconComp = iconMap[item.icon];
+              const dropdownType = dropdownItems[item.label];
+              if (dropdownType) {
+                return (
+                  <NavDropdown
+                    key={item.href}
+                    label={item.label}
+                    href={item.href}
+                    type={dropdownType}
+                    icon={item.icon}
+                    compact
+                  />
+                );
+              }
               return (
-                <Tooltip key={item.href}>
-                  <TooltipTrigger asChild>
-                    <Link
-                      href={item.href}
-                      className="p-2.5 text-sm font-medium rounded-lg hover:bg-muted transition-colors inline-flex items-center justify-center"
-                    >
-                      {IconComp && <IconComp className="size-5" />}
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent side="bottom">
-                    {item.label}
-                  </TooltipContent>
-                </Tooltip>
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="group p-2.5 text-sm font-medium rounded-lg hover:bg-muted transition-colors inline-flex items-center gap-1"
+                >
+                  {IconComp && <IconComp className="size-5 shrink-0" />}
+                  <span className="max-w-0 group-hover:max-w-40 overflow-hidden transition-all duration-200 whitespace-nowrap">
+                    <span className="pl-1">{item.label}</span>
+                  </span>
+                </Link>
               );
             })}
             <GlobalSearch />
             <ThemeToggle />
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button onClick={handleWhatsAppClick} size="icon" variant="ghost" aria-label={ui.navbar.whatsappAriaLabel}>
-                  <IconBrandWhatsapp className="size-5" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">
-                {nav.buttons.whatsappDesktop}
-              </TooltipContent>
-            </Tooltip>
+            <Button onClick={handleWhatsAppClick} size="icon" variant="ghost" aria-label={ui.navbar.whatsappAriaLabel}>
+              <IconBrandWhatsapp className="size-5" />
+            </Button>
           </nav>
 
           <div className="flex md:hidden items-center gap-1">
