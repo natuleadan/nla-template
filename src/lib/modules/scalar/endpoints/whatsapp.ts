@@ -1,5 +1,60 @@
 import type { OpenApiPath } from "../types";
 
+export function getTestPaths(): Record<string, OpenApiPath> {
+  return {
+    "/api/v1/test/agent": {
+      post: {
+        tags: ["WhatsApp"],
+        summary: "Prueba el agente AI localmente (sin WhatsApp)",
+        description:
+          "Endpoint de prueba para ejecutar el agente AI directamente. " +
+          "No requiere WhatsApp ni yCloud. Devuelve la respuesta del agente en JSON.",
+        security: [],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                required: ["message"],
+                properties: {
+                  message: {
+                    type: "string",
+                    description: "Mensaje del usuario para el agente",
+                    example: "Hola, ¿qué productos tienen?",
+                  },
+                  phone: {
+                    type: "string",
+                    description: "Teléfono de prueba (opcional)",
+                    example: "test_00000000000",
+                  },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          "200": {
+            description: "Respuesta del agente",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    success: { type: "boolean" },
+                    response: { type: "string" },
+                    phone: { type: "string" },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+}
+
 export function getWhatsappPaths(): Record<string, OpenApiPath> {
   return {
     "/api/v1/whatsapp/send": {

@@ -12,7 +12,7 @@ import {
   getBlogPaths,
   getAgendaPaths,
   getPaginasPaths,
-  getWhatsappPaths,
+  getWhatsappPaths, getTestPaths,
 } from "./endpoints";
 
 export function buildOpenApiSpec(examples: ApiExamples): OpenApiSpec {
@@ -27,6 +27,7 @@ export function buildOpenApiSpec(examples: ApiExamples): OpenApiSpec {
   const agendaPaths = getAgendaPaths(examples);
   const paginasPaths = getPaginasPaths(examples);
   const whatsappPaths = getWhatsappPaths();
+  const testPaths = getTestPaths();
 
   return {
     openapi: "3.1.0",
@@ -67,6 +68,7 @@ export function buildOpenApiSpec(examples: ApiExamples): OpenApiSpec {
       ...blogPaths,
       ...agendaPaths,
       ...paginasPaths,
+      ...testPaths,
       ...whatsappPaths,
     },
   };

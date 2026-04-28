@@ -43,6 +43,13 @@ async function getR() {
 
 function safe<T>(fn: () => Promise<T>, fb: T): Promise<T> { return fn().catch(() => fb); }
 
+/** Upstash Redis auto-parses JSON. This handles both string (memory) and object (Redis) returns. */
+function fromStore<T>(raw: string | T | null): T | null {
+  if (raw === null || raw === undefined) return null;
+  if (typeof raw === "string") return JSON.parse(raw) as T;
+  return raw as T;
+}
+
 let _encKey: CryptoKey | null = null;
 async function getEncKey(): Promise<CryptoKey> {
   if (_encKey) return _encKey;
@@ -66,8 +73,8 @@ export async function getSession(phone: string): Promise<SessionState | null> {
     return raw ? JSON.parse(raw) : null;
   }
   return safe(async () => {
-    const raw = await (await getR()).get<string>(sKey(phone));
-    return raw ? JSON.parse(raw) : null;
+    const raw = await (await getR()).get(sKey(phone));
+    return fromStore<SessionState>(raw);
   }, null);
 }
 
@@ -93,9 +100,9 @@ export async function addToHistory(phone: string, msg: CoreMessage): Promise<voi
   }
   await safe(async () => {
     const r = await getR();
-    const raw = await r.get<string>(sKey(phone));
-    if (!raw) return;
-    const s: SessionState = JSON.parse(raw);
+    const raw = await r.get(sKey(phone));
+    const s = fromStore<SessionState>(raw);
+    if (!s) return;
     s.history.push(msg);
     s.lastActivity = Date.now();
     if (s.history.length > MAX_HISTORY) s.history = s.history.slice(-MAX_HISTORY);
@@ -109,8 +116,9 @@ export async function getMyHistory(phone: string): Promise<CoreMessage[]> {
     return raw ? JSON.parse(raw).history : [];
   }
   return safe(async () => {
-    const raw = await (await getR()).get<string>(sKey(phone));
-    return raw ? JSON.parse(raw).history : [];
+    const raw = await (await getR()).get(sKey(phone));
+    const s = fromStore<SessionState>(raw);
+    return s ? s.history : [];
   }, []);
 }
 
@@ -177,9 +185,8 @@ export async function saveLongMemory(phone: string, data: Record<string, unknown
   }
   await safe(async () => {
     const r = await getR();
-    let existing: Record<string, unknown> = {};
-    const raw = await r.get<string>(lKey(phone));
-    if (raw) existing = JSON.parse(raw);
+    const raw = await r.get(lKey(phone));
+    const existing = fromStore<Record<string, unknown>>(raw) || {};
     Object.assign(existing, data);
     await r.setex(lKey(phone), LONG_MEMORY_TTL, JSON.stringify(existing));
   }, undefined);
@@ -192,8 +199,8 @@ export async function getLongMemory(phone: string): Promise<Record<string, unkno
   }
   return safe(async () => {
     const r = await getR();
-    const raw = await r.get<string>(lKey(phone));
-    return raw ? JSON.parse(raw) : {};
+    const raw = await r.get(lKey(phone));
+    return fromStore<Record<string, unknown>>(raw) || {};
   }, {});
 }
 
@@ -233,8 +240,8 @@ export async function isDuplicate(wamid: string): Promise<boolean> {
   }
   return safe(async () => {
     const r = await getR();
-    const ex = await r.get<string>(dKey(wamid));
-    if (ex) return true;
+    const ex = await r.get(dKey(wamid));
+    if (ex !== null) return true;
     await r.setex(dKey(wamid), DEDUP_TTL, "1");
     return false;
   }, false);

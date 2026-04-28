@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
 
   if (isRedisConfigured()) {
     await pushMsg(aid, text);
-    await new Promise((r) => setTimeout(r, 10_000));
+    await new Promise((r) => setTimeout(r, 3000));
     const latest = await peekLatest(aid);
     if (latest !== text) return new Response("OK", { status: 200 });
     const all = await drainAll(aid);

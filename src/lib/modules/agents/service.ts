@@ -1,9 +1,12 @@
-import { generateText } from "@/lib/external/ai/stream.service";
+import { streamText, stepCountIs } from "@/lib/external/ai/stream.service";
 import { aiModel } from "@/lib/external/ai/client";
 import { SYSTEM_PROMPT } from "./config";
 import { getAiTools } from "./tools";
 import { getSession, createSession, addToHistory } from "./session-store";
 import type { ToolContext, CoreMessage } from "./types";
+
+const FALLBACK = "Disculpa, no pude procesar tu solicitud. ¿Puedes repetirlo?";
+const RATE_LIMIT = "Estoy recibiendo muchas solicitudes en este momento. Por favor espera unos segundos e inténtalo de nuevo.";
 
 export class AgentService {
   static async processMessage(
@@ -20,24 +23,39 @@ export class AgentService {
       typeof message === "string" ? { role: "user", content: message } : message;
     await addToHistory(context.phone, userMsg);
 
-    const result = await generateText({
-      model: aiModel,
-      system: `${SYSTEM_PROMPT}
+    const tools = getAiTools(context);
+    const system = `${SYSTEM_PROMPT}
 
 INFORMACIÓN DEL CLIENTE:
 - Teléfono: ${context.phone}
-- Nombre: ${context.customerName || "No disponible"}
+- Nombre: ${context.customerName || "No disponible"}`;
 
-IMPORTANTE: Responde SIEMPRE en español. Sé amable y profesional.`,
-      messages: (await getSession(context.phone))?.history as unknown as Array<{ role: string; content: string | Array<{ type: string; text?: string; image?: string }> }> || [],
-      tools: getAiTools(context),
-    });
+    const freshSession = await getSession(context.phone);
+    const history = freshSession?.history || [];
 
-    await addToHistory(context.phone, {
-      role: "assistant",
-      content: result.text,
-    });
+    try {
+      const result = streamText({
+        model: aiModel,
+        system,
+        messages: history as Array<{ role: "user" | "assistant"; content: string }>,
+        tools,
+        toolChoice: "auto",
+        stopWhen: stepCountIs(15),
+      });
 
-    return result.text;
+      let fullText = "";
+      for await (const chunk of result.textStream) {
+        fullText += chunk;
+      }
+
+      const text = fullText || FALLBACK;
+      await addToHistory(context.phone, { role: "assistant", content: text });
+      return text;
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : "";
+      const text = msg.includes("rate_limit") || msg.includes("429") ? RATE_LIMIT : FALLBACK;
+      await addToHistory(context.phone, { role: "assistant", content: text });
+      return text;
+    }
   }
 }
