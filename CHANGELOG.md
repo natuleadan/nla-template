@@ -1,3 +1,14 @@
+## [1.4.0](https://github.com/natuleadan/nla-template/compare/v1.3.3...v1.4.0) (2026-04-28)
+
+### Features
+
+* **whatsapp:** add store-to-client messaging with dialog and per-country validation ([8be1ed1](https://github.com/natuleadan/nla-template/commit/8be1ed159a1fef13d06e59c1bae2e8a4f120bc7c))
+* **whatsapp:** add ycloud inbound webhook with ai agent and upstash redis ([4db81db](https://github.com/natuleadan/nla-template/commit/4db81dbfe520cc2173269bda67db3b4e5d800f62))
+
+### Bug Fixes
+
+* **whatsapp:** improve dialog ux, add per-country validation, move hardcoded texts to config ([31baace](https://github.com/natuleadan/nla-template/commit/31baace0b8c43dba8f038da93e30cb12f04b2b2b))
+
 ## [1.3.3](https://github.com/natuleadan/nla-template/compare/v1.3.2...v1.3.3) (2026-04-27)
 
 ### Bug Fixes
