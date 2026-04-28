@@ -98,7 +98,6 @@ export async function POST(req: NextRequest) {
   const phone = m.from.replace("+", "");
   const aid = await anonymizePhone(phone);
   const name = m.customerProfile?.name;
-  if (m.wamid || m.id) markAsRead(m.wamid || m.id!);
 
   let text = "";
   const t = m.type || "";
@@ -161,6 +160,10 @@ export async function POST(req: NextRequest) {
     text = all.join(", ");
     if (isDev) console.log("[YCLOUD] Processing", all.length, "msgs for", aid);
   }
+
+  // Show typing indicator only when actually about to process (after media + queue)
+  const msgId = m.wamid || m.id;
+  if (msgId) markAsRead(msgId);
 
   try {
     const res = await AgentService.processMessage(text, { phone, customerName: name });
