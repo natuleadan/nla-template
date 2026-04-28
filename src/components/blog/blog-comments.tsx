@@ -62,7 +62,7 @@ export function BlogComments({ postSlug, initialComments }: BlogCommentsProps) {
         postSlug,
         typeof window !== "undefined" ? window.location.origin : "",
       );
-      openWhatsApp({ message: mensaje, title: "Nuevo comentario" });
+      openWhatsApp({ message: mensaje, title: blog.comments.whatsappTitle });
     } catch (error) {
       if (isDev) console.error("Error submitting comment:", error);
       notificationService.error(blog.comments.error);

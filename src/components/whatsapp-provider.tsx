@@ -32,7 +32,12 @@ export function useWhatsApp(): WhatsAppContextValue {
   return ctx;
 }
 
-export function WhatsAppProvider({ children }: { children: ReactNode }) {
+interface WhatsAppProviderProps {
+  children: ReactNode;
+  defaultCountryCode?: string;
+}
+
+export function WhatsAppProvider({ children, defaultCountryCode = "EC" }: WhatsAppProviderProps) {
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState<WhatsAppOptions | null>(null);
 
@@ -53,6 +58,7 @@ export function WhatsAppProvider({ children }: { children: ReactNode }) {
         open={open}
         onOpenChange={handleClose}
         options={options}
+        defaultCountryCode={defaultCountryCode}
       />
     </WhatsAppContext.Provider>
   );

@@ -54,7 +54,7 @@ export function Navbar() {
       if (isDev) console.error("Error:", e);
     }
 
-    openWhatsApp({ message: brand.whatsappMessage(brand.name), title: "Contacto" });
+    openWhatsApp({ message: brand.whatsappMessage(brand.name), title: ui.navbar.whatsappTitle });
   };
 
   return (

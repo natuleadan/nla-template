@@ -1,7 +1,6 @@
 export const ui = {
   loading: "Cargando...",
   notFound: "Página no encontrada",
-  openingWhatsApp: "Abriendo WhatsApp...",
   mobileMenuDescription: "Menú de navegación principal",
   skipToContent: "Saltar al contenido principal",
   search: {
@@ -23,6 +22,7 @@ export const ui = {
   navbar: {
     desktopAriaLabel: "Navegación principal",
     whatsappAriaLabel: "Enviar mensaje por WhatsApp",
+    whatsappTitle: "Contacto",
     menuAriaLabel: "Abrir menú",
     mobileNavAriaLabel: "Menú móvil",
   },

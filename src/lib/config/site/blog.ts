@@ -35,6 +35,7 @@ export const blog = {
     error: "Error al enviar comentario",
     validation: "Completa todos los campos",
     pending: "Pendiente",
+    whatsappTitle: "Nuevo comentario",
     whatsappTemplate: (name: string, comment: string, postSlug: string, baseUrl: string) =>
       `👋 *Hola ${name}, gracias por tu comentario!*
 

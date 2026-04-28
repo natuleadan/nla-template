@@ -171,7 +171,7 @@ export function ProductDetails({
         product.slug,
         typeof window !== "undefined" ? window.location.origin : "",
       );
-      openWhatsApp({ message: mensaje, title: "Nueva reseña" });
+      openWhatsApp({ message: mensaje, title: store.reviews.whatsappTitle });
     } catch (error) {
       if (isDev) console.error("Error submitting review:", error);
       notificationService.error(store.reviews.error);

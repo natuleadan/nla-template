@@ -84,6 +84,7 @@ Recibimos tu consulta sobre:
     error: "Error al enviar rese\u00f1a",
     validation: "Completa todos los campos",
     pending: "Pendiente",
+    whatsappTitle: "Nueva rese\u00f1a",
     whatsappTemplate: (name: string, comment: string, rating: number, productSlug: string, baseUrl: string) =>
       `👋 *Hola ${name}, gracias por tu rese\u00f1a!*
 

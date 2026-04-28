@@ -282,13 +282,14 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
   const shareUrl = `${baseUrl}/agenda?dia=${encodeURIComponent(pickedSlot.dayName)}&hora=${encodeURIComponent(pickedSlot.time)}&tipo=${encodeURIComponent(selectedType)}${selected ? `&producto=${encodeURIComponent(selected.slug)}` : ""}${message.trim() ? `&mensaje=${encodeURIComponent(message.trim())}` : ""}`;
 
   const handleConsultar = () => {
-    let mensaje = agenda.slot.whatsappTemplate(fullDate, pickedSlot.time, selectedType);
-    if (selected) {
-      mensaje += `\n\n${agenda.slot.productInterest}: ${selected.name} ($${selected.price.toFixed(2)})`;
-    }
-    if (message.trim()) {
-      mensaje += `\n\n${message.trim()}`;
-    }
+    const productInfo = selected ? { name: selected.name, price: selected.price } : undefined;
+    const mensaje = agenda.slot.whatsappTemplate(
+      fullDate,
+      pickedSlot.time,
+      selectedType,
+      message.trim() || undefined,
+      productInfo,
+    );
     openWhatsApp({ message: mensaje, title: agenda.slot.dialogTitle });
     onOpenChange(false);
   };

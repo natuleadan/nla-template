@@ -45,15 +45,17 @@ export const agenda = {
       fullDate: string,
       time: string,
       type?: string,
+      message?: string,
+      product?: { name: string; price: number },
     ) =>
       `👋 *Hola! Gracias por agendar con ${brand.name}*
 
 Hemos recibido tu solicitud de cita:
 
 • *Fecha:* ${fullDate}
-• *Horario:* ${time} horas${type ? `\n• *Tipo:* ${type}` : ""}
+• *Horario:* ${time} horas${type ? `\n• *Tipo:* ${type}` : ""}${message ? `\n• *Tu comentario:* ${message}` : ""}${product ? `\n• *Producto de inter\u00e9s:* ${product.name} ($${product.price.toFixed(2)})` : ""}
 
-Por favor confírmenos si esta fecha y horario te funcionan. Quedamos atentos para cualquier consulta.
+Estamos revisando la disponibilidad para esa fecha y horario. Te confirmaremos a la brevedad.
 
 *Horario de atención:* Lunes a Viernes de 9:00 a 18:00
 

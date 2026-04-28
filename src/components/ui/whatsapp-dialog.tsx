@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -36,25 +36,51 @@ interface WhatsAppDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   options: WhatsAppOptions | null;
+  defaultCountryCode?: string;
 }
 
 export function WhatsAppDialog({
   open,
   onOpenChange,
   options,
+  defaultCountryCode,
 }: WhatsAppDialogProps) {
   const [countryCode, setCountryCode] = useState<CountryCode>(() =>
-    countryCodes.find((c) => c.code === "EC") || countryCodes[0],
+    countryCodes.find((c) => c.code === (defaultCountryCode || "EC")) || countryCodes[0],
   );
   const [phoneNumber, setPhoneNumber] = useState("");
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [codeOpen, setCodeOpen] = useState(false);
 
+  useEffect(() => {
+    if (!open) {
+      setSent(false);
+      setPhoneNumber("");
+      setSending(false);
+      setCodeOpen(false);
+      setCountryCode(countryCodes.find((c) => c.code === (defaultCountryCode || "EC")) || countryCodes[0]);
+    }
+  }, [open, defaultCountryCode]);
+
+  useEffect(() => {
+    if (!defaultCountryCode) {
+      const fromLocale = Intl.DateTimeFormat().resolvedOptions().locale?.split("-")[1]?.toUpperCase();
+      if (fromLocale) {
+        const found = countryCodes.find((c) => c.code === fromLocale);
+        if (found) setCountryCode(found);
+      }
+    }
+  }, [defaultCountryCode]);
+
   const rawDigits = phoneNumber.replace(/\D/g, "");
-  const digits = rawDigits.replace(/^0+/, "");
+  const normalDigits = rawDigits.replace(/^0+/, "");
+  const strippedDigits = rawDigits.startsWith(countryCode.dial) && rawDigits.length > countryCode.dial.length
+    ? rawDigits.slice(countryCode.dial.length).replace(/^0+/, "")
+    : normalDigits;
+  const digits = strippedDigits.length === countryCode.digits ? strippedDigits : normalDigits;
   const fullNumber = `+${countryCode.dial}${digits}`;
-  const isValid = digits.length >= countryCode.minDigits;
+  const isValid = digits.length === countryCode.digits;
 
   const handleSend = async () => {
     if (!isValid || !options) return;
