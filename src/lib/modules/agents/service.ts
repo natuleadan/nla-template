@@ -1,5 +1,6 @@
 import { streamText, stepCountIs } from "@/lib/external/ai/stream.service";
 import { aiModel } from "@/lib/external/ai/client";
+import { getZeroDataRetention } from "@/lib/env";
 import { SYSTEM_PROMPT } from "./config";
 import { getAiTools } from "./tools";
 import { getSession, createSession, addToHistory } from "./session-store";
@@ -41,6 +42,11 @@ INFORMACIÓN DEL CLIENTE:
         tools,
         toolChoice: "auto",
         stopWhen: stepCountIs(15),
+        ...(getZeroDataRetention() && {
+          providerOptions: {
+            gateway: { zeroDataRetention: true },
+          },
+        }),
       });
 
       let fullText = "";

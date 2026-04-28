@@ -124,6 +124,7 @@
 | `YCLOUD_WEBHOOK_SECRET` | Webhook secret for HMAC verification |
 | `WS_ENCRYPTION_KEY` | HMAC key for phone anonymization in Redis |
 | `AI_GATEWAY_API_KEY` | Vercel AI Gateway key (chat + images via gateway) |
+| `AI_GATEWAY_ZDR` | Zero Data Retention (default: `false`, requires Vercel Pro/Enterprise) |
 | `OPENAI_API_KEY` | OpenAI API key (audio transcription via Whisper) |
 | `AI_PROVIDER` | Provider mode: `mixed` (gateway+openai) or `openai` (all via openai) |
 | `KV_REST_API_URL` | Upstash Redis REST URL |

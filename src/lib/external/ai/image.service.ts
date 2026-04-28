@@ -1,7 +1,7 @@
 import sharp from "sharp";
 import { generateText } from "@/lib/external/ai/stream.service";
 import { aiModel } from "@/lib/external/ai/client";
-import { getYcloudApiKey, isDev } from "@/lib/env";
+import { getYcloudApiKey, getZeroDataRetention, isDev } from "@/lib/env";
 
 const MAX_BYTES = 100 * 1024;
 const MAX_QUALITY = 80;
@@ -59,6 +59,8 @@ export async function analyzeImage(imageLink: string, caption?: string): Promise
       ? `${caption}. Describe el contenido en español.`
       : "Describe brevemente el contenido de esta imagen en español.";
 
+    const zdr = getZeroDataRetention() ? { gateway: { zeroDataRetention: true } } : undefined;
+
     const result = await generateText({
       model: aiModel,
       messages: [{
@@ -68,6 +70,7 @@ export async function analyzeImage(imageLink: string, caption?: string): Promise
           { type: "image", image: optimized },
         ],
       }],
+      ...(zdr && { providerOptions: zdr }),
     });
     return result.text?.trim() || null;
   } catch (err) {
@@ -95,6 +98,9 @@ export async function analyzePdf(pdfLink: string, caption?: string): Promise<str
           { type: "file", data: raw, mediaType: "application/pdf" },
         ],
       }],
+      ...(getZeroDataRetention() && {
+        providerOptions: { gateway: { zeroDataRetention: true } },
+      }),
     });
     return result.text?.trim() || null;
   } catch (err) {

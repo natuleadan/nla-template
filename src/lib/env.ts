@@ -68,6 +68,10 @@ export function getAiProvider(): AiProvider {
   return "mixed";
 }
 
+export function getZeroDataRetention(): boolean {
+  return process.env.AI_GATEWAY_ZDR === "true";
+}
+
 // ─── Auth helpers ─────────────────────────────────────────
 
 export function validateApiKey(request: Request): boolean {
