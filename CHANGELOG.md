@@ -1,3 +1,11 @@
+## [1.4.1](https://github.com/natuleadan/nla-template/compare/v1.4.0...v1.4.1) (2026-04-28)
+
+### Bug Fixes
+
+* **whatsapp:** do not expose ycloud 403 status to client ([420d11b](https://github.com/natuleadan/nla-template/commit/420d11b8f6f56858593f83fc2700e5a310f60dd3))
+* **whatsapp:** force node 22.x to avoid url.parse deprecation in node 24 ([3f2b431](https://github.com/natuleadan/nla-template/commit/3f2b4319f38ba90be344da8810af72ac7e82a743))
+* **whatsapp:** resolve type errors, async signature, and gateway fallback ([b1d34a9](https://github.com/natuleadan/nla-template/commit/b1d34a9963c9e88efbc7f9756629fd839a15b54d))
+
 ## [1.4.0](https://github.com/natuleadan/nla-template/compare/v1.3.3...v1.4.0) (2026-04-28)
 
 ### Features
