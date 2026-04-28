@@ -108,13 +108,9 @@ export async function POST(request: Request) {
 
     return Response.json({ success: true, data: response.data });
   } catch (error: unknown) {
-    const err = error as { response?: { data?: unknown; status?: number }; message?: string };
-    if (err.response) {
-      return Response.json(
-        { error: err.response.data || "Error al enviar mensaje por WhatsApp" },
-        { status: err.response.status || 500 },
-      );
-    }
-    return serverError(err.message || error);
+    const err = error as { response?: { data?: { error?: { message?: string }; message?: string }; status?: number }; message?: string };
+    const ycErr = err.response?.data;
+    const msg = typeof ycErr === "object" && ycErr !== null ? (ycErr as { error?: { message?: string }; message?: string }).error?.message || (ycErr as { message?: string }).message || "Error al enviar mensaje" : "Error al enviar mensaje";
+    return serverError(msg);
   }
 }
