@@ -1,13 +1,9 @@
-import { getAiGatewayApiKey, getYcloudApiKey, isDev } from "@/lib/env";
+import { experimental_transcribe as transcribe } from "ai";
+import { openai } from "@ai-sdk/openai";
+import { getYcloudApiKey, isDev } from "@/lib/env";
 
 export async function transcribeAudio(audioLink: string): Promise<string | null> {
   if (!audioLink) return null;
-
-  const apiKey = getAiGatewayApiKey();
-  if (!apiKey) {
-    if (isDev) console.log("[TRANSCRIBE] No AI_GATEWAY_API_KEY configured");
-    return null;
-  }
 
   try {
     const audioRes = await fetch(audioLink, {
@@ -18,25 +14,14 @@ export async function transcribeAudio(audioLink: string): Promise<string | null>
       return null;
     }
 
-    const blob = await audioRes.blob();
-    const form = new FormData();
-    form.append("file", blob, "audio.ogg");
-    form.append("model", "whisper-1");
-    form.append("language", "es");
+    const audioBuffer = await audioRes.arrayBuffer();
 
-    const res = await fetch("https://api.openai.com/v1/audio/transcriptions", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${apiKey}` },
-      body: form,
+    const result = await transcribe({
+      model: openai.transcription("whisper-1"),
+      audio: new Uint8Array(audioBuffer),
     });
 
-    if (!res.ok) {
-      if (isDev) console.error("[TRANSCRIBE] Whisper API error:", res.status);
-      return null;
-    }
-
-    const data = await res.json();
-    return (data.text || "").trim() || null;
+    return result.text || null;
   } catch (err) {
     if (isDev) console.error("[TRANSCRIBE] Error:", err);
     return null;

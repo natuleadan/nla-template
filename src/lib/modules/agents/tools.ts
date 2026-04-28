@@ -27,7 +27,6 @@ Usa esta herramienta para:
 
 INPUT: query para buscar por nombre, category para filtrar por categoría.
 CRÍTICO: De los resultados, usa el campo "slug" exactamente como aparece para llamar a getProductDetail si el usuario pide más información de un producto.`,
-      strict: true,
       inputSchema: z.object({
         query: z.string().optional().describe("Buscar productos por nombre"),
         category: z.string().optional().describe("Filtrar por categoría exacta"),
@@ -62,7 +61,7 @@ CRÍTICO: De los resultados, usa el campo "slug" exactamente como aparece para l
 Incluye: descripción larga, precio, imágenes disponibles, reseñas de clientes con valoraciones y comentarios, y si requiere agendamiento.
 Usa esta herramienta cuando el usuario pida más detalles de un producto que ya apareció en getProducts.
 IMPORTANTE: El slug debe ser exactamente el mismo que devolvió getProducts, no lo inventes.`,
-      strict: true,
+
       inputSchema: z.object({ slug: z.string().describe("Slug exacto del producto (tomado de getProducts)") }),
       execute: async ({ slug }) => {
         const product = await getProduct(slug);
@@ -99,7 +98,7 @@ IMPORTANTE: El slug debe ser exactamente el mismo que devolvió getProducts, no 
 Devuelve: slug, título, extracto y categoría de cada página (sin contenido completo).
 Usa esta herramienta para averiguar qué páginas existen y luego llama a getPageDetail con el slug exacto para leer el contenido completo.
 INPUT: query para buscar por título/extracto, category para filtrar por categoría.`,
-      strict: true,
+
       inputSchema: z.object({
         query: z.string().optional().describe("Buscar páginas por título o extracto"),
         category: z.string().optional().describe("Filtrar por categoría (ej: legal, politicas)"),
@@ -132,7 +131,7 @@ INPUT: query para buscar por título/extracto, category para filtrar por categor
       description: `Obtiene el contenido COMPLETO de una página institucional específica usando su slug exacto (tomado de getPages).
 Devuelve: título completo, contenido HTML, categoría y fecha de publicación.
 Usa esta herramienta cuando el usuario quiera leer una página específica que apareció en getPages.`,
-      strict: true,
+
       inputSchema: z.object({ slug: z.string().describe("Slug exacto de la página (tomado de getPages)") }),
       execute: async ({ slug }) => {
         const page = await getPagina(slug);
@@ -156,7 +155,7 @@ Usa esta herramienta cuando el usuario quiera leer una página específica que a
 Devuelve: slug, título, extracto, autor, categoría, fecha de publicación y tiempo de lectura (sin contenido completo).
 Usa esta herramienta para buscar artículos y luego llama a getPostDetail con el slug exacto para leer el artículo completo.
 INPUT: query para buscar por título/extracto, category para filtrar por categoría.`,
-      strict: true,
+
       inputSchema: z.object({
         query: z.string().optional().describe("Buscar artículos por título o extracto"),
         category: z.string().optional().describe("Filtrar por categoría (ej: nutricion, entrenamiento, salud)"),
@@ -192,7 +191,7 @@ INPUT: query para buscar por título/extracto, category para filtrar por categor
       description: `Obtiene el contenido COMPLETO de un artículo del blog específico usando su slug exacto (tomado de getBlog).
 Devuelve: título completo, contenido HTML, autor, categoría, fecha de publicación y etiquetas.
 Usa esta herramienta cuando el usuario quiera leer un artículo completo que apareció en getBlog.`,
-      strict: true,
+
       inputSchema: z.object({ slug: z.string().describe("Slug exacto del artículo (tomado de getBlog)") }),
       execute: async ({ slug }) => {
         const post = await getPost(slug);
@@ -223,7 +222,7 @@ Usa esta herramienta cuando el usuario pregunte por:
 
 INPUT: day opcional con el nombre del día en español (ej: "Lunes", "Martes").
 Si no se pasa día, devuelve la semana completa.`,
-      strict: true,
+
       inputSchema: z.object({ day: z.string().optional().describe("Nombre del día en español (ej: Lunes, Martes)") }),
       execute: async ({ day }) => {
         if (day) {
@@ -255,7 +254,7 @@ Si no se pasa día, devuelve la semana completa.`,
 Usa esta herramienta cuando el usuario pregunte por:
 - Nombre, descripción, email, teléfono, dirección y país
 - Redes sociales: Instagram, Facebook, Twitter/X, YouTube`,
-      strict: true,
+
       inputSchema: z.object({}),
       execute: async () => ({
         name: brand.name, description: brand.description,
@@ -271,7 +270,7 @@ Usa esta herramienta cuando el usuario pregunte por:
 
 INPUT: key = nombre del dato (ej: "alergias", "talla_ropa", "nombre"), value = valor del dato, override = si debe sobrescribir un valor existente (default false).
 Si el key ya existe y override=false, devuelve el valor actual sin sobrescribir.`,
-      strict: true,
+
       inputSchema: z.object({
         key: z.string().describe("Nombre del dato a guardar (ej: alergias, nombre, talla_ropa, preferencia)"),
         value: z.string().describe("Valor del dato a recordar"),
@@ -295,7 +294,7 @@ Si el key ya existe y override=false, devuelve el valor actual sin sobrescribir.
 Usa esta herramienta cuando el usuario pregunte por algo que hablamos antes, quiera retomar un tema, o necesite recordar información dicha en conversaciones anteriores.
 INPUT: limit opcional (cantidad de mensajes, default 10).
 Devuelve: últimos mensajes del historial.`,
-      strict: true,
+
       inputSchema: z.object({ limit: z.number().optional().default(10).describe("Cantidad de mensajes a recuperar") }),
       execute: async ({ limit = 10 }) => {
         const history = await getMyHistory(context.phone);
@@ -312,7 +311,7 @@ Devuelve: últimos mensajes del historial.`,
 
     deleteMemory: tool({
       description: `ELIMINA TODOS LOS DATOS DEL CLIENTE. Llámame cuando el usuario pida borrar/olvidar/resetear. PASO 1: llama con el texto exacto que dijo el usuario. El tool devuelve instrucción de confirmación. PASO 2: El usuario responde, vuelve a llamarme con su texto. Si es "BORRAR" ejecuto, si no, devuelvo error.`,
-      strict: true,
+
       inputSchema: z.object({
         confirm: z.string().describe('Texto de confirmación del usuario en cada intento. El tool valida si es "BORRAR".'),
       }),
