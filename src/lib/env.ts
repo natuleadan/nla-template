@@ -56,6 +56,18 @@ export function getWsEncryptionKey(): string {
   return process.env.WS_ENCRYPTION_KEY || "";
 }
 
+export function getOpenaiApiKey(): string {
+  return process.env.OPENAI_API_KEY || "";
+}
+
+export type AiProvider = "mixed" | "openai";
+
+export function getAiProvider(): AiProvider {
+  const val = process.env.AI_PROVIDER || "mixed";
+  if (val === "openai") return "openai";
+  return "mixed";
+}
+
 // ─── Auth helpers ─────────────────────────────────────────
 
 export function validateApiKey(request: Request): boolean {

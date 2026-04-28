@@ -1,34 +1,61 @@
 import type { OpenApiPath } from "../types";
 
-export function getTestPaths(): Record<string, OpenApiPath> {
+export function getChatPaths(): Record<string, OpenApiPath> {
   return {
-    "/api/v1/test/agent": {
+    "/api/v1/chat": {
       post: {
         tags: ["WhatsApp"],
-        summary: "Prueba el agente AI localmente (sin WhatsApp)",
+        summary: "Chat con el agente AI (protegido)",
         description:
-          "Endpoint de prueba para ejecutar el agente AI directamente. " +
-          "No requiere WhatsApp ni yCloud. Devuelve la respuesta del agente en JSON.",
-        security: [],
+          "Envía un mensaje al agente AI y obtiene su respuesta. " +
+          "Requiere API key en header x-api-key. " +
+          "Soporta: texto, imagen (análisis con compresión), audio (transcripción), " +
+          "PDF (extracción de texto), video, ubicación, contactos, stickers y documentos. " +
+          "Usa cola Redis (10s) para combinar mensajes del mismo phone.",
+        security: [{ ApiKeyAuth: [] }],
         requestBody: {
           required: true,
           content: {
             "application/json": {
               schema: {
                 type: "object",
-                required: ["message"],
                 properties: {
                   message: {
                     type: "string",
-                    description: "Mensaje del usuario para el agente",
+                    description: "Mensaje de texto del usuario",
                     example: "Hola, ¿qué productos tienen?",
                   },
                   phone: {
                     type: "string",
-                    description: "Teléfono de prueba (opcional)",
-                    example: "test_00000000000",
+                    description: "Identificador de sesión (opcional, default: chat_00000000000)",
+                    example: "test_1234567890",
+                  },
+                  media: {
+                    type: "string",
+                    enum: ["image", "audio", "voice", "pdf", "video", "document", "sticker", "location", "contacts", "order"],
+                    description: "Tipo de media a procesar",
+                    example: "image",
+                  },
+                  mediaUrl: {
+                    type: "string",
+                    description: "URL del archivo media (requerido si media está presente)",
+                    example: "https://ejemplo.com/imagen.jpg",
+                  },
+                  mediaCaption: {
+                    type: "string",
+                    description: "Texto descriptivo o instrucción para el análisis del media",
+                    example: "describe esta imagen",
+                  },
+                  customerName: {
+                    type: "string",
+                    description: "Nombre del cliente (opcional)",
+                    example: "Juan Pérez",
                   },
                 },
+              },
+              example: {
+                message: "Hola, ¿qué productos tienen?",
+                phone: "test_1234567890",
               },
             },
           },
@@ -44,11 +71,15 @@ export function getTestPaths(): Record<string, OpenApiPath> {
                     success: { type: "boolean" },
                     response: { type: "string" },
                     phone: { type: "string" },
+                    redis: { type: "boolean" },
+                    len: { type: "integer" },
                   },
                 },
               },
             },
           },
+          "401": { description: "API key inválida o no proporcionada" },
+          "400": { description: "message o media requerido" },
         },
       },
     },
