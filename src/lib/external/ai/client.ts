@@ -1,5 +1,5 @@
 import { gateway } from "ai";
 
-const MODEL_ID = "openai/gpt-4o-mini";
+const MODEL_ID = "openai/gpt-5-nano";
 
 export const aiModel = gateway(MODEL_ID);

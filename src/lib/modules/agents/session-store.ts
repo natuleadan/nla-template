@@ -1,4 +1,4 @@
-import type { CoreMessage } from "@/lib/external/ai/stream.service";
+import type { CoreMessage } from "./types";
 import { getRedis, isRedisConfigured } from "@/lib/external/upstash/redis";
 import { getWsEncryptionKey } from "@/lib/env";
 import type { SessionState } from "./types";
@@ -126,7 +126,7 @@ export async function peekLatest(phone: string): Promise<string | null> {
   if (!isRedisConfigured()) return memLIndex(qKey(phone), 0) || null;
   return safe(async () => {
     const r = await getR();
-    return r.lindex<string>(qKey(phone), 0);
+    return r.lindex(qKey(phone), 0) as Promise<string | null>;
   }, null);
 }
 
@@ -138,7 +138,7 @@ export async function drainAll(phone: string): Promise<string[]> {
   }
   return safe(async () => {
     const r = await getR();
-    const items = await r.lrange<string>(qKey(phone), 0, -1);
+    const items = await r.lrange(qKey(phone), 0, -1) as string[];
     await r.del(qKey(phone));
     return items.reverse();
   }, []);

@@ -1,12 +1,9 @@
-import {
-  generateText,
-  type CoreMessage,
-} from "@/lib/external/ai/stream.service";
+import { generateText } from "@/lib/external/ai/stream.service";
 import { aiModel } from "@/lib/external/ai/client";
 import { SYSTEM_PROMPT } from "./config";
 import { getAiTools } from "./tools";
 import { getSession, createSession, addToHistory } from "./session-store";
-import type { ToolContext } from "./types";
+import type { ToolContext, CoreMessage } from "./types";
 
 export class AgentService {
   static async processMessage(
@@ -32,9 +29,8 @@ INFORMACIÓN DEL CLIENTE:
 - Nombre: ${context.customerName || "No disponible"}
 
 IMPORTANTE: Responde SIEMPRE en español. Sé amable y profesional.`,
-      messages: (await getSession(context.phone))?.history || [],
+      messages: (await getSession(context.phone))?.history as unknown as Array<{ role: string; content: string | Array<{ type: string; text?: string; image?: string }> }> || [],
       tools: getAiTools(context),
-      maxSteps: 10,
     });
 
     await addToHistory(context.phone, {

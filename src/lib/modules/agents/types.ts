@@ -1,4 +1,7 @@
-import type { CoreMessage } from "@/lib/external/ai/stream.service";
+export interface CoreMessage {
+  role: "user" | "assistant" | "system";
+  content: string | Array<{ type: string; text?: string; image?: string }>;
+}
 
 export interface ToolContext {
   phone: string;

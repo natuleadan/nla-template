@@ -11,7 +11,7 @@ import { isRedisConfigured } from "@/lib/external/upstash/redis";
 
 const WEBHOOK_SECRET = getYcloudWebhookSecret();
 
-function verifySignature(rawBody: string, header: string | null): boolean {
+async function verifySignature(rawBody: string, header: string | null): Promise<boolean> {
   if (!WEBHOOK_SECRET || !header) return false;
   const parts = header.split(",");
   let ts = "", sig = "";
@@ -21,11 +21,11 @@ function verifySignature(rawBody: string, header: string | null): boolean {
     if (k === "s") sig = v;
   }
   if (!ts || !sig) return false;
-  return crypto.subtle
-    .importKey("raw", new TextEncoder().encode(WEBHOOK_SECRET), { name: "HMAC", hash: "SHA-256" }, false, ["sign"])
-    .then((k) => crypto.subtle.sign("HMAC", k, new TextEncoder().encode(`${ts}.${rawBody}`)))
-    .then((s) => Array.from(new Uint8Array(s)).map((b) => b.toString(16).padStart(2, "0")).join("") === sig)
-    .catch(() => false);
+  try {
+    const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(WEBHOOK_SECRET), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+    const s = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(`${ts}.${rawBody}`));
+    return Array.from(new Uint8Array(s)).map((b) => b.toString(16).padStart(2, "0")).join("") === sig;
+  } catch { return false; }
 }
 
 interface YCloudWebhookPayload {
