@@ -19,8 +19,10 @@
 - **Inbound webhook** at `/api/v1/webhooks/ycloud` — receives WhatsApp messages from customers via YCloud
 - **yCloud signature verification** — HMAC-SHA256 with `YCloud-Signature: t=...,s=...` header
 - **Mark as read + typing indicator** — calls yCloud API to show double-check and typing status
-- **Message debounce** — 10s window collects burst messages, only processes the last one
-- **AI agent** with `gpt-4o-mini` via Vercel AI Gateway — responds to customer inquiries
+- **Message debounce** — 10s window collects burst messages via Redis queue, only processes the last one
+- **AI agent** with `gpt-5-nano` via Vercel AI Gateway — responds to customer inquiries
+- **Multimodal**: audio transcription (Whisper via OpenAI), image analysis with compression, PDF text extraction
+- **Protected chat API** at `/api/v1/chat` — same agent logic, requires `x-api-key` header
 - **Agent tools**: products, product detail (with reviews), pages, blog, agenda, company info, long-term memory
 - **Phone anonymization** — HMAC-SHA256 with `WS_ENCRYPTION_KEY`, no raw numbers in Redis
 - **Session history** — 7 days in Redis, persists across serverless instances
@@ -94,10 +96,10 @@
 - **Language**: TypeScript 5.7+
 - **UI**: shadcn/ui + Tailwind CSS
 - **API**: Next.js Route Handlers (REST)
-- **AI**: Vercel AI SDK + OpenAI (gpt-4o-mini) via Gateway
+- **AI**: Vercel AI SDK + OpenAI (gpt-5-nano via Gateway, Whisper for audio)
 - **WhatsApp**: YCloud API (outbound SDK + inbound webhooks)
 - **Redis**: Upstash (sessions, memory, rate limiting, dedup)
-- **Testing**: Vitest (310 tests)
+- **Testing**: Vitest (313 tests)
 - **CI/CD**: GitHub Actions + Semantic Release
 - **Hosting**: Vercel
 
@@ -121,7 +123,9 @@
 | `YCLOUD_API_KEY` | YCloud API key (send + media download) |
 | `YCLOUD_WEBHOOK_SECRET` | Webhook secret for HMAC verification |
 | `WS_ENCRYPTION_KEY` | HMAC key for phone anonymization in Redis |
-| `AI_GATEWAY_API_KEY` | Vercel AI Gateway key |
+| `AI_GATEWAY_API_KEY` | Vercel AI Gateway key (chat + images via gateway) |
+| `OPENAI_API_KEY` | OpenAI API key (audio transcription via Whisper) |
+| `AI_PROVIDER` | Provider mode: `mixed` (gateway+openai) or `openai` (all via openai) |
 | `KV_REST_API_URL` | Upstash Redis REST URL |
 | `KV_REST_API_TOKEN` | Upstash Redis REST token |
 
@@ -142,11 +146,13 @@
 | `/api/v1/pedidos` | GET, POST, PUT, DELETE |
 | `/api/v1/formulario` | GET, POST, PUT, DELETE |
 | `/api/v1/agenda` | GET, POST, PUT, DELETE |
+| `/api/v1/chat` | POST (protegido, chat con agente AI) |
 | `/api/v1/webhooks/ycloud` | GET (verification), POST (inbound messages) |
 | `/api/v1/whatsapp/send` | POST (send message from UI) |
 
 ### Authentication
 POST/PUT/DELETE endpoints require header: `x-api-key: your_api_key`
+The `/api/v1/chat` endpoint also requires `x-api-key`.
 
 ### In-memory Fallback
 When Upstash Redis is not configured (`KV_REST_API_URL` empty), all storage functions fall back to local `Map` objects:
@@ -173,6 +179,7 @@ This allows full local development without Redis. Restarting the server clears a
 ```
 src/
 ├── app/api/v1/
+│   ├── chat/           → chat with AI agent (protected)
 │   ├── webhooks/ycloud/   → inbound WhatsApp webhook
 │   ├── whatsapp/send/     → outbound WhatsApp sender
 │   └── [products|blog|...] → CRUD endpoints
@@ -182,7 +189,7 @@ src/
 │   └── ...
 ├── lib/
 │   ├── external/
-│   │   ├── ai/            → Vercel AI SDK (gateway + model)
+│   │   ├── ai/            → Vercel AI SDK (gateway, openai, transcription, image/pdf analysis)
 │   │   └── upstash/       → Redis client
 │   ├── modules/agents/    → Agent service, session-store, tools, schemas
 │   ├── config/data/       → Seed data (products, pages, blog, agenda...)
@@ -210,7 +217,7 @@ src/lib/test/
 | `pnpm build` | Build for production |
 | `pnpm start` | Start production server |
 | `pnpm lint` | ESLint |
-| `pnpm test` | Vitest (311 tests) |
+| `pnpm test` | Vitest (313 tests) |
 | `pnpm format` | Prettier |
 
 ## License
