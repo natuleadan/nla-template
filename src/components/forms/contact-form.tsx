@@ -15,9 +15,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
-import { getWhatsappNumber, isDev } from "@/lib/env";
+import { isDev } from "@/lib/env";
 import notificationService from "@/lib/modules/notification";
 import { form, ui } from "@/lib/config/site";
+import { useWhatsApp } from "@/components/whatsapp-provider";
 
 interface ContactFormData {
   nombre: string;
@@ -34,6 +35,7 @@ const t = form.contact;
 export function ContactForm({ className }: ContactFormProps) {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { openWhatsApp } = useWhatsApp();
 
   const contactForm = useForm<ContactFormData>({
     defaultValues: {
@@ -46,12 +48,6 @@ export function ContactForm({ className }: ContactFormProps) {
   async function onSubmit(values: ContactFormData) {
     setLoading(true);
 
-    notificationService.info(ui.openingWhatsApp);
-
-    const mensaje = t.whatsappTemplate(values.nombre, values.email, values.mensaje);
-    const urlWhatsapp = `https://wa.me/${getWhatsappNumber()}?text=${encodeURIComponent(mensaje)}`;
-    window.open(urlWhatsapp, "_blank");
-
     try {
       const res = await fetch("/api/v1/formulario", {
         method: "POST",
@@ -59,19 +55,30 @@ export function ContactForm({ className }: ContactFormProps) {
         body: JSON.stringify(values),
       });
 
-      if (res.ok) {
-        notificationService.success(t.notifications.success);
-        setSubmitted(true);
-        contactForm.reset();
-      } else {
+      if (!res.ok) {
         notificationService.error(t.notifications.error);
+        setLoading(false);
+        return;
       }
     } catch (e) {
       if (isDev) console.error("Error al enviar formulario:", e);
       notificationService.error(t.notifications.network);
-    } finally {
       setLoading(false);
+      return;
     }
+
+    setLoading(false);
+
+    const mensaje = t.whatsappTemplate(values.nombre, values.email, values.mensaje);
+    openWhatsApp({
+      message: mensaje,
+      title: "Contacto",
+      onSuccess: () => {
+        notificationService.success(t.notifications.success);
+        setSubmitted(true);
+        contactForm.reset();
+      },
+    });
   }
 
   if (submitted) {

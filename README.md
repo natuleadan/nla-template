@@ -28,7 +28,7 @@ Built with Next.js 16, TypeScript, Tailwind CSS, and shadcn/ui. Ready to deploy 
 - **shadcn/ui** components for modern UI
 - **REST API** with 13+ categories and CRUD endpoints (GET/POST/PUT/DELETE)
 - **Scalar API Documentation** at `/api`
-- **WhatsApp ordering** — products, booking, and inquiries via WhatsApp
+- **WhatsApp API (YCloud)** — send messages programmatically via YCloud API (v2) with country code selector dialog, replacing manual wa.me links
 - **Product Gallery** with carousel and fallback images
 - **Reviews** system with star rating + WhatsApp moderation (approval flow)
 - **Blog comments** system with WhatsApp moderation (approval flow)
@@ -55,7 +55,7 @@ Built with Next.js 16, TypeScript, Tailwind CSS, and shadcn/ui. Ready to deploy 
 - **Time slots** — config-driven per-day, past slots disabled with toast
 - **Week navigation** — limited to `NEXT_PUBLIC_WEEK_MAX` weeks ahead, no past navigation
 - **Current time** badge with live clock
-- **WhatsApp booking** — 3-step type-first dialog with URL param auto-open
+- **WhatsApp booking** — 3-step type-first dialog with URL param auto-open, sends via YCloud API
 - **Navbar dropdown** — slot preview with hover reveal (time→type cross-fade)
 
 ### Search
@@ -144,6 +144,7 @@ pnpm dev
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `API_KEY` | API key for protected endpoints (POST, PUT, DELETE) | dev-key-change-in-production |
+| `YCLOUD_API_KEY` | API key for YCloud WhatsApp API (send messages programmatically) | — |
 
 ## 6. API Endpoints
 
@@ -202,6 +203,8 @@ src/
 │   ├── metadata/     # JSON-LD structured data (Product, BlogPost, WebPage, Contact, Breadcrumb, etc.)
 │   ├── paginas/      # PaginaCard, PaginaToolbar
 │   ├── ui/           # shadcn/ui primitives + Typography, Prose, ShareDialog
+│   │   └── whatsapp-dialog.tsx  # WhatsApp country code + phone dialog
+│   ├── whatsapp-provider.tsx    # WhatsApp context provider + useWhatsApp() hook
 │   ├── layout/       # Navbar, Footer, PageHeader, GlobalSearch, ThemeToggle
 │   ├── products/     # ProductCard, ProductDetails, ProductGrid, TiendaToolbar
 │   ├── forms/        # ContactForm

@@ -22,9 +22,9 @@ import {
 } from "@/components/ui/select";
 import { IconBrandWhatsapp, IconCopy } from "@tabler/icons-react";
 import { toast } from "sonner";
-import { getWhatsappNumber, getBaseUrl } from "@/lib/env";
-import notificationService from "@/lib/modules/notification";
-import { agenda, ui, categoryBadge } from "@/lib/config/site";
+import { getBaseUrl } from "@/lib/env";
+import { agenda, categoryBadge, ui } from "@/lib/config/site";
+import { useWhatsApp } from "@/components/whatsapp-provider";
 import { getWeekDays } from "@/lib/modules/agenda";
 import { getAppointmentTypes, getSlotsByType } from "@/lib/agenda-utils";
 import type { AgendaSlot } from "@/lib/modules/agenda";
@@ -69,6 +69,7 @@ function formatFullDate(dayName: string, time: string): string {
 
 export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDialogProps) {
   const searchParams = useSearchParams();
+  const { openWhatsApp } = useWhatsApp();
   const [message, setMessage] = useState(searchParams.get("mensaje") || "");
   const [products, setProducts] = useState<ProductOption[]>([]);
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -281,7 +282,6 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
   const shareUrl = `${baseUrl}/agenda?dia=${encodeURIComponent(pickedSlot.dayName)}&hora=${encodeURIComponent(pickedSlot.time)}&tipo=${encodeURIComponent(selectedType)}${selected ? `&producto=${encodeURIComponent(selected.slug)}` : ""}${message.trim() ? `&mensaje=${encodeURIComponent(message.trim())}` : ""}`;
 
   const handleConsultar = () => {
-    notificationService.info(ui.openingWhatsApp);
     let mensaje = agenda.slot.whatsappTemplate(fullDate, pickedSlot.time, selectedType);
     if (selected) {
       mensaje += `\n\n${agenda.slot.productInterest}: ${selected.name} ($${selected.price.toFixed(2)})`;
@@ -289,8 +289,7 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
     if (message.trim()) {
       mensaje += `\n\n${message.trim()}`;
     }
-    const urlWhatsapp = `https://wa.me/${getWhatsappNumber()}?text=${encodeURIComponent(mensaje)}`;
-    window.open(urlWhatsapp, "_blank");
+    openWhatsApp({ message: mensaje, title: agenda.slot.dialogTitle });
     onOpenChange(false);
   };
 

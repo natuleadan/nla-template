@@ -15,9 +15,9 @@ import { GlobalSearch } from "@/components/layout/global-search";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { NavDropdown } from "@/components/layout/navbar-dropdown";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { getWhatsappNumber, isDev } from "@/lib/env";
-import notificationService from "@/lib/modules/notification";
+import { isDev } from "@/lib/env";
 import { brand, nav, ui } from "@/lib/config/site";
+import { useWhatsApp } from "@/components/whatsapp-provider";
 
 const dropdownItems: Record<string, "products" | "posts" | "agenda" | "pages"> = {
   Tienda: "products",
@@ -37,10 +37,9 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { openWhatsApp } = useWhatsApp();
 
   const handleWhatsAppClick = async () => {
-    notificationService.info(ui.openingWhatsApp);
-
     try {
       await fetch("/api/v1/pedidos", {
         method: "POST",
@@ -55,8 +54,7 @@ export function Navbar() {
       if (isDev) console.error("Error:", e);
     }
 
-    const urlWhatsapp = `https://wa.me/${getWhatsappNumber()}?text=${encodeURIComponent(brand.whatsappMessage)}`;
-    window.open(urlWhatsapp, "_blank");
+    openWhatsApp({ message: brand.whatsappMessage(brand.name), title: "Contacto" });
   };
 
   return (

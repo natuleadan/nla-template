@@ -41,9 +41,34 @@ export const store = {
       quantity: number;
       unit: string;
     }) =>
-      `\ud83e\udd1d *NUEVO PEDIDO*\n\n*Producto:* ${p.name}\n*Precio:* $${p.price.toFixed(2)}\n*Categor\u00eda:* ${p.category === "suplemento" ? "Suplemento" : "Alimento"}\n*Cantidad:* ${p.quantity} ${p.unit}\n\n\u00a1Quiero ordenar este producto!`,
+      `👋 *Hola! Gracias por tu inter\u00e9s en ${brand.name}*
+
+Hemos recibido tu solicitud de informaci\u00f3n sobre el siguiente producto:
+
+• *Producto:* ${p.name}
+• *Precio:* $${p.price.toFixed(2)}
+• *Categor\u00eda:* ${p.category === "suplemento" ? "Suplemento" : "Alimento"}
+• *Presentaci\u00f3n:* ${p.quantity} ${p.unit}
+
+¿En qué podemos ayudarte? Cuéntanos si deseas más detalles o realizar tu pedido.
+
+*Horario de atención:* Lunes a Viernes de 9:00 a 18:00
+
+¡Saludos,
+*${brand.name}*`,
     whatsappCompact: (name: string, price: number, category: string) =>
-      `\ud83e\udd1d *NUEVO PEDIDO*\n\n*Producto:* ${name}\n*Precio:* $${price.toFixed(2)}\n*Categor\u00eda:* ${category === "suplemento" ? "Suplemento" : "Alimento"}\n\n\u00a1Quiero ordenar este producto!`,
+      `👋 *Gracias por tu inter\u00e9s en ${brand.name}!*
+
+Recibimos tu consulta sobre:
+
+• *Producto:* ${name}
+• *Precio:* $${price.toFixed(2)}
+• *Categor\u00eda:* ${category === "suplemento" ? "Suplemento" : "Alimento"}
+
+¿Deseas más información o proceder con tu pedido? Escríbenos y te atenderemos.
+
+¡Saludos,
+*${brand.name}*`,
     starAriaLabel: (star: number) => `${star} estrellas`,
   },
   reviews: {
@@ -60,7 +85,17 @@ export const store = {
     validation: "Completa todos los campos",
     pending: "Pendiente",
     whatsappTemplate: (name: string, comment: string, rating: number, productSlug: string, baseUrl: string) =>
-      `\ud83d\udcdd *NUEVA RESE\u00d1A - ${brand.name}*\n\n*Producto:* ${baseUrl}/tienda/${productSlug}\n*Nombre:* ${name}\n*Comentario:* ${comment}\n*Valoraci\u00f3n:* ${rating}/5\n\n\u00bfPublicar esta rese\u00f1a?`,
+      `👋 *Hola ${name}, gracias por tu rese\u00f1a!*
+
+Hemos recibido tu valoraci\u00f3n para el producto:
+
+• *Producto:* ${baseUrl}/tienda/${productSlug}
+• *Valoraci\u00f3n:* ${"⭐".repeat(rating)} ${rating}/5
+• *Comentario:* "${comment}"
+
+Tu rese\u00f1a ser\u00e1 revisada y publicada pronto. ¡Gracias por ayudarnos a mejorar!
+
+*${brand.name}*`,
   },
   cart: {
     title: "Carrito de Compras",
@@ -77,6 +112,19 @@ export const store = {
     increaseAriaLabel: (name: string) => `Aumentar cantidad de ${name}`,
     removeAriaLabel: (name: string) => `Eliminar ${name} del carrito`,
     whatsappTemplate: (items: string, total: number) =>
-      `\ud83d\uded2 *NUEVO PEDIDO - ${brand.name}*\n\n*Items:*\n${items}\n\n*Total:* $${total.toFixed(2)}\n\n\u00a1Confirmar pedido!`,
+      `🛒 *Hola! Gracias por tu pedido en ${brand.name}*
+
+Hemos recibido tu solicitud con los siguientes productos:
+
+*Items:*\n${items}
+
+*Total:* $${total.toFixed(2)}
+
+¿Confirmas este pedido? Te responderemos para coordinar el pago y la entrega.
+
+*Horario de atención:* Lunes a Viernes de 9:00 a 18:00
+
+¡Saludos,
+*${brand.name}*`,
   },
 };

@@ -28,6 +28,10 @@ export function getApiKey(): string {
   return process.env.API_KEY || "dev-key-change-in-production";
 }
 
+export function getYcloudApiKey(): string {
+  return process.env.YCLOUD_API_KEY || "";
+}
+
 export function isProduction(): boolean {
   return process.env.NODE_ENV === "production";
 }

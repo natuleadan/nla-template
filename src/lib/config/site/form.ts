@@ -1,3 +1,5 @@
+import { brand } from "../data/brand";
+
 export const form = {
   contact: {
     name: {
@@ -31,6 +33,21 @@ export const form = {
       network: "Error de conexi\u00f3n",
     },
     whatsappTemplate: (name: string, email: string, message: string) =>
-      `\u00a1Hola! Soy ${name} (${email}). ${message}`,
+      `👋 *Hola ${name}, gracias por contactarnos!*
+
+Hemos recibido tu mensaje a través de nuestro formulario de contacto.
+
+*Datos registrados:*
+• *Nombre:* ${name}
+• *Email:* ${email}
+• *Mensaje:* ${message}
+
+Te responderemos a la brevedad. Mientras tanto, puedes revisar nuestros productos en nuestra tienda.
+
+*Horario de atención:* Lunes a Viernes de 9:00 a 18:00
+
+¡Saludos,
+*${brand.name}*`,
+
   },
 };
