@@ -1,3 +1,20 @@
+## [1.5.0](https://github.com/natuleadan/nla-template/compare/v1.4.1...v1.5.0) (2026-04-28)
+
+### Features
+
+* **ai:** add multimodal support with provider switch, image/pdf analysis and chat endpoint ([0c1a1bd](https://github.com/natuleadan/nla-template/commit/0c1a1bdbe3e97ed55f14a695efec2a7366b3dcb8))
+* **ai:** add zero data retention support ([1a92da2](https://github.com/natuleadan/nla-template/commit/1a92da24ee52baf5ea54001af2fb7c81fb2b627a))
+
+### Bug Fixes
+
+* **agents:** hash redis keys with hmac-sha256 ([2067bf0](https://github.com/natuleadan/nla-template/commit/2067bf06fdbbc3747b518c66683548dcea1bd429))
+* **agents:** rewrite agent loop with streamtext+stopwhen ([7978ade](https://github.com/natuleadan/nla-template/commit/7978ade901ac9d4dfa032aebb572922d870b028f))
+* **ai:** use openai transcription directly instead of gateway, remove strict from tools ([a62c40a](https://github.com/natuleadan/nla-template/commit/a62c40aba80aee2e6dbae4f374cdbedad3cc670a))
+
+### Chore
+
+* **config:** add ai_provider env var and update documentation ([98d3ee0](https://github.com/natuleadan/nla-template/commit/98d3ee07d086f9d62a968dfab0a549f577845c20))
+
 ## [1.4.1](https://github.com/natuleadan/nla-template/compare/v1.4.0...v1.4.1) (2026-04-28)
 
 ### Bug Fixes
