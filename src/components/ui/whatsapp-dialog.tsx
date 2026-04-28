@@ -102,8 +102,13 @@ export function WhatsAppDialog({
         setSent(true);
         notificationService.success(t.notification.success);
         options.onSuccess?.();
+      } else {
+        const body = await res.json().catch(() => ({}));
+        const msg = res.status === 429 ? t.notification.rateLimit : t.notification.error;
+        notificationService.error(body.error || msg);
       }
     } catch {
+      notificationService.error(t.notification.error);
     } finally {
       setSending(false);
     }

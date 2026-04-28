@@ -193,6 +193,7 @@ export const tags = [
   { name: "Blog", description: "Gestión del blog" },
   { name: "Agenda", description: "Gestión de agenda y horarios" },
   { name: "Páginas", description: "Gestión de páginas de contenido" },
+  { name: "WhatsApp", description: "WhatsApp API — envío y webhooks" },
 ];
 
 export const securitySchemes = {

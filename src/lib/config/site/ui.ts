@@ -76,6 +76,8 @@ export const ui = {
     },
     notification: {
       success: "Mensaje enviado. Revisa tu WhatsApp.",
+      rateLimit: "Espera 30 segundos antes de enviar otro mensaje.",
+      error: "Error al enviar el mensaje. Intenta de nuevo.",
     },
   },
   copyright: (year: number, brandName: string) =>
