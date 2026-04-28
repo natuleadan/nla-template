@@ -2,16 +2,23 @@ import type { CoreMessage } from "./types";
 import { getRedis, isRedisConfigured } from "@/lib/external/upstash/redis";
 import { getWsEncryptionKey } from "@/lib/env";
 import type { SessionState } from "./types";
+import { createHmac } from "node:crypto";
 
 const SESSION_TTL = 7 * 24 * 3600;
 const DEDUP_TTL = 3600;
 const LONG_MEMORY_TTL = 365 * 24 * 3600;
 const MAX_HISTORY = 50;
 
+function hashKey(phone: string): string {
+  const secret = getWsEncryptionKey();
+  if (!secret) return phone;
+  return createHmac("sha256", secret).update(phone).digest("hex").substring(0, 16);
+}
+
 function dKey(wamid: string): string { return `wa:dedup:${wamid}`; }
-function sKey(phone: string): string { return `wa:session:${phone}`; }
-function qKey(phone: string): string { return `wa:queue:${phone}`; }
-function lKey(phone: string): string { return `wa:longmemory:${phone}`; }
+function sKey(phone: string): string { return `wa:session:${hashKey(phone)}`; }
+function qKey(phone: string): string { return `wa:queue:${hashKey(phone)}`; }
+function lKey(phone: string): string { return `wa:longmemory:${hashKey(phone)}`; }
 
 // ─── In-memory fallback ────────────────────────────────
 
