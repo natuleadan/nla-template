@@ -8,3 +8,4 @@ export * from "./form";
 export * from "./blog";
 export * from "./agenda";
 export * from "./paginas";
+export * from "./whatsapp";

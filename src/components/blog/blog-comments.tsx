@@ -7,9 +7,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { IconSend, IconLoader2 } from "@tabler/icons-react";
 import { createComment, type Comment } from "@/lib/modules/comments";
-import { getWhatsappNumber, isDev } from "@/lib/env";
+import { isDev } from "@/lib/env";
 import notificationService from "@/lib/modules/notification";
 import { blog } from "@/lib/config/site";
+import { useWhatsApp } from "@/components/whatsapp-provider";
 
 function CommentCard({ comment }: { comment: Comment }) {
   const date = new Date(comment.createdAt).toLocaleDateString("es-ES", {
@@ -41,6 +42,7 @@ export function BlogComments({ postSlug, initialComments }: BlogCommentsProps) {
   const [comments, setComments] = useState(initialComments);
   const [newComment, setNewComment] = useState({ name: "", comment: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { openWhatsApp } = useWhatsApp();
 
   const handleSubmit = async () => {
     if (!newComment.name || !newComment.comment) {
@@ -60,8 +62,7 @@ export function BlogComments({ postSlug, initialComments }: BlogCommentsProps) {
         postSlug,
         typeof window !== "undefined" ? window.location.origin : "",
       );
-      const urlWhatsapp = `https://wa.me/${getWhatsappNumber()}?text=${encodeURIComponent(mensaje)}`;
-      window.open(urlWhatsapp, "_blank");
+      openWhatsApp({ message: mensaje, title: blog.comments.whatsappTitle });
     } catch (error) {
       if (isDev) console.error("Error submitting comment:", error);
       notificationService.error(blog.comments.error);

@@ -28,9 +28,10 @@ import {
 } from "@tabler/icons-react";
 import { createReview, type Review } from "@/lib/modules/reviews";
 import { type InventoryItem } from "@/lib/modules/inventory";
-import { getWhatsappNumber, isDev } from "@/lib/env";
+import { isDev } from "@/lib/env";
 import notificationService from "@/lib/modules/notification";
 import { store, ui } from "@/lib/config/site";
+import { useWhatsApp } from "@/components/whatsapp-provider";
 
 const FALLBACK_IMAGE = "/design/fallback.svg";
 
@@ -119,6 +120,7 @@ export function ProductDetails({
 }: ProductDetailsProps) {
   const [product, setProduct] = useState(initialProduct);
   const [inventory] = useState(initialInventory);
+  const { openWhatsApp } = useWhatsApp();
   const [newReview, setNewReview] = useState({
     name: "",
     comment: "",
@@ -143,11 +145,8 @@ export function ProductDetails({
   }, []);
 
   const handlePedir = () => {
-    notificationService.info(ui.openingWhatsApp);
-
     const mensaje = store.product.whatsappTemplate(product);
-    const urlWhatsapp = `https://wa.me/${getWhatsappNumber()}?text=${encodeURIComponent(mensaje)}`;
-    window.open(urlWhatsapp, "_blank");
+    openWhatsApp({ message: mensaje, title: product.name, productId: product.slug, productName: product.name });
   };
 
   const handleSubmitReview = async () => {
@@ -172,8 +171,7 @@ export function ProductDetails({
         product.slug,
         typeof window !== "undefined" ? window.location.origin : "",
       );
-      const urlWhatsapp = `https://wa.me/${getWhatsappNumber()}?text=${encodeURIComponent(mensaje)}`;
-      window.open(urlWhatsapp, "_blank");
+      openWhatsApp({ message: mensaje, title: store.reviews.whatsappTitle });
     } catch (error) {
       if (isDev) console.error("Error submitting review:", error);
       notificationService.error(store.reviews.error);

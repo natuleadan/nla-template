@@ -20,9 +20,8 @@ import {
   IconMinus,
   IconTrash,
 } from "@tabler/icons-react";
-import { getWhatsappNumber } from "@/lib/env";
-import notificationService from "@/lib/modules/notification";
-import { store, ui } from "@/lib/config/site";
+import { store } from "@/lib/config/site";
+import { useWhatsApp } from "@/components/whatsapp-provider";
 
 export interface CartItem {
   id: string;
@@ -39,6 +38,7 @@ interface CartSheetProps {
 export function CartSheet({ children }: CartSheetProps) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [open, setOpen] = useState(false);
+  const { openWhatsApp } = useWhatsApp();
 
   const removeFromCart = (id: string) => {
     setCartItems((prev) => prev.filter((i) => i.id !== id));
@@ -71,10 +71,7 @@ export function CartSheet({ children }: CartSheetProps) {
       .join("\n");
 
     const mensaje = store.cart.whatsappTemplate(itemsList, total);
-    const urlWhatsapp = `https://wa.me/${getWhatsappNumber()}?text=${encodeURIComponent(mensaje)}`;
-
-    notificationService.info(ui.openingWhatsApp);
-    window.open(urlWhatsapp, "_blank");
+    openWhatsApp({ message: mensaje, title: store.cart.title, productName: "carrito" });
   };
 
   return (

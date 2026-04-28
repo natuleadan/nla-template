@@ -35,8 +35,18 @@ export const blog = {
     error: "Error al enviar comentario",
     validation: "Completa todos los campos",
     pending: "Pendiente",
+    whatsappTitle: "Nuevo comentario",
     whatsappTemplate: (name: string, comment: string, postSlug: string, baseUrl: string) =>
-      `💬 *NUEVO COMENTARIO - ${brand.name}*\n\n*Artículo:* ${baseUrl}/blog/${postSlug}\n*Nombre:* ${name}\n*Comentario:* ${comment}\n\n¿Publicar este comentario?`,
+      `👋 *Hola ${name}, gracias por tu comentario!*
+
+Hemos recibido tu participaci\u00f3n en nuestro blog:
+
+• *Art\u00edculo:* ${baseUrl}/blog/${postSlug}
+• *Comentario:* "${comment}"
+
+Tu comentario ser\u00e1 revisado y publicado pronto. ¡Gracias por formar parte de nuestra comunidad!
+
+*${brand.name}*`,
   },
   og: {
     fallbackTitle: "Blog",

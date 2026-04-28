@@ -28,8 +28,32 @@ export function getApiKey(): string {
   return process.env.API_KEY || "dev-key-change-in-production";
 }
 
+export function getYcloudApiKey(): string {
+  return process.env.YCLOUD_API_KEY || "";
+}
+
 export function isProduction(): boolean {
   return process.env.NODE_ENV === "production";
+}
+
+export function getAiGatewayApiKey(): string {
+  return process.env.AI_GATEWAY_API_KEY || "";
+}
+
+export function getYcloudWebhookSecret(): string {
+  return process.env.YCLOUD_WEBHOOK_SECRET || "";
+}
+
+export function getKvUrl(): string {
+  return process.env.KV_REST_API_URL || "";
+}
+
+export function getKvToken(): string {
+  return process.env.KV_REST_API_TOKEN || "";
+}
+
+export function getWsEncryptionKey(): string {
+  return process.env.WS_ENCRYPTION_KEY || "";
 }
 
 // ─── Auth helpers ─────────────────────────────────────────

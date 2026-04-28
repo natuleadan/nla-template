@@ -45,8 +45,22 @@ export const agenda = {
       fullDate: string,
       time: string,
       type?: string,
+      message?: string,
+      product?: { name: string; price: number },
     ) =>
-      `¡Hola! Quisiera consultar disponibilidad para una cita el ${fullDate} a las ${time} horas${type ? ` (${type})` : ""}.`,
+      `👋 *Hola! Gracias por agendar con ${brand.name}*
+
+Hemos recibido tu solicitud de cita:
+
+• *Fecha:* ${fullDate}
+• *Horario:* ${time} horas${type ? `\n• *Tipo:* ${type}` : ""}${message ? `\n• *Tu comentario:* ${message}` : ""}${product ? `\n• *Producto de inter\u00e9s:* ${product.name} ($${product.price.toFixed(2)})` : ""}
+
+Estamos revisando la disponibilidad para esa fecha y horario. Te confirmaremos a la brevedad.
+
+*Horario de atención:* Lunes a Viernes de 9:00 a 18:00
+
+¡Saludos,
+*${brand.name}*`,
   },
   slotButton: {
     unavailable: " — no disponible",

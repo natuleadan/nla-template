@@ -3,249 +3,218 @@
 </p>
 
 <h1 align="center">NLA Template</h1>
-<p align="center"><strong>Next.js 16 E-commerce Template with shadcn/ui</strong></p>
+<p align="center"><strong>Next.js 16 E-commerce Template with WhatsApp AI Agent</strong></p>
 
 <p align="center">
-  <a href="https://github.com/natuleadan/nla-template/actions/workflows/ci.yml?branch=main"><img src="https://img.shields.io/github/actions/workflow/status/natuleadan/nla-template/ci.yml?branch=main&style=for-the-badge" alt="CI status" /></a>
-  <a href="https://github.com/natuleadan/nla-template/releases"><img src="https://img.shields.io/github/v/release/natuleadan/nla-template?include_prereleases&style=for-the-badge" alt="GitHub release" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" alt="MIT License" /></a>
   <img src="https://img.shields.io/badge/Next.js-16-black?style=for-the-badge" alt="Next.js" />
   <img src="https://img.shields.io/badge/shadcn/ui-components-blueviolet?style=for-the-badge" alt="shadcn/ui" />
+  <img src="https://img.shields.io/badge/AI-OpenAI-green?style=for-the-badge" alt="OpenAI" />
+  <img src="https://img.shields.io/badge/Redis-Upstash-red?style=for-the-badge" alt="Upstash Redis" />
 </p>
 
-> ⚠️ **Active Development** — This template is under active construction. APIs, module interfaces, and features may change without prior notice. For production use, rely only on tagged releases (`vX.Y.Z`).
+## Features
 
-## 1. What is NLA Template?
+### WhatsApp AI Agent
+- **Inbound webhook** at `/api/v1/webhooks/ycloud` — receives WhatsApp messages from customers via YCloud
+- **yCloud signature verification** — HMAC-SHA256 with `YCloud-Signature: t=...,s=...` header
+- **Mark as read + typing indicator** — calls yCloud API to show double-check and typing status
+- **Message debounce** — 10s window collects burst messages, only processes the last one
+- **AI agent** with `gpt-4o-mini` via Vercel AI Gateway — responds to customer inquiries
+- **Agent tools**: products, product detail (with reviews), pages, blog, agenda, company info, long-term memory
+- **Phone anonymization** — HMAC-SHA256 with `WS_ENCRYPTION_KEY`, no raw numbers in Redis
+- **Session history** — 7 days in Redis, persists across serverless instances
+- **Long-term memory** — 1 year in Redis, agent persists customer preferences/data
+- **Memory management** — `deleteMemory` tool for GDPR compliance (deletes all customer keys)
+- **Web UI integration** — button clicks from the store (e.g. "Pedir por WhatsApp") are recorded as `system` messages in session history so the agent has context
 
-NLA Template is a Next.js 16 e-commerce starter template with shadcn/ui components. It provides a complete foundation for building modern e-commerce applications with REST API, config-driven modules, and WhatsApp-based ordering.
-
-Built with Next.js 16, TypeScript, Tailwind CSS, and shadcn/ui. Ready to deploy to Vercel with CI/CD and automated releases.
-
-## 2. Features
+### Rate Limiting
+- **Redis-based** (cross-instance): 1 msg per 30s per IP, 1 msg per 30s per recipient
+- **In-memory fallback**: 2/min per IP, 10/hr per IP, 10/hr per recipient, 50/hr global
 
 ### E-commerce
 - **Next.js 16** with App Router and Turbopack
 - **shadcn/ui** components for modern UI
-- **REST API** with 13+ categories and CRUD endpoints (GET/POST/PUT/DELETE)
+- **REST API** with 13+ v1 CRUD endpoints
 - **Scalar API Documentation** at `/api`
-- **WhatsApp ordering** — products, booking, and inquiries via WhatsApp
+- **WhatsApp API (YCloud)** — send messages via YCloud SDK with country code dialog
 - **Product Gallery** with carousel and fallback images
-- **Reviews** system with star rating + WhatsApp moderation (approval flow)
-- **Blog comments** system with WhatsApp moderation (approval flow)
+- **Reviews** system with star rating
 - **Inventory** tracking by location
 - **Geolocation** service with Vercel headers
-- **Cookie Consent** banner with shadcn components
+- **Cookie Consent** banner
 - **Notifications** with Sonner toasts
-- **Product filtering** — search + category filter + infinite scroll (4 items)
+- **Product filtering** — search + category filter
 
-### Pages
-- **Paginas module** — legal & policy pages config-driven
-- **Paginas list** — infinite scroll (6 items), search, category filter, 1/2/3 grid
-- **Paginas detail** — HTML prose rendering with ShareDialog
-- **Paginas API** — CRUD endpoints, JSON-LD structured data
+### AI Agent Tools
 
-### Blog
-- **Blog module** — list with infinite scroll (6 items), search, category filter, 1/2/3 grid
-- **Blog detail** — 25/75 image/content layout, ShareDialog, reading time, author
-- **Blog API** — CRUD endpoints, JSON-LD structured data
-- **Blog OG/Twitter images** — dynamic per post and list
+| Tool | Params | Description |
+|---|---|---|
+| `getProducts` | `query?`, `category?` | Catalog with available categories |
+| `getProductDetail` | `slug` | Product info + reviews |
+| `getPages` | `query?`, `category?` | Institutional pages |
+| `getBlog` | `query?`, `category?` | Blog posts |
+| `getAgenda` | `day?` | Weekly schedule |
+| `getCompanyInfo` | — | Contact/social data |
+| `saveLongMemory` | `key`, `value`, `override?` | 1-year persistent memory |
+| `searchMyHistory` | `limit?` | Recent conversation history |
+| `deleteMemory` | `confirm="BORRAR"` | Deletes ALL customer data |
+
+### Pages & Blog
+- Pages module — legal & policy pages, config-driven
+- Blog module — list + detail with reading time, author
+- OG/Twitter images per page and post
+- JSON-LD structured data
 
 ### Scheduling
-- **Agenda module** — weekly calendar with responsive grid (2/4/6/7 cols)
-- **Time slots** — config-driven per-day, past slots disabled with toast
-- **Week navigation** — limited to `NEXT_PUBLIC_WEEK_MAX` weeks ahead, no past navigation
-- **Current time** badge with live clock
-- **WhatsApp booking** — 3-step type-first dialog with URL param auto-open
-- **Navbar dropdown** — slot preview with hover reveal (time→type cross-fade)
-
-### Search
-- **GlobalSearch (Cmd+K)** — search products, blog posts, pages, and today's agenda slots
+- Weekly calendar with responsive grid
+- Time slots config-driven per day
+- WhatsApp booking via YCloud API
 
 ### SEO & Design
-- **Dynamic OG/Twitter images** for all pages (Satori/ImageResponse)
-- **JSON-LD structured data** — BreadcrumbList, Product, BlogPosting, WebPage, Event, CollectionPage, ContactPage, Organization, WebSite; all with Google-compliant `@id`, ISO 8601 dates, and conditional types
-- **Dynamic brand colors** via `NEXT_PUBLIC_BRAND_COLOR` env var (Radix UI palettes, 32 palettes)
-- **Custom fonts** — Roboto via next/font/google
-- **PWA manifest**, sitemap.xml, robots.txt, llms.txt
-- **CORS proxy** — security headers and cross-origin support via `proxy.ts`
+- Dynamic OG/Twitter images (Satori)
+- JSON-LD: BreadcrumbList, Product, BlogPosting, WebPage, Event, Organization, WebSite
+- Dynamic brand colors via `NEXT_PUBLIC_BRAND_COLOR` (32 Radix UI palettes)
+- PWA manifest, sitemap.xml, robots.txt, llms.txt
+- Dark mode toggle
+- CORS proxy via middleware
 
-### Accessibility
-- **Skip-to-content link** — keyboard-accessible on page load
-- **ARIA landmarks** — `navigation`, `main`, `contentinfo` roles with labels
-- **ARIA labels** — all icon-only buttons (search, theme, whatsapp, hamburger, social sharing)
-- **ARIA live regions** — loading states, empty states, cart quantities, week calendar
-- **Dialog/Sheet descriptions** — `aria-describedby` properly wired for all dialogs
-- **Localized screen reader text** — all sr-only labels in Spanish
-- **Brand-colored table headers** — with white text using `var(--color-primary)`
+### Storage
+- **Upstash Redis** for production — sessions, long-term memory, rate limiting, dedup, message queue
+- **In-memory Map fallback** when Redis is not configured — same APIs, no persistence across restarts
+- **Phone anonymization** via HMAC-SHA256 with `WS_ENCRYPTION_KEY` — no raw phone numbers in Redis
 
-### Loading States
-- **Dedicated skeletons** for every async page — ProductCard, PostCard, PaginaCard, PageHeader, CurrentTime, ContactPage, Agenda grid
-- **Grid skeletons** match actual card layouts (aspect ratios, badges, buttons)
-- **ContactPageSkeleton** replaces generic "Cargando..." text
+### Testing
+- **311 tests** across 6 files
+- Organized by domain: webhook, session-store, tools, config coverage, console guards
 
-### UI Components
-- **Typography** — H1–H4, P, Blockquote, List, Table, InlineCode, Lead
-- **Prose** — HTML content renderer with custom CSS (no external plugin)
-- **ShareDialog** — copy link + X, Facebook, LinkedIn, email (mailto) with contextual info
-- **Dark mode toggle** — sun/moon icons with keyboard shortcut (D key)
-- **Navbar dropdowns** — hover/accordion with 5 items per column
-- **Footer** — 6-column responsive grid with dynamic cards (products, blog, agenda, paginas) + social icons
-- **ThemeProvider** — next-themes integration
+## Technology Stack
 
-### DX
-- **Husky + Commitlint** for conventional commits
-- **GitHub Actions CI/CD** with build, lint, and test
-- **Semantic Release** for automated versioning
-- **CodeQL** security scanning
-
-## 3. Technology Stack
-
-- **Framework**: Next.js 16 with App Router
+- **Framework**: Next.js 16 + Turbopack
 - **Language**: TypeScript 5.7+
 - **UI**: shadcn/ui + Tailwind CSS
 - **API**: Next.js Route Handlers (REST)
-- **Documentation**: Scalar
-- **Testing**: Vitest (API tests + config keys coverage)
-- **CI/CD**: GitHub Actions
+- **AI**: Vercel AI SDK + OpenAI (gpt-4o-mini) via Gateway
+- **WhatsApp**: YCloud API (outbound SDK + inbound webhooks)
+- **Redis**: Upstash (sessions, memory, rate limiting, dedup)
+- **Testing**: Vitest (310 tests)
+- **CI/CD**: GitHub Actions + Semantic Release
 - **Hosting**: Vercel
 
-## 4. Getting Started
+## Environment Variables
 
-```bash
-# Clone the repository
-git clone https://github.com/natuleadan/nla-template.git
-
-# Install dependencies
-pnpm install
-
-# Configure environment variables
-cp .env.example .env.local
-
-# Run development server
-pnpm dev
-```
-
-## 5. Environment Variables
-
-### Public (safe for browser — `src/lib/env.public.ts`)
+### Public (`src/lib/env.public.ts`)
 
 | Variable | Description | Default |
-|----------|-------------|---------|
-| `NEXT_PUBLIC_BRAND_COLOR` | Radix UI color palette name | nla |
-| `NEXT_PUBLIC_BASE_URL` | Base URL (OG images, sitemap, canonical, API docs) | http://localhost:3000 |
-| `NEXT_PUBLIC_WHATSAPP_NUMBER` | WhatsApp number for orders and bookings | 1234567890 |
-| `NEXT_PUBLIC_INDEXING` | Enable search engine indexing (robots.txt) | false |
-| `NEXT_PUBLIC_WEEK_MAX` | Max future weeks for agenda booking | 4 |
+|---|---|---|
+| `NEXT_PUBLIC_BRAND_COLOR` | Radix UI palette name | nla |
+| `NEXT_PUBLIC_BASE_URL` | Base URL | http://localhost:3000 |
+| `NEXT_PUBLIC_WHATSAPP_NUMBER` | Business WhatsApp number | 1234567890 |
+| `NEXT_PUBLIC_INDEXING` | Enable indexing | false |
+| `NEXT_PUBLIC_WEEK_MAX` | Max agenda weeks | 4 |
 
-> Social media handles moved to `brand.ts` (see `socialEmail`, `socialInstagram`, `socialFacebook`, `socialTwitter`, `socialYoutube`).
+### Private (`src/lib/env.ts`)
 
-### Private (server-only — `src/lib/config/env.ts`)
+| Variable | Description |
+|---|---|
+| `API_KEY` | API key for protected endpoints |
+| `YCLOUD_API_KEY` | YCloud API key (send + media download) |
+| `YCLOUD_WEBHOOK_SECRET` | Webhook secret for HMAC verification |
+| `WS_ENCRYPTION_KEY` | HMAC key for phone anonymization in Redis |
+| `AI_GATEWAY_API_KEY` | Vercel AI Gateway key |
+| `KV_REST_API_URL` | Upstash Redis REST URL |
+| `KV_REST_API_TOKEN` | Upstash Redis REST token |
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `API_KEY` | API key for protected endpoints (POST, PUT, DELETE) | dev-key-change-in-production |
+## API Endpoints
 
-## 6. API Endpoints
-
-| Category | Endpoints |
-|----------|-----------|
-| `products` | GET, POST, PUT, DELETE |
-| `products/[slug]` | GET, POST, PUT, DELETE |
-| `categories` | GET, POST, PUT, DELETE |
-| `pages` | GET, POST, PUT, DELETE |
-| `formulario` | GET, POST, PUT, DELETE |
-| `resenas` | GET, POST, PUT, DELETE |
-| `inventario` | GET, POST, PUT, DELETE |
-| `pedidos` | GET, POST, PUT, DELETE |
-| `blog` | GET, POST, PUT, DELETE |
-| `blog/[slug]` | GET, POST, PUT, DELETE |
-| `agenda` | GET, POST, PUT, DELETE |
-| `paginas` | GET, POST, PUT, DELETE |
-| `paginas/[slug]` | GET, POST, PUT, DELETE |
+| Route | Methods |
+|---|---|
+| `/api/v1/products` | GET, POST, PUT, DELETE |
+| `/api/v1/products/[slug]` | GET, POST, PUT, DELETE |
+| `/api/v1/categories` | GET, POST, PUT, DELETE |
+| `/api/v1/pages` | GET, POST, PUT, DELETE |
+| `/api/v1/paginas` | GET, POST, PUT, DELETE |
+| `/api/v1/paginas/[slug]` | GET, POST, PUT, DELETE |
+| `/api/v1/blog` | GET, POST, PUT, DELETE |
+| `/api/v1/blog/[slug]` | GET, POST, PUT, DELETE |
+| `/api/v1/resenas/[productSlug]` | GET, POST, PUT, DELETE |
+| `/api/v1/inventario/[productSlug]` | GET, POST, PUT, DELETE |
+| `/api/v1/pedidos` | GET, POST, PUT, DELETE |
+| `/api/v1/formulario` | GET, POST, PUT, DELETE |
+| `/api/v1/agenda` | GET, POST, PUT, DELETE |
+| `/api/v1/webhooks/ycloud` | GET (verification), POST (inbound messages) |
+| `/api/v1/whatsapp/send` | POST (send message from UI) |
 
 ### Authentication
+POST/PUT/DELETE endpoints require header: `x-api-key: your_api_key`
 
-POST/PUT/DELETE endpoints require the header:
-```
-x-api-key: your_api_key
-```
+### In-memory Fallback
+When Upstash Redis is not configured (`KV_REST_API_URL` empty), all storage functions fall back to local `Map` objects:
+- **Sessions & long memory** — `Map<string, string>` in process memory
+- **Message queue** — `Map<string, string[]>` for debounce
+- **Dedup** — `Set<string>` with `setTimeout` cleanup (1h TTL)
+- **Rate limit** — `Map<string, number>` with expiration timestamps
 
-## 7. Available Scripts
+This allows full local development without Redis. Restarting the server clears all in-memory data.
 
-| Script | Description |
-|--------|-------------|
-| `pnpm dev` | Start development server |
-| `pnpm build` | Build for production |
-| `pnpm start` | Start production server |
-| `pnpm lint` | Run ESLint |
-| `pnpm test` | Run tests (Vitest) |
-| `pnpm test:watch` | Run tests in watch mode |
-| `pnpm typecheck` | TypeScript type check (`tsc --noEmit`) |
-| `pnpm format` | Format with Prettier |
+## Redis Keys Structure
 
-## 8. Project Structure
+| Key Pattern | Type | TTL | Purpose |
+|---|---|---|---|
+| `wa:session:{hash}` | STRING | 7 days | Conversation history (user/assistant/system) |
+| `wa:longmemory:{hash}` | STRING | 1 year | Agent-persisted customer data |
+| `wa:queue:{hash}` | LIST | — | Message debounce (cleared after processing) |
+| `wa:dedup:{wamid}` | STRING | 1 hour | yCloud retry dedup |
+| `wa:ratelimit:ip:{ip}` | STRING | 30s | Per-IP rate limit |
+| `wa:ratelimit:to:{number}` | STRING | 30s | Per-recipient rate limit |
+
+## Project Structure
 
 ```
 src/
-├── proxy.ts          # Edge middleware (CORS, security headers)
-├── app/
-│   ├── agenda/       # Weekly calendar + WhatsApp booking
-│   ├── api/          # REST API endpoints (v1 + legacy)
-│   ├── blog/         # Blog list, detail, OG/Twitter images
-│   ├── contacto/     # Contact form page
-│   ├── paginas/      # Legal/policy pages list + detail
-│   ├── tienda/       # Product listing + detail
-│   └── ...
+├── app/api/v1/
+│   ├── webhooks/ycloud/   → inbound WhatsApp webhook
+│   ├── whatsapp/send/     → outbound WhatsApp sender
+│   └── [products|blog|...] → CRUD endpoints
 ├── components/
-│   ├── agenda/       # WeeklyCalendar, DayColumn, SlotDialog, SlotButton
-│   ├── blog/         # PostCard, BlogToolbar, BlogHeroImage
-│   ├── metadata/     # JSON-LD structured data (Product, BlogPost, WebPage, Contact, Breadcrumb, etc.)
-│   ├── paginas/      # PaginaCard, PaginaToolbar
-│   ├── ui/           # shadcn/ui primitives + Typography, Prose, ShareDialog
-│   ├── layout/       # Navbar, Footer, PageHeader, GlobalSearch, ThemeToggle
-│   ├── products/     # ProductCard, ProductDetails, ProductGrid, TiendaToolbar
-│   ├── forms/        # ContactForm
-│   ├── cart/         # CartSheet with WhatsApp order summary
-│   └── landing/      # Hero section
-├── hooks/
+│   ├── ui/whatsapp-dialog.tsx  → phone input + send dialog
+│   ├── whatsapp-provider.tsx   → useWhatsApp() hook
+│   └── ...
 ├── lib/
-│   ├── env.public.ts     # Public environment variable helpers
-│   ├── config/           # env.ts + seed data (products, categories, blog, agenda, paginas...)
-│   │   └── site/        # All configurable text (brand, store, blog, agenda, form, nav, ui, etc.)
-│   ├── modules/          # Business logic modules (CRUD, notification, scalar...)
-│   ├── styles/           # Radix UI color palettes (32)
-│   └── test/             # API tests + config keys coverage
-public/
-└── design/               # Logo, background, fallback images
+│   ├── external/
+│   │   ├── ai/            → Vercel AI SDK (gateway + model)
+│   │   └── upstash/       → Redis client
+│   ├── modules/agents/    → Agent service, session-store, tools, schemas
+│   ├── config/data/       → Seed data (products, pages, blog, agenda...)
+│   └── test/              → 310 tests organized by domain
+└── ...
 ```
 
-## 9. License
+## Test Structure
 
-MIT License
+```
+src/lib/test/
+├── agents/
+│   ├── webhook.test.ts        → signature, payload, URL
+│   ├── session-store.test.ts  → anonymize, session, dedup, multimodal
+│   └── tools.test.ts          → products, reviews, pages, blog, agenda
+├── config-keys.test.ts        → UI config coverage
+└── console-isdev.test.ts      → console.* guards
+```
 
-Copyright (c) 2026 NATULEADAN SAS BIC
+## Available Scripts
 
----
+| Script | Description |
+|---|---|
+| `pnpm dev` | Start dev server |
+| `pnpm build` | Build for production |
+| `pnpm start` | Start production server |
+| `pnpm lint` | ESLint |
+| `pnpm test` | Vitest (311 tests) |
+| `pnpm format` | Prettier |
 
-## 10. Contributors
+## License
+
+MIT License — Copyright (c) 2026 NATULEADAN SAS BIC
 
 Developed by [Leonardo Jara](https://github.com/leojara95).
-
-Thanks to all contributors:
-
-<p align="left">
-  <a href="https://github.com/natuleadan"><img src="https://avatars.githubusercontent.com/u/210283438?v=4&s=48" width="48" height="48" alt="natuleadan" title="natuleadan"/></a>
-  <a href="https://github.com/leojara95"><img src="https://avatars.githubusercontent.com/u/268038834?v=4&s=48" width="48" height="48" alt="leojara95" title="leojara95"/></a>
-</p>
-
----
-
-## Star History
-
-<a href="https://www.star-history.com/?repos=natuleadan%2Fnla-template&type=date&legend=top-left">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/image?repos=natuleadan/nla-template&type=date&theme=dark&legend=top-left" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/image?repos=natuleadan/nla-template&type=date&theme=light&legend=top-left" />
-    <img alt="Star History Chart" src="https://api.star-history.com/image?repos=natuleadan/nla-template&type=date&legend=top-left" />
-  </picture>
-</a>

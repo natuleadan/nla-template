@@ -1,7 +1,6 @@
 export const ui = {
   loading: "Cargando...",
   notFound: "Página no encontrada",
-  openingWhatsApp: "Abriendo WhatsApp...",
   mobileMenuDescription: "Menú de navegación principal",
   skipToContent: "Saltar al contenido principal",
   search: {
@@ -23,6 +22,7 @@ export const ui = {
   navbar: {
     desktopAriaLabel: "Navegación principal",
     whatsappAriaLabel: "Enviar mensaje por WhatsApp",
+    whatsappTitle: "Contacto",
     menuAriaLabel: "Abrir menú",
     mobileNavAriaLabel: "Menú móvil",
   },
@@ -53,6 +53,32 @@ export const ui = {
     emailSubjectFallback: "Compartir enlace",
     toastSuccess: "Enlace copiado al portapapeles",
     toastError: "Error al copiar el enlace",
+  },
+  whatsapp: {
+    dialog: {
+      title: "Enviar por WhatsApp",
+      description: "Ingresa tu n\u00famero de WhatsApp para recibir la informaci\u00f3n.",
+      searchCountry: "Buscar pa\u00eds...",
+      countryNotFound: "Pa\u00eds no encontrado",
+      phonePlaceholder: "N\u00famero de WhatsApp",
+      previewLabel: "Mensaje a enviar:",
+      hint: "Si empieza con 0 (ej: 096 1234 123), ingr\u00e9salo sin el 0 (96 1234 123)",
+      cancel: "Cancelar",
+      send: "Enviar por WhatsApp",
+      sending: "Enviando...",
+    },
+    sent: {
+      title: "Mensaje enviado",
+      description: "El mensaje se ha enviado correctamente a tu WhatsApp.",
+      message: "Revisa tu WhatsApp para continuar la conversaci\u00f3n.",
+      retry: "Enviar a otro n\u00famero",
+      close: "Cerrar",
+    },
+    notification: {
+      success: "Mensaje enviado. Revisa tu WhatsApp.",
+      rateLimit: "Espera 30 segundos antes de enviar otro mensaje.",
+      error: "Error al enviar el mensaje. Intenta de nuevo.",
+    },
   },
   copyright: (year: number, brandName: string) =>
     `© ${year} ${brandName}. Todos los derechos reservados.`,

@@ -16,9 +16,8 @@ import { Button } from "@/components/ui/button";
 import { IconBrandWhatsapp, IconEye } from "@tabler/icons-react";
 
 const FALLBACK_IMAGE = "/design/fallback.svg";
-import { getWhatsappNumber } from "@/lib/env";
-import notificationService from "@/lib/modules/notification";
-import { store, ui } from "@/lib/config/site";
+import { store } from "@/lib/config/site";
+import { useWhatsApp } from "@/components/whatsapp-provider";
 
 interface ProductCardProps {
   id: string;
@@ -41,13 +40,11 @@ export function ProductCard({
 }: ProductCardProps) {
   const [imgSrc, setImgSrc] = useState(image || FALLBACK_IMAGE);
   const [fallbackUsed, setFallbackUsed] = useState(false);
+  const { openWhatsApp } = useWhatsApp();
 
   const handlePedir = () => {
-    notificationService.info(ui.openingWhatsApp);
-
     const mensaje = store.product.whatsappCompact(name, price, category);
-    const urlWhatsapp = `https://wa.me/${getWhatsappNumber()}?text=${encodeURIComponent(mensaje)}`;
-    window.open(urlWhatsapp, "_blank");
+    openWhatsApp({ message: mensaje, title: name, productName: name });
   };
 
   return (
