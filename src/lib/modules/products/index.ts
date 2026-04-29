@@ -1,23 +1,7 @@
 import { allProducts as productsData } from "@/lib/config/data/products";
+import { ProductSchema } from "./schemas";
 
-export interface Product {
-  id: string;
-  slug: string;
-  name: string;
-  quantity: string;
-  unit: string;
-  price: number;
-  originalPrice?: number;
-  description: string;
-  longDescription?: string;
-  image: string;
-  images?: string[];
-  category: string;
-  type?: "product" | "service";
-  appointment?: boolean;
-}
-
-const allProducts: Product[] = [...productsData];
+const allProducts: Product[] = ProductSchema.array().parse([...productsData]);
 
 export async function getProducts(
   page = 1,
@@ -40,6 +24,26 @@ export async function getAllProducts(): Promise<Product[]> {
 export async function getProduct(slug: string): Promise<Product | null> {
   if (!slug || typeof slug !== "string") return null;
   return allProducts.find((p) => p.slug === slug) || null;
+}
+
+export async function getProductStock(slug: string): Promise<Record<string, string>> {
+  try {
+    const { isRedisConfigured, hashGetAll } = await import("@/lib/external/upstash/redis");
+    if (!isRedisConfigured()) return {};
+    return hashGetAll(`bus:stock:${slug}`);
+  } catch {
+    return {};
+  }
+}
+
+export async function enrichProductWithStock(product: Product): Promise<Product & { stock?: Record<string, string> }> {
+  const stock = await getProductStock(product.slug);
+  return { ...product, stock: Object.keys(stock).length > 0 ? stock : undefined };
+}
+
+export async function getAllProductsWithStock(): Promise<(Product & { stock?: Record<string, string> })[]> {
+  const products = await getAllProducts();
+  return Promise.all(products.map(enrichProductWithStock));
 }
 
 export async function createProduct(

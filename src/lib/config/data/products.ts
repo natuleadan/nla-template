@@ -15,6 +15,11 @@ export const allProducts: Product[] = [
     images: ["/design/fallback.svg", "/design/fallback.svg", "/design/fallback.svg"],
     category: "suplemento",
     type: "product",
+    variants: [
+      { id: "1kg-chocolate", name: "1kg Chocolate", price: 1299, originalPrice: 1499 },
+      { id: "1kg-vainilla", name: "1kg Vainilla", price: 1299, originalPrice: 1499 },
+      { id: "2kg-chocolate", name: "2kg Chocolate", price: 2199, originalPrice: 2499 },
+    ],
   },
   {
     id: "2",

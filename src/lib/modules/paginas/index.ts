@@ -1,4 +1,5 @@
 import { paginasData } from "@/lib/config/data/paginas";
+import { PaginaSchema } from "./schemas";
 
 export interface PaginaPost {
   id: string;
@@ -11,7 +12,7 @@ export interface PaginaPost {
   updatedAt?: string;
 }
 
-const pages: PaginaPost[] = [...paginasData];
+const pages: PaginaPost[] = PaginaSchema.array().parse([...paginasData]);
 
 export async function getPaginas(
   page = 1,

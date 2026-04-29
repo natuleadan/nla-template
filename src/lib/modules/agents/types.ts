@@ -6,6 +6,7 @@ export interface CoreMessage {
 export interface ToolContext {
   phone: string;
   customerName?: string;
+  isAdmin: boolean;
 }
 
 export interface SessionState {

@@ -1,4 +1,5 @@
 import { blogPostsData } from "@/lib/config/data/blog";
+import { BlogPostSchema } from "./schemas";
 
 export interface BlogPost {
   id: string;
@@ -15,7 +16,7 @@ export interface BlogPost {
   readingTime: number;
 }
 
-const posts: BlogPost[] = [...blogPostsData];
+const posts: BlogPost[] = BlogPostSchema.array().parse([...blogPostsData]);
 
 export async function getPosts(
   page = 1,

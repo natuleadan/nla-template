@@ -1,5 +1,6 @@
 import { cacheLife, cacheTag } from "next/cache";
 import { categoriesData } from "@/lib/config/data/categories";
+import { CategorySchema } from "./schemas";
 
 export interface Category {
   id: string;
@@ -8,7 +9,7 @@ export interface Category {
   icon?: string;
 }
 
-const categories: Category[] = [...categoriesData];
+const categories: Category[] = CategorySchema.array().parse([...categoriesData]);
 
 export async function getCategories(): Promise<Category[]> {
   "use cache";

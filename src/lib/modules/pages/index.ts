@@ -1,5 +1,6 @@
 import { cacheLife, cacheTag } from "next/cache";
 import { pagesData } from "@/lib/config/data/pages";
+import { PageSchema } from "./schemas";
 
 export interface PageContent {
   title: string;
@@ -8,6 +9,7 @@ export interface PageContent {
 }
 
 const pages = new Map<string, PageContent>(pagesData);
+for (const [, val] of pages) { PageSchema.parse(val); }
 
 const DANGEROUS_PROPS = new Set(["__proto__", "constructor", "prototype"]);
 

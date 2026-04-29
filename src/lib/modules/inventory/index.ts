@@ -1,4 +1,5 @@
 import { inventoryData as seedData } from "@/lib/config/data/inventory";
+import { InventoryItemSchema } from "./schemas";
 
 export interface InventoryItem {
   location: string;
@@ -7,9 +8,12 @@ export interface InventoryItem {
   available: number;
 }
 
-let inventoryData: Record<string, InventoryItem[]> = JSON.parse(
+const inventoryData: Record<string, InventoryItem[]> = JSON.parse(
   JSON.stringify(seedData),
 );
+for (const [, items] of Object.entries(inventoryData)) {
+  InventoryItemSchema.array().parse(items);
+}
 
 export async function getInventory(
   productSlug: string,
