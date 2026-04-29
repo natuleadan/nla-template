@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getProducts, createProduct } from "@/lib/modules/products";
+import { getAllProductsWithStock, createProduct } from "@/lib/modules/products";
 import {
   validateApiKey,
   unauthorized,
@@ -7,21 +7,12 @@ import {
   serverError,
 } from "@/lib/env";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    const { searchParams } = new URL(request.url);
-    const page = Math.max(1, parseInt(searchParams.get("page") || "1", 10));
-    const limit = Math.min(
-      50,
-      Math.max(1, parseInt(searchParams.get("limit") || "8", 10)),
-    );
-    const data = await getProducts(page, limit);
-    return NextResponse.json(data);
+    const products = await getAllProductsWithStock();
+    return NextResponse.json({ products, total: products.length, hasMore: false });
   } catch {
-    return NextResponse.json(
-      { error: "Error al obtener productos" },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: "Error al obtener productos" }, { status: 500 });
   }
 }
 

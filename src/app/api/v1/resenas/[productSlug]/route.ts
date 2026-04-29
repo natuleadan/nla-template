@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getReviews, createReview } from "@/lib/modules/reviews";
+import { getApprovedReviews, createReview } from "@/lib/modules/reviews";
 import {
   validateApiKey,
   unauthorized,
@@ -11,16 +11,14 @@ interface RouteParams {
   params: Promise<{ productSlug: string }>;
 }
 
-export async function GET(request: Request, { params }: RouteParams) {
+export async function GET(request: Request, { params }: { params: Promise<{ productSlug: string }> }) {
   try {
     const { productSlug } = await params;
-    if (!productSlug || typeof productSlug !== "string")
-      return badRequest("productSlug inválido");
-
-    const reviews = await getReviews(productSlug);
+    if (!productSlug) return badRequest("productSlug requerido");
+    const reviews = await getApprovedReviews(productSlug);
     return NextResponse.json(reviews);
   } catch {
-    return serverError("Error al obtener reseñas");
+    return NextResponse.json({ error: "Error al obtener reseñas" }, { status: 500 });
   }
 }
 

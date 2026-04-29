@@ -1,82 +1,96 @@
 import { NextRequest } from "next/server";
-import { validateApiKey, unauthorized, badRequest, serverError } from "@/lib/env";
+import { validateApiKey, unauthorized, badRequest, serverError, getAdminPhone } from "@/lib/env";
 import { AgentService } from "@/lib/modules/agents/service";
 import { isRedisConfigured } from "@/lib/external/upstash/redis";
 import { pushMsg, peekLatest, drainAll } from "@/lib/modules/agents/session-store";
 import { transcribeAudio } from "@/lib/external/ai/transcribe.service";
 import { analyzeImage, analyzePdf } from "@/lib/external/ai/image.service";
+import { createBusOrder } from "@/lib/modules/orders";
+
+const ORDER_PATTERNS = [
+  /(?:quiero|necesito|voy a|deseo|requiero)\s+(?:comprar|adquirir|ordenar|pedir|hacer\s*(?:un|el)?\s*pedido)/i,
+  /(?:crea|genera|registra|toma|realiza)\s*(?:un|mi|el)?\s*(?:pedido|orden|compra)/i,
+  /(?:items?|productos?)\s*=.+total\s*=/i,
+  /nuevo\s*pedido/i,
+];
+
+function extractOrderData(text: string): Record<string, string> | null {
+  const items = text.match(/(?:items?|productos?)\s*[=:]\s*([^,;]+)/i)?.[1]?.trim();
+  const total = text.match(/(?:total|monto|precio)\s*[=:]\s*([^,;]+)/i)?.[1]?.trim();
+  const email = text.match(/(?:email|correo|e-mail|mail)\s*[=:]\s*([^\s,;]+)/i)?.[1]?.trim();
+  const idNumber = text.match(/(?:cedula|ci|id|cédula|ruc|nui|documento)\s*[=:]\s*([^,;]+)/i)?.[1]?.trim();
+  const fullName = text.match(/(?:nombre|fullname|name|full_name)\s*[=:]\s*([^,;]+)/i)?.[1]?.trim();
+  const deliveryAddress = text.match(/(?:direccion|dirección|address|delivery|envio|envío)\s*[=:]\s*(.+)/i)?.[1]?.trim();
+  if (items && total && fullName && deliveryAddress) {
+    return { items, total, email: email || "pendiente@mail.com", idNumber: idNumber || "", fullName, deliveryAddress };
+  }
+  return null;
+}
+
+async function processMediaItem(item: { type: string; url?: string; caption?: string }): Promise<string> {
+  switch (item.type) {
+    case "image":
+      if (item.url) {
+        const a = await analyzeImage(item.url, item.caption);
+        return a ? `[Imagen: ${a}]` : (item.caption ? `[Imagen: ${item.caption}]` : "[Imagen]");
+      }
+      return item.caption ? `[Imagen: ${item.caption}]` : "[Imagen]";
+    case "audio":
+    case "voice":
+      if (item.url) {
+        const t = await transcribeAudio(item.url);
+        return t ? `[${item.type === "voice" ? "Nota de voz" : "Audio"} transcrito: ${t}]` : `[${item.type === "voice" ? "Nota de voz" : "Audio"}]`;
+      }
+      return item.type === "voice" ? "[Nota de voz]" : "[Audio]";
+    case "pdf":
+      if (item.url) {
+        const e = await analyzePdf(item.url, item.caption);
+        return e ? `[PDF extraído: ${e}]` : "[Documento: PDF]";
+      }
+      return "[Documento: PDF]";
+    case "video":
+      return item.caption ? `[Video: ${item.caption}]` : "[Video]";
+    case "document":
+      return `[Documento: ${item.caption || "sin nombre"}]`;
+    case "sticker":
+      return "[Sticker]";
+    case "location":
+      return `[Ubicación: ${item.caption || ""}]`;
+    case "contacts":
+      return `[Contacto: ${item.caption || ""}]`;
+    case "order":
+      return `[Pedido: ${item.caption || "producto"}]`;
+    default:
+      return `[Mensaje tipo "${item.type}" no soportado]`;
+  }
+}
 
 export async function POST(req: NextRequest) {
   if (!validateApiKey(req)) return unauthorized();
 
   try {
     const body = await req.json();
-    const { message, phone = "chat_00000000000", media, mediaUrl, mediaCaption, mimeType } = body;
+    const { message, phone = "chat_00000000000", media, mediaUrl, mediaCaption, mediaItems } = body;
 
-    let text = "";
+    const parts: string[] = [];
 
     if (message && typeof message === "string") {
-      text = message;
-    } else if (media) {
-      switch (media) {
-        case "image":
-          if (mediaUrl) {
-            const analyzed = await analyzeImage(mediaUrl, mediaCaption);
-            text = analyzed ? `[Imagen: ${analyzed}]` : (mediaCaption ? `[Imagen: ${mediaCaption}]` : "[Imagen]");
-          } else {
-            text = mediaCaption ? `[Imagen: ${mediaCaption}]` : "[Imagen]";
-          }
-          break;
-        case "audio":
-          if (mediaUrl) {
-            const transcribed = await transcribeAudio(mediaUrl);
-            text = transcribed ? `[Audio transcrito: ${transcribed}]` : "[Audio]";
-          } else {
-            text = "[Audio]";
-          }
-          break;
-        case "voice":
-          if (mediaUrl) {
-            const transcribed = await transcribeAudio(mediaUrl);
-            text = transcribed ? `[Nota de voz transcrita: ${transcribed}]` : "[Nota de voz]";
-          } else {
-            text = "[Nota de voz]";
-          }
-          break;
-        case "pdf":
-          if (mediaUrl) {
-            const extracted = await analyzePdf(mediaUrl, mediaCaption);
-            text = extracted ? `[PDF extraído: ${extracted}]` : `[Documento: PDF]`;
-          } else {
-            text = "[Documento: PDF]";
-          }
-          break;
-        case "video":
-          text = mediaCaption ? `[Video: ${mediaCaption}]` : "[Video]";
-          break;
-        case "document":
-          text = `[Documento: ${mediaCaption || "sin nombre"}]`;
-          break;
-        case "sticker":
-          text = "[Sticker]";
-          break;
-        case "location":
-          text = `[Ubicación: ${mediaCaption || ""}]`;
-          break;
-        case "contacts":
-          text = `[Contacto: ${mediaCaption || ""}]`;
-          break;
-        case "order":
-          text = `[Pedido: ${mediaCaption || "producto"}]`;
-          break;
-        default:
-          text = `[Mensaje tipo "${media}" no soportado]`;
-      }
+      parts.push(message);
     }
 
-    if (!text) {
+    if (mediaItems && Array.isArray(mediaItems)) {
+      for (const item of mediaItems) {
+        parts.push(await processMediaItem(item));
+      }
+    } else if (media) {
+      parts.push(await processMediaItem({ type: media, url: mediaUrl, caption: mediaCaption }));
+    }
+
+    if (parts.length === 0) {
       return badRequest("message o media requerido");
     }
+
+    let text = parts.join("\n");
 
     if (isRedisConfigured()) {
       await pushMsg(phone, text);
@@ -89,9 +103,49 @@ export async function POST(req: NextRequest) {
       text = all.join(", ");
     }
 
+    // Pre-create order if the message contains order data
+    const hasOrderIntent = ORDER_PATTERNS.some((p) => p.test(text));
+    if (hasOrderIntent) {
+      const orderData = extractOrderData(text);
+      if (orderData) {
+        try {
+          const order = await createBusOrder({
+            items: orderData.items,
+            total: orderData.total,
+            email: orderData.email,
+            idNumber: orderData.idNumber,
+            fullName: orderData.fullName,
+            deliveryAddress: orderData.deliveryAddress,
+            phone,
+          });
+          if (order) {
+            const msg = `✅ *Pedido #${order.id} creado con éxito*
+
+*Resumen:*
+• Productos: ${order.items}
+• Total: $${order.total} USD
+• Cliente: ${order.fullName}
+• Dirección: ${order.deliveryAddress}
+• Estado: Pendiente de pago
+
+*Próximos pasos:*
+1. Recibirás un enlace de pago
+2. Una vez confirmado el pago, procesamos tu envío
+3. Puedes compartir tu ubicación para la entrega
+
+¿Necesitas ayuda con el pago o quieres agregar algo más?`;
+            return Response.json({ success: true, response: msg, phone, redis: isRedisConfigured(), len: msg.length });
+          }
+        } catch {
+          // Fall through to AI
+        }
+      }
+    }
+
     const response = await AgentService.processMessage(text, {
       phone,
-      customerName: body.customerName || "Chat User",
+      customerName: body.customerName,
+      isAdmin: phone === getAdminPhone(),
     });
 
     const result: Record<string, unknown> = {

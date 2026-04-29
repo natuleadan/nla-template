@@ -1,8 +1,6 @@
 import { NextRequest } from "next/server";
-import { getYcloudApiKey, getWhatsappNumber, getYcloudWebhookSecret, isDev } from "@/lib/env";
-import {
-  Configuration, WhatsappMessagesApi, WhatsappMessageType,
-} from "@ycloud-cpaas/ycloud-sdk-node";
+import { getYcloudApiKey, getYcloudWebhookSecret, getAdminPhone, isDev } from "@/lib/env";
+import { sendWhatsApp } from "@/lib/external/whatsapp/send";
 import { AgentService } from "@/lib/modules/agents/service";
 import {
   isDuplicate, anonymizePhone, pushMsg, peekLatest, drainAll,
@@ -55,15 +53,6 @@ interface YCloudWebhookPayload {
   };
 }
 
-function sendWhatsApp(to: string, message: string): Promise<boolean> {
-  const apiKey = getYcloudApiKey();
-  const from = getWhatsappNumber();
-  if (!apiKey || !from) return Promise.resolve(false);
-  return new WhatsappMessagesApi(new Configuration({ apiKey }))
-    .sendDirectly({ from, to, type: WhatsappMessageType.Text, text: { body: message } })
-    .then(() => true).catch(() => false);
-}
-
 function markAsRead(id: string): void {
   const k = getYcloudApiKey();
   if (!k) return;
@@ -109,6 +98,9 @@ export async function POST(req: NextRequest) {
     text = m.interactive?.button_reply?.title || m.interactive?.list_reply?.title || "";
   } else if (t === "location" && m.location) {
     text = `[Ubicación: ${[m.location.name, m.location.address].filter(Boolean).join(", ")}]`.trim();
+    if (m.location.latitude && m.location.longitude) {
+      text += ` (GPS: ${m.location.latitude}, ${m.location.longitude})`;
+    }
   } else if (t === "request_welcome") {
     text = "Hola, soy nuevo cliente";
   } else if (t === "image" && m.image) {
@@ -166,8 +158,8 @@ export async function POST(req: NextRequest) {
   if (msgId) markAsRead(msgId);
 
   try {
-    const res = await AgentService.processMessage(text, { phone, customerName: name });
-    await sendWhatsApp(`+${phone}`, res);
+  const response = await AgentService.processMessage(text, { phone, customerName: name, isAdmin: phone === getAdminPhone() });
+    await sendWhatsApp(`+${phone}`, response);
   } catch (err) {
     if (isDev) console.error("[YCLOUD] Error:", err);
     await sendWhatsApp(`+${phone}`, "Lo siento, tuve un problema. Intenta de nuevo.");

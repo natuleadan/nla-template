@@ -5,12 +5,12 @@ import {
   badRequest,
   serverError,
 } from "@/lib/env";
-import { getOrders, createOrder } from "@/lib/modules/orders";
+import { getOrders, createOrder, createBusOrder, getAllOrders } from "@/lib/modules/orders";
 
 export async function GET(request: Request) {
   if (!validateApiKey(request)) return unauthorized();
 
-  const orders = await getOrders();
+  const orders = (await getAllOrders().catch(() => null)) || (await getOrders());
   return NextResponse.json(orders);
 }
 
@@ -20,6 +20,22 @@ export async function POST(request: Request) {
     if (!data || typeof data !== "object")
       return badRequest("Cuerpo JSON requerido");
 
+    // Redis-based bus order (nuevo formato)
+    if (data.items && data.total && data.email && data.idNumber && data.fullName && data.deliveryAddress) {
+      const order = await createBusOrder({
+        items: data.items,
+        total: data.total,
+        email: data.email,
+        idNumber: data.idNumber,
+        fullName: data.fullName,
+        deliveryAddress: data.deliveryAddress,
+        phone: data.phone || "unknown",
+      });
+      if (!order) return serverError("Redis no disponible");
+      return NextResponse.json({ success: true, order });
+    }
+
+    // Legacy in-memory order
     if (!data.productId || typeof data.productId !== "string") {
       return badRequest("El campo 'productId' es requerido (string)");
     }
