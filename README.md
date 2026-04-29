@@ -48,19 +48,53 @@
 - **Notifications** with Sonner toasts
 - **Product filtering** — search + category filter
 
-### AI Agent Tools
+### AI Agent Tools (23 tools)
+
+**Públicas (cualquier usuario):**
 
 | Tool | Params | Description |
 |---|---|---|
-| `getProducts` | `query?`, `category?` | Catalog with available categories |
-| `getProductDetail` | `slug` | Product info + reviews |
+| `getProducts` | `query?`, `category?` | Catalog + stock por variante (desde Redis) |
+| `getProductDetail` | `slug` | Product info + variantes + stock + reviews aprobadas |
 | `getPages` | `query?`, `category?` | Institutional pages |
+| `getPageDetail` | `slug` | Full page content |
 | `getBlog` | `query?`, `category?` | Blog posts |
-| `getAgenda` | `day?` | Weekly schedule |
+| `getPostDetail` | `slug` | Full article content |
+| `getAgenda` | `day?` | Available slots (checked against Redis real-time) |
 | `getCompanyInfo` | — | Contact/social data |
 | `saveLongMemory` | `key`, `value`, `override?` | 1-year persistent memory |
 | `searchMyHistory` | `limit?` | Recent conversation history |
-| `deleteMemory` | `confirm="BORRAR"` | Deletes ALL customer data |
+| `deleteMemory` | `confirm="BORRAR"` | Deletes ALL customer data (GDPR) |
+| `createReview` | `productSlug`, `comment`, `rating` | Creates review (pending moderation, name from WhatsApp or "Anónimo") |
+| `getMyReviews` | — | User's own reviews |
+| `setReviewVisibility` | `id`, `visibility` | Toggle public/private on own review |
+| `createComment` | `postSlug`, `name`, `comment` | Blog comment (pending moderation) |
+| `getMyComments` | — | User's own comments |
+| `setCommentVisibility` | `id`, `visibility` | Toggle public/private on own comment |
+| `getMyAppointments` | — | User's own appointments |
+| `createAppointment` | `day`, `time`, `type` | Book appointment (checks real availability, notifies admin) |
+| `createOrder` | `items`, `total`, `email`, `idNumber`, `fullName`, `deliveryAddress` | Create order (pending_payment, notifies admin) |
+| `getMyOrders` | — | User's own orders |
+| `getOrderDetail` | `id` | Order detail (own or admin) |
+| `shareDeliveryGps` | `orderId`, `lat`, `lng` | Save delivery GPS location |
+
+**Admin-only (requiere `ADMIN_WHATSAPP` en env):**
+
+| Tool | Params | Description |
+|---|---|---|
+| `updateStock` | `slug`, `variantId`, `quantity` | Set product variant stock in Redis |
+| `getPendingReviews` | — | List reviews pending moderation |
+| `approveReview` | `id` | Approve review → visible to public |
+| `rejectReview` | `id` | Reject review → removed from queue |
+| `getPendingComments` | — | List comments pending moderation |
+| `approveComment` | `id` | Approve comment |
+| `rejectComment` | `id` | Reject comment |
+| `getAllAppointments` | — | All appointments in system |
+| `getAppointmentDetail` | `id` | Full appointment details |
+| `updateApptStatus` | `id`, `status` | Set confirmed/cancelled/completed/noshow |
+| `getAllOrders` | — | All orders in system |
+| `updateOrderStatus` | `id`, `status` | paid/shipping/delivered/cancelled |
+| `verifyPayment` | `id`, `confirmed` | Human-in-the-loop: confirms payment, notifies customer |
 
 ### Pages & Blog
 - Pages module — legal & policy pages, config-driven
@@ -86,8 +120,17 @@
 - **In-memory Map fallback** when Redis is not configured — same APIs, no persistence across restarts
 - **Phone anonymization** via HMAC-SHA256 with `WS_ENCRYPTION_KEY` — no raw phone numbers in Redis
 
+### Redis Business Data
+- **Stock**: `bus:stock:{slug}` — HASH por variante, actualizado por admin
+- **Reviews**: `bus:review:{id}` + sets pending/approved/my — moderación + visibilidad public/private
+- **Comments**: `bus:comment:{id}` + sets pending/approved/my — moderación + visibilidad
+- **Appointments**: `bus:appointment:{id}` + agenda hash `bus:agenda:{day}` — disponibilidad real
+- **Orders**: `bus:order:{id}` + sets my/all + GPS `deliveryGpsLat/Lng` — ciclo de pago con human-in-the-loop
+- **Admin detection**: `ADMIN_WHATSAPP` env var privada (no expuesta al público)
+- **Notifications**: creación de cita/pedido → notifica al admin; confirmación de pago → notifica al cliente
+
 ### Testing
-- **311 tests** across 6 files
+- **326 tests** (Vitest)
 - Organized by domain: webhook, session-store, tools, config coverage, console guards
 
 ## Technology Stack
@@ -99,7 +142,7 @@
 - **AI**: Vercel AI SDK + OpenAI (gpt-5-nano via Gateway, Whisper for audio)
 - **WhatsApp**: YCloud API (outbound SDK + inbound webhooks)
 - **Redis**: Upstash (sessions, memory, rate limiting, dedup)
-- **Testing**: Vitest (313 tests)
+- **Testing**: Vitest (326 tests)
 - **CI/CD**: GitHub Actions + Semantic Release
 - **Hosting**: Vercel
 
@@ -119,6 +162,7 @@
 
 | Variable | Description |
 |---|---|
+| `ADMIN_WHATSAPP` | Admin WhatsApp number (private, for admin tools detection) |
 | `API_KEY` | API key for protected endpoints |
 | `YCLOUD_API_KEY` | YCloud API key (send + media download) |
 | `YCLOUD_WEBHOOK_SECRET` | Webhook secret for HMAC verification |
@@ -132,24 +176,26 @@
 
 ## API Endpoints
 
-| Route | Methods |
-|---|---|
-| `/api/v1/products` | GET, POST, PUT, DELETE |
-| `/api/v1/products/[slug]` | GET, POST, PUT, DELETE |
-| `/api/v1/categories` | GET, POST, PUT, DELETE |
-| `/api/v1/pages` | GET, POST, PUT, DELETE |
-| `/api/v1/paginas` | GET, POST, PUT, DELETE |
-| `/api/v1/paginas/[slug]` | GET, POST, PUT, DELETE |
-| `/api/v1/blog` | GET, POST, PUT, DELETE |
-| `/api/v1/blog/[slug]` | GET, POST, PUT, DELETE |
-| `/api/v1/resenas/[productSlug]` | GET, POST, PUT, DELETE |
-| `/api/v1/inventario/[productSlug]` | GET, POST, PUT, DELETE |
-| `/api/v1/pedidos` | GET, POST, PUT, DELETE |
-| `/api/v1/formulario` | GET, POST, PUT, DELETE |
-| `/api/v1/agenda` | GET, POST, PUT, DELETE |
-| `/api/v1/chat` | POST (protegido, chat con agente AI) |
-| `/api/v1/webhooks/ycloud` | GET (verification), POST (inbound messages) |
-| `/api/v1/whatsapp/send` | POST (send message from UI) |
+| Route | Methods | Data source | Auth |
+|---|---|---|---|---|
+| `/api/v1/products` | GET, POST, PUT, DELETE | Seed + Redis stock | POST/PUT/DELETE require key |
+| `/api/v1/products/[slug]` | GET, POST, PUT, DELETE | Seed + Redis stock + reviews | POST/PUT/DELETE require key |
+| `/api/v1/categories` | GET, POST, PUT, DELETE | Seed (validated) | POST/PUT/DELETE require key |
+| `/api/v1/pages` | GET, POST, PUT, DELETE | Seed (validated) | POST/PUT/DELETE require key |
+| `/api/v1/paginas` | GET, POST, PUT, DELETE | Seed (validated) | POST/PUT require key |
+| `/api/v1/paginas/[slug]` | GET, POST, PUT, DELETE | Seed (validated) | POST/PUT/DELETE require key |
+| `/api/v1/blog` | GET, POST, PUT, DELETE | Seed (validated) | POST/PUT require key |
+| `/api/v1/blog/[slug]` | GET, POST, PUT, DELETE | Seed (validated) | POST/PUT/DELETE require key |
+| `/api/v1/resenas/[productSlug]` | GET, POST, PUT, DELETE | Seed + Redis approved | PUT/DELETE require key, GET/POST público |
+| `/api/v1/inventario/[productSlug]` | GET, POST, PUT, DELETE | Seed + Redis stock enrich | POST/PUT/DELETE require key |
+| `/api/v1/pedidos` | GET, POST, PUT, DELETE | Redis `bus:order:*` | GET/PUT/DELETE require key, POST público |
+| `/api/v1/pedidos/[id]` | GET | Redis `bus:order:{id}` | Público |
+| `/api/v1/formulario` | GET, POST, PUT, DELETE | In-memory | POST público, GET/PUT/DELETE require key |
+| `/api/v1/agenda` | GET, POST, PUT, DELETE | Seed + Redis slots | POST/PUT require key |
+| `/api/v1/chat` | POST | Redis + AI | Requiere key |
+| `/api/v1/webhooks/ycloud` | GET, POST | YCloud WhatsApp | Público (HMAC) |
+| `/api/v1/whatsapp/send` | POST | YCloud SDK | Público (rate-limited) |
+| `/ordenes/[orderId]` | GET | Redis via Server Component | Público (Partial Prerender) |
 
 ### Authentication
 POST/PUT/DELETE endpoints require header: `x-api-key: your_api_key`
@@ -218,7 +264,7 @@ src/lib/test/
 | `pnpm build` | Build for production |
 | `pnpm start` | Start production server |
 | `pnpm lint` | ESLint |
-| `pnpm test` | Vitest (313 tests) |
+| `pnpm test` | Vitest (326 tests) |
 | `pnpm format` | Prettier |
 
 ## License
