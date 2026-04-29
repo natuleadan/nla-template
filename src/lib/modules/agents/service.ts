@@ -16,7 +16,7 @@ export class AgentService {
   ): Promise<string> {
     let session = await getSession(context.phone);
     if (!session) {
-      await createSession(context.phone, context.customerName);
+      await createSession(context.phone, context.customerName || undefined);
       session = await getSession(context.phone);
     }
 

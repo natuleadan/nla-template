@@ -1,10 +1,12 @@
 import { tool, type Tool } from "@/lib/external/ai/stream.service";
 import { z } from "zod";
-import { getAllProducts, getProduct } from "@/lib/modules/products";
-import { getReviews } from "@/lib/modules/reviews";
+import { getAllProducts, getProduct, getAllProductsWithStock, enrichProductWithStock } from "@/lib/modules/products";
+import { getReviews, getApprovedReviews, createRedisReview, getPendingReviews, approveReview, rejectReview, setReviewVisibility, getMyReviews } from "@/lib/modules/reviews";
+import { getApprovedComments, createRedisComment, getPendingComments, approveComment, rejectComment, setCommentVisibility, getMyComments } from "@/lib/modules/comments";
 import { getAllPaginas, getPagina } from "@/lib/modules/paginas";
 import { getAllPosts, getPost } from "@/lib/modules/blog";
-import { getWeekDays, getDayByName } from "@/lib/modules/agenda";
+import { getWeekDays, getDayByName, getAvailableSlots, createAppointment, getMyAppointments, getAllAppointments, getAppointmentDetail, updateApptStatus } from "@/lib/modules/agenda";
+import { createBusOrder, getMyOrders, getAllOrders, getOrderDetail, updateOrderStatus, setOrderDeliveryGps } from "@/lib/modules/orders";
 import { brand } from "@/lib/config/data/brand";
 import {
   getMyHistory, saveLongMemory, getLongMemory, deleteAllMemory,
@@ -32,7 +34,7 @@ CRÍTICO: De los resultados, usa el campo "slug" exactamente como aparece para l
         category: z.string().optional().describe("Filtrar por categoría exacta"),
       }),
       execute: async ({ query, category }) => {
-        const products = await getAllProducts();
+        const products = await getAllProductsWithStock();
         let filtered = products;
         if (query) {
           const q = normalize(query);
@@ -47,9 +49,10 @@ CRÍTICO: De los resultados, usa el campo "slug" exactamente como aparece para l
           products: filtered.map((p) => ({
             name: p.name,
             slug: p.slug,
-            price: p.price,
+            price: typeof p.price === "number" ? `$${(p.price / 100).toFixed(2)} USD` : p.price,
             description: p.description,
             category: p.category,
+            stock: p.stock,
           })),
           availableCategories: cats,
         };
@@ -58,7 +61,7 @@ CRÍTICO: De los resultados, usa el campo "slug" exactamente como aparece para l
 
     getProductDetail: tool({
       description: `Obtiene TODA la información detallada de UN producto específico usando su slug exacto.
-Incluye: descripción larga, precio, imágenes disponibles, reseñas de clientes con valoraciones y comentarios, y si requiere agendamiento.
+Incluye: descripción larga, precio, variantes con stock, imágenes disponibles, reseñas de clientes con valoraciones y comentarios, y si requiere agendamiento.
 Usa esta herramienta cuando el usuario pida más detalles de un producto que ya apareció en getProducts.
 IMPORTANTE: El slug debe ser exactamente el mismo que devolvió getProducts, no lo inventes.`,
 
@@ -68,27 +71,29 @@ IMPORTANTE: El slug debe ser exactamente el mismo que devolvió getProducts, no 
         if (!product) {
           return { found: false, message: `No se encontró el producto con slug "${slug}"` };
         }
-        const reviews = await getReviews(product.slug);
+        const enriched = await enrichProductWithStock(product);
+        const reviews = await getApprovedReviews(product.slug);
+        const fmt = (v: number | undefined) => v !== undefined ? `$${(v / 100).toFixed(2)} USD` : undefined;
         return {
           found: true,
           product: {
-            name: product.name,
-            slug: product.slug,
-            price: product.price,
-            originalPrice: product.originalPrice,
-            description: product.description,
-            longDescription: product.longDescription,
-            category: product.category,
-            quantity: product.quantity,
-            unit: product.unit,
-            type: product.type,
-            appointment: product.appointment,
+            name: enriched.name,
+            slug: enriched.slug,
+            price: fmt(enriched.price),
+            originalPrice: fmt(enriched.originalPrice),
+            description: enriched.description,
+            longDescription: enriched.longDescription,
+            category: enriched.category,
+            quantity: enriched.quantity,
+            unit: enriched.unit,
+            type: enriched.type,
+            appointment: enriched.appointment,
+            variants: enriched.variants,
+            stock: enriched.stock,
           },
-          reviews: reviews
-            .filter((r) => r.status === "published")
-            .map((r) => ({
-              name: r.name, rating: r.rating, comment: r.comment, createdAt: r.createdAt,
-            })),
+          reviews: reviews.map((r) => ({
+            name: r.name, rating: r.rating, comment: r.comment, createdAt: r.createdAt,
+          })),
         };
       },
     }),
@@ -214,7 +219,8 @@ Usa esta herramienta cuando el usuario quiera leer un artículo completo que apa
     }),
 
     getAgenda: tool({
-      description: `Obtiene los horarios disponibles por día para agendar servicios.
+      description: `Obtiene los horarios disponibles por día para servicios.
+SOLO LECTURA: NO puedes reservar, confirmar ni apartar citas con esta herramienta.
 Usa esta herramienta cuando el usuario pregunte por:
 - Horarios disponibles para agendar
 - Agenda del día (pasa el día exacto en español: "Lunes", "Martes", etc.)
@@ -228,24 +234,24 @@ Si no se pasa día, devuelve la semana completa.`,
         if (day) {
           const d = await getDayByName(day);
           if (!d) return { found: false, message: `No hay agenda para "${day}"` };
+          const slots = await getAvailableSlots(day);
           return {
             days: [{
               name: d.name,
-              slots: d.slots.filter((s) => s.available).map((s) => ({
-                time: s.time, type: s.type || "general",
-              })),
+              slots: slots.map((s) => ({ time: s.time, type: s.type || "general" })),
             }],
           };
         }
         const days = await getWeekDays();
-        return {
-          days: days.map((d) => ({
+        const result = [];
+        for (const d of days) {
+          const slots = await getAvailableSlots(d.name);
+          result.push({
             name: d.name,
-            slots: d.slots.filter((s) => s.available).map((s) => ({
-              time: s.time, type: s.type || "general",
-            })),
-          })),
-        };
+            slots: slots.map((s) => ({ time: s.time, type: s.type || "general" })),
+          });
+        }
+        return { days: result };
       },
     }),
 
@@ -325,5 +331,326 @@ Devuelve: últimos mensajes del historial.`,
     }),
   };
 
+  // ─── New tools (always available) ─────────────────────
+
+  const newTools: Record<string, Tool> = {
+
+    createAppointment: tool({
+      description: `RESERVA UNA CITA. OBLIGATORIO: llama esta tool cuando el usuario pida agendar explícitamente.
+NO respondas sin ejecutar esta tool. NO digas "escribe Quiero agendar". NO derives a WhatsApp.
+INPUT: day (nombre del día en español), time (hora exacta), type (tipo de cita).
+Antes de crear, verifica disponibilidad con getAgenda.`,
+      inputSchema: z.object({
+        day: z.string().describe("Nombre del día en español (ej: Lunes, Martes)"),
+        time: z.string().describe("Hora exacta (ej: 09:00, 10:00)"),
+        type: z.string().describe("Tipo de cita (ej: Consulta general, Primera visita)"),
+      }),
+      execute: async ({ day, time, type }) => {
+        const appt = await createAppointment(day, time, type, context.customerName || "Cliente", context.phone);
+        if (!appt) return { success: false, message: `El slot ${day} ${time} ya no está disponible.` };
+        const { notifyAdmin } = await import("@/lib/external/whatsapp/send");
+        notifyAdmin(`Nueva cita: ${day} ${time} (${type}) - ${context.customerName || "Cliente"} - tel: ${context.phone}`);
+        return { success: true, message: `Cita confirmada: ${day} ${time} (${type}).`, appointment: appt };
+      },
+    }),
+
+    getMyAppointments: tool({
+      description: "Obtiene las citas agendadas por el usuario actual.",
+      inputSchema: z.object({}),
+      execute: async () => {
+        const apps = await getMyAppointments(context.phone);
+        return { appointments: apps };
+      },
+    }),
+
+    createReview: tool({
+      description: `CREA UNA RESEÑA. OBLIGATORIO: llama esta tool cuando el usuario quiera dejar una reseña.
+La reseña queda pendiente de moderación del administrador.
+INPUT: productSlug (slug del producto), comment (texto de la reseña), rating (SOLO EL NÚMERO: 1 al 5).
+EXTRACCIÓN DE RATING: el usuario dirá algo como "5 estrellas" o "4 de 5". Convierte eso a un número. rating DEBE ser 1, 2, 3, 4 o 5. NUNCA 0.
+NO preguntes el nombre. Usa el nombre del cliente de WhatsApp, o "Anónimo" si no está disponible.`,
+      inputSchema: z.object({
+        productSlug: z.string().describe("Slug del producto"),
+        comment: z.string().describe("Comentario de la reseña"),
+        rating: z.number().min(1).max(5).describe("Calificación del 1 al 5"),
+      }),
+      execute: async ({ productSlug, comment, rating }) => {
+        const name = context.customerName || "Anónimo";
+        const validRating = Math.max(1, Math.min(5, Math.round(Number(rating))));
+        const review = await createRedisReview(productSlug, { name, comment, rating: validRating }, context.phone);
+        if (!review) return { success: false, message: "No se pudo crear la reseña." };
+        return { success: true, message: `Reseña creada (${validRating}★). Queda pendiente de revisión.`, review };
+      },
+    }),
+
+    getMyReviews: tool({
+      description: "Obtiene las reseñas creadas por el usuario actual.",
+      inputSchema: z.object({}),
+      execute: async () => {
+        const reviews = await getMyReviews(context.phone);
+        return { reviews };
+      },
+    }),
+
+    setReviewVisibility: tool({
+      description: "Cambia la visibilidad de una reseña propia a public o private.",
+      inputSchema: z.object({
+        id: z.string().describe("ID de la reseña"),
+        visibility: z.enum(["public", "private"]).describe("public o private"),
+      }),
+      execute: async ({ id, visibility }) => {
+        const ok = await setReviewVisibility(id, visibility);
+        return { success: ok, message: ok ? `Visibilidad cambiada a ${visibility}.` : "No se pudo cambiar." };
+      },
+    }),
+
+    createComment: tool({
+      description: `Crea un comentario en un artículo del blog. Queda pendiente de moderación.
+INPUT: postSlug (slug del artículo), name (tu nombre), comment (tu comentario).`,
+      inputSchema: z.object({
+        postSlug: z.string().describe("Slug del artículo del blog"),
+        name: z.string().describe("Nombre del usuario"),
+        comment: z.string().describe("Contenido del comentario"),
+      }),
+      execute: async ({ postSlug, name, comment }) => {
+        const c = await createRedisComment(postSlug, { name, comment }, context.phone);
+        if (!c) return { success: false, message: "No se pudo crear el comentario." };
+        return { success: true, message: "Comentario creado. Queda pendiente de revisión.", comment: c };
+      },
+    }),
+
+    getMyComments: tool({
+      description: "Obtiene los comentarios creados por el usuario actual.",
+      inputSchema: z.object({}),
+      execute: async () => {
+        const comments = await getMyComments(context.phone);
+        return { comments };
+      },
+    }),
+
+    setCommentVisibility: tool({
+      description: "Cambia la visibilidad de un comentario propio a public o private.",
+      inputSchema: z.object({
+        id: z.string().describe("ID del comentario"),
+        visibility: z.enum(["public", "private"]).describe("public o private"),
+      }),
+      execute: async ({ id, visibility }) => {
+        const ok = await setCommentVisibility(id, visibility);
+        return { success: ok, message: ok ? `Visibilidad cambiada a ${visibility}.` : "No se pudo cambiar." };
+      },
+    }),
+
+    createOrder: tool({
+      description: `SOLO LLAMANDO ESTA TOOL SE CREA UN PEDIDO REAL. Sin esta tool los pedidos NO EXISTEN en el sistema, NO hay registro de venta, NO hay seguimiento de entrega.
+OBLIGATORIO: llama esta tool CUANDO el usuario quiera comprar productos. 
+INPUT: items, total, email, idNumber, fullName, deliveryAddress. Todos obligatorios.
+SI FALTA ALGÚN DATO, pídelo al usuario. No simules la creación.
+ADVERTENCIA: Si no llamas esta tool, el pedido NO queda registrado en la base de datos.`,
+      inputSchema: z.object({
+        items: z.string().describe("Descripción de los productos solicitados"),
+        total: z.string().describe("Monto total del pedido"),
+        email: z.string().describe("Correo electrónico del cliente"),
+        idNumber: z.string().describe("Número de cédula, RUC o NUI"),
+        fullName: z.string().describe("Nombres y apellidos completos"),
+        deliveryAddress: z.string().describe("Dirección de entrega"),
+      }),
+      execute: async ({ items, total, email, idNumber, fullName, deliveryAddress }) => {
+        const order = await createBusOrder({ items, total, email, idNumber, fullName, deliveryAddress, phone: context.phone });
+        if (!order) return { success: false, message: "No se pudo crear el pedido." };
+        const { notifyAdmin } = await import("@/lib/external/whatsapp/send");
+        notifyAdmin(`Nuevo pedido #${order.id}: ${items} - $${total} - ${fullName} - tel: ${context.phone}`);
+        return { success: true, message: `Pedido #${order.id} creado. Pendiente de pago. Comparte tu ubicación para la entrega.`, order };
+      },
+    }),
+
+    getMyOrders: tool({
+      description: "Obtiene los pedidos realizados por el usuario actual.",
+      inputSchema: z.object({}),
+      execute: async () => {
+        const orders = await getMyOrders(context.phone);
+        return { orders };
+      },
+    }),
+
+    shareDeliveryGps: tool({
+      description: "Guarda la ubicación GPS de entrega para un pedido. El usuario debe compartir su ubicación.",
+      inputSchema: z.object({
+        orderId: z.string().describe("ID del pedido"),
+        lat: z.string().describe("Latitud"),
+        lng: z.string().describe("Longitud"),
+      }),
+      execute: async ({ orderId, lat, lng }) => {
+        const ok = await setOrderDeliveryGps(orderId, lat, lng);
+        return { success: ok, message: ok ? "Ubicación guardada para la entrega." : "No se pudo guardar." };
+      },
+    }),
+
+    getOrderDetail: tool({
+      description: "Obtiene el detalle de un pedido específico (solo del mismo usuario o admin).",
+      inputSchema: z.object({ id: z.string().describe("ID del pedido") }),
+      execute: async ({ id }) => {
+        const order = await getOrderDetail(id);
+        if (!order) return { found: false, message: "Pedido no encontrado." };
+        if (order.phone !== context.phone && !context.isAdmin) return { found: false, message: "No tienes acceso a este pedido." };
+        return { found: true, order };
+      },
+    }),
+  };
+
+  // ─── Admin-only tools ──────────────────────────────────
+
+  if (context.isAdmin) {
+    const adminTools: Record<string, Tool> = {
+
+      updateStock: tool({
+        description: "Actualiza el stock de un producto por variante. Solo administrador.",
+        inputSchema: z.object({
+          slug: z.string().describe("Slug del producto"),
+          variantId: z.string().describe("ID de la variante (ej: 1kg-chocolate)"),
+          quantity: z.number().min(0).describe("Nueva cantidad en stock"),
+        }),
+        execute: async ({ slug, variantId, quantity }) => {
+          const { isRedisConfigured, hashSet } = await import("@/lib/external/upstash/redis");
+          if (!isRedisConfigured()) return { success: false, message: "Redis no configurado." };
+          await hashSet(`bus:stock:${slug}`, variantId, String(quantity));
+          return { success: true, message: `Stock de ${slug} / ${variantId} actualizado a ${quantity}.` };
+        },
+      }),
+
+      getPendingReviews: tool({
+        description: "Obtiene todas las reseñas pendientes de moderación. Solo administrador.",
+        inputSchema: z.object({}),
+        execute: async () => {
+          const reviews = await getPendingReviews();
+          return { pendingReviews: reviews };
+        },
+      }),
+
+      approveReview: tool({
+        description: "Aprueba una reseña pendiente para que sea visible públicamente.",
+        inputSchema: z.object({ id: z.string().describe("ID de la reseña") }),
+        execute: async ({ id }) => {
+          const ok = await approveReview(id);
+          return { success: ok, message: ok ? "Reseña aprobada." : "No se pudo aprobar." };
+        },
+      }),
+
+      rejectReview: tool({
+        description: "Rechaza una reseña pendiente. Se elimina de la cola.",
+        inputSchema: z.object({ id: z.string().describe("ID de la reseña") }),
+        execute: async ({ id }) => {
+          const ok = await rejectReview(id);
+          return { success: ok, message: ok ? "Reseña rechazada." : "No se pudo rechazar." };
+        },
+      }),
+
+      getPendingComments: tool({
+        description: "Obtiene todos los comentarios pendientes de moderación. Solo administrador.",
+        inputSchema: z.object({}),
+        execute: async () => {
+          const comments = await getPendingComments();
+          return { pendingComments: comments };
+        },
+      }),
+
+      approveComment: tool({
+        description: "Aprueba un comentario pendiente para que sea visible.",
+        inputSchema: z.object({ id: z.string().describe("ID del comentario") }),
+        execute: async ({ id }) => {
+          const ok = await approveComment(id);
+          return { success: ok, message: ok ? "Comentario aprobado." : "No se pudo aprobar." };
+        },
+      }),
+
+      rejectComment: tool({
+        description: "Rechaza un comentario pendiente.",
+        inputSchema: z.object({ id: z.string().describe("ID del comentario") }),
+        execute: async ({ id }) => {
+          const ok = await rejectComment(id);
+          return { success: ok, message: ok ? "Comentario rechazado." : "No se pudo rechazar." };
+        },
+      }),
+
+      getAllAppointments: tool({
+        description: "Obtiene todas las citas agendadas. Solo administrador.",
+        inputSchema: z.object({}),
+        execute: async () => {
+          const apps = await getAllAppointments();
+          return { appointments: apps };
+        },
+      }),
+
+      getAppointmentDetail: tool({
+        description: "Obtiene el detalle completo de una cita por su ID.",
+        inputSchema: z.object({ id: z.string().describe("ID de la cita") }),
+        execute: async ({ id }) => {
+          const appt = await getAppointmentDetail(id);
+          return appt ? { found: true, appointment: appt } : { found: false, message: "Cita no encontrada." };
+        },
+      }),
+
+      updateApptStatus: tool({
+        description: "Actualiza el estado de una cita: confirmed, cancelled, completed, noshow.",
+        inputSchema: z.object({
+          id: z.string().describe("ID de la cita"),
+          status: z.enum(["confirmed", "cancelled", "completed", "noshow"]).describe("Nuevo estado"),
+        }),
+        execute: async ({ id, status }) => {
+          const ok = await updateApptStatus(id, status);
+          return { success: ok, message: ok ? `Cita actualizada a ${status}.` : "No se pudo actualizar." };
+        },
+      }),
+
+      getAllOrders: tool({
+        description: "Obtiene todos los pedidos del sistema. Solo administrador.",
+        inputSchema: z.object({}),
+        execute: async () => {
+          const orders = await getAllOrders();
+          return { orders };
+        },
+      }),
+
+      updateOrderStatus: tool({
+        description: `Actualiza el estado de un pedido. Solo administrador.
+Estados: paid (pagado, descuenta stock), shipping (en envío), delivered (entregado), cancelled (cancelado).
+Usar paid solo después de verificar el comprobante de pago (human-in-the-loop).`,
+        inputSchema: z.object({
+          id: z.string().describe("ID del pedido"),
+          status: z.enum(["paid", "shipping", "delivered", "cancelled"]).describe("Nuevo estado"),
+        }),
+        execute: async ({ id, status }) => {
+          const ok = await updateOrderStatus(id, status);
+          return { success: ok, message: ok ? `Pedido #${id} actualizado a ${status}.` : "No se pudo actualizar." };
+        },
+      }),
+
+      verifyPayment: tool({
+        description: `Human-in-the-loop: confirma o rechaza el pago de un pedido.
+Solo el administrador. confirmed=true marca como paid, false marca como rejected.`,
+        inputSchema: z.object({
+          id: z.string().describe("ID del pedido"),
+          confirmed: z.boolean().describe("true si el pago llegó, false si no"),
+        }),
+        execute: async ({ id, confirmed }) => {
+          const status = confirmed ? "paid" : "rejected";
+          const ok = await updateOrderStatus(id, status);
+          if (ok) {
+            const { notifyCustomer } = await import("@/lib/external/whatsapp/send");
+            const { getOrderDetail } = await import("@/lib/modules/orders");
+            const order = await getOrderDetail(id);
+            const msg = confirmed
+              ? `✅ Tu pedido #${id} ha sido CONFIRMADO y está en proceso. Gracias por tu compra.`
+              : `❌ Tu pedido #${id} ha sido RECHAZADO. El pago no pudo ser verificado.`;
+            if (order?.phone) notifyCustomer(order.phone, msg);
+          }
+          return { success: ok, message: ok ? `Pedido #${id}: ${status}.` : "No se pudo procesar." };
+        },
+      }),
+    };
+
+    Object.assign(newTools, adminTools);
+  }
+
+  Object.assign(tools, newTools);
   return tools;
 }

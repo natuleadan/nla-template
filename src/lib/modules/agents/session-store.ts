@@ -133,8 +133,10 @@ export async function getMyHistory(phone: string): Promise<CoreMessage[]> {
 
 export async function pushMsg(phone: string, text: string): Promise<void> {
   if (!isRedisConfigured()) { memLPush(qKey(phone), text); return; }
-  const r = await getR();
-  await r.lpush(qKey(phone), text);
+  await safe(async () => {
+    const r = await getR();
+    await r.lpush(qKey(phone), text);
+  }, undefined);
 }
 
 export async function peekLatest(phone: string): Promise<string | null> {
