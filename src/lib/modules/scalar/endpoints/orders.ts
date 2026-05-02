@@ -22,8 +22,8 @@ export function getOrdersPaths(examples: {
                 example: examples.orders,
               },
             },
-            "401": { description: "API key inválida" },
           },
+          "401": { description: "API key inválida" },
         },
       },
       post: {

@@ -30,9 +30,9 @@ export function getPagesPaths(examples: {
                 example: examples.page,
               },
             },
-            "400": { description: "Parámetro 'page' requerido" },
-            "404": { description: "Página no encontrada" },
           },
+          "400": { description: "Parámetro 'page' requerido" },
+          "404": { description: "Página no encontrada" },
         },
       },
       post: {

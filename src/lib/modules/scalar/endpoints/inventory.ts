@@ -18,7 +18,7 @@ export function getInventoryPaths(examples: {
             in: "path",
             required: true,
             schema: { type: "string" },
-            example: examples.products[0]?.slug || "example-slug",
+            example: (examples.products[0] as { slug?: string })?.slug || "example-slug",
             description: "Slug del producto",
           },
         ],

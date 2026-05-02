@@ -22,8 +22,8 @@ export function getFormPaths(examples: {
                 example: examples.messages,
               },
             },
-            "401": { description: "API key inválida" },
           },
+          "401": { description: "API key inválida" },
         },
       },
       post: {

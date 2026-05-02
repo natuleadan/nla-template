@@ -17,10 +17,21 @@ export function getProductsPaths(examples: {
             content: {
               "application/json": {
                 schema: {
-                  type: "array",
-                  items: { $ref: "#/components/schemas/Product" },
+                  type: "object",
+                  properties: {
+                    products: {
+                      type: "array",
+                      items: { $ref: "#/components/schemas/Product" },
+                    },
+                    total: { type: "integer", example: 16 },
+                    hasMore: { type: "boolean", example: false },
+                  },
                 },
-                example: examples.products,
+                example: {
+                  products: examples.products,
+                  total: examples.products.length,
+                  hasMore: false,
+                },
               },
             },
           },
@@ -97,7 +108,7 @@ export function getProductsPaths(examples: {
             in: "path",
             required: true,
             schema: { type: "string" },
-            example: examples.products[0]?.slug || "example-slug",
+            example: (examples.products[0] as { slug?: string })?.slug || "example-slug",
             description: "Slug del producto",
           },
         ],
