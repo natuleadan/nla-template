@@ -28,6 +28,7 @@ import { IconBrandWhatsapp, IconCheck, IconChevronDown } from "@tabler/icons-rea
 import { countryCodes, type CountryCode } from "@/lib/config/data/country-codes";
 import { ui } from "@/lib/config/site";
 import notificationService from "@/lib/modules/notification";
+import { getSavedPhone, savePhone } from "@/lib/modules/cookies/client";
 import type { WhatsAppOptions } from "@/components/whatsapp-provider";
 
 const t = ui.whatsapp;
@@ -73,6 +74,16 @@ export function WhatsAppDialog({
     }
   }, [defaultCountryCode]);
 
+  useEffect(() => {
+    if (open) {
+      const saved = getSavedPhone();
+      if (saved) {
+        const digits = saved.replace(/\D/g, "").replace(/^0+/, "");
+        setPhoneNumber(digits);
+      }
+    }
+  }, [open]);
+
   const rawDigits = phoneNumber.replace(/\D/g, "");
   const normalDigits = rawDigits.replace(/^0+/, "");
   const strippedDigits = rawDigits.startsWith(countryCode.dial) && rawDigits.length > countryCode.dial.length
@@ -100,6 +111,7 @@ export function WhatsAppDialog({
 
       if (res.ok) {
         setSent(true);
+        savePhone(fullNumber);
         notificationService.success(t.notification.success);
         options.onSuccess?.();
       } else {

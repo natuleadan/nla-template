@@ -199,3 +199,19 @@ export function getCookieStats() {
     localStorageCount: typeof window !== "undefined" ? localStorage.length : 0,
   };
 }
+
+const PHONE_COOKIE_KEY = "phone";
+const PHONE_COOKIE_MAX_AGE = 60 * 15;
+
+export function getSavedPhone(): string | undefined {
+  return getCookie(PHONE_COOKIE_KEY);
+}
+
+export function savePhone(phone: string): void {
+  setCookie(PHONE_COOKIE_KEY, phone, PHONE_COOKIE_MAX_AGE);
+}
+
+export function hasValidPhoneCookie(): boolean {
+  const phone = getSavedPhone();
+  return !!phone;
+}
