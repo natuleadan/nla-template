@@ -4,19 +4,32 @@ export const schemas: Record<string, OpenApiSchema> = {
   Product: {
     type: "object",
     properties: {
-      id: { type: "string", example: "prod_123" },
-      slug: { type: "string", example: "whey-protein" },
-      name: { type: "string", example: "Whey Protein" },
-      description: { type: "string", example: "Proteína de suero de leche" },
-      price: { type: "number", example: 29990 },
-      category: {
-        type: "string",
-        enum: ["suplements", "food"],
-        example: "suplements",
+      id: { type: "string", example: "1" },
+      slug: { type: "string", example: "proteina-whey" },
+      name: { type: "string", example: "Proteína en Polvo 1kg" },
+      description: { type: "string", example: "Proteína en polvo sabor chocolate" },
+      longDescription: { type: "string", example: "Proteína en polvo de alta calidad. Ideal para después del entrenamiento." },
+      price: { type: "number", example: 1299 },
+      originalPrice: { type: "number", example: 1499 },
+      category: { type: "string", example: "suplemento" },
+      image: { type: "string", example: "/design/fallback.svg" },
+      images: { type: "array", items: { type: "string" }, example: ["/design/fallback.svg"] },
+      quantity: { type: "string", example: "1" },
+      unit: { type: "string", example: "kg" },
+      type: { type: "string", enum: ["product", "service"], example: "product" },
+      appointment: { type: "boolean", example: false },
+      variants: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            id: { type: "string", example: "1kg-chocolate" },
+            name: { type: "string", example: "1kg Chocolate" },
+            price: { type: "number", example: 1299 },
+            originalPrice: { type: "number", example: 1499 },
+          },
+        },
       },
-      image: { type: "string", example: "/images/products/whey.jpg" },
-      quantity: { type: "string", example: "2" },
-      unit: { type: "string", example: "lb" },
     },
   },
   Category: {
@@ -64,24 +77,22 @@ export const schemas: Record<string, OpenApiSchema> = {
   Order: {
     type: "object",
     properties: {
-      id: { type: "string", example: "ord_123" },
-      productId: { type: "string", example: "prod_123" },
-      productName: { type: "string", example: "Whey Protein" },
-      price: { type: "number", example: 29990 },
-      cliente: {
-        type: "object",
-        properties: {
-          nombre: { type: "string" },
-          telefono: { type: "string" },
-        },
-      },
-      geo: { $ref: "#/components/schemas/GeoData" },
-      fecha: { type: "string", example: "2024-01-15T10:30:00Z" },
-      estado: {
+      id: { type: "string", example: "ORD20260429001" },
+      fullName: { type: "string", example: "Juan Pérez" },
+      email: { type: "string", example: "cliente@email.com" },
+      idNumber: { type: "string", example: "0999999999" },
+      phone: { type: "string", example: "593991234567" },
+      deliveryAddress: { type: "string", example: "Av. Siempre Viva 123" },
+      items: { type: "string", example: "2 Proteína Whey 1kg" },
+      total: { type: "string", example: "2598" },
+      status: {
         type: "string",
-        enum: ["pendiente", "completado", "cancelado"],
-        example: "pendiente",
+        enum: ["pending_payment", "paid", "shipping", "delivered", "cancelled", "rejected"],
+        example: "pending_payment",
       },
+      createdAt: { type: "string", example: "2026-04-29T10:30:00Z" },
+      deliveryGpsLat: { type: "string", example: "-0.180653" },
+      deliveryGpsLng: { type: "string", example: "-78.467834" },
     },
   },
   GeoData: {
