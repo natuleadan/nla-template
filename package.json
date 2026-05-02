@@ -39,7 +39,6 @@
     "date-fns": "4.1.0",
     "embla-carousel-react": "8.5.1",
     "input-otp": "1.4.1",
-    "lucide-react": "^1.14.0",
     "next": "16.1.6",
     "next-themes": "latest",
     "radix-ui": "latest",
