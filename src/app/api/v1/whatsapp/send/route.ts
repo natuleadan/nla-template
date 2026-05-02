@@ -45,7 +45,7 @@ export async function POST(request: Request) {
       ]);
       if (!ipOk) {
         return Response.json(
-          { error: "Demasiadas solicitudes desde esta IP. Espera 30 segundos." },
+          { error: "Más despacio. Inténtalo en 30 segundos." },
           { status: 429 },
         );
       }
