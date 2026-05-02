@@ -1,7 +1,7 @@
 import { streamText, stepCountIs } from "@/lib/external/ai/stream.service";
 import { aiModel } from "@/lib/external/ai/client";
 import { getZeroDataRetention } from "@/lib/env";
-import { SYSTEM_PROMPT } from "./config";
+import { SYSTEM_PROMPT, FIRST_TIME_INTRO } from "./config";
 import { getAiTools } from "./tools";
 import { getSession, createSession, addToHistory, isDerived } from "./session-store";
 import type { ToolContext, CoreMessage } from "./types";
@@ -27,15 +27,17 @@ export class AgentService {
       typeof message === "string" ? { role: "user", content: message } : message;
     await addToHistory(context.phone, userMsg);
 
+    const freshSession = await getSession(context.phone);
+    const history = freshSession?.history || [];
+    const isFirstTime = history.length <= 1;
+    const introBlock = isFirstTime ? `\n\n${FIRST_TIME_INTRO}` : "";
+
     const tools = getAiTools(context);
-    const system = `${SYSTEM_PROMPT}
+    const system = `${SYSTEM_PROMPT}${introBlock}
 
 INFORMACIÓN DEL CLIENTE:
 - Teléfono: ${context.phone}
 - Nombre: ${context.customerName || "No disponible"}`;
-
-    const freshSession = await getSession(context.phone);
-    const history = freshSession?.history || [];
 
     try {
       const result = streamText({
