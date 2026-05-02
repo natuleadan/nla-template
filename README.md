@@ -29,6 +29,7 @@
 - **Long-term memory** — 1 year in Redis, agent persists customer preferences/data
 - **Memory management** — `deleteMemory` tool for GDPR compliance (deletes all customer keys)
 - **Web UI integration** — button clicks from the store (e.g. "Pedir por WhatsApp") are recorded as `system` messages in session history so the agent has context
+- **Phone cookie** — after first WhatsApp send, the phone is saved in a cookie (15 min TTL). Subsequent clicks send directly without showing the dialog, with auto-reload of the phone number when the cookie expires
 
 ### Rate Limiting
 - **Redis-based** (cross-instance): 1 msg per 30s per IP, 1 msg per 30s per recipient
@@ -48,9 +49,9 @@
 - **Notifications** with Sonner toasts
 - **Product filtering** — search + category filter
 
-### AI Agent Tools (23 tools)
+### AI Agent Tools (36 tools)
 
-**Públicas (cualquier usuario):**
+**Públicas (cualquier usuario) — 23 tools:**
 
 | Tool | Params | Description |
 |---|---|---|
@@ -130,7 +131,7 @@
 - **Notifications**: creación de cita/pedido → notifica al admin; confirmación de pago → notifica al cliente
 
 ### Testing
-- **326 tests** (Vitest)
+- **325 tests** (Vitest)
 - Organized by domain: webhook, session-store, tools, config coverage, console guards
 
 ## Technology Stack
@@ -142,7 +143,7 @@
 - **AI**: Vercel AI SDK + OpenAI (gpt-5-nano via Gateway, Whisper for audio)
 - **WhatsApp**: YCloud API (outbound SDK + inbound webhooks)
 - **Redis**: Upstash (sessions, memory, rate limiting, dedup)
-- **Testing**: Vitest (326 tests)
+- **Testing**: Vitest (325 tests)
 - **CI/CD**: GitHub Actions + Semantic Release
 - **Hosting**: Vercel
 
@@ -264,7 +265,7 @@ src/lib/test/
 | `pnpm build` | Build for production |
 | `pnpm start` | Start production server |
 | `pnpm lint` | ESLint |
-| `pnpm test` | Vitest (326 tests) |
+| `pnpm test` | Vitest (325 tests) |
 | `pnpm format` | Prettier |
 
 ## License
