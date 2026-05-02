@@ -7,7 +7,7 @@ export const commentsData: Comment[] = [
     name: "Ana G.",
     comment: "Muy buen artículo, me ayudó a entender mejor cómo tomar la proteína.",
     createdAt: "2026-04-14T10:00:00Z",
-    status: "published",
+    status: "approved",
   },
   {
     id: "2",
@@ -15,7 +15,7 @@ export const commentsData: Comment[] = [
     name: "Luis M.",
     comment: "¿Recomiendas tomarla antes o después del entrenamiento?",
     createdAt: "2026-04-13T10:00:00Z",
-    status: "published",
+    status: "approved",
   },
   {
     id: "3",
@@ -23,7 +23,7 @@ export const commentsData: Comment[] = [
     name: "Sofía R.",
     comment: "Excelentes consejos, empezaré a incluir más proteína en mis comidas.",
     createdAt: "2026-04-16T10:00:00Z",
-    status: "published",
+    status: "approved",
   },
   {
     id: "4",
@@ -31,6 +31,6 @@ export const commentsData: Comment[] = [
     name: "Pedro L.",
     comment: "¿Podrías recomendar un plan de comidas semanal? Muy buen artículo.",
     createdAt: "2026-04-15T10:00:00Z",
-    status: "published",
+    status: "approved",
   },
 ];

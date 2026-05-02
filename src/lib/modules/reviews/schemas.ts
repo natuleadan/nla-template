@@ -7,7 +7,7 @@ export const ReviewSchema = z.object({
   comment: z.string().min(1),
   rating: z.number().min(1).max(5),
   createdAt: z.string(),
-  status: z.enum(["pending", "approved", "published"]),
+  status: z.enum(["pending", "approved"]),
   visibility: z.enum(["public", "private"]).optional(),
   phone: z.string().optional(),
 });

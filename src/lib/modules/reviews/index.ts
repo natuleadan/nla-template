@@ -52,7 +52,7 @@ export async function clearReviews(): Promise<void> {
 export async function getApprovedReviews(slug: string): Promise<Review[]> {
   try {
     const { isRedisConfigured, setMembers, hashGetAll } = await import("@/lib/external/upstash/redis");
-    if (!isRedisConfigured()) return getReviews(slug).filter((r) => r.status === "approved");
+    if (!isRedisConfigured()) return (await getReviews(slug)).filter((r) => r.status === "approved");
 
     const ids = await setMembers(`bus:reviews:approved:${slug}`);
     const reviews: Review[] = [];
@@ -67,7 +67,7 @@ export async function getApprovedReviews(slug: string): Promise<Review[]> {
       }
     }
     return reviews;
-  } catch { return getReviews(slug).filter((r) => r.status === "approved"); }
+  } catch { return (await getReviews(slug)).filter((r) => r.status === "approved"); }
 }
 
 export async function createRedisReview(

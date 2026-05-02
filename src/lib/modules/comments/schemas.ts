@@ -6,7 +6,7 @@ export const CommentSchema = z.object({
   name: z.string().min(1),
   comment: z.string().min(1),
   createdAt: z.string(),
-  status: z.enum(["pending", "approved", "published"]),
+  status: z.enum(["pending", "approved"]),
   visibility: z.enum(["public", "private"]).optional(),
   phone: z.string().optional(),
 });

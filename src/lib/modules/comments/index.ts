@@ -50,7 +50,7 @@ export async function clearComments(): Promise<void> {
 export async function getApprovedComments(postSlug: string): Promise<Comment[]> {
   try {
     const { isRedisConfigured, setMembers, hashGetAll } = await import("@/lib/external/upstash/redis");
-    if (!isRedisConfigured()) return getComments(postSlug).filter((c) => c.status === "approved");
+    if (!isRedisConfigured()) return (await getComments(postSlug)).filter((c) => c.status === "approved");
 
     const ids = await setMembers(`bus:comments:approved:${postSlug}`);
     const comments: Comment[] = [];
@@ -65,7 +65,7 @@ export async function getApprovedComments(postSlug: string): Promise<Comment[]> 
       }
     }
     return comments;
-  } catch { return getComments(postSlug).filter((c) => c.status === "approved"); }
+  } catch { return (await getComments(postSlug)).filter((c) => c.status === "approved"); }
 }
 
 export async function createRedisComment(
