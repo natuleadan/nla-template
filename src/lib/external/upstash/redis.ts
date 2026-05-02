@@ -64,7 +64,7 @@ export async function setRemove(key: string, value: string): Promise<void> {
 
 export async function setIsMember(key: string, value: string): Promise<boolean> {
   const r = getRedis();
-  return r.sismember(key, value);
+  return (await r.sismember(key, value)) === 1;
 }
 
 export async function setMembers(key: string): Promise<string[]> {

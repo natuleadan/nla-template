@@ -1,5 +1,7 @@
 import { allProducts as productsData } from "@/lib/config/data/products";
-import { ProductSchema } from "./schemas";
+import { ProductSchema, type Product } from "./schemas";
+
+export type { Product };
 
 const allProducts: Product[] = ProductSchema.array().parse([...productsData]);
 

@@ -38,14 +38,15 @@ export function getAllPages(): Record<string, PageContent> {
 
 export function createPage(
   pageName: string,
-  content: Omit<PageContent, "description">,
+  content: { title: string; description?: string; content?: PageContent["content"] },
 ): PageContent {
   if (!isValidPageName(pageName)) {
     throw new Error("Invalid page name");
   }
   const newPage: PageContent = {
-    ...content,
+    title: content.title,
     description: content.description || "Página creada",
+    content: content.content || [],
   };
   pages.set(pageName, newPage);
   return newPage;

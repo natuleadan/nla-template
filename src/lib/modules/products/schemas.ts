@@ -25,3 +25,5 @@ export const ProductSchema = z.object({
   appointment: z.boolean().optional(),
   variants: z.array(ProductVariantSchema).optional(),
 });
+
+export type Product = z.infer<typeof ProductSchema>;

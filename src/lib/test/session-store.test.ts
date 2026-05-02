@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { anonymizePhone, addToHistory, getMyHistory, getSession } from "@/lib/modules/agents/session-store";
-import type { CoreMessage } from "@/lib/external/ai/stream.service";
+import type { CoreMessage } from "@/lib/modules/agents/types";
 
 describe("session-store - anonymizePhone", () => {
   it("should return deterministic hash for same phone", async () => {

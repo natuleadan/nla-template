@@ -60,7 +60,7 @@ function SheetContent({
   );
   const contentProps = hasDescription
     ? props
-    : { ...props, "aria-describedby": undefined as const };
+    : { ...props, "aria-describedby": undefined };
 
   return (
     <SheetPortal>

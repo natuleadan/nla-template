@@ -81,7 +81,7 @@ export async function getSession(phone: string): Promise<SessionState | null> {
   }
   return safe(async () => {
     const raw = await (await getR()).get(sKey(phone));
-    return fromStore<SessionState>(raw);
+    return fromStore<SessionState>(raw as string | null);
   }, null);
 }
 
@@ -108,7 +108,7 @@ export async function addToHistory(phone: string, msg: CoreMessage): Promise<voi
   await safe(async () => {
     const r = await getR();
     const raw = await r.get(sKey(phone));
-    const s = fromStore<SessionState>(raw);
+    const s = fromStore<SessionState>(raw as string | null);
     if (!s) return;
     s.history.push(msg);
     s.lastActivity = Date.now();
@@ -124,7 +124,7 @@ export async function getMyHistory(phone: string): Promise<CoreMessage[]> {
   }
   return safe(async () => {
     const raw = await (await getR()).get(sKey(phone));
-    const s = fromStore<SessionState>(raw);
+    const s = fromStore<SessionState>(raw as string | null);
     return s ? s.history : [];
   }, []);
 }
@@ -195,7 +195,7 @@ export async function saveLongMemory(phone: string, data: Record<string, unknown
   await safe(async () => {
     const r = await getR();
     const raw = await r.get(lKey(phone));
-    const existing = fromStore<Record<string, unknown>>(raw) || {};
+    const existing = fromStore<Record<string, unknown>>(raw as string | null) || {};
     Object.assign(existing, data);
     await r.setex(lKey(phone), LONG_MEMORY_TTL, JSON.stringify(existing));
   }, undefined);
@@ -209,7 +209,7 @@ export async function getLongMemory(phone: string): Promise<Record<string, unkno
   return safe(async () => {
     const r = await getR();
     const raw = await r.get(lKey(phone));
-    return fromStore<Record<string, unknown>>(raw) || {};
+    return fromStore<Record<string, unknown>>(raw as string | null) || {};
   }, {});
 }
 

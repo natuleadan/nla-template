@@ -1,5 +1,5 @@
 import { safeJsonLd } from "@/lib/utils";
-import type { Graph, WebPage, BreadcrumbList } from "schema-dts";
+import type { Graph, WebPage, BreadcrumbList, Thing } from "schema-dts";
 import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
 
@@ -22,7 +22,7 @@ export function JsonLdWebPage({
 }: JsonLdWebPageProps) {
   const baseUrl = getBaseUrl();
 
-  const graph: Graph["@graph"] = [
+  const graph: Thing[] = [
     {
       "@type": "WebPage",
       "@id": `${pageUrl}/#webpage`,
@@ -35,7 +35,7 @@ export function JsonLdWebPage({
         "@type": "SpeakableSpecification",
         cssSelector: [".page-title", ".page-summary"],
       },
-    } as WebPage,
+    } as Thing,
   ];
 
   if (datePublished) {

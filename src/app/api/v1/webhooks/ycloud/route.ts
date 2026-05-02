@@ -130,8 +130,8 @@ export async function POST(req: NextRequest) {
     text = `[Pedido: producto ${m.order.product_id || "desconocido"}, cantidad ${m.order.quantity || 1}]`;
   } else if (t === "system" && m.system) {
     text = `[Sistema: ${m.system.body || "evento del sistema"}]`;
-  } else if (t === "contacts" && m.contacts?.length) {
-    const parts = m.contacts.map((c: { name?: { formatted_name?: string }; phones?: Array<{ phone?: string }> }) => {
+  } else if (t === "contacts" && (m as { contacts?: Array<{ name?: { formatted_name?: string }; phones?: Array<{ phone?: string }> }> }).contacts?.length) {
+    const parts = (m as { contacts?: Array<{ name?: { formatted_name?: string }; phones?: Array<{ phone?: string }> }> }).contacts!.map((c) => {
       const n = c.name?.formatted_name || "";
       const p = c.phones?.map((ph) => ph.phone).filter(Boolean).join(", ") || "";
       return [n, p].filter(Boolean).join(" - ");

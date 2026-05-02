@@ -81,7 +81,7 @@ async function loadItems(type: DropdownType): Promise<NavLink[]> {
 function DesktopDropdown({ label, href, type, icon, compact }: NavDropdownProps) {
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState<NavLink[]>([]);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const IconComp = icon ? iconMap[icon] : null;
 
   useEffect(() => {

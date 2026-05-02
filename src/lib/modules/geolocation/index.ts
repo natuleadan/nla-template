@@ -172,7 +172,7 @@ export async function getFullGeoData(): Promise<UserGeoData> {
 
 async function getUserLocationCached() {
   "use cache";
-  cacheLife("minutes", 5);
+  cacheLife("minutes");
   cacheTag("geo-location");
   return getFullGeoData();
 }

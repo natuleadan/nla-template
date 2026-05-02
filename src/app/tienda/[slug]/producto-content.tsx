@@ -27,14 +27,15 @@ export async function ProductoContent({ params }: ProductoContentProps) {
     getInventory(slug),
   ]);
 
-  const productWithReviews: Product & {
+  const { quantity: _q, unit: _u, ...rest } = product;
+  const productWithReviews: Omit<Product, "quantity" | "unit"> & {
     reviews: Review[];
     quantity: number;
     unit: string;
   } = {
-    ...product,
-    quantity: Number(product.quantity),
-    unit: product.unit,
+    ...rest,
+    quantity: Number(_q),
+    unit: _u,
     reviews,
   };
 
