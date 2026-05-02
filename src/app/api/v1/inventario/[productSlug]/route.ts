@@ -11,8 +11,6 @@ import {
   badRequest,
   serverError,
 } from "@/lib/env";
-import { getRedis, isRedisConfigured } from "@/lib/external/upstash/redis";
-
 interface RouteParams {
   params: Promise<{ productSlug: string }>;
 }
@@ -25,20 +23,6 @@ export async function GET(request: Request, { params }: RouteParams) {
 
     const inventory = await getInventory(productSlug);
     const total = inventory.reduce((sum, item) => sum + item.available, 0);
-
-    if (isRedisConfigured()) {
-      const r = getRedis();
-      const stock = await r.hgetall(`bus:stock:${productSlug}`);
-      if (stock && typeof stock === "object") {
-        for (const loc of inventory) {
-          const redisQty = (stock as Record<string, string>)[loc.location];
-          if (redisQty !== undefined) {
-            loc.quantity = Number(redisQty);
-            loc.available = Number(redisQty) - loc.reserved;
-          }
-        }
-      }
-    }
 
     return NextResponse.json({ productSlug, total, locations: inventory });
   } catch {

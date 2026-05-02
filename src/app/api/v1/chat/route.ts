@@ -2,30 +2,9 @@ import { NextRequest } from "next/server";
 import { validateApiKey, unauthorized, badRequest, serverError, getAdminPhone } from "@/lib/env";
 import { AgentService } from "@/lib/modules/agents/service";
 import { isRedisConfigured } from "@/lib/external/upstash/redis";
-import { pushMsg, peekLatest, drainAll } from "@/lib/modules/agents/session-store";
+import { pushMsg, peekLatest, drainAll, isDerived } from "@/lib/modules/agents/session-store";
 import { transcribeAudio } from "@/lib/external/ai/transcribe.service";
 import { analyzeImage, analyzePdf } from "@/lib/external/ai/image.service";
-import { createBusOrder } from "@/lib/modules/orders";
-
-const ORDER_PATTERNS = [
-  /(?:quiero|necesito|voy a|deseo|requiero)\s+(?:comprar|adquirir|ordenar|pedir|hacer\s*(?:un|el)?\s*pedido)/i,
-  /(?:crea|genera|registra|toma|realiza)\s*(?:un|mi|el)?\s*(?:pedido|orden|compra)/i,
-  /(?:items?|productos?)\s*=.+total\s*=/i,
-  /nuevo\s*pedido/i,
-];
-
-function extractOrderData(text: string): Record<string, string> | null {
-  const items = text.match(/(?:items?|productos?)\s*[=:]\s*([^,;]+)/i)?.[1]?.trim();
-  const total = text.match(/(?:total|monto|precio)\s*[=:]\s*([^,;]+)/i)?.[1]?.trim();
-  const email = text.match(/(?:email|correo|e-mail|mail)\s*[=:]\s*([^\s,;]+)/i)?.[1]?.trim();
-  const idNumber = text.match(/(?:cedula|ci|id|cédula|ruc|nui|documento)\s*[=:]\s*([^,;]+)/i)?.[1]?.trim();
-  const fullName = text.match(/(?:nombre|fullname|name|full_name)\s*[=:]\s*([^,;]+)/i)?.[1]?.trim();
-  const deliveryAddress = text.match(/(?:direccion|dirección|address|delivery|envio|envío)\s*[=:]\s*(.+)/i)?.[1]?.trim();
-  if (items && total && fullName && deliveryAddress) {
-    return { items, total, email: email || "pendiente@mail.com", idNumber: idNumber || "", fullName, deliveryAddress };
-  }
-  return null;
-}
 
 async function processMediaItem(item: { type: string; url?: string; caption?: string }): Promise<string> {
   switch (item.type) {
@@ -90,6 +69,10 @@ export async function POST(req: NextRequest) {
       return badRequest("message o media requerido");
     }
 
+    if (await isDerived(phone)) {
+      return Response.json({ success: true, response: "[chat derivado a humano]", phone, derived: true });
+    }
+
     let text = parts.join("\n");
 
     if (isRedisConfigured()) {
@@ -101,45 +84,6 @@ export async function POST(req: NextRequest) {
       }
       const all = await drainAll(phone);
       text = all.join(", ");
-    }
-
-    // Pre-create order if the message contains order data
-    const hasOrderIntent = ORDER_PATTERNS.some((p) => p.test(text));
-    if (hasOrderIntent) {
-      const orderData = extractOrderData(text);
-      if (orderData) {
-        try {
-          const order = await createBusOrder({
-            items: orderData.items,
-            total: orderData.total,
-            email: orderData.email,
-            idNumber: orderData.idNumber,
-            fullName: orderData.fullName,
-            deliveryAddress: orderData.deliveryAddress,
-            phone,
-          });
-          if (order) {
-            const msg = `✅ *Pedido #${order.id} creado con éxito*
-
-*Resumen:*
-• Productos: ${order.items}
-• Total: $${order.total} USD
-• Cliente: ${order.fullName}
-• Dirección: ${order.deliveryAddress}
-• Estado: Pendiente de pago
-
-*Próximos pasos:*
-1. Recibirás un enlace de pago
-2. Una vez confirmado el pago, procesamos tu envío
-3. Puedes compartir tu ubicación para la entrega
-
-¿Necesitas ayuda con el pago o quieres agregar algo más?`;
-            return Response.json({ success: true, response: msg, phone, redis: isRedisConfigured(), len: msg.length });
-          }
-        } catch {
-          // Fall through to AI
-        }
-      }
     }
 
     const response = await AgentService.processMessage(text, {

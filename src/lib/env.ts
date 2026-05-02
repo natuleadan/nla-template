@@ -6,7 +6,7 @@
  * - Private vars: here — server-only (API keys, secrets, etc.)
  */
 
-import { isDev } from "@/lib/env.public";
+import { isDev, isTest } from "@/lib/env.public";
 
 export {
   getBrandColor,
@@ -25,7 +25,11 @@ export {
 // ─── Server-only env vars ─────────────────────────────────
 
 export function getApiKey(): string {
-  return process.env.API_KEY || "dev-key-change-in-production";
+  const key = process.env.API_KEY;
+  if (!key && !isTest) {
+    if (isDev) console.warn("⚠️ API_KEY no configurada. Los endpoints protegidos devolverán 401.");
+  }
+  return key || "";
 }
 
 export function getYcloudApiKey(): string {

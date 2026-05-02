@@ -52,7 +52,8 @@ export async function PUT(request: Request) {
   }
 }
 
-export async function DELETE() {
+export async function DELETE(request: Request) {
+  if (!validateApiKey(request)) return unauthorized();
   clearAgenda();
   return NextResponse.json({ message: "Agenda eliminada" });
 }

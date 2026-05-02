@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAllProductsWithStock, getProducts, createProduct } from "@/lib/modules/products";
+import { getAllProducts, getProducts, createProduct } from "@/lib/modules/products";
 import {
   validateApiKey,
   unauthorized,
@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(result);
     }
 
-    const products = await getAllProductsWithStock();
+    const products = await getAllProducts();
     return NextResponse.json({ products, total: products.length, hasMore: false });
   } catch {
     return NextResponse.json({ error: "Error al obtener productos" }, { status: 500 });

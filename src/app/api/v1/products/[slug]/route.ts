@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getProduct, createProduct, enrichProductWithStock } from "@/lib/modules/products";
+import { getProduct, createProduct } from "@/lib/modules/products";
 import { getApprovedReviews } from "@/lib/modules/reviews";
 import {
   validateApiKey,
@@ -19,9 +19,8 @@ export async function GET(request: Request, { params }: RouteParams) {
     if (!slug || typeof slug !== "string") return badRequest("Slug inválido");
     const product = await getProduct(slug);
     if (!product) return notFound("Producto");
-    const enriched = await enrichProductWithStock(product);
     const reviews = await getApprovedReviews(slug);
-    return NextResponse.json({ ...enriched, quantity: Number(enriched.quantity), reviews });
+    return NextResponse.json({ ...product, quantity: Number(product.quantity), reviews });
   } catch {
     return serverError("Error al obtener producto");
   }

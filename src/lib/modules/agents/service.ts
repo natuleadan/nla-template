@@ -3,7 +3,7 @@ import { aiModel } from "@/lib/external/ai/client";
 import { getZeroDataRetention } from "@/lib/env";
 import { SYSTEM_PROMPT } from "./config";
 import { getAiTools } from "./tools";
-import { getSession, createSession, addToHistory } from "./session-store";
+import { getSession, createSession, addToHistory, isDerived } from "./session-store";
 import type { ToolContext, CoreMessage } from "./types";
 
 const FALLBACK = "Disculpa, no pude procesar tu solicitud. ¿Puedes repetirlo?";
@@ -14,6 +14,9 @@ export class AgentService {
     message: string | CoreMessage,
     context: ToolContext,
   ): Promise<string> {
+    const derived = await isDerived(context.phone);
+    if (derived) return "";
+
     let session = await getSession(context.phone);
     if (!session) {
       await createSession(context.phone, context.customerName || undefined);

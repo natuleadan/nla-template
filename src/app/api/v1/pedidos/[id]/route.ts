@@ -1,18 +1,17 @@
 import { NextRequest } from "next/server";
-import { getOrderDetail } from "@/lib/modules/orders";
+import { validateApiKey, unauthorized } from "@/lib/env";
+import { getOrders } from "@/lib/modules/orders";
 
 export async function GET(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  if (!validateApiKey(req)) return unauthorized();
   const { id } = await params;
-  try {
-    const order = await getOrderDetail(id);
-    if (!order) {
-      return Response.json({ error: "Pedido no encontrado" }, { status: 404 });
-    }
-    return Response.json(order);
-  } catch {
-    return Response.json({ error: "Error interno" }, { status: 500 });
+  const orders = await getOrders();
+  const order = orders.find((o) => o.id === id);
+  if (!order) {
+    return Response.json({ error: "Pedido no encontrado" }, { status: 404 });
   }
+  return Response.json(order);
 }

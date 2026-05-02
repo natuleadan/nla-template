@@ -28,26 +28,6 @@ export async function getProduct(slug: string): Promise<Product | null> {
   return allProducts.find((p) => p.slug === slug) || null;
 }
 
-export async function getProductStock(slug: string): Promise<Record<string, string>> {
-  try {
-    const { isRedisConfigured, hashGetAll } = await import("@/lib/external/upstash/redis");
-    if (!isRedisConfigured()) return {};
-    return hashGetAll(`bus:stock:${slug}`);
-  } catch {
-    return {};
-  }
-}
-
-export async function enrichProductWithStock(product: Product): Promise<Product & { stock?: Record<string, string> }> {
-  const stock = await getProductStock(product.slug);
-  return { ...product, stock: Object.keys(stock).length > 0 ? stock : undefined };
-}
-
-export async function getAllProductsWithStock(): Promise<(Product & { stock?: Record<string, string> })[]> {
-  const products = await getAllProducts();
-  return Promise.all(products.map(enrichProductWithStock));
-}
-
 export async function createProduct(
   data: Record<string, unknown>,
 ): Promise<Product | null> {

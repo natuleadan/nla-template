@@ -236,6 +236,64 @@ export async function deleteAllMemory(phone: string): Promise<string[]> {
   }, []);
 }
 
+// ─── Derivation (24h) ─────────────────────────────────
+
+const DERIVED_TTL = 86400;
+
+function dervKey(phone: string): string { return `wa:derived:${hashKey(phone)}`; }
+
+export async function isDerived(phone: string): Promise<boolean> {
+  if (!isRedisConfigured()) return false;
+  return safe(async () => {
+    const r = await getR();
+    const ex = await r.get(dervKey(phone));
+    return ex !== null;
+  }, false);
+}
+
+export async function setDerived(phone: string, reason: string): Promise<void> {
+  if (!isRedisConfigured()) return;
+  await safe(async () => {
+    const r = await getR();
+    await r.setex(dervKey(phone), DERIVED_TTL, JSON.stringify({ reason, phone, createdAt: Date.now() }));
+  }, undefined);
+}
+
+export async function resolveDerivation(phone: string): Promise<boolean> {
+  if (!isRedisConfigured()) return false;
+  return safe(async () => {
+    const r = await getR();
+    await r.del(dervKey(phone));
+    return true;
+  }, false);
+}
+
+export async function getDerivedConversations(): Promise<Array<{ phone: string; reason: string; createdAt: number; anonymized: string }>> {
+  if (!isRedisConfigured()) return [];
+  return safe(async () => {
+    const r = await getR();
+    let cursor = "0";
+    const results: Array<{ phone: string; reason: string; createdAt: number; anonymized: string }> = [];
+    do {
+      const [nextCursor, keys] = await r.scan(cursor, { match: "wa:derived:*", count: 100 });
+      cursor = nextCursor;
+      for (const key of keys) {
+        if (typeof key !== "string") continue;
+        const raw = await r.get(key);
+        if (!raw) continue;
+        const parsed = typeof raw === "string" ? JSON.parse(raw) : raw;
+        results.push({
+          phone: parsed.phone || "",
+          reason: parsed.reason || "",
+          createdAt: parsed.createdAt || 0,
+          anonymized: key.replace("wa:derived:", ""),
+        });
+      }
+    } while (cursor !== "0");
+    return results;
+  }, []);
+}
+
 // ─── Dedup ────────────────────────────────────────────
 
 const dedupSet = new Set<string>();

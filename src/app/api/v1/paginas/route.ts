@@ -63,7 +63,8 @@ export async function PUT(request: Request) {
   }
 }
 
-export async function DELETE() {
+export async function DELETE(request: Request) {
+  if (!validateApiKey(request)) return unauthorized();
   clearPaginas();
   return NextResponse.json({ message: "Páginas eliminadas" });
 }

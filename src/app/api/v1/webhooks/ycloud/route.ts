@@ -3,7 +3,7 @@ import { getYcloudApiKey, getYcloudWebhookSecret, getAdminPhone, isDev } from "@
 import { sendWhatsApp } from "@/lib/external/whatsapp/send";
 import { AgentService } from "@/lib/modules/agents/service";
 import {
-  isDuplicate, anonymizePhone, pushMsg, peekLatest, drainAll,
+  isDuplicate, anonymizePhone, pushMsg, peekLatest, drainAll, isDerived,
 } from "@/lib/modules/agents/session-store";
 import { isRedisConfigured } from "@/lib/external/upstash/redis";
 import { transcribeAudio } from "@/lib/external/ai/transcribe.service";
@@ -86,6 +86,8 @@ export async function POST(req: NextRequest) {
 
   const phone = m.from.replace("+", "");
   const aid = await anonymizePhone(phone);
+
+  if (await isDerived(phone)) return new Response("OK", { status: 200 });
   const name = m.customerProfile?.name;
 
   let text = "";
