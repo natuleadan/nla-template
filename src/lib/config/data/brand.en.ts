@@ -18,8 +18,6 @@ Thank you for contacting *${name}*. We are attentive to your inquiry and will re
 *Business hours:* Monday to Friday from 9:00 AM to 6:00 PM
 
 How can we help you?`,
-  whatsappProductId: "consulta-header",
-  whatsappProductName: "Consulta desde header",
   metadata: {
     titleSuffix: (name: string) => `${name} | Online Store`,
     keywords: ["store", "online", "products", "office", "home"],

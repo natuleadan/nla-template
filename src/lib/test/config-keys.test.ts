@@ -33,7 +33,11 @@ function getAllTsFiles(dir: string): string[] {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   for (const entry of entries) {
     const full = path.join(dir, entry.name);
-    if (entry.isDirectory() && !entry.name.startsWith(".") && entry.name !== "node_modules") {
+    if (
+      entry.isDirectory() &&
+      !entry.name.startsWith(".") &&
+      entry.name !== "node_modules"
+    ) {
       results.push(...getAllTsFiles(full));
     } else if (entry.isFile() && /\.(ts|tsx)$/.test(entry.name)) {
       results.push(full);
@@ -67,7 +71,11 @@ const configModules: Record<string, () => Promise<Record<string, unknown>>> = {
 };
 
 const allFiles = getAllTsFiles(SRC_DIR).filter(
-  (f) => !f.includes("node_modules") && !f.includes(".test.") && !f.includes("/config/site/") && !f.includes("/config/data/"),
+  (f) =>
+    !f.includes("node_modules") &&
+    !f.includes(".test.") &&
+    !f.includes("/config/site/") &&
+    !f.includes("/config/data/"),
 );
 
 describe("config keys coverage", () => {
@@ -116,7 +124,10 @@ describe("config keys coverage", () => {
             );
             for (const file of importFiles) {
               const content = fs.readFileSync(file, "utf-8");
-              if (parentPattern.test(content) || parentCfgPattern.test(content)) {
+              if (
+                parentPattern.test(content) ||
+                parentCfgPattern.test(content)
+              ) {
                 found = true;
                 break;
               }
@@ -162,15 +173,49 @@ describe("config keys reverse check", () => {
 
       const importFiles = findImportFiles(allFiles, name);
       const escapedName = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      const refPattern = new RegExp(`\\b${escapedName}\\.([a-zA-Z0-9_.]+)`, "g");
-      const cfgRefPattern = new RegExp(`\\bcfg\\.${escapedName}\\.([a-zA-Z0-9_.]+)`, "g");
+      const refPattern = new RegExp(
+        `\\b${escapedName}\\.([a-zA-Z0-9_.]+)`,
+        "g",
+      );
+      const cfgRefPattern = new RegExp(
+        `\\bcfg\\.${escapedName}\\.([a-zA-Z0-9_.]+)`,
+        "g",
+      );
 
       const JS_METHODS = new Set([
-        "length", "map", "find", "filter", "slice", "splice", "push", "pop",
-        "shift", "unshift", "forEach", "reduce", "some", "every", "includes",
-        "indexOf", "findIndex", "flatMap", "flat", "keys", "values", "entries",
-        "get", "set", "clear", "delete", "has", "sort", "reverse", "concat",
-        "join", "toString", "split",
+        "length",
+        "map",
+        "find",
+        "filter",
+        "slice",
+        "splice",
+        "push",
+        "pop",
+        "shift",
+        "unshift",
+        "forEach",
+        "reduce",
+        "some",
+        "every",
+        "includes",
+        "indexOf",
+        "findIndex",
+        "flatMap",
+        "flat",
+        "keys",
+        "values",
+        "entries",
+        "get",
+        "set",
+        "clear",
+        "delete",
+        "has",
+        "sort",
+        "reverse",
+        "concat",
+        "join",
+        "toString",
+        "split",
       ]);
 
       const missing: string[] = [];

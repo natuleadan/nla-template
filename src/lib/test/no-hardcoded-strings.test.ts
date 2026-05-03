@@ -18,7 +18,11 @@ function getAllFiles(dir: string, ext: string): string[] {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   for (const entry of entries) {
     const full = path.join(dir, entry.name);
-    if (entry.isDirectory() && !entry.name.startsWith(".") && entry.name !== "node_modules") {
+    if (
+      entry.isDirectory() &&
+      !entry.name.startsWith(".") &&
+      entry.name !== "node_modules"
+    ) {
       results.push(...getAllFiles(full, ext));
     } else if (entry.isFile() && entry.name.endsWith(ext)) {
       results.push(full);
@@ -70,7 +74,9 @@ describe("no hardcoded user-facing strings", () => {
     }
 
     if (violations.length > 0) {
-      console.log("\nHardcoded Spanish error strings in API routes (use config keys instead):");
+      console.log(
+        "\nHardcoded Spanish error strings in API routes (use config keys instead):",
+      );
       for (const v of violations) console.log(`  ${v}`);
     }
     expect(violations).toEqual([]);
@@ -107,7 +113,11 @@ describe("no hardcoded user-facing strings", () => {
       const lines = content.split("\n");
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
-        if (/return\s*\{\s*title:\s*"(?:Product|Article|Page) not found"/.test(line)) {
+        if (
+          /return\s*\{\s*title:\s*"(?:Product|Article|Page) not found"/.test(
+            line,
+          )
+        ) {
           const rel = path.relative(SRC_DIR, file);
           violations.push(`${rel}:${i + 1}: ${line.trim()}`);
         }
@@ -115,7 +125,9 @@ describe("no hardcoded user-facing strings", () => {
     }
 
     if (violations.length > 0) {
-      console.log("\nHardcoded not-found titles found (use getConfig().ui.notFound.* instead):");
+      console.log(
+        "\nHardcoded not-found titles found (use getConfig().ui.notFound.* instead):",
+      );
       for (const v of violations) console.log(`  ${v}`);
     }
     expect(violations).toEqual([]);

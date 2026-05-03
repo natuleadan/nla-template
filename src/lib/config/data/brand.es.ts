@@ -18,8 +18,6 @@ Gracias por comunicarte con *${name}*. Quedamos atentos a tu consulta y te respo
 *Horario de atención:* Lunes a Viernes de 9:00 a 18:00
 
 ¿En qué podemos ayudarte?`,
-  whatsappProductId: "consulta-header",
-  whatsappProductName: "Consulta desde header",
   metadata: {
     titleSuffix: (name: string) => `${name} | Tienda Online`,
     keywords: ["tienda", "online", "productos", "oficina", "hogar"],
