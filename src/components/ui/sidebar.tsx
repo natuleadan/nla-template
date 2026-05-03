@@ -163,6 +163,7 @@ function Sidebar({
   collapsible?: "offcanvas" | "icon" | "none";
 }) {
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
+  const sidebarUi = getConfig("en").ui.sidebar;
 
   if (collapsible === "none") {
     return (
@@ -196,8 +197,8 @@ function Sidebar({
           side={side}
         >
           <SheetHeader className="sr-only">
-            <SheetTitle>Sidebar</SheetTitle>
-            <SheetDescription>Displays the mobile sidebar.</SheetDescription>
+            <SheetTitle>{sidebarUi.sheetTitle}</SheetTitle>
+            <SheetDescription>{sidebarUi.sheetDescription}</SheetDescription>
           </SheetHeader>
           <div className="flex h-full w-full flex-col">{children}</div>
         </SheetContent>
@@ -257,6 +258,7 @@ function SidebarTrigger({
   ...props
 }: React.ComponentProps<typeof Button>) {
   const { toggleSidebar } = useSidebar();
+  const sidebarUi = getConfig("en").ui.sidebar;
 
   return (
     <Button
@@ -272,7 +274,7 @@ function SidebarTrigger({
       {...props}
     >
       <IconLayoutSidebar className="cn-rtl-flip" />
-      <span className="sr-only">Toggle Sidebar</span>
+      <span className="sr-only">{sidebarUi.toggleSrOnly}</span>
     </Button>
   );
 }

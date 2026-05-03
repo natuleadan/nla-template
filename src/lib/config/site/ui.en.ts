@@ -146,6 +146,9 @@ export const ui = {
   sidebar: {
     toggleAria: "Toggle Sidebar",
     toggleTitle: "Toggle Sidebar",
+    sheetTitle: "Sidebar",
+    sheetDescription: "Displays the mobile sidebar.",
+    toggleSrOnly: "Toggle Sidebar",
   },
   og: {
     logoAlt: "Logo",

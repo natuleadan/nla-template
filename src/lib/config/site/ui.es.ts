@@ -146,6 +146,9 @@ export const ui = {
   sidebar: {
     toggleAria: "Alternar barra lateral",
     toggleTitle: "Alternar barra lateral",
+    sheetTitle: "Barra lateral",
+    sheetDescription: "Muestra la barra lateral móvil.",
+    toggleSrOnly: "Alternar barra lateral",
   },
   og: {
     logoAlt: "Logotipo",
