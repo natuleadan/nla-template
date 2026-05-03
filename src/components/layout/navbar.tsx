@@ -22,9 +22,9 @@ import {
   IconMail,
 } from "@tabler/icons-react";
 import { GlobalSearch } from "@/components/layout/global-search";
-import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { NavDropdown } from "@/components/layout/navbar-dropdown";
 import { LangSwitcher } from "@/components/layout/lang-switcher";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { isDev } from "@/lib/env";
 import { brand } from "@/lib/config/site";
@@ -82,6 +82,18 @@ export function Navbar() {
           <nav className="hidden lg:flex flex-1 justify-end items-center gap-1" aria-label={ui.navbar.desktopAriaLabel}>
             {nav.items.map((item) => {
               const IconComp = iconMap[item.icon];
+              if ("type" in item) {
+                return (
+                  <NavDropdown
+                    key={item.href}
+                    label={item.label}
+                    href={l(item.href)}
+                    type={item.type}
+                    icon={item.icon}
+                    variant="dropdown"
+                  />
+                );
+              }
               return (
                 <Link
                   key={item.href}
@@ -106,6 +118,19 @@ export function Navbar() {
           <nav className="hidden md:flex lg:hidden flex-1 justify-end items-center gap-0.5" aria-label={ui.navbar.desktopAriaLabel}>
             {nav.items.map((item) => {
               const IconComp = iconMap[item.icon];
+              if ("type" in item) {
+                return (
+                  <NavDropdown
+                    key={item.href}
+                    label={item.label}
+                    href={l(item.href)}
+                    type={item.type}
+                    icon={item.icon}
+                    variant="dropdown"
+                    compact
+                  />
+                );
+              }
               return (
                 <Link
                   key={item.href}
@@ -146,6 +171,19 @@ export function Navbar() {
                 <nav className="flex flex-col gap-1 mt-8" aria-label={ui.navbar.mobileNavAriaLabel}>
                   {nav.items.map((item) => {
                     const IconComp = iconMap[item.icon];
+                    if ("type" in item) {
+                      return (
+                        <NavDropdown
+                          key={item.href}
+                          label={item.label}
+                          href={l(item.href)}
+                          type={item.type}
+                          icon={item.icon}
+                          variant="accordion"
+                          onNav={() => setMenuOpen(false)}
+                        />
+                      );
+                    }
                     return (
                       <Link
                         key={item.href}

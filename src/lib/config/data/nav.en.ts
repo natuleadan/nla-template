@@ -1,10 +1,10 @@
 export const nav = {
   items: [
     { href: "/", label: "Home", icon: "home" },
-    { href: "/tienda", label: "Store", icon: "store" },
-    { href: "/blog", label: "Blog", icon: "news" },
-    { href: "/agenda", label: "Schedule", icon: "calendar" },
-    { href: "/paginas", label: "Pages", icon: "files" },
+    { href: "/tienda", label: "Store", icon: "store", type: "products" },
+    { href: "/blog", label: "Blog", icon: "news", type: "posts" },
+    { href: "/agenda", label: "Schedule", icon: "calendar", type: "agenda" },
+    { href: "/paginas", label: "Pages", icon: "files", type: "pages" },
     { href: "/contacto", label: "Contact", icon: "mail" },
   ] as const,
   buttons: {
