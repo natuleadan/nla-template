@@ -7,7 +7,6 @@ import {
   useCallback,
   type ReactNode,
 } from "react";
-import { toast } from "sonner";
 import { WhatsAppDialog } from "@/components/ui/whatsapp-dialog";
 import {
   getSavedPhone,
@@ -16,6 +15,8 @@ import {
 import notificationService from "@/lib/modules/notification";
 import { useLang } from "@/lib/locale/context";
 import { getConfig } from "@/lib/locale/config";
+import { getWhatsappNumber } from "@/lib/env.public";
+import { whatsappSendAction } from "@/lib/actions/whatsapp-send";
 
 export interface WhatsAppOptions {
   message: string;
@@ -43,30 +44,32 @@ export function useWhatsApp(): WhatsAppContextValue {
 interface WhatsAppProviderProps {
   children: ReactNode;
   defaultCountryCode?: string;
+  ycloudEnabled?: boolean;
 }
 
 async function sendDirectly(
   to: string,
   message: string,
+  _lang: string,
   productId?: string,
   productName?: string,
-): Promise<boolean> {
-  try {
-    const res = await fetch("/api/v1/whatsapp/send", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ to, message, productId, productName }),
-    });
-
-    return res.ok;
-  } catch {
-    return false;
-  }
+): Promise<{ success: boolean; rateLimit?: boolean }> {
+  const result = await whatsappSendAction({
+    to,
+    message,
+    productId,
+    productName,
+  });
+  return {
+    success: result.success,
+    rateLimit: !result.success && result.rateLimit,
+  };
 }
 
 export function WhatsAppProvider({
   children,
   defaultCountryCode = "EC",
+  ycloudEnabled = false,
 }: WhatsAppProviderProps) {
   const lang = useLang();
   const cfg = getConfig(lang);
@@ -76,34 +79,52 @@ export function WhatsAppProvider({
 
   const openWhatsApp = useCallback(
     async (opts: WhatsAppOptions) => {
+      if (!ycloudEnabled) {
+        const phone = getWhatsappNumber();
+        const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(opts.message)}`;
+        window.open(waUrl, "_blank");
+        opts.onSuccess?.();
+        return;
+      }
+
       if (hasValidPhoneCookie()) {
         const savedPhone = getSavedPhone();
         if (savedPhone) {
-          const loadingId = toast.loading(t.dialog.sending);
-
-          const success = await sendDirectly(
+          const toastId = notificationService.loading(t.dialog.sending, { duration: 10000 });
+          const { success, rateLimit } = await sendDirectly(
             savedPhone,
             opts.message,
+            lang,
             opts.productId,
             opts.productName,
           );
 
-          toast.dismiss(loadingId);
-
           if (success) {
+            notificationService.dismiss(toastId);
             notificationService.success(t.notification.success);
             opts.onSuccess?.();
             return;
-          } else {
-            notificationService.error(t.notification.error);
           }
+
+          notificationService.dismiss(toastId);
+          notificationService.error(
+            rateLimit ? t.notification.rateLimit : t.notification.error,
+          );
+          if (rateLimit) return;
         }
       }
 
       setOptions(opts);
       setOpen(true);
     },
-    [t.notification.success, t.notification.error, t.dialog.sending],
+    [
+      ycloudEnabled,
+      lang,
+      t.notification.success,
+      t.notification.error,
+      t.notification.rateLimit,
+      t.dialog.sending,
+    ],
   );
 
   const handleClose = useCallback(() => {
@@ -119,6 +140,7 @@ export function WhatsAppProvider({
         onOpenChange={handleClose}
         options={options}
         defaultCountryCode={defaultCountryCode}
+        ycloudEnabled={ycloudEnabled}
       />
     </WhatsAppContext.Provider>
   );

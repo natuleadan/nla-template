@@ -49,10 +49,10 @@ export function GlobalSearch() {
     if (loaded) return;
     try {
       const [productsRes, postsRes, agendaRes, pagesRes] = await Promise.all([
-        fetch("/api/v1/products?limit=100"),
-        fetch("/api/v1/blog?limit=100"),
-        fetch("/api/v1/agenda"),
-        fetch("/api/v1/paginas?limit=100"),
+        fetch(`/api/v1/products?limit=10&locale=${lang}`),
+        fetch(`/api/v1/blog?limit=10&locale=${lang}`),
+        fetch(`/api/v1/agenda?locale=${lang}`),
+        fetch(`/api/v1/paginas?limit=10&locale=${lang}`),
       ]);
       const productsData = await productsRes.json();
       const postsData = await postsRes.json();
@@ -72,41 +72,64 @@ export function GlobalSearch() {
 
       const searchItems: SearchItem[] = [
         ...slots,
-        ...(productsData.products || []).map((p: { id: string; name: string; slug: string; category: string }) => ({
-          id: p.id,
-          title: p.name,
-          slug: p.slug,
-          type: "product" as const,
-          category: p.category,
-        })),
-        ...(postsData.posts || []).map((p: { id: string; title: string; slug: string; category: string }) => ({
-          id: p.id,
-          title: p.title,
-          slug: p.slug,
-          type: "post" as const,
-          category: p.category,
-        })),
-        ...(pagesData.pages || []).map((p: { id: string; title: string; slug: string; category: string }) => ({
-          id: p.id,
-          title: p.title,
-          slug: p.slug,
-          type: "page" as const,
-          category: p.category,
-        })),
+        ...(productsData.products || []).map(
+          (p: {
+            id: string;
+            name: string;
+            slug: string;
+            category: string;
+          }) => ({
+            id: p.id,
+            title: p.name,
+            slug: p.slug,
+            type: "product" as const,
+            category: p.category,
+          }),
+        ),
+        ...(postsData.posts || []).map(
+          (p: {
+            id: string;
+            title: string;
+            slug: string;
+            category: string;
+          }) => ({
+            id: p.id,
+            title: p.title,
+            slug: p.slug,
+            type: "post" as const,
+            category: p.category,
+          }),
+        ),
+        ...(pagesData.pages || []).map(
+          (p: {
+            id: string;
+            title: string;
+            slug: string;
+            category: string;
+          }) => ({
+            id: p.id,
+            title: p.title,
+            slug: p.slug,
+            type: "page" as const,
+            category: p.category,
+          }),
+        ),
       ];
       setItems(searchItems);
       setLoaded(true);
     } catch {
       // Silently fail
     }
-  }, [loaded]);
+  }, [loaded, lang]);
 
   const handleSelect = (item: SearchItem) => {
     setOpen(false);
     if (item.type === "product") {
       router.push(`/tienda/${item.slug}`);
     } else if (item.type === "slot") {
-      router.push(`/agenda?dia=${encodeURIComponent(item.slotDay!)}&hora=${encodeURIComponent(item.slotTime!)}`);
+      router.push(
+        `/agenda?dia=${encodeURIComponent(item.slotDay!)}&hora=${encodeURIComponent(item.slotTime!)}`,
+      );
     } else if (item.type === "page") {
       router.push(`/paginas/${item.slug}`);
     } else {

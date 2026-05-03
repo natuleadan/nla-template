@@ -1,20 +1,44 @@
+import { createHash } from "node:crypto";
 import { NextRequest } from "next/server";
-import { validateApiKey, unauthorized, badRequest, serverError, getAdminPhone } from "@/lib/env";
+import {
+  validateApiKey,
+  unauthorized,
+  badRequest,
+  serverError,
+  getAdminPhone,
+  getRateLimitMax,
+} from "@/lib/env";
+import { getClientIp, RateLimiter } from "@/lib/rate-limit";
 import { getConfig } from "@/lib/locale/config";
 import { AgentService } from "@/lib/modules/agents/service";
-import { isRedisConfigured } from "@/lib/external/upstash/redis";
-import { pushMsg, peekLatest, drainAll, isDerived } from "@/lib/modules/agents/session-store";
+import { isRedisConfigured } from "@/lib/external/upstash/client";
+import { chatRateLimit } from "@/lib/external/upstash/ratelimit.service";
+import {
+  pushMsg,
+  peekLatest,
+  drainAll,
+  isDerived,
+} from "@/lib/modules/agents/session-store";
 import { transcribeAudio } from "@/lib/external/ai/transcribe.service";
 import { analyzeImage, analyzePdf } from "@/lib/external/ai/image.service";
+import { ChatBodySchema, apiError } from "@/lib/api/schemas";
 
 const t = getConfig("es").ui.media;
 
-async function processMediaItem(item: { type: string; url?: string; caption?: string }): Promise<string> {
+async function processMediaItem(item: {
+  type: string;
+  url?: string;
+  caption?: string;
+}): Promise<string> {
   switch (item.type) {
     case "image":
       if (item.url) {
         const a = await analyzeImage(item.url, item.caption);
-        return a ? t.image(a) : (item.caption ? t.image(item.caption) : t.imageSimple);
+        return a
+          ? t.image(a)
+          : item.caption
+            ? t.image(item.caption)
+            : t.imageSimple;
       }
       return item.caption ? t.image(item.caption) : t.imageSimple;
     case "audio":
@@ -22,8 +46,12 @@ async function processMediaItem(item: { type: string; url?: string; caption?: st
       if (item.url) {
         const transcript = await transcribeAudio(item.url);
         return item.type === "voice"
-          ? (transcript ? t.voice(transcript) : t.voiceSimple)
-          : (transcript ? t.audio(transcript) : t.audioSimple);
+          ? transcript
+            ? t.voice(transcript)
+            : t.voiceSimple
+          : transcript
+            ? t.audio(transcript)
+            : t.audioSimple;
       }
       return item.type === "voice" ? t.voiceSimple : t.audioSimple;
     case "pdf":
@@ -49,25 +77,65 @@ async function processMediaItem(item: { type: string; url?: string; caption?: st
   }
 }
 
+const chatInMemoryRl = new RateLimiter({
+  maxRequests: getRateLimitMax(),
+  windowMs: 60_000,
+});
+
 export async function POST(req: NextRequest) {
   if (!validateApiKey(req)) return unauthorized();
 
+  const rawIp = getClientIp(req);
+  const ipHash = createHash("sha256").update(rawIp).digest("hex").slice(0, 16);
+
+  if (isRedisConfigured()) {
+    const { success } = await chatRateLimit.limit(ipHash);
+    if (!success) {
+      return Response.json(
+        { error: `Rate limit: máximo ${getRateLimitMax()} pedidos por minuto` },
+        { status: 429 },
+      );
+    }
+  } else {
+    const { allowed } = chatInMemoryRl.check(ipHash);
+    if (!allowed) {
+      return Response.json(
+        { error: `Rate limit: máximo ${getRateLimitMax()} pedidos por minuto` },
+        { status: 429 },
+      );
+    }
+  }
+
   try {
-    const body = await req.json();
-    const { message, phone = "chat_00000000000", media, mediaUrl, mediaCaption, mediaItems } = body;
+    const raw = await req.json().catch(() => ({}));
+    const parsed = ChatBodySchema.safeParse(raw);
+    if (!parsed.success) return apiError(400, getConfig("es").ui.api.missingParam("message o media"));
+    const {
+      message,
+      phone = "chat_00000000000",
+      media,
+      mediaUrl,
+      mediaCaption,
+      mediaItems,
+      customerName,
+    } = parsed.data;
 
     const parts: string[] = [];
 
-    if (message && typeof message === "string") {
-      parts.push(message);
-    }
+    if (message) parts.push(message);
 
-    if (mediaItems && Array.isArray(mediaItems)) {
+    if (mediaItems && mediaItems.length > 0) {
       for (const item of mediaItems) {
         parts.push(await processMediaItem(item));
       }
     } else if (media) {
-      parts.push(await processMediaItem({ type: media, url: mediaUrl, caption: mediaCaption }));
+      parts.push(
+        await processMediaItem({
+          type: media,
+          url: mediaUrl,
+          caption: mediaCaption,
+        }),
+      );
     }
 
     if (parts.length === 0) {
@@ -75,7 +143,12 @@ export async function POST(req: NextRequest) {
     }
 
     if (await isDerived(phone)) {
-      return Response.json({ success: true, response: getConfig("es").ui.agent.derivedToHuman, phone, derived: true });
+      return Response.json({
+        success: true,
+        response: getConfig("es").ui.agent.derivedToHuman,
+        phone,
+        derived: true,
+      });
     }
 
     let text = parts.join("\n");
@@ -85,7 +158,12 @@ export async function POST(req: NextRequest) {
       await new Promise((r) => setTimeout(r, 10000));
       const latest = await peekLatest(phone);
       if (latest !== text) {
-        return Response.json({ success: true, response: getConfig("es").ui.agent.queued, phone, queue: true });
+        return Response.json({
+          success: true,
+          response: getConfig("es").ui.agent.queued,
+          phone,
+          queue: true,
+        });
       }
       const all = await drainAll(phone);
       text = all.join(", ");
@@ -93,12 +171,16 @@ export async function POST(req: NextRequest) {
 
     const response = await AgentService.processMessage(text, {
       phone,
-      customerName: body.customerName,
+      customerName,
       isAdmin: phone === getAdminPhone(),
     });
 
     const result: Record<string, unknown> = {
-      success: true, response, phone, redis: isRedisConfigured(), len: response?.length,
+      success: true,
+      response,
+      phone,
+      redis: isRedisConfigured(),
+      len: response?.length,
     };
     if (media) result.media = media;
     if (typeof response !== "string" || response.length === 0) {
@@ -106,7 +188,8 @@ export async function POST(req: NextRequest) {
     }
     return Response.json(result);
   } catch (error) {
-    const msg = error instanceof Error ? error.message : getConfig("es").ui.api.unknown;
+    const msg =
+      error instanceof Error ? error.message : getConfig("es").ui.api.unknown;
     return serverError(error);
   }
 }

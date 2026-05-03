@@ -24,19 +24,29 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { IconBrandWhatsapp, IconCheck, IconChevronDown } from "@tabler/icons-react";
-import { countryCodes, type CountryCode } from "@/lib/config/data/country-codes";
+import {
+  IconBrandWhatsapp,
+  IconCheck,
+  IconChevronDown,
+} from "@tabler/icons-react";
+import {
+  countryCodes,
+  type CountryCode,
+} from "@/lib/config/data/country-codes";
 import { useLang } from "@/lib/locale/context";
 import { getConfig } from "@/lib/locale/config";
 import notificationService from "@/lib/modules/notification";
 import { getSavedPhone, savePhone } from "@/lib/modules/cookies/client";
+import { getWhatsappNumber } from "@/lib/env.public";
 import type { WhatsAppOptions } from "@/components/whatsapp-provider";
+import { whatsappSendAction } from "@/lib/actions/whatsapp-send";
 
 interface WhatsAppDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   options: WhatsAppOptions | null;
   defaultCountryCode?: string;
+  ycloudEnabled?: boolean;
 }
 
 export function WhatsAppDialog({
@@ -44,31 +54,36 @@ export function WhatsAppDialog({
   onOpenChange,
   options,
   defaultCountryCode,
+  ycloudEnabled = false,
 }: WhatsAppDialogProps) {
   const lang = useLang();
   const cfg = getConfig(lang);
   const t = cfg.ui.whatsapp;
-  const [countryCode, setCountryCode] = useState<CountryCode>(() =>
-    countryCodes.find((c) => c.code === (defaultCountryCode || "EC")) || countryCodes[0],
+  const [countryCode, setCountryCode] = useState<CountryCode>(
+    () =>
+      countryCodes.find((c) => c.code === (defaultCountryCode || "EC")) ||
+      countryCodes[0],
   );
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [sending, setSending] = useState(false);
-  const [sent, setSent] = useState(false);
   const [codeOpen, setCodeOpen] = useState(false);
 
   useEffect(() => {
     if (!open) {
-      setSent(false);
       setPhoneNumber("");
-      setSending(false);
       setCodeOpen(false);
-      setCountryCode(countryCodes.find((c) => c.code === (defaultCountryCode || "EC")) || countryCodes[0]);
+      setCountryCode(
+        countryCodes.find((c) => c.code === (defaultCountryCode || "EC")) ||
+          countryCodes[0],
+      );
     }
   }, [open, defaultCountryCode]);
 
   useEffect(() => {
     if (!defaultCountryCode) {
-      const fromLocale = Intl.DateTimeFormat().resolvedOptions().locale?.split("-")[1]?.toUpperCase();
+      const fromLocale = Intl.DateTimeFormat()
+        .resolvedOptions()
+        .locale?.split("-")[1]
+        ?.toUpperCase();
       if (fromLocale) {
         const found = countryCodes.find((c) => c.code === fromLocale);
         if (found) setCountryCode(found);
@@ -88,43 +103,44 @@ export function WhatsAppDialog({
 
   const rawDigits = phoneNumber.replace(/\D/g, "");
   const normalDigits = rawDigits.replace(/^0+/, "");
-  const strippedDigits = rawDigits.startsWith(countryCode.dial) && rawDigits.length > countryCode.dial.length
-    ? rawDigits.slice(countryCode.dial.length).replace(/^0+/, "")
-    : normalDigits;
-  const digits = strippedDigits.length === countryCode.digits ? strippedDigits : normalDigits;
+  const strippedDigits =
+    rawDigits.startsWith(countryCode.dial) &&
+    rawDigits.length > countryCode.dial.length
+      ? rawDigits.slice(countryCode.dial.length).replace(/^0+/, "")
+      : normalDigits;
+  const digits =
+    strippedDigits.length === countryCode.digits
+      ? strippedDigits
+      : normalDigits;
   const fullNumber = `+${countryCode.dial}${digits}`;
   const isValid = digits.length === countryCode.digits;
 
   const handleSend = async () => {
     if (!isValid || !options) return;
 
-    setSending(true);
-    try {
-      const res = await fetch("/api/v1/whatsapp/send", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          to: fullNumber,
-          message: options.message,
-          productId: options.productId,
-          productName: options.productName,
-        }),
-      });
+    if (!ycloudEnabled) {
+      const phone = getWhatsappNumber();
+      const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(options.message)}`;
+      window.open(waUrl, "_blank");
+      onOpenChange(false);
+      options.onSuccess?.();
+      return;
+    }
 
-      if (res.ok) {
-        setSent(true);
-        savePhone(fullNumber);
-        notificationService.success(t.notification.success);
-        options.onSuccess?.();
-      } else {
-        const body = await res.json().catch(() => ({}));
-        const msg = res.status === 429 ? t.notification.rateLimit : t.notification.error;
-        notificationService.error(body.error || msg);
-      }
-    } catch {
-      notificationService.error(t.notification.error);
-    } finally {
-      setSending(false);
+    onOpenChange(false);
+    const result = await whatsappSendAction({
+      to: fullNumber,
+      message: options.message,
+      productId: options.productId,
+      productName: options.productName,
+    });
+
+    if (result.success) {
+      savePhone(fullNumber);
+      notificationService.success(t.notification.success);
+      options.onSuccess?.();
+    } else {
+      notificationService.error(result.error || t.notification.error);
     }
   };
 
@@ -136,40 +152,13 @@ export function WhatsAppDialog({
     }
   };
 
-  const handleRetry = () => {
-    setSent(false);
-    setPhoneNumber("");
-  };
-
-  if (sent) {
-    return (
-      <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{t.sent.title}</DialogTitle>
-            <DialogDescription>{t.sent.description}</DialogDescription>
-          </DialogHeader>
-          <div className="flex flex-col items-center gap-3 py-6">
-            <div className="size-12 rounded-full bg-primary/10 flex items-center justify-center">
-              <IconBrandWhatsapp className="size-6 text-primary" />
-            </div>
-            <p className="text-sm text-muted-foreground text-center">{t.sent.message}</p>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={handleRetry}>
-              {t.sent.retry}
-            </Button>
-            <Button onClick={() => onOpenChange(false)}>
-              {t.sent.close}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    );
-  }
-
   return (
-    <Dialog open={open} onOpenChange={(val) => { if (!sending) onOpenChange(val); }}>
+    <Dialog
+      open={open}
+      onOpenChange={(val) => {
+        if (val) onOpenChange(val);
+      }}
+    >
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>{options?.title || t.dialog.title}</DialogTitle>
@@ -178,7 +167,7 @@ export function WhatsAppDialog({
 
         <div className="space-y-4 py-2">
           <div className="flex gap-2">
-              <Popover open={codeOpen} onOpenChange={setCodeOpen}>
+            <Popover open={codeOpen} onOpenChange={setCodeOpen}>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
@@ -205,7 +194,9 @@ export function WhatsAppDialog({
                         >
                           <span className="mr-2">{country.flag}</span>
                           <span className="flex-1">{country.name}</span>
-                          <span className="text-muted-foreground">+{country.dial}</span>
+                          <span className="text-muted-foreground">
+                            +{country.dial}
+                          </span>
                           {countryCode.code === country.code && (
                             <IconCheck className="ml-2 size-4 text-primary" />
                           )}
@@ -220,19 +211,22 @@ export function WhatsAppDialog({
             <Input
               placeholder={t.dialog.phonePlaceholder}
               value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value.replace(/[^0-9]/g, ""))}
+              onChange={(e) =>
+                setPhoneNumber(e.target.value.replace(/[^0-9]/g, ""))
+              }
               className="flex-1"
               type="tel"
               autoComplete="tel"
-              disabled={sending}
             />
-            </div>
+          </div>
 
           <p className="text-xs text-muted-foreground">{t.dialog.hint}</p>
 
           {options?.showPreview && options?.message && (
             <div className="rounded-lg bg-muted p-3">
-              <p className="text-xs font-medium text-muted-foreground mb-1">{t.dialog.previewLabel}</p>
+              <p className="text-xs font-medium text-muted-foreground mb-1">
+                {t.dialog.previewLabel}
+              </p>
               <p className="text-sm whitespace-pre-wrap break-words">
                 {options.message}
               </p>
@@ -244,23 +238,16 @@ export function WhatsAppDialog({
           <Button
             variant="outline"
             onClick={() => onOpenChange(false)}
-            disabled={sending}
           >
             {t.dialog.cancel}
           </Button>
           <Button
             onClick={handleSend}
-            disabled={!isValid || sending}
+            disabled={!isValid}
             className="gap-2"
           >
-            {sending ? (
-              <>{t.dialog.sending}</>
-            ) : (
-              <>
-                <IconBrandWhatsapp className="size-4" />
-                {t.dialog.send}
-              </>
-            )}
+            <IconBrandWhatsapp className="size-4" />
+            {t.dialog.send}
           </Button>
         </DialogFooter>
       </DialogContent>

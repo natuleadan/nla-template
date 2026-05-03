@@ -48,7 +48,12 @@ interface ProductOption {
   category: string;
 }
 
-function formatFullDate(dayName: string, time: string, dayNames: Record<string, number>, locale = "es"): string {
+function formatFullDate(
+  dayName: string,
+  time: string,
+  dayNames: Record<string, number>,
+  locale = "es",
+): string {
   const now = new Date();
   const todayDayOfWeek = now.getDay();
   const targetDay = dayNames[dayName];
@@ -68,7 +73,13 @@ function formatFullDate(dayName: string, time: string, dayNames: Record<string, 
   });
 }
 
-export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDialogProps) {
+export function SlotDialog({
+  slot,
+  dayName,
+  date,
+  open,
+  onOpenChange,
+}: SlotDialogProps) {
   const searchParams = useSearchParams();
   const { openWhatsApp } = useWhatsApp();
   const lang = useLang();
@@ -78,9 +89,13 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
   const [selectedProduct, setSelectedProduct] = useState("");
 
   const [types, setTypes] = useState<string[]>([]);
-  const [selectedType, setSelectedType] = useState(slot?.type || searchParams.get("tipo") || "");
+  const [selectedType, setSelectedType] = useState(
+    slot?.type || searchParams.get("tipo") || "",
+  );
   const [availableSlots, setAvailableSlots] = useState<AgendaSlotInfo[]>([]);
-  const [pickedSlotOverride, setPickedSlotOverride] = useState<AgendaSlotInfo | null | undefined>(undefined);
+  const [pickedSlotOverride, setPickedSlotOverride] = useState<
+    AgendaSlotInfo | null | undefined
+  >(undefined);
 
   useEffect(() => {
     setMessage(searchParams.get("mensaje") || "");
@@ -95,7 +110,13 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
     const h = searchParams.get("hora");
     const t = searchParams.get("tipo");
     if (d && h) {
-      return { dayName: d, dayNumber: 0, monthName: "", time: h, type: t || "" };
+      return {
+        dayName: d,
+        dayNumber: 0,
+        monthName: "",
+        time: h,
+        type: t || "",
+      };
     }
     if (slot && dayName) {
       const now = new Date();
@@ -108,7 +129,9 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
       return {
         dayName,
         dayNumber: slotDate.getDate(),
-        monthName: slotDate.toLocaleDateString(getDateLocale(lang), { month: "short" }).replace(".", ""),
+        monthName: slotDate
+          .toLocaleDateString(getDateLocale(lang), { month: "short" })
+          .replace(".", ""),
         time: slot.time,
         type: slot.type || "",
       };
@@ -116,7 +139,8 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
     return null;
   }, [slot, dayName, searchParams, lang, cfg.dayNames]);
 
-  const pickedSlot = pickedSlotOverride !== undefined ? pickedSlotOverride : urlSlot;
+  const pickedSlot =
+    pickedSlotOverride !== undefined ? pickedSlotOverride : urlSlot;
 
   useEffect(() => {
     if (!open) return;
@@ -136,13 +160,15 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
   const loadProducts = useCallback(async () => {
     try {
       const products = await getAllProducts(lang);
-      setProducts(products.map((p) => ({
-        id: p.id,
-        name: p.name,
-        slug: p.slug,
-        price: p.price,
-        category: p.category,
-      })));
+      setProducts(
+        products.map((p) => ({
+          id: p.id,
+          name: p.name,
+          slug: p.slug,
+          price: p.price,
+          category: p.category,
+        })),
+      );
     } catch {
       // Silently fail
     }
@@ -193,14 +219,20 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
               <p className="text-sm font-medium capitalize">{dayLabel}</p>
               {types.length > 0 && (
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">{cfg.agenda.slot.typeLabel}</label>
+                  <label className="text-sm font-medium">
+                    {cfg.agenda.slot.typeLabel}
+                  </label>
                   <Select value={selectedType} onValueChange={handleTypeChange}>
                     <SelectTrigger>
-                      <SelectValue placeholder={cfg.agenda.slot.typePlaceholder} />
+                      <SelectValue
+                        placeholder={cfg.agenda.slot.typePlaceholder}
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       {types.map((t) => (
-                        <SelectItem key={t} value={t}>{t}</SelectItem>
+                        <SelectItem key={t} value={t}>
+                          {t}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -231,11 +263,13 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
           <div className="py-4 space-y-3">
             <Select value={selectedType} onValueChange={handleTypeChange}>
               <SelectTrigger>
-              <SelectValue placeholder={cfg.agenda.slot.typePlaceholder} />
+                <SelectValue placeholder={cfg.agenda.slot.typePlaceholder} />
               </SelectTrigger>
               <SelectContent>
                 {types.map((t) => (
-                  <SelectItem key={t} value={t}>{t}</SelectItem>
+                  <SelectItem key={t} value={t}>
+                    {t}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -249,7 +283,9 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
                     onClick={() => handlePickSlot(s)}
                   >
                     <span className="text-sm">
-                      <span className="font-medium">{s.dayName} {s.dayNumber} {s.monthName}</span>{" "}
+                      <span className="font-medium">
+                        {s.dayName} {s.dayNumber} {s.monthName}
+                      </span>{" "}
                       <span className="text-muted-foreground">{s.time} h</span>
                     </span>
                   </Button>
@@ -275,16 +311,24 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
 
   const selected = products.find((p) => p.id === selectedProduct);
 
-  const baseUrl = typeof window !== "undefined"
-    ? `${window.location.protocol}//${window.location.host}`
-    : getBaseUrl();
+  const baseUrl =
+    typeof window !== "undefined"
+      ? `${window.location.protocol}//${window.location.host}`
+      : getBaseUrl();
 
-  const fullDate = formatFullDate(pickedSlot.dayName, pickedSlot.time, cfg.dayNames, lang);
+  const fullDate = formatFullDate(
+    pickedSlot.dayName,
+    pickedSlot.time,
+    cfg.dayNames,
+    lang,
+  );
 
   const shareUrl = `${baseUrl}/agenda?dia=${encodeURIComponent(pickedSlot.dayName)}&hora=${encodeURIComponent(pickedSlot.time)}&tipo=${encodeURIComponent(selectedType)}${selected ? `&producto=${encodeURIComponent(selected.slug)}` : ""}${message.trim() ? `&mensaje=${encodeURIComponent(message.trim())}` : ""}`;
 
   const handleConsultar = () => {
-    const productInfo = selected ? { name: selected.name, price: selected.price } : undefined;
+    const productInfo = selected
+      ? { name: selected.name, price: selected.price }
+      : undefined;
     const mensaje = cfg.agenda.slot.whatsappTemplate(
       fullDate,
       pickedSlot.time,
@@ -292,8 +336,8 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
       message.trim() || undefined,
       productInfo,
     );
-    openWhatsApp({ message: mensaje, title: cfg.agenda.slot.dialogTitle });
     onOpenChange(false);
+    openWhatsApp({ message: mensaje, title: cfg.agenda.slot.dialogTitle });
   };
 
   const handleCopyLink = async () => {
@@ -317,11 +361,13 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
         <div className="py-2 space-y-3">
           <Select value={selectedType} onValueChange={handleTypeChange}>
             <SelectTrigger>
-               <SelectValue placeholder={cfg.agenda.slot.typePlaceholder} />
+              <SelectValue placeholder={cfg.agenda.slot.typePlaceholder} />
             </SelectTrigger>
             <SelectContent>
               {types.map((t) => (
-                <SelectItem key={t} value={t}>{t}</SelectItem>
+                <SelectItem key={t} value={t}>
+                  {t}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -355,7 +401,16 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
             {selected && (
               <div className="flex items-center justify-between px-1">
                 <div className="flex items-center gap-2">
-                  <Badge variant={selected.category === "suplemento" ? "default" : selected.category === "servicio" ? "outline" : "secondary"} className="text-xs">
+                  <Badge
+                    variant={
+                      selected.category === "suplemento"
+                        ? "default"
+                        : selected.category === "servicio"
+                          ? "outline"
+                          : "secondary"
+                    }
+                    className="text-xs"
+                  >
                     {cfg.categoryBadge[selected.category] || selected.category}
                   </Badge>
                 </div>
@@ -380,7 +435,11 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
             <IconCopy className="size-4" />
             {cfg.agenda.slot.share}
           </Button>
-          <Button onClick={handleConsultar} className="gap-2" disabled={message.trim().length < 10}>
+          <Button
+            onClick={handleConsultar}
+            className="gap-2"
+            disabled={message.trim().length < 10}
+          >
             <IconBrandWhatsapp className="size-4" />
             {cfg.agenda.slot.consult}
           </Button>

@@ -1,20 +1,37 @@
 import { NextRequest } from "next/server";
-import { getYcloudApiKey, getYcloudWebhookSecret, getAdminPhone, isDev } from "@/lib/env";
+import {
+  getYcloudApiKey,
+  getYcloudEnabled,
+  getYcloudWebhookSecret,
+  getAdminPhone,
+  isDev,
+} from "@/lib/env";
+import { getConfig } from "@/lib/locale/config";
 import { sendWhatsApp } from "@/lib/external/whatsapp/send";
 import { AgentService } from "@/lib/modules/agents/service";
 import {
-  isDuplicate, anonymizePhone, pushMsg, peekLatest, drainAll, isDerived,
+  isDuplicate,
+  anonymizePhone,
+  pushMsg,
+  peekLatest,
+  drainAll,
+  isDerived,
 } from "@/lib/modules/agents/session-store";
-import { isRedisConfigured } from "@/lib/external/upstash/redis";
+import { isRedisConfigured } from "@/lib/external/upstash/client";
 import { transcribeAudio } from "@/lib/external/ai/transcribe.service";
 import { analyzeImage, analyzePdf } from "@/lib/external/ai/image.service";
+import { YCloudWebhookPayloadSchema, apiError } from "@/lib/api/schemas";
 
 const WEBHOOK_SECRET = getYcloudWebhookSecret();
 
-async function verifySignature(rawBody: string, header: string | null): Promise<boolean> {
+async function verifySignature(
+  rawBody: string,
+  header: string | null,
+): Promise<boolean> {
   if (!WEBHOOK_SECRET || !header) return false;
   const parts = header.split(",");
-  let ts = "", sig = "";
+  let ts = "",
+    sig = "";
   for (const p of parts) {
     const [k, v] = p.split("=");
     if (k === "t") ts = v;
@@ -22,46 +39,46 @@ async function verifySignature(rawBody: string, header: string | null): Promise<
   }
   if (!ts || !sig) return false;
   try {
-    const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(WEBHOOK_SECRET), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
-    const s = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(`${ts}.${rawBody}`));
-    return Array.from(new Uint8Array(s)).map((b) => b.toString(16).padStart(2, "0")).join("") === sig;
-  } catch { return false; }
-}
-
-interface MediaMsg {
-  link?: string; caption?: string; mime_type?: string; filename?: string;
-}
-
-interface YCloudWebhookPayload {
-  id?: string; type?: string;
-  whatsappInboundMessage?: {
-    id?: string; wamid?: string; from?: string;
-    customerProfile?: { name?: string }; type?: string;
-    text?: { body?: string };
-    image?: MediaMsg;
-    audio?: MediaMsg & { voice?: boolean };
-    video?: MediaMsg;
-    document?: MediaMsg & { filename?: string };
-    voice?: MediaMsg;
-    sticker?: MediaMsg;
-    reaction?: { emoji?: string; message_id?: string };
-    order?: { product_id?: string; quantity?: number };
-    system?: { body?: string };
-    button?: { payload?: string; text?: string };
-    interactive?: { type?: string; button_reply?: { id?: string; title?: string }; list_reply?: { id?: string; title?: string; description?: string } };
-    location?: { latitude?: number; longitude?: number; name?: string; address?: string };
-  };
+    const key = await crypto.subtle.importKey(
+      "raw",
+      new TextEncoder().encode(WEBHOOK_SECRET),
+      { name: "HMAC", hash: "SHA-256" },
+      false,
+      ["sign"],
+    );
+    const s = await crypto.subtle.sign(
+      "HMAC",
+      key,
+      new TextEncoder().encode(`${ts}.${rawBody}`),
+    );
+    return (
+      Array.from(new Uint8Array(s))
+        .map((b) => b.toString(16).padStart(2, "0"))
+        .join("") === sig
+    );
+  } catch {
+    return false;
+  }
 }
 
 function markAsRead(id: string): void {
   const k = getYcloudApiKey();
   if (!k) return;
-  fetch(`https://api.ycloud.com/v2/whatsapp/inboundMessages/${id}/typingIndicator`, {
-    method: "POST", headers: { "X-API-Key": k },
-  }).catch(() => {});
+  fetch(
+    `https://api.ycloud.com/v2/whatsapp/inboundMessages/${id}/typingIndicator`,
+    {
+      method: "POST",
+      headers: { "X-API-Key": k },
+    },
+  ).catch(() => {});
 }
 
 export async function GET(req: NextRequest) {
+  if (!getYcloudEnabled()) {
+    return new Response(getConfig("es").ui.whatsapp.send.ycloudDisabled, {
+      status: 501,
+    });
+  }
   const s = new URL(req.url).searchParams.get("secret");
   if (!s) return new Response("Missing secret", { status: 400 });
   if (!WEBHOOK_SECRET) return new Response("Not configured", { status: 500 });
@@ -70,19 +87,33 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  if (!getYcloudEnabled()) {
+    return new Response(getConfig("es").ui.whatsapp.send.ycloudDisabled, {
+      status: 501,
+    });
+  }
   const raw = await req.text();
   const sig = req.headers.get("ycloud-signature");
   if (WEBHOOK_SECRET && sig && !(await verifySignature(raw, sig))) {
     return new Response("Bad signature", { status: 403 });
   }
 
-  let p: YCloudWebhookPayload;
-  try { p = JSON.parse(raw); } catch { return new Response("Bad JSON", { status: 400 }); }
-  if (p.type !== "whatsapp.inbound_message.received") return new Response("OK", { status: 200 });
+  let body: Record<string, unknown>;
+  try {
+    body = JSON.parse(raw);
+  } catch {
+    return apiError(400, "Bad JSON");
+  }
+  const parsed = YCloudWebhookPayloadSchema.safeParse(body);
+  if (!parsed.success) return apiError(400, "Webhook inválido");
+  const p = parsed.data;
+  if (p.type !== "whatsapp.inbound_message.received")
+    return new Response("OK", { status: 200 });
 
   const m = p.whatsappInboundMessage;
   if (!m || !m.from) return new Response("OK", { status: 200 });
-  if (m.wamid && (await isDuplicate(m.wamid))) return new Response("OK", { status: 200 });
+  if (m.wamid && (await isDuplicate(m.wamid)))
+    return new Response("OK", { status: 200 });
 
   const phone = m.from.replace("+", "");
   const aid = await anonymizePhone(phone);
@@ -97,29 +128,41 @@ export async function POST(req: NextRequest) {
   } else if (t === "button" && m.button?.text) {
     text = m.button.text;
   } else if (t === "interactive") {
-    text = m.interactive?.button_reply?.title || m.interactive?.list_reply?.title || "";
+    text =
+      m.interactive?.button_reply?.title ||
+      m.interactive?.list_reply?.title ||
+      "";
   } else if (t === "location" && m.location) {
-    text = `[Ubicación: ${[m.location.name, m.location.address].filter(Boolean).join(", ")}]`.trim();
+    text =
+      `[Ubicación: ${[m.location.name, m.location.address].filter(Boolean).join(", ")}]`.trim();
     if (m.location.latitude && m.location.longitude) {
       text += ` (GPS: ${m.location.latitude}, ${m.location.longitude})`;
     }
   } else if (t === "request_welcome") {
-    text = "Hola, soy nuevo cliente";
+    text = getConfig("es").ui.media.welcomeText;
   } else if (t === "image" && m.image) {
     const analyzed = await analyzeImage(m.image.link || "", m.image.caption);
-    text = analyzed ? `[Imagen: ${analyzed}]` : (m.image.caption ? `[Imagen: ${m.image.caption}]` : "[Imagen]");
+    text = analyzed
+      ? `[Imagen: ${analyzed}]`
+      : m.image.caption
+        ? `[Imagen: ${m.image.caption}]`
+        : "[Imagen]";
   } else if (t === "audio" && m.audio) {
     const transcribed = await transcribeAudio(m.audio.link || "");
     text = transcribed ? `[Audio transcrito: ${transcribed}]` : "[Audio]";
   } else if (t === "voice" && m.voice) {
     const transcribed = await transcribeAudio(m.voice.link || "");
-    text = transcribed ? `[Nota de voz transcrita: ${transcribed}]` : "[Nota de voz]";
+    text = transcribed
+      ? `[Nota de voz transcrita: ${transcribed}]`
+      : "[Nota de voz]";
   } else if (t === "video") {
     text = m.video?.caption ? `[Video: ${m.video.caption}]` : "[Video]";
   } else if (t === "document" && m.document) {
     if (m.document.mime_type === "application/pdf" && m.document.link) {
       const extracted = await analyzePdf(m.document.link, m.document.caption);
-      text = extracted ? `[PDF extraído: ${extracted}]` : `[Documento: ${m.document.filename || "PDF"}]`;
+      text = extracted
+        ? `[PDF extraído: ${extracted}]`
+        : `[Documento: ${m.document.filename || "PDF"}]`;
     } else {
       text = `[Documento: ${m.document.filename || "sin nombre"}]`;
     }
@@ -132,10 +175,31 @@ export async function POST(req: NextRequest) {
     text = `[Pedido: producto ${m.order.product_id || "desconocido"}, cantidad ${m.order.quantity || 1}]`;
   } else if (t === "system" && m.system) {
     text = `[Sistema: ${m.system.body || "evento del sistema"}]`;
-  } else if (t === "contacts" && (m as { contacts?: Array<{ name?: { formatted_name?: string }; phones?: Array<{ phone?: string }> }> }).contacts?.length) {
-    const parts = (m as { contacts?: Array<{ name?: { formatted_name?: string }; phones?: Array<{ phone?: string }> }> }).contacts!.map((c) => {
+  } else if (
+    t === "contacts" &&
+    (
+      m as {
+        contacts?: Array<{
+          name?: { formatted_name?: string };
+          phones?: Array<{ phone?: string }>;
+        }>;
+      }
+    ).contacts?.length
+  ) {
+    const parts = (
+      m as {
+        contacts?: Array<{
+          name?: { formatted_name?: string };
+          phones?: Array<{ phone?: string }>;
+        }>;
+      }
+    ).contacts!.map((c) => {
       const n = c.name?.formatted_name || "";
-      const p = c.phones?.map((ph) => ph.phone).filter(Boolean).join(", ") || "";
+      const p =
+        c.phones
+          ?.map((ph) => ph.phone)
+          .filter(Boolean)
+          .join(", ") || "";
       return [n, p].filter(Boolean).join(" - ");
     });
     text = `[Contacto: ${parts.join("; ")}]`;
@@ -160,11 +224,19 @@ export async function POST(req: NextRequest) {
   if (msgId) markAsRead(msgId);
 
   try {
-  const response = await AgentService.processMessage(text, { phone, customerName: name, isAdmin: phone === getAdminPhone() });
+    const response = await AgentService.processMessage(text, {
+      phone,
+      customerName: name,
+      isAdmin: phone === getAdminPhone(),
+    });
     await sendWhatsApp(`+${phone}`, response);
   } catch (err) {
-    if (isDev) console.error("[YCLOUD] Error:", err);
-    await sendWhatsApp(`+${phone}`, "Lo siento, tuve un problema. Intenta de nuevo.");
+    if (isDev)
+      console.error(
+        "[YCLOUD] Error:",
+        err instanceof Error ? err.message : err,
+      );
+    await sendWhatsApp(`+${phone}`, getConfig("es").ui.agent.sendError);
   }
 
   return new Response("OK", { status: 200 });

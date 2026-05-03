@@ -1,92 +1,59 @@
-import { getYcloudApiKey, getWhatsappNumber, serverError } from "@/lib/env";
-import { Configuration, WhatsappMessagesApi, WhatsappMessageType } from "@ycloud-cpaas/ycloud-sdk-node";
-import { perMinute, perHour, globalPerHour, getClientIp } from "@/lib/rate-limit";
-import { isRedisConfigured, getRedis } from "@/lib/external/upstash/redis";
-import { anonymizePhone, addToHistory } from "@/lib/modules/agents/session-store";
+import {
+  getYcloudApiKey,
+  getYcloudEnabled,
+  getWhatsappNumber,
+  serverError,
+  validateApiKey,
+  unauthorized,
+} from "@/lib/env";
+import { getClientIp } from "@/lib/rate-limit";
+import { getConfig } from "@/lib/locale/config";
+import {
+  Configuration,
+  WhatsappMessagesApi,
+  WhatsappMessageType,
+} from "@ycloud-cpaas/ycloud-sdk-node";
+import { whatsappSendRateLimit } from "@/lib/external/upstash/ratelimit.service";
+import {
+  anonymizePhone,
+  addToHistory,
+} from "@/lib/modules/agents/session-store";
+import { WhatsAppSendBodySchema, apiError } from "@/lib/api/schemas";
 
 export async function POST(request: Request) {
+  if (!validateApiKey(request)) {
+    return unauthorized();
+  }
+
+  const url = new URL(request.url);
+  const locale = url.searchParams.get("locale") || "es";
+  const t = getConfig(locale).ui.whatsapp.send;
+
+  if (!getYcloudEnabled()) {
+    return Response.json({ error: t.ycloudDisabled }, { status: 501 });
+  }
+
   try {
     const apiKey = getYcloudApiKey();
     const from = getWhatsappNumber();
 
     if (!apiKey) {
-      return Response.json(
-        { error: "WhatsApp API no configurada (YCLOUD_API_KEY)" },
-        { status: 500 },
-      );
+      return Response.json({ error: t.notConfigured }, { status: 500 });
     }
 
     if (!from) {
-      return Response.json(
-        { error: "WhatsApp número de negocio no configurado (NEXT_PUBLIC_WHATSAPP_NUMBER)" },
-        { status: 500 },
-      );
+      return Response.json({ error: t.numberNotConfigured }, { status: 500 });
     }
 
-    const body = await request.json().catch(() => ({}));
-    const { to, message } = body;
-
-    if (!to || !message) {
-      return Response.json(
-        { error: "Faltan parámetros requeridos: to, message" },
-        { status: 400 },
-      );
-    }
+    const raw = await request.json().catch(() => ({}));
+    const parsed = WhatsAppSendBodySchema.safeParse(raw);
+    if (!parsed.success) return apiError(400, t.missingParams);
+    const { to, message, productId, productName } = parsed.data;
 
     const ip = getClientIp(request);
-    const ipKey = `wa:ratelimit:ip:${ip}`;
-    const toKey = `wa:ratelimit:to:${to}`;
-
-    if (isRedisConfigured()) {
-      const r = getRedis();
-      const [ipOk, toOk] = await Promise.all([
-        r.setnx(ipKey, "1").then((ok) => { if (ok) r.expire(ipKey, 30); return ok === 1; }),
-        r.setnx(toKey, "1").then((ok) => { if (ok) r.expire(toKey, 30); return ok === 1; }),
-      ]);
-      if (!ipOk) {
-        return Response.json(
-          { error: "Más despacio. Inténtalo en 30 segundos." },
-          { status: 429 },
-        );
-      }
-      if (!toOk) {
-        return Response.json(
-          { error: "Demasiados mensajes a este número. Espera 30 segundos." },
-          { status: 429 },
-        );
-      }
-    } else {
-      const globalCheck = globalPerHour.check("global");
-      if (!globalCheck.allowed) {
-        return Response.json(
-          { error: "Demasiados mensajes enviados. Intenta más tarde." },
-          { status: 429 },
-        );
-      }
-
-      const ipPerMinCheck = perMinute.check(ipKey);
-      if (!ipPerMinCheck.allowed) {
-        return Response.json(
-          { error: "Demasiadas solicitudes. Espera un minuto." },
-          { status: 429 },
-        );
-      }
-
-      const ipPerHourCheck = perHour.check(ipKey);
-      if (!ipPerHourCheck.allowed) {
-        return Response.json(
-          { error: "Has alcanzado el límite de mensajes por hora." },
-          { status: 429 },
-        );
-      }
-
-      const toPerHourCheck = perHour.check(toKey);
-      if (!toPerHourCheck.allowed) {
-        return Response.json(
-          { error: "Este número ya ha recibido varios mensajes. Intenta más tarde." },
-          { status: 429 },
-        );
-      }
+    const { success } = await whatsappSendRateLimit.limit(`${ip}:${to}`);
+    if (!success) {
+      return Response.json({ error: t.rateLimitIp }, { status: 429 });
     }
 
     const configuration = new Configuration({ apiKey });
@@ -100,7 +67,7 @@ export async function POST(request: Request) {
     });
 
     const aid = await anonymizePhone(to.replace("+", ""));
-    const productContext = body.productName ? ` [Producto: ${body.productName}]` : "";
+    const productContext = productName ? ` [Producto: ${productName}]` : "";
     await addToHistory(aid, {
       role: "system",
       content: `[Botón presionado]${productContext} Mensaje enviado al cliente: "${message}"`,
@@ -108,9 +75,21 @@ export async function POST(request: Request) {
 
     return Response.json({ success: true, data: response.data });
   } catch (error: unknown) {
-    const err = error as { response?: { data?: { error?: { message?: string }; message?: string }; status?: number }; message?: string };
+    const err = error as {
+      response?: {
+        data?: { error?: { message?: string }; message?: string };
+        status?: number;
+      };
+      message?: string;
+    };
     const ycErr = err.response?.data;
-    const msg = typeof ycErr === "object" && ycErr !== null ? (ycErr as { error?: { message?: string }; message?: string }).error?.message || (ycErr as { message?: string }).message || "Error al enviar mensaje" : "Error al enviar mensaje";
+    const msg =
+      typeof ycErr === "object" && ycErr !== null
+        ? (ycErr as { error?: { message?: string }; message?: string }).error
+            ?.message ||
+          (ycErr as { message?: string }).message ||
+          t.sendError
+        : t.sendError;
     return serverError(msg);
   }
 }

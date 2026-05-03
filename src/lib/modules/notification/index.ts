@@ -81,7 +81,7 @@ export const notificationService = {
     });
   },
 
-  dismiss: (id?: string) => {
+  dismiss: (id?: string | number) => {
     if (id) {
       toast.dismiss(id);
     } else {
@@ -100,7 +100,10 @@ export const notificationService = {
   ) => {
     const methods: Record<
       NotificationType,
-      (msg: string, opts?: Record<string, unknown>) => string | number | undefined
+      (
+        msg: string,
+        opts?: Record<string, unknown>,
+      ) => string | number | undefined
     > = {
       success: toast.success,
       error: toast.error,

@@ -1,9 +1,3 @@
-/**
- * Public Environment Variables (safe for browser, prefixed with NEXT_PUBLIC_)
- * Next.js inlines these at compile time via DefinePlugin.
- * Must use STATIC property access (process.env.NEXT_PUBLIC_*) so the compiler can replace them.
- */
-
 export const NODE_ENV = process.env.NODE_ENV || "development";
 export const isDev = NODE_ENV === "development";
 export const isProd = NODE_ENV === "production";
@@ -12,10 +6,6 @@ export const isTest = NODE_ENV === "test";
 export const VERCEL = process.env.VERCEL === "1";
 export const VERCEL_ENV = (process.env.NEXT_PUBLIC_VERCEL_ENV ||
   "development") as "production" | "preview" | "development";
-
-export function getBrandColor(): string {
-  return process.env.NEXT_PUBLIC_BRAND_COLOR || "default";
-}
 
 export function getBaseUrl(): string {
   if (process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL) {
@@ -31,9 +21,3 @@ export function getWhatsappNumber(): string {
 export function getWeekMax(): number {
   return parseInt(process.env.NEXT_PUBLIC_WEEK_MAX || "4", 10);
 }
-
-export function getIndexingEnabled(): boolean {
-  return process.env.NEXT_PUBLIC_INDEXING === "true";
-}
-
-
