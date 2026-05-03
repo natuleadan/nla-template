@@ -1,9 +1,9 @@
 import { safeJsonLd } from "@/lib/utils";
-import { brand, nav } from "@/lib/config/site";
+import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
 import type { Graph, Organization, WebSite, WebPage, BreadcrumbList } from "schema-dts";
 
-export function HomeJsonLd() {
+export function HomeJsonLd({ locale = "es", homeLabel }: { locale?: string; homeLabel?: string }) {
   const baseUrl = getBaseUrl();
 
   const sameAs = [
@@ -39,7 +39,7 @@ export function HomeJsonLd() {
         name: brand.name,
         url: baseUrl,
         description: brand.description,
-        inLanguage: "es",
+        inLanguage: locale,
         publisher: { "@id": `${baseUrl}/#organization` },
         potentialAction: [
           {
@@ -59,7 +59,7 @@ export function HomeJsonLd() {
         name: brand.name,
         isPartOf: { "@id": `${baseUrl}/#website` },
         about: { "@id": `${baseUrl}/#organization` },
-        inLanguage: "es",
+        inLanguage: locale,
       } as unknown as WebPage,
       {
         "@type": "BreadcrumbList",
@@ -68,7 +68,7 @@ export function HomeJsonLd() {
           {
             "@type": "ListItem",
             position: 1,
-            name: nav.items[0].label,
+            name: homeLabel || "Home",
             item: baseUrl,
           },
         ],

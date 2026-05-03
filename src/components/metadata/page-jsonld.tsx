@@ -10,6 +10,7 @@ interface JsonLdWebPageProps {
   datePublished?: string;
   dateModified?: string;
   breadcrumbs?: Array<{ name: string; item: string }>;
+  locale?: string;
 }
 
 export function JsonLdWebPage({
@@ -19,6 +20,7 @@ export function JsonLdWebPage({
   datePublished,
   dateModified,
   breadcrumbs = [],
+  locale = "es",
 }: JsonLdWebPageProps) {
   const baseUrl = getBaseUrl();
 
@@ -30,7 +32,7 @@ export function JsonLdWebPage({
       name: pageName,
       description: pageDescription,
       publisher: { "@id": `${baseUrl}/#organization` },
-      inLanguage: "es",
+      inLanguage: locale,
       speakable: {
         "@type": "SpeakableSpecification",
         cssSelector: [".page-title", ".page-summary"],

@@ -13,6 +13,7 @@ interface JsonLdBlogPostProps {
   dateModified?: string;
   readingTime: number;
   breadcrumbs?: Array<{ name: string; item: string }>;
+  locale?: string;
 }
 
 export function JsonLdBlogPost({
@@ -25,6 +26,7 @@ export function JsonLdBlogPost({
   dateModified,
   readingTime,
   breadcrumbs = [],
+  locale = "es",
 }: JsonLdBlogPostProps) {
   const baseUrl = getBaseUrl();
 
@@ -49,6 +51,7 @@ export function JsonLdBlogPost({
           url: baseUrl,
         },
         mainEntityOfPage: { "@id": url },
+        inLanguage: locale,
         timeRequired: `PT${readingTime}M`,
       } as BlogPosting,
       ...(breadcrumbs.length > 0

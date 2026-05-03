@@ -3,7 +3,7 @@ import type { WithContext, ContactPage, Organization } from "schema-dts";
 import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
 
-export function JsonLdContact() {
+export function JsonLdContact({ locale = "es" }: { locale?: string }) {
   const baseUrl = getBaseUrl();
 
   const jsonLd: WithContext<ContactPage> = {
@@ -21,7 +21,7 @@ export function JsonLdContact() {
         telephone: brand.phone,
         email: brand.email,
         contactType: "customer service",
-        availableLanguage: ["es"],
+        availableLanguage: [locale],
       },
       address: {
         "@type": "PostalAddress",
