@@ -35,7 +35,7 @@ function isTypingTarget(target: EventTarget | null) {
 }
 
 function ThemeHotkey() {
-  const { resolvedTheme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
 
   React.useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -55,7 +55,13 @@ function ThemeHotkey() {
         return;
       }
 
-      setTheme(resolvedTheme === "dark" ? "light" : "dark");
+      if (theme === "system") {
+        setTheme(resolvedTheme === "dark" ? "light" : "dark");
+      } else if (theme === "light") {
+        setTheme("dark");
+      } else {
+        setTheme("system");
+      }
     }
 
     window.addEventListener("keydown", onKeyDown);
@@ -63,7 +69,7 @@ function ThemeHotkey() {
     return () => {
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [resolvedTheme, setTheme]);
+  }, [theme, setTheme, resolvedTheme]);
 
   return null;
 }

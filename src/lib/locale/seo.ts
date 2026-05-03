@@ -1,4 +1,4 @@
-const SUPPORTED_LOCALES = ["en", "es"] as const;
+export const SUPPORTED_LOCALES = ["en", "es"] as const;
 
 export function getAlternateLanguages(
   currentLang: string,
