@@ -1,0 +1,90 @@
+import type { AgendaDay } from "@/lib/modules/agenda";
+
+export const agendaData: AgendaDay[] = [
+  {
+    name: "Monday",
+    nameShort: "Mon",
+    dayOfWeek: 1,
+    slots: [
+      { time: "09:00", available: true, type: "General Care" },
+      { time: "10:00", available: true, type: "General Care" },
+      { time: "11:00", available: true, type: "Follow-up" },
+      { time: "12:00", available: true, type: "Consultation" },
+      { time: "15:00", available: true, type: "First Visit" },
+      { time: "16:00", available: true, type: "General Care" },
+      { time: "17:00", available: true, type: "Follow-up" },
+    ],
+  },
+  {
+    name: "Tuesday",
+    nameShort: "Tue",
+    dayOfWeek: 2,
+    slots: [
+      { time: "09:00", available: true, type: "First Visit" },
+      { time: "10:00", available: true, type: "General Care" },
+      { time: "11:00", available: true, type: "Consultation" },
+      { time: "12:00", available: true, type: "Follow-up" },
+      { time: "15:00", available: true, type: "General Care" },
+      { time: "16:00", available: true, type: "First Visit" },
+      { time: "17:00", available: true, type: "General Care" },
+      { time: "18:00", available: true, type: "Follow-up" },
+    ],
+  },
+  {
+    name: "Wednesday",
+    nameShort: "Wed",
+    dayOfWeek: 3,
+    slots: [
+      { time: "09:00", available: true, type: "General Care" },
+      { time: "10:00", available: true, type: "Follow-up" },
+      { time: "11:00", available: true, type: "Consultation" },
+      { time: "12:00", available: true, type: "First Visit" },
+      { time: "15:00", available: true, type: "General Care" },
+      { time: "16:00", available: true, type: "General Care" },
+    ],
+  },
+  {
+    name: "Thursday",
+    nameShort: "Thu",
+    dayOfWeek: 4,
+    slots: [
+      { time: "09:00", available: true, type: "Consultation" },
+      { time: "10:00", available: true, type: "General Care" },
+      { time: "11:00", available: true, type: "First Visit" },
+      { time: "12:00", available: true, type: "Follow-up" },
+      { time: "15:00", available: true, type: "General Care" },
+      { time: "16:00", available: true, type: "Follow-up" },
+      { time: "17:00", available: true, type: "General Care" },
+    ],
+  },
+  {
+    name: "Friday",
+    nameShort: "Fri",
+    dayOfWeek: 5,
+    slots: [
+      { time: "09:00", available: true, type: "General Care" },
+      { time: "10:00", available: true, type: "First Visit" },
+      { time: "11:00", available: true, type: "Follow-up" },
+      { time: "12:00", available: true, type: "Consultation" },
+      { time: "15:00", available: true, type: "General Care" },
+      { time: "16:00", available: true, type: "General Care" },
+    ],
+  },
+  {
+    name: "Saturday",
+    nameShort: "Sat",
+    dayOfWeek: 6,
+    slots: [
+      { time: "09:00", available: true, type: "General Care" },
+      { time: "10:00", available: true, type: "First Visit" },
+      { time: "11:00", available: true, type: "Follow-up" },
+      { time: "12:00", available: true, type: "Consultation" },
+    ],
+  },
+  {
+    name: "Sunday",
+    nameShort: "Sun",
+    dayOfWeek: 0,
+    slots: [],
+  },
+];
