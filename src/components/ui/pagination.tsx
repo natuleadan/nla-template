@@ -7,12 +7,15 @@ import {
   IconChevronRight,
   IconDots,
 } from "@tabler/icons-react";
+import { getConfig } from "@/lib/locale/config";
+
+const ui = getConfig("en").ui;
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   return (
     <nav
       role="navigation"
-      aria-label="pagination"
+      aria-label={ui.pagination.ariaLabel}
       data-slot="pagination"
       className={cn("mx-auto flex w-full justify-center", className)}
       {...props}
@@ -67,12 +70,12 @@ function PaginationLink({
 
 function PaginationPrevious({
   className,
-  text = "Previous",
+  text = ui.pagination.previous,
   ...props
 }: React.ComponentProps<typeof PaginationLink> & { text?: string }) {
   return (
     <PaginationLink
-      aria-label="Go to previous page"
+      aria-label={ui.pagination.previousAria}
       size="default"
       className={cn("pl-1.5!", className)}
       {...props}
@@ -85,12 +88,12 @@ function PaginationPrevious({
 
 function PaginationNext({
   className,
-  text = "Next",
+  text = ui.pagination.next,
   ...props
 }: React.ComponentProps<typeof PaginationLink> & { text?: string }) {
   return (
     <PaginationLink
-      aria-label="Go to next page"
+      aria-label={ui.pagination.nextAria}
       size="default"
       className={cn("pr-1.5!", className)}
       {...props}
@@ -116,7 +119,7 @@ function PaginationEllipsis({
       {...props}
     >
       <IconDots />
-      <span className="sr-only">More pages</span>
+      <span className="sr-only">{ui.pagination.more}</span>
     </span>
   );
 }

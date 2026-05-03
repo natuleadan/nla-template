@@ -20,6 +20,7 @@ import {
   saveCustomCookiePreferences,
   getCookieConsent,
 } from "@/lib/modules/cookies/client";
+import { notifyCookieConsentWebhook } from "@/lib/modules/cookies/webhook";
 import { useLang } from "@/lib/locale/context";
 import { getConfig } from "@/lib/locale/config";
 
@@ -53,6 +54,7 @@ export function CookieBanner({ onAccept, onReject }: CookieBannerProps) {
     acceptAllCookiesClient();
     setShowBanner(false);
     setShowCookieButton(true);
+    notifyCookieConsentWebhook({ necessary: true, analytics: true, marketing: true });
     onAccept?.();
   };
 
@@ -60,6 +62,7 @@ export function CookieBanner({ onAccept, onReject }: CookieBannerProps) {
     rejectAllCookiesClient();
     setShowBanner(false);
     setShowCookieButton(true);
+    notifyCookieConsentWebhook({ necessary: true, analytics: false, marketing: false });
     onReject?.();
   };
 
@@ -67,6 +70,7 @@ export function CookieBanner({ onAccept, onReject }: CookieBannerProps) {
     saveCustomCookiePreferences(analytics, marketing);
     setShowBanner(false);
     setShowCookieButton(true);
+    notifyCookieConsentWebhook({ necessary: true, analytics, marketing });
     onAccept?.();
   };
 

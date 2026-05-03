@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { IconSun, IconMoon, IconDeviceDesktop, IconCheck } from "@tabler/icons-react";
+import { useLang } from "@/lib/locale/context";
+import { getConfig } from "@/lib/locale/config";
 
 const THEME_MODES = [
   { value: "system", label: "System", icon: IconDeviceDesktop },
@@ -18,11 +20,13 @@ const THEME_MODES = [
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
+  const lang = useLang();
+  const cfg = getConfig(lang);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" aria-label="Toggle dark mode">
+        <Button variant="ghost" size="icon" aria-label={cfg.ui.navbar.themeAriaLabel}>
           <IconSun className="size-5 hidden dark:block" />
           <IconMoon className="size-5 block dark:hidden" />
         </Button>

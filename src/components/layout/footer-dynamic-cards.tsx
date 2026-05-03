@@ -43,16 +43,16 @@ export function FooterDynamicCards() {
     getAllPaginas(lang).then((p) => setPaginas(p.slice(0, 3)));
   }, [lang]);
 
-  const tiendaCol = nav.footer.columns.find((c) => c.title === "Store" || c.title === "Tienda");
-  const blogCol = nav.footer.columns.find((c) => c.title === "Blog");
-  const pagesCol = nav.footer.columns.find((c) => c.title === "Legal");
+  const tiendaCol = nav.footer.columns[0];
+  const blogCol = nav.footer.columns[1];
+  const pagesCol = nav.footer.columns[4];
 
   return (
     <>
       {randomProducts.length > 0 && (
-        <nav aria-label={tiendaCol?.title || "Store"}>
+        <nav aria-label={tiendaCol.title}>
           <h3 className="mb-4 font-semibold">
-            <Link href={l("/tienda")} className="hover:underline">{tiendaCol?.title || "Store"}</Link>
+            <Link href={l("/tienda")} className="hover:underline">{tiendaCol.title}</Link>
           </h3>
           <ul className="space-y-2">
             {randomProducts.map((p) => (
@@ -65,9 +65,9 @@ export function FooterDynamicCards() {
       )}
 
       {recentPosts.length > 0 && (
-        <nav aria-label={blogCol?.title || "Blog"}>
+        <nav aria-label={blogCol.title}>
           <h3 className="mb-4 font-semibold">
-            <Link href={l("/blog")} className="hover:underline">{blogCol?.title || "Blog"}</Link>
+            <Link href={l("/blog")} className="hover:underline">{blogCol.title}</Link>
           </h3>
           <ul className="space-y-2">
             {recentPosts.map((post) => (
@@ -100,9 +100,9 @@ export function FooterDynamicCards() {
       </nav>
 
       {paginas.length > 0 && (
-        <nav aria-label={pagesCol?.title || "Legal"}>
+        <nav aria-label={pagesCol.title}>
           <h3 className="mb-4 font-semibold">
-            <Link href={l("/paginas")} className="hover:underline">{pagesCol?.title || "Legal"}</Link>
+            <Link href={l("/paginas")} className="hover:underline">{pagesCol.title}</Link>
           </h3>
           <ul className="space-y-2">
             {paginas.map((page) => (

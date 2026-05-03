@@ -7,7 +7,7 @@ import { cn } from "@/lib/config/utils";
 import { useLang } from "@/lib/locale/context";
 import { getConfig } from "@/lib/locale/config";
 import { useState, useEffect, useMemo } from "react";
-import { toast } from "sonner";
+import notificationService from "@/lib/modules/notification";
 import type { AgendaSlot, AgendaDay } from "@/lib/modules/agenda";
 
 interface DayColumnProps {
@@ -71,7 +71,7 @@ export function DayColumn({ day, date, targetDay, targetTime, autoOpenDialog }: 
 
   const handleSlotClick = (slot: AgendaSlot) => {
     if (isSlotExpired(slot, date, isPastDay(date))) {
-      toast.error(cfg.agenda.slot.slotUnavailable);
+      notificationService.error(cfg.agenda.slot.slotUnavailable);
       return;
     }
     setSelectedSlot(slot);

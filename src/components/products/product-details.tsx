@@ -153,7 +153,7 @@ export function ProductDetails({
 
   const handleSubmitReview = () => {
     if (!reviewName || !reviewComment || reviewRating === 0) return;
-    const msg = `Quiero dejar una reseña del producto *${product.name}*: ${reviewRating}★ - ${reviewComment}`;
+    const msg = cfg.store.reviews.submitWhatsappTemplate(reviewName, reviewRating, reviewComment, product.name);
     openWhatsApp({ message: msg, title: cfg.store.reviews.whatsappTitle });
   };
 

@@ -3,11 +3,14 @@ import { Slot } from "radix-ui";
 
 import { cn } from "@/lib/config/utils";
 import { IconChevronRight, IconDots } from "@tabler/icons-react";
+import { getConfig } from "@/lib/locale/config";
+
+const ui = getConfig("en").ui;
 
 function Breadcrumb({ className, ...props }: React.ComponentProps<"nav">) {
   return (
     <nav
-      aria-label="breadcrumb"
+      aria-label={ui.breadcrumb.ariaLabel}
       data-slot="breadcrumb"
       className={cn(className)}
       {...props}
@@ -103,7 +106,7 @@ function BreadcrumbEllipsis({
       {...props}
     >
       <IconDots />
-      <span className="sr-only">Más</span>
+      <span className="sr-only">{ui.breadcrumb.more}</span>
     </span>
   );
 }

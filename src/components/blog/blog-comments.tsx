@@ -49,7 +49,7 @@ export function BlogComments({ postSlug, initialComments }: BlogCommentsProps) {
 
   const handleSubmit = () => {
     if (!commentName || !commentText) return;
-    const mensaje = `Quiero comentar el artículo "${postSlug}": ${commentName} - ${commentText}`;
+    const mensaje = cfg.blog.comments.submitWhatsappTemplate(commentName, commentText, postSlug);
     const title = cfg.blog.comments.whatsappTitle;
     openWhatsApp({ message: mensaje, title });
   };

@@ -11,17 +11,19 @@ import {
 import { Button } from "@/components/ui/button";
 import { IconLanguage, IconCheck } from "@tabler/icons-react";
 import { useLang } from "@/lib/locale/context";
+import { getConfig } from "@/lib/locale/config";
 import { SUPPORTED_LOCALES } from "@/lib/locale/seo";
 
 export function LangSwitcher() {
   const lang = useLang();
   const pathname = usePathname();
+  const cfg = getConfig(lang);
   const rest = pathname.replace(/^\/(en|es)/, "") || "/";
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" aria-label="Switch language">
+        <Button variant="ghost" size="icon" aria-label={cfg.ui.navbar.langAriaLabel}>
           <IconLanguage className="size-5" />
         </Button>
       </DropdownMenuTrigger>

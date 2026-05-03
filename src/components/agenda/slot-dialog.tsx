@@ -21,7 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { IconBrandWhatsapp, IconCopy } from "@tabler/icons-react";
-import { toast } from "sonner";
+import notificationService from "@/lib/modules/notification";
 import { getBaseUrl } from "@/lib/env";
 import { useLang } from "@/lib/locale/context";
 import { getConfig, getDateLocale } from "@/lib/locale/config";
@@ -299,9 +299,9 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(shareUrl);
-      toast.success(cfg.ui.share.toastSuccess);
+      notificationService.success(cfg.ui.share.toastSuccess);
     } catch {
-      toast.error(cfg.ui.share.toastError);
+      notificationService.error(cfg.ui.share.toastError);
     }
   };
 

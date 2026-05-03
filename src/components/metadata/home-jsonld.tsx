@@ -1,10 +1,12 @@
 import { safeJsonLd } from "@/lib/utils";
 import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
+import { getConfig } from "@/lib/locale/config";
 import type { Graph, Organization, WebSite, WebPage, BreadcrumbList } from "schema-dts";
 
 export function HomeJsonLd({ locale = "es", homeLabel }: { locale?: string; homeLabel?: string }) {
   const baseUrl = getBaseUrl();
+  const cfg = getConfig(locale);
 
   const sameAs = [
     brand.socialInstagram && `https://instagram.com/${brand.socialInstagram}`,
@@ -68,7 +70,7 @@ export function HomeJsonLd({ locale = "es", homeLabel }: { locale?: string; home
           {
             "@type": "ListItem",
             position: 1,
-            name: homeLabel || "Home",
+            name: homeLabel || cfg.nav.items[0].label,
             item: baseUrl,
           },
         ],

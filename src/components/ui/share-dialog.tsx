@@ -9,14 +9,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import {
-  IconShare,
-  IconBrandX,
-  IconBrandFacebook,
-  IconBrandLinkedin,
-  IconMail,
-} from "@tabler/icons-react";
-import { toast } from "sonner";
+import { IconShare, IconBrandX, IconBrandFacebook, IconBrandLinkedin, IconMail } from "@tabler/icons-react";
+import notificationService from "@/lib/modules/notification";
 import { useLang } from "@/lib/locale/context";
 import { getConfig } from "@/lib/locale/config";
 
@@ -35,9 +29,9 @@ export function ShareDialog({ url, label, title, description, price }: ShareDial
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(url);
-      toast.success(cfg.ui.share.toastSuccess);
+      notificationService.success(cfg.ui.share.toastSuccess);
     } catch {
-      toast.error(cfg.ui.share.toastError);
+      notificationService.error(cfg.ui.share.toastError);
     }
   };
 
@@ -87,7 +81,7 @@ export function ShareDialog({ url, label, title, description, price }: ShareDial
                 aria-label={cfg.ui.share.twitter}
               >
                 <IconBrandX className="size-4" />
-                <span className="text-xs">X</span>
+                <span className="text-xs">{cfg.ui.share.twitterShort}</span>
               </Button>
               <Button
                 variant="outline"
@@ -97,7 +91,7 @@ export function ShareDialog({ url, label, title, description, price }: ShareDial
                 aria-label={cfg.ui.share.facebook}
               >
                 <IconBrandFacebook className="size-4" />
-                <span className="text-xs">FB</span>
+                <span className="text-xs">{cfg.ui.share.facebookShort}</span>
               </Button>
               <Button
                 variant="outline"
@@ -107,7 +101,7 @@ export function ShareDialog({ url, label, title, description, price }: ShareDial
                 aria-label={cfg.ui.share.linkedin}
               >
                 <IconBrandLinkedin className="size-4" />
-                <span className="text-xs">IN</span>
+                <span className="text-xs">{cfg.ui.share.linkedinShort}</span>
               </Button>
               <Button
                 variant="outline"
@@ -124,7 +118,7 @@ export function ShareDialog({ url, label, title, description, price }: ShareDial
                 aria-label={cfg.ui.share.email}
               >
                 <IconMail className="size-4" />
-                <span className="text-xs">ML</span>
+                <span className="text-xs">{cfg.ui.share.emailShort}</span>
               </Button>
             </div>
           </div>
