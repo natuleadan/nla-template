@@ -14,7 +14,7 @@ export const VERCEL_ENV = (process.env.NEXT_PUBLIC_VERCEL_ENV ||
   "development") as "production" | "preview" | "development";
 
 export function getBrandColor(): string {
-  return process.env.NEXT_PUBLIC_BRAND_COLOR || "nla";
+  return process.env.NEXT_PUBLIC_BRAND_COLOR || "default";
 }
 
 export function getBaseUrl(): string {

@@ -1,6 +1,5 @@
 export const ui = {
-  loading: "Cargando...",
-  notFound: "Página no encontrada",
+
   mobileMenuDescription: "Menú de navegación principal",
   skipToContent: "Saltar al contenido principal",
   search: {

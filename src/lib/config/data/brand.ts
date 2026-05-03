@@ -1,16 +1,16 @@
 export const brand = {
   name: "Acme Inc",
   description:
-    "Tu tienda de confianza para suplementos nutricionales y alimentos saludables para el gym.",
+    "Tu tienda online de confianza. Productos seleccionados para tu hogar y oficina.",
   email: "contacto@ejemplo.com",
   phone: "+1 (234) 567-890",
   address: "Calle Principal 123",
   addressCountry: "EC",
-  socialEmail: "contacto@natuleadan.com",
-  socialInstagram: "natuleadan",
-  socialFacebook: "natuleadan",
-  socialTwitter: "natuleadan",
-  socialYoutube: "@natuleadan",
+  socialEmail: "contacto@acme.com",
+  socialInstagram: "acmestore",
+  socialFacebook: "acmestore",
+  socialTwitter: "acmestore",
+  socialYoutube: "@acmestore",
   whatsappMessage: (name: string) => `👋 *Hola! Gracias por escribirnos*
 
 Gracias por comunicarte con *${name}*. Quedamos atentos a tu consulta y te responderemos a la brevedad.
@@ -21,7 +21,7 @@ Gracias por comunicarte con *${name}*. Quedamos atentos a tu consulta y te respo
   whatsappProductId: "consulta-header",
   whatsappProductName: "Consulta desde header",
   metadata: {
-    titleSuffix: (name: string) => `${name} | Tienda de Suplementos y Alimentos`,
-    keywords: ["tienda", "suplementos", "alimentos", "gym", "entrenamiento"],
+    titleSuffix: (name: string) => `${name} | Tienda Online`,
+    keywords: ["tienda", "online", "productos", "oficina", "hogar"],
   },
 };

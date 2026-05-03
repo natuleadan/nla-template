@@ -43,7 +43,7 @@ export function ProductCard({
   const { openWhatsApp } = useWhatsApp();
 
   const handlePedir = () => {
-    const mensaje = store.product.whatsappCompact(name, price, category);
+    const mensaje = store.product.whatsappCompact(name, price);
     openWhatsApp({ message: mensaje, title: name, productName: name });
   };
 

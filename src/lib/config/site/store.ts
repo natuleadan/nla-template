@@ -6,18 +6,18 @@ export { categoryBadge };
 export const store = {
   page: {
     title: "Nuestra Tienda",
-    description: "Encuentra los mejores productos para tu entrenamiento",
+    description: "Encuentra los mejores productos para tu hogar y oficina",
     empty: "No hay productos disponibles",
     metaTitle: (count: number) => `Tienda (${count} productos) | ${brand.name}`,
     metaDescription: (count: number) =>
       count > 0
-        ? `Explora nuestra selecci\u00f3n de ${count} suplementos y alimentos para el gym.`
-        : "Explora nuestra selecci\u00f3n de suplementos y alimentos para el gym.",
+        ? `Explora nuestra selección de ${count} productos.`
+        : "Explora nuestra selección de productos.",
   },
   toolbar: {
     searchPlaceholder: "Buscar productos...",
-    filterLabel: "Filtrar por categor\u00eda",
-    allCategories: "Todas las categor\u00edas",
+    filterLabel: "Filtrar por categoría",
+    allCategories: "Todas las categorías",
     showing: (total: number) => `Mostrando ${total} productos`,
   },
   product: {
@@ -41,14 +41,13 @@ export const store = {
       quantity: number;
       unit: string;
     }) =>
-      `👋 *Hola! Gracias por tu inter\u00e9s en ${brand.name}*
+      `👋 *Hola! Gracias por tu interés en ${brand.name}*
 
-Hemos recibido tu solicitud de informaci\u00f3n sobre el siguiente producto:
+Hemos recibido tu solicitud de información sobre el siguiente producto:
 
 • *Producto:* ${p.name}
 • *Precio:* $${p.price.toFixed(2)}
-• *Categor\u00eda:* ${p.category === "suplemento" ? "Suplemento" : "Alimento"}
-• *Presentaci\u00f3n:* ${p.quantity} ${p.unit}
+• *Presentación:* ${p.quantity} ${p.unit}
 
 ¿En qué podemos ayudarte? Cuéntanos si deseas más detalles o realizar tu pedido.
 
@@ -56,14 +55,13 @@ Hemos recibido tu solicitud de informaci\u00f3n sobre el siguiente producto:
 
 ¡Saludos,
 *${brand.name}*`,
-    whatsappCompact: (name: string, price: number, category: string) =>
-      `👋 *Gracias por tu inter\u00e9s en ${brand.name}!*
+    whatsappCompact: (name: string, price: number) =>
+      `👋 *Gracias por tu interés en ${brand.name}!*
 
 Recibimos tu consulta sobre:
 
 • *Producto:* ${name}
 • *Precio:* $${price.toFixed(2)}
-• *Categor\u00eda:* ${category === "suplemento" ? "Suplemento" : "Alimento"}
 
 ¿Deseas más información o proceder con tu pedido? Escríbenos y te atenderemos.
 
@@ -72,35 +70,35 @@ Recibimos tu consulta sobre:
     starAriaLabel: (star: number) => `${star} estrellas`,
   },
   reviews: {
-    title: (count: number) => `Rese\u00f1as (${count})`,
+    title: (count: number) => `Reseñas (${count})`,
     summary: (avg: number, count: number) =>
-      `${avg.toFixed(1)} de 5 (${count} rese\u00f1as)`,
-    writeTitle: "Escribe una rese\u00f1a",
+      `${avg.toFixed(1)} de 5 (${count} reseñas)`,
+    writeTitle: "Escribe una reseña",
     namePlaceholder: "Tu nombre",
     commentPlaceholder: "Tu comentario...",
-    submit: "Enviar rese\u00f1a",
+    submit: "Enviar reseña",
     submitting: "Enviando...",
-    success: "Enviando rese\u00f1a para revisarla",
-    error: "Error al enviar rese\u00f1a",
+    success: "Enviando reseña para revisarla",
+    error: "Error al enviar reseña",
     validation: "Completa todos los campos",
     pending: "Pendiente",
-    whatsappTitle: "Nueva rese\u00f1a",
+    whatsappTitle: "Nueva reseña",
     whatsappTemplate: (name: string, comment: string, rating: number, productSlug: string, baseUrl: string) =>
-      `👋 *Hola ${name}, gracias por tu rese\u00f1a!*
+      `👋 *Hola ${name}, gracias por tu reseña!*
 
-Hemos recibido tu valoraci\u00f3n para el producto:
+Hemos recibido tu valoración para el producto:
 
 • *Producto:* ${baseUrl}/tienda/${productSlug}
-• *Valoraci\u00f3n:* ${"⭐".repeat(rating)} ${rating}/5
+• *Valoración:* ${"⭐".repeat(rating)} ${rating}/5
 • *Comentario:* "${comment}"
 
-Tu rese\u00f1a ser\u00e1 revisada y publicada pronto. ¡Gracias por ayudarnos a mejorar!
+Tu reseña será revisada y publicada pronto. ¡Gracias por ayudarnos a mejorar!
 
 *${brand.name}*`,
   },
   cart: {
     title: "Carrito de Compras",
-    empty: "Tu carrito est\u00e1 vac\u00edo",
+    empty: "Tu carrito está vacío",
     itemsCount: (count: number) =>
       `${count} producto${count > 1 ? "s" : ""} en tu carrito`,
     perUnit: (price: number) => `$${price.toFixed(2)} c/u`,

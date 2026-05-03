@@ -1,43 +1,41 @@
 export const home = {
   hero: {
-    title: "Tienda en l\u00ednea",
+    title: "Tienda en línea",
     subtitle:
-      "Productos de calidad para tu d\u00eda a d\u00eda. Compra f\u00e1cil y r\u00e1pido. Entrega r\u00e1pida y atenci\u00f3n personalizada.",
+      "Productos de calidad para tu día a día. Compra fácil y rápido. Entrega rápida y atención personalizada.",
     cta: {
       primary: "Ver tienda",
-      secondary: "Cont\u00e1ctanos",
+      secondary: "Contáctanos",
     },
   },
   features: {
-    title: "\u00bfPor qu\u00e9 elegirnos?",
-    subtitle: "Nos diferenciamos por nuestro compromiso con tu \u00e9xito",
+    title: "¿Por qué elegirnos?",
+    subtitle: "Nos diferenciamos por nuestro compromiso con tu satisfacción",
     items: [
       {
-        title: "Entrega r\u00e1pida",
+        title: "Entrega rápida",
         description: "Recibe tus productos en 24-48 horas",
       },
       {
         title: "Calidad garantizada",
-        description: "Productos de las mejores marcas",
+        description: "Productos seleccionados de las mejores marcas",
       },
       {
-        title: "Profesional",
-        description: "Asesor\u00eda personalizada para tu entrenamiento",
+        title: "Atención personalizada",
+        description: "Asesoría vía WhatsApp para ayudarte a elegir",
       },
     ],
   },
   benefits: [
-    { title: "Env\u00edo gratis", description: "En pedidos mayores a $50" },
-    { title: "Atenci\u00f3n 24/7", description: "Estamos siempre disponibles" },
-    {
-      title: "Soporte t\u00e9cnico",
-      description: "Te ayudamos con cualquier duda",
-    },
+    { title: "Envío gratis", description: "En pedidos mayores a $50" },
+    { title: "Pago seguro", description: "Transferencia, depósito o efectivo" },
+    { title: "Soporte", description: "Atención al cliente vía WhatsApp" },
+    { title: "Devoluciones", description: "Cambios y devoluciones sin complicaciones" },
   ],
   cta: {
-    title: "\u00bfListo para empezar?",
+    title: "¿Listo para empezar?",
     description:
-      "Explora nuestra tienda y encuentra los productos perfectos para tu entrenamiento.",
+      "Explora nuestra tienda y encuentra los productos que necesitas.",
     button: "Ver todos los productos",
   },
 };

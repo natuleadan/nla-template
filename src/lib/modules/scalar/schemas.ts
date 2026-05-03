@@ -78,7 +78,7 @@ export const schemas: Record<string, OpenApiSchema> = {
     type: "object",
     properties: {
       id: { type: "string", example: "blog_1" },
-      slug: { type: "string", example: "nutricion-para-el-gym" },
+      slug: { type: "string", example: "guia-de-nutricion" },
       title: { type: "string", example: "Nutrición para el Gym" },
       excerpt: { type: "string", example: "Descubre los mejores alimentos..." },
       content: { type: "string", example: "<p>Contenido del artículo</p>" },

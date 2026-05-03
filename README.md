@@ -38,7 +38,7 @@
 ### E-commerce
 - **Next.js 16** with App Router and Turbopack
 - **shadcn/ui** components for modern UI
-- **REST API** with 13+ v1 CRUD endpoints
+- **REST API** with 9 public GET endpoints + chat + webhook
 - **Scalar API Documentation** at `/api`
 - **WhatsApp API (YCloud)** — send messages via YCloud SDK with country code dialog
 - **Product Gallery** with carousel and fallback images
@@ -76,7 +76,7 @@
 | `findChatByPhone` | `phone` | Looks up session history for a given phone number |
 
 ### Pages & Blog
-- Pages module — legal & policy pages, config-driven
+- Páginas module — legal & policy pages, config-driven
 - Blog module — list + detail with reading time, author
 - OG/Twitter images per page and post
 - JSON-LD structured data
@@ -115,7 +115,7 @@ Redis solo almacena datos de infraestructura del agente. No hay datos de tienda 
 El agente es **solo informativo**: responde con datos de las tools de consulta. Si el usuario necesita una acción (comprar, agendar, cancelar, etc.) y no existe tool, el agente llama `deriveToHuman` y un administrador retoma el chat.
 
 ### Testing
-- **315 tests** (Vitest) — 6 test files
+- **282 tests** (Vitest) — 6 test files
 - Organized by domain: webhook, session-store, tools, API endpoints, config coverage, console guards
 
 ## Technology Stack
@@ -127,7 +127,7 @@ El agente es **solo informativo**: responde con datos de las tools de consulta. 
 - **AI**: Vercel AI SDK + OpenAI (gpt-5-nano via Gateway, Whisper for audio)
 - **WhatsApp**: YCloud API (outbound SDK + inbound webhooks)
 - **Redis**: Upstash (sessions, memory, rate limiting, dedup)
-- **Testing**: Vitest (315 tests)
+- **Testing**: Vitest (282 tests)
 - **CI/CD**: GitHub Actions + Semantic Release
 - **Hosting**: Vercel
 
@@ -163,24 +163,21 @@ El agente es **solo informativo**: responde con datos de las tools de consulta. 
 
 | Route | Methods | Data source | Auth |
 |---|---|---|---|---|
-| `/api/v1/products` | GET, POST, PUT, DELETE | Seed (hardcoded TS) | POST/PUT/DELETE require key |
-| `/api/v1/products/[slug]` | GET, POST, PUT, DELETE | Seed (hardcoded TS) | POST/PUT/DELETE require key |
-| `/api/v1/categories` | GET, POST, PUT, DELETE | Seed (hardcoded TS) | POST/PUT/DELETE require key |
-| `/api/v1/pages` | GET, POST, PUT, DELETE | Seed (hardcoded TS) | POST/PUT/DELETE require key |
-| `/api/v1/paginas` | GET, POST, PUT, DELETE | Seed (hardcoded TS) | POST/PUT/DELETE require key |
-| `/api/v1/paginas/[slug]` | GET, POST, PUT, DELETE | Seed (hardcoded TS) | POST/PUT/DELETE require key |
-| `/api/v1/blog` | GET, POST, PUT, DELETE | Seed (hardcoded TS) | POST/PUT/DELETE require key |
-| `/api/v1/blog/[slug]` | GET, POST, PUT, DELETE | Seed (hardcoded TS) | POST/PUT/DELETE require key |
-| `/api/v1/resenas/[productSlug]` | GET | Seed (in-memory) | Público |
-| `/api/v1/formulario` | GET, POST, PUT, DELETE | In-memory | POST público, GET/PUT/DELETE require key |
-| `/api/v1/agenda` | GET, POST, PUT, DELETE | Seed (in-memory) | POST/PUT/DELETE require key |
+| `/api/v1/products` | GET | Seed (hardcoded TS) | Público |
+| `/api/v1/products/[slug]` | GET | Seed (hardcoded TS) | Público |
+| `/api/v1/categories` | GET | Seed (hardcoded TS) | Público |
+| `/api/v1/paginas` | GET | Seed (hardcoded TS) | Público |
+| `/api/v1/paginas/[slug]` | GET | Seed (hardcoded TS) | Público |
+| `/api/v1/blog` | GET | Seed (hardcoded TS) | Público |
+| `/api/v1/blog/[slug]` | GET | Seed (hardcoded TS) | Público |
+| `/api/v1/resenas/[productSlug]` | GET | Seed (hardcoded TS) | Público |
+| `/api/v1/agenda` | GET | Seed (hardcoded TS) | Público |
 | `/api/v1/chat` | POST | Redis (sessions) + AI | Requiere key |
 | `/api/v1/webhooks/ycloud` | GET, POST | YCloud WhatsApp | Público (HMAC) |
 | `/api/v1/whatsapp/send` | POST | YCloud SDK | Público (rate-limited) |
 
 ### Authentication
-POST/PUT/DELETE endpoints require header: `x-api-key: your_api_key`
-The `/api/v1/chat` endpoint also requires `x-api-key`.
+The `/api/v1/chat` endpoint requires header: `x-api-key: your_api_key`.
 
 ### In-memory Fallback
 When Upstash Redis is not configured (`KV_REST_API_URL` empty), all storage functions fall back to local `Map` objects:
@@ -221,8 +218,8 @@ src/
 │   │   ├── ai/            → Vercel AI SDK (gateway, openai, transcription, image/pdf analysis)
 │   │   └── upstash/       → Redis client
 │   ├── modules/agents/    → Agent service, session-store, tools, schemas
-│   ├── config/data/       → Seed data (products, pages, blog, agenda...)
-│   └── test/              → 310 tests organized by domain
+│   ├── config/data/       → Seed data (products, paginas, blog, agenda...)
+│   └── test/              → 282 tests organized by domain
 └── ...
 ```
 
@@ -247,7 +244,7 @@ src/lib/test/
 | `pnpm build` | Build for production |
 | `pnpm start` | Start production server |
 | `pnpm lint` | ESLint |
-| `pnpm test` | Vitest (315 tests) |
+| `pnpm test` | Vitest (282 tests) |
 | `pnpm format` | Prettier |
 
 ## License
