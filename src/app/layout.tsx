@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
-import { getBaseUrl, getIndexingEnabled, VERCEL } from "@/lib/env";
+import { getBaseUrl, getIndexingEnabled, VERCEL_ENV } from "@/lib/env";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { Navbar } from "@/components/layout/navbar";
@@ -54,8 +54,8 @@ export default function RootLayout({
           {ui.skipToContent}
         </a>
         <Providers>
-          {VERCEL && <Analytics />}
-          {VERCEL && <SpeedInsights />}
+          {VERCEL_ENV === "production" && <Analytics />}
+          {VERCEL_ENV === "production" && <SpeedInsights />}
           <div className="flex min-h-screen flex-col">
             <Navbar />
             <main id="main-content" className="flex-1 flex flex-col" tabIndex={-1}>
