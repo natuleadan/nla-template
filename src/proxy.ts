@@ -15,7 +15,7 @@ function isStaticRoute(pathname: string): boolean {
     pathname === "/apple-icon" ||
     pathname === "/robots.txt" ||
     pathname === "/sitemap.xml" ||
-    pathname === "/manifest.ts" ||
+    pathname === "/manifest.webmanifest" ||
     pathname === "/llms.txt" ||
     /\.(jpg|jpeg|png|gif|svg|ico|webp|woff|woff2|ttf|eot|json)$/i.test(pathname)
   );
@@ -49,7 +49,9 @@ export async function proxy(request: NextRequest) {
   }
 
   const locale = getLocale(request);
-  const restOfPath = firstSegment ? "/" + segments.slice(1).join("/") : pathname;
+  const restOfPath = firstSegment
+    ? "/" + segments.slice(1).join("/")
+    : pathname;
 
   const url = request.nextUrl.clone();
   url.pathname = `/${locale}${restOfPath === "/" ? "" : restOfPath}`;

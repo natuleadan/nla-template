@@ -6,14 +6,13 @@
  * - Private vars: here — server-only (API keys, secrets, etc.)
  */
 
+import { timingSafeEqual, createHash } from "node:crypto";
 import { isDev, isTest } from "@/lib/env.public";
 
 export {
-  getBrandColor,
   getBaseUrl,
   getWhatsappNumber,
   getWeekMax,
-  getIndexingEnabled,
   isDev,
   isProd,
   isTest,
@@ -24,16 +23,38 @@ export {
 
 // ─── Server-only env vars ─────────────────────────────────
 
+export function getBrandColor(): string {
+  return (
+    process.env.BRAND_COLOR || process.env.NEXT_PUBLIC_BRAND_COLOR || "default"
+  );
+}
+
+export function getIndexingEnabled(): boolean {
+  const v = process.env.INDEXING || process.env.NEXT_PUBLIC_INDEXING || "false";
+  return v === "true";
+}
+
 export function getApiKey(): string {
   const key = process.env.API_KEY;
   if (!key && !isTest) {
-    if (isDev) console.warn("⚠️ API_KEY no configurada. Los endpoints protegidos devolverán 401.");
+    if (isDev)
+      console.warn(
+        "⚠️ API_KEY no configurada. Los endpoints protegidos devolverán 401.",
+      );
   }
   return key || "";
 }
 
 export function getYcloudApiKey(): string {
   return process.env.YCLOUD_API_KEY || "";
+}
+
+export function getYcloudEnabled(): boolean {
+  return process.env.YCLOUD_ENABLED === "true";
+}
+
+export function getCookieWebhookUrl(): string {
+  return process.env.COOKIE_WEBHOOK_URL || "";
 }
 
 export function isProduction(): boolean {
@@ -65,7 +86,7 @@ export function getOpenaiApiKey(): string {
 }
 
 export function getAdminPhone(): string {
-  return process.env.ADMIN_WHATSAPP || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "";
+  return process.env.WS_ADMIN || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "";
 }
 
 export type AiProvider = "mixed" | "openai";
@@ -76,6 +97,11 @@ export function getAiProvider(): AiProvider {
   return "mixed";
 }
 
+export function getRateLimitMax(): number {
+  const val = parseInt(process.env.RATE_LIMIT_MAX || "2", 10);
+  return Number.isFinite(val) && val > 0 ? val : 2;
+}
+
 export function getZeroDataRetention(): boolean {
   return process.env.AI_GATEWAY_ZDR === "true";
 }
@@ -83,8 +109,16 @@ export function getZeroDataRetention(): boolean {
 // ─── Auth helpers ─────────────────────────────────────────
 
 export function validateApiKey(request: Request): boolean {
-  const authHeader = request.headers.get("x-api-key");
-  return authHeader === getApiKey();
+  const provided = request.headers.get("x-api-key");
+  const expected = getApiKey();
+  if (!provided || !expected) return false;
+  try {
+    const a = createHash("sha256").update(provided).digest();
+    const b = createHash("sha256").update(expected).digest();
+    return timingSafeEqual(a, b);
+  } catch {
+    return false;
+  }
 }
 
 // ─── Response helpers ─────────────────────────────────────
