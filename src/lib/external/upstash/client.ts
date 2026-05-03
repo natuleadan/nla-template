@@ -21,14 +21,19 @@ export function getRedis(): Redis {
   return client;
 }
 
-// ─── Hash helpers ───────────────────────────────────────
-
-export async function hashSet(key: string, field: string, value: string): Promise<void> {
+export async function hashSet(
+  key: string,
+  field: string,
+  value: string,
+): Promise<void> {
   const r = getRedis();
   await r.hset(key, { [field]: value });
 }
 
-export async function hashGet(key: string, field: string): Promise<string | null> {
+export async function hashGet(
+  key: string,
+  field: string,
+): Promise<string | null> {
   const r = getRedis();
   const val = await r.hget(key, field);
   return val !== null && val !== undefined ? String(val) : null;
@@ -50,8 +55,6 @@ export async function hashDel(key: string, field: string): Promise<void> {
   await r.hdel(key, field);
 }
 
-// ─── Set helpers ────────────────────────────────────────
-
 export async function setAdd(key: string, value: string): Promise<void> {
   const r = getRedis();
   await r.sadd(key, value);
@@ -62,7 +65,10 @@ export async function setRemove(key: string, value: string): Promise<void> {
   await r.srem(key, value);
 }
 
-export async function setIsMember(key: string, value: string): Promise<boolean> {
+export async function setIsMember(
+  key: string,
+  value: string,
+): Promise<boolean> {
   const r = getRedis();
   return (await r.sismember(key, value)) === 1;
 }
@@ -72,19 +78,19 @@ export async function setMembers(key: string): Promise<string[]> {
   return r.smembers(key);
 }
 
-// ─── List helpers ───────────────────────────────────────
-
 export async function listPush(key: string, value: string): Promise<void> {
   const r = getRedis();
   await r.lpush(key, value);
 }
 
-export async function listRange(key: string, start = 0, end = -1): Promise<string[]> {
+export async function listRange(
+  key: string,
+  start = 0,
+  end = -1,
+): Promise<string[]> {
   const r = getRedis();
   return r.lrange(key, start, end);
 }
-
-// ─── String helpers ─────────────────────────────────────
 
 export async function strSet(key: string, value: string): Promise<void> {
   const r = getRedis();
@@ -101,8 +107,6 @@ export async function strIncrBy(key: string, amount: number): Promise<number> {
   const r = getRedis();
   return r.incrby(key, amount);
 }
-
-// ─── Counter (autoincrement) ────────────────────────────
 
 export async function nextId(counterKey: string): Promise<number> {
   const r = getRedis();

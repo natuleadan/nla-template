@@ -2,7 +2,7 @@
 
 export async function getOrderData(orderId: string) {
   try {
-    const mod = await import("@/lib/external/upstash/redis");
+    const mod = await import("@/lib/external/upstash/client");
     if (!mod.isRedisConfigured()) return null;
 
     const h = await mod.hashGetAll(`bus:order:${orderId}`);

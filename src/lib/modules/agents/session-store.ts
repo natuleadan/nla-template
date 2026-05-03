@@ -1,5 +1,5 @@
 import type { CoreMessage } from "./types";
-import { getRedis, isRedisConfigured } from "@/lib/external/upstash/redis";
+import { getRedis, isRedisConfigured } from "@/lib/external/upstash/client";
 import { getWsEncryptionKey } from "@/lib/env";
 import type { SessionState } from "./types";
 import { createHmac } from "node:crypto";
@@ -12,22 +12,40 @@ const MAX_HISTORY = 50;
 function hashKey(phone: string): string {
   const secret = getWsEncryptionKey();
   if (!secret) return phone;
-  return createHmac("sha256", secret).update(phone).digest("hex").substring(0, 16);
+  return createHmac("sha256", secret)
+    .update(phone)
+    .digest("hex")
+    .substring(0, 16);
 }
 
-function dKey(wamid: string): string { return `wa:dedup:${wamid}`; }
-function sKey(phone: string): string { return `wa:session:${hashKey(phone)}`; }
-function qKey(phone: string): string { return `wa:queue:${hashKey(phone)}`; }
-function lKey(phone: string): string { return `wa:longmemory:${hashKey(phone)}`; }
+function dKey(wamid: string): string {
+  return `wa:dedup:${wamid}`;
+}
+function sKey(phone: string): string {
+  return `wa:session:${hashKey(phone)}`;
+}
+function qKey(phone: string): string {
+  return `wa:queue:${hashKey(phone)}`;
+}
+function lKey(phone: string): string {
+  return `wa:longmemory:${hashKey(phone)}`;
+}
 
 // ─── In-memory fallback ────────────────────────────────
 
 const memStore = new Map<string, string>();
 const memQueues = new Map<string, string[]>();
 
-function memSet(key: string, value: string): void { memStore.set(key, value); }
-function memGet(key: string): string | undefined { return memStore.get(key); }
-function memDel(key: string): void { memStore.delete(key); memQueues.delete(key); }
+function memSet(key: string, value: string): void {
+  memStore.set(key, value);
+}
+function memGet(key: string): string | undefined {
+  return memStore.get(key);
+}
+function memDel(key: string): void {
+  memStore.delete(key);
+  memQueues.delete(key);
+}
 function memLPush(key: string, value: string): void {
   const q = memQueues.get(key) || [];
   q.unshift(value);
@@ -48,7 +66,9 @@ async function getR() {
   return getRedis();
 }
 
-function safe<T>(fn: () => Promise<T>, fb: T): Promise<T> { return fn().catch(() => fb); }
+function safe<T>(fn: () => Promise<T>, fb: T): Promise<T> {
+  return fn().catch(() => fb);
+}
 
 /** Upstash Redis auto-parses JSON. This handles both string (memory) and object (Redis) returns. */
 function fromStore<T>(raw: string | T | null): T | null {
@@ -60,7 +80,13 @@ function fromStore<T>(raw: string | T | null): T | null {
 let _encKey: CryptoKey | null = null;
 async function getEncKey(): Promise<CryptoKey> {
   if (_encKey) return _encKey;
-  _encKey = await crypto.subtle.importKey("raw", new TextEncoder().encode(getWsEncryptionKey()), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  _encKey = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(getWsEncryptionKey()),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"],
+  );
   return _encKey;
 }
 
@@ -68,8 +94,15 @@ export async function anonymizePhone(phone: string): Promise<string> {
   const secret = getWsEncryptionKey();
   if (!secret) return phone;
   const key = await getEncKey();
-  const sig = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(phone));
-  return Array.from(new Uint8Array(sig)).map((b) => b.toString(16).padStart(2, "0")).join("").substring(0, 16);
+  const sig = await crypto.subtle.sign(
+    "HMAC",
+    key,
+    new TextEncoder().encode(phone),
+  );
+  return Array.from(new Uint8Array(sig))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("")
+    .substring(0, 16);
 }
 
 // ─── Session ─────────────────────────────────────────
@@ -85,23 +118,37 @@ export async function getSession(phone: string): Promise<SessionState | null> {
   }, null);
 }
 
-export async function createSession(phone: string, name?: string): Promise<void> {
+export async function createSession(
+  phone: string,
+  name?: string,
+): Promise<void> {
   const data = JSON.stringify({
-    phone, name, history: [], createdAt: Date.now(), lastActivity: Date.now(),
+    phone,
+    name,
+    history: [],
+    createdAt: Date.now(),
+    lastActivity: Date.now(),
   });
-  if (!isRedisConfigured()) { memSet(sKey(phone), data); return; }
+  if (!isRedisConfigured()) {
+    memSet(sKey(phone), data);
+    return;
+  }
   const r = await getR();
   await r.setex(sKey(phone), SESSION_TTL, data);
 }
 
-export async function addToHistory(phone: string, msg: CoreMessage): Promise<void> {
+export async function addToHistory(
+  phone: string,
+  msg: CoreMessage,
+): Promise<void> {
   if (!isRedisConfigured()) {
     const raw = memGet(sKey(phone));
     if (!raw) return;
     const s: SessionState = JSON.parse(raw);
     s.history.push(msg);
     s.lastActivity = Date.now();
-    if (s.history.length > MAX_HISTORY) s.history = s.history.slice(-MAX_HISTORY);
+    if (s.history.length > MAX_HISTORY)
+      s.history = s.history.slice(-MAX_HISTORY);
     memSet(sKey(phone), JSON.stringify(s));
     return;
   }
@@ -112,7 +159,8 @@ export async function addToHistory(phone: string, msg: CoreMessage): Promise<voi
     if (!s) return;
     s.history.push(msg);
     s.lastActivity = Date.now();
-    if (s.history.length > MAX_HISTORY) s.history = s.history.slice(-MAX_HISTORY);
+    if (s.history.length > MAX_HISTORY)
+      s.history = s.history.slice(-MAX_HISTORY);
     await r.setex(sKey(phone), SESSION_TTL, JSON.stringify(s));
   }, undefined);
 }
@@ -132,7 +180,10 @@ export async function getMyHistory(phone: string): Promise<CoreMessage[]> {
 // ─── Queue ──────────────────────────────────────────────
 
 export async function pushMsg(phone: string, text: string): Promise<void> {
-  if (!isRedisConfigured()) { memLPush(qKey(phone), text); return; }
+  if (!isRedisConfigured()) {
+    memLPush(qKey(phone), text);
+    return;
+  }
   await safe(async () => {
     const r = await getR();
     await r.lpush(qKey(phone), text);
@@ -155,7 +206,7 @@ export async function drainAll(phone: string): Promise<string[]> {
   }
   return safe(async () => {
     const r = await getR();
-    const items = await r.lrange(qKey(phone), 0, -1) as string[];
+    const items = (await r.lrange(qKey(phone), 0, -1)) as string[];
     await r.del(qKey(phone));
     return items.reverse();
   }, []);
@@ -165,7 +216,10 @@ export async function drainAll(phone: string): Promise<string[]> {
 
 const rateLimitMap = new Map<string, number>();
 
-export async function checkRateLimit(key: string, windowSec: number): Promise<boolean> {
+export async function checkRateLimit(
+  key: string,
+  windowSec: number,
+): Promise<boolean> {
   if (!isRedisConfigured()) {
     const now = Date.now();
     const expires = rateLimitMap.get(key);
@@ -183,7 +237,10 @@ export async function checkRateLimit(key: string, windowSec: number): Promise<bo
 
 // ─── Long-term Memory (1 year) ───────────────────────────
 
-export async function saveLongMemory(phone: string, data: Record<string, unknown>): Promise<void> {
+export async function saveLongMemory(
+  phone: string,
+  data: Record<string, unknown>,
+): Promise<void> {
   if (!isRedisConfigured()) {
     const key = lKey(phone);
     const raw = memGet(key);
@@ -195,13 +252,16 @@ export async function saveLongMemory(phone: string, data: Record<string, unknown
   await safe(async () => {
     const r = await getR();
     const raw = await r.get(lKey(phone));
-    const existing = fromStore<Record<string, unknown>>(raw as string | null) || {};
+    const existing =
+      fromStore<Record<string, unknown>>(raw as string | null) || {};
     Object.assign(existing, data);
     await r.setex(lKey(phone), LONG_MEMORY_TTL, JSON.stringify(existing));
   }, undefined);
 }
 
-export async function getLongMemory(phone: string): Promise<Record<string, unknown>> {
+export async function getLongMemory(
+  phone: string,
+): Promise<Record<string, unknown>> {
   if (!isRedisConfigured()) {
     const raw = memGet(lKey(phone));
     return raw ? JSON.parse(raw) : {};
@@ -214,7 +274,10 @@ export async function getLongMemory(phone: string): Promise<Record<string, unkno
 }
 
 export async function deleteLongMemory(phone: string): Promise<void> {
-  if (!isRedisConfigured()) { memDel(lKey(phone)); return; }
+  if (!isRedisConfigured()) {
+    memDel(lKey(phone));
+    return;
+  }
   await safe(async () => {
     const r = await getR();
     await r.del(lKey(phone));
@@ -240,7 +303,9 @@ export async function deleteAllMemory(phone: string): Promise<string[]> {
 
 const DERIVED_TTL = 86400;
 
-function dervKey(phone: string): string { return `wa:derived:${hashKey(phone)}`; }
+function dervKey(phone: string): string {
+  return `wa:derived:${hashKey(phone)}`;
+}
 
 export async function isDerived(phone: string): Promise<boolean> {
   if (!isRedisConfigured()) return false;
@@ -255,7 +320,11 @@ export async function setDerived(phone: string, reason: string): Promise<void> {
   if (!isRedisConfigured()) return;
   await safe(async () => {
     const r = await getR();
-    await r.setex(dervKey(phone), DERIVED_TTL, JSON.stringify({ reason, phone, createdAt: Date.now() }));
+    await r.setex(
+      dervKey(phone),
+      DERIVED_TTL,
+      JSON.stringify({ reason, phone, createdAt: Date.now() }),
+    );
   }, undefined);
 }
 
@@ -268,14 +337,29 @@ export async function resolveDerivation(phone: string): Promise<boolean> {
   }, false);
 }
 
-export async function getDerivedConversations(): Promise<Array<{ phone: string; reason: string; createdAt: number; anonymized: string }>> {
+export async function getDerivedConversations(): Promise<
+  Array<{
+    phone: string;
+    reason: string;
+    createdAt: number;
+    anonymized: string;
+  }>
+> {
   if (!isRedisConfigured()) return [];
   return safe(async () => {
     const r = await getR();
     let cursor = "0";
-    const results: Array<{ phone: string; reason: string; createdAt: number; anonymized: string }> = [];
+    const results: Array<{
+      phone: string;
+      reason: string;
+      createdAt: number;
+      anonymized: string;
+    }> = [];
     do {
-      const [nextCursor, keys] = await r.scan(cursor, { match: "wa:derived:*", count: 100 });
+      const [nextCursor, keys] = await r.scan(cursor, {
+        match: "wa:derived:*",
+        count: 100,
+      });
       cursor = nextCursor;
       for (const key of keys) {
         if (typeof key !== "string") continue;
