@@ -1,6 +1,7 @@
 import { getBaseUrl, isDev } from "@/lib/env";
-import { brand } from "@/lib/config/site";
 import { getAllProducts } from "@/lib/modules/products";
+
+const LOCALES = ["es", "en"];
 
 export async function GET() {
   try {
@@ -9,33 +10,52 @@ export async function GET() {
       ? rawBaseUrl.slice(0, -1)
       : rawBaseUrl;
 
-    const products = await getAllProducts();
+    const lines: string[] = [];
 
-    let content = `# ${brand.name}\n\n`;
-    content += `> ${brand.description}\n\n`;
-    content += `## Base URL\n`;
-    content += `- ${baseUrl}\n\n`;
-    content += `## Languages\n`;
-    content += `- es (Spanish)\n\n`;
+    lines.push(`# Acme Inc`);
+    lines.push(``);
+    lines.push(`> Your trusted online store. Curated products for your home and office.`);
+    lines.push(``);
+    lines.push(`## Base URL`);
+    lines.push(`- ${baseUrl}`);
+    lines.push(``);
+    lines.push(`## Languages`);
+    lines.push(`- es (Spanish)`);
+    lines.push(`- en (English)`);
+    lines.push(``);
 
-    content += `## Static Pages\n`;
-    content += `- [Inicio](${baseUrl}/)\n`;
-    content += `- [Tienda](${baseUrl}/tienda)\n`;
-    content += `- [Contacto](${baseUrl}/contacto)\n`;
-    content += `- [Privacidad](${baseUrl}/privacidad)\n`;
-    content += `- [Terminos](${baseUrl}/terminos)\n`;
-    content += `- [Datos](${baseUrl}/datos)\n\n`;
+    for (const locale of LOCALES) {
+      const label = locale === "es" ? "Spanish" : "English";
+      lines.push(`## ${label}`);
 
-    content += `## Products\n`;
-    for (const product of products) {
-      content += `- [${product.name}](${baseUrl}/tienda/${product.slug})\n`;
+      const products = await getAllProducts(locale);
+
+      lines.push(`### Static Pages`);
+      lines.push(`- [Home / Inicio](${baseUrl}/${locale}/)`);
+      lines.push(`- [Store / Tienda](${baseUrl}/${locale}/tienda)`);
+      lines.push(`- [Blog](${baseUrl}/${locale}/blog)`);
+      lines.push(`- [Agenda](${baseUrl}/${locale}/agenda)`);
+      lines.push(`- [Pages / Páginas](${baseUrl}/${locale}/paginas)`);
+      lines.push(`- [Contact / Contacto](${baseUrl}/${locale}/contacto)`);
+      lines.push(`- [Privacy / Privacidad](${baseUrl}/${locale}/paginas/privacidad)`);
+      lines.push(`- [Terms / Términos](${baseUrl}/${locale}/paginas/terminos)`);
+      lines.push(`- [Data / Datos](${baseUrl}/${locale}/datos)`);
+      lines.push(``);
+
+      lines.push(`### Products`);
+      for (const product of products) {
+        lines.push(`- [${product.name}](${baseUrl}/${locale}/tienda/${product.slug})`);
+      }
+      lines.push(``);
     }
 
-    content += `\n## Technical\n`;
-    content += `- [Robots.txt](${baseUrl}/robots.txt)\n`;
-    content += `- [Sitemap](${baseUrl}/sitemap.xml)\n`;
-    content += `- [Web Manifest](${baseUrl}/manifest.webmanifest)\n`;
-    content += `- [OpenAPI](${baseUrl}/api)\n`;
+    lines.push(`## Technical`);
+    lines.push(`- [Robots.txt](${baseUrl}/robots.txt)`);
+    lines.push(`- [Sitemap](${baseUrl}/sitemap.xml)`);
+    lines.push(`- [Web Manifest](${baseUrl}/manifest.webmanifest)`);
+    lines.push(`- [OpenAPI](${baseUrl}/api)`);
+
+    const content = lines.join("\n");
 
     return new Response(content, {
       headers: {

@@ -4,6 +4,8 @@ import { getBaseUrl, getIndexingEnabled } from "@/lib/env";
 export const dynamic = "force-dynamic";
 export const revalidate = 300;
 
+const LOCALES = ["en", "es"];
+
 export default function robots(): MetadataRoute.Robots {
   const baseUrl = getBaseUrl();
 
@@ -20,20 +22,13 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: [
-          "/",
-          "/tienda",
-          "/tienda/*",
-          "/contacto",
-          "/privacidad",
-          "/terminos",
-          "/datos",
+        allow: LOCALES.flatMap((locale) => [`/${locale}/`, `/${locale}`]).concat([
           "/llms.txt",
           "/sitemap.xml",
           "/robots.txt",
           "/manifest.webmanifest",
           "/favicon.ico",
-        ],
+        ]),
         disallow: [
           "/api/",
           "/api/*",

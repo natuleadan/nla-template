@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { brand } from "@/lib/config/site";
+import { getConfig } from "@/lib/locale/config";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
@@ -13,6 +13,7 @@ export const contentType = "image/png";
 export const dynamic = "force-dynamic";
 
 export default async function TwitterImage() {
+  const cfg = getConfig("en");
   const [bgData, logoData] = await Promise.all([
     readFile(join(process.cwd(), "public/design/fondo.svg")),
     readFile(join(process.cwd(), "public/design/logo.svg")),
@@ -83,7 +84,7 @@ export default async function TwitterImage() {
               marginBottom: 20,
             }}
           >
-            {brand.name}
+            {cfg.brand.name}
           </div>
           <div
             style={{
@@ -95,7 +96,7 @@ export default async function TwitterImage() {
               lineHeight: 1.4,
             }}
           >
-            {brand.description}
+            {cfg.brand.description}
           </div>
         </div>
       </div>
