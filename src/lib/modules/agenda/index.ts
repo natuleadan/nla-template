@@ -1,4 +1,5 @@
-import { agendaData } from "@/lib/config/data/agenda";
+import { agendaData as agendaDataEs } from "@/lib/config/data/agenda.es";
+import { agendaData as agendaDataEn } from "@/lib/config/data/agenda.en";
 import { AgendaDaySchema } from "./schemas";
 
 export interface AgendaSlot {
@@ -14,24 +15,29 @@ export interface AgendaDay {
   slots: AgendaSlot[];
 }
 
-const days: AgendaDay[] = AgendaDaySchema.array().parse([...agendaData]);
+const days = {
+  es: AgendaDaySchema.array().parse([...agendaDataEs]),
+  en: AgendaDaySchema.array().parse([...agendaDataEn]),
+};
 
-export async function getWeekDays(): Promise<AgendaDay[]> {
-  return days;
+function getData(locale = "es") {
+  return days[locale as keyof typeof days] || days.es;
 }
 
-export async function getDayByIndex(index: number): Promise<AgendaDay | null> {
-  return days.find((d) => d.dayOfWeek === index) || null;
+export async function getWeekDays(locale = "es"): Promise<AgendaDay[]> {
+  return getData(locale);
 }
 
-export async function getDayByName(name: string): Promise<AgendaDay | null> {
-  return days.find((d) => d.name === name) || null;
+export async function getDayByIndex(index: number, locale = "es"): Promise<AgendaDay | null> {
+  return getData(locale).find((d) => d.dayOfWeek === index) || null;
 }
 
-export async function getAvailableSlots(dayName: string): Promise<AgendaSlot[]> {
-  const day = await getDayByName(dayName);
+export async function getDayByName(name: string, locale = "es"): Promise<AgendaDay | null> {
+  return getData(locale).find((d) => d.name === name) || null;
+}
+
+export async function getAvailableSlots(dayName: string, locale = "es"): Promise<AgendaSlot[]> {
+  const day = await getDayByName(dayName, locale);
   if (!day) return [];
   return day.slots.filter((s) => s.available);
 }
-
-

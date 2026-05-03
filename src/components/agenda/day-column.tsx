@@ -3,8 +3,9 @@
 import { SlotButton } from "./slot-button";
 import { SlotDialog } from "./slot-dialog";
 import { Badge } from "@/components/ui/badge";
-import { agenda } from "@/lib/config/site";
 import { cn } from "@/lib/config/utils";
+import { useLang } from "@/lib/locale/context";
+import { getConfig } from "@/lib/locale/config";
 import { useState, useEffect, useMemo } from "react";
 import { toast } from "sonner";
 import type { AgendaSlot, AgendaDay } from "@/lib/modules/agenda";
@@ -44,6 +45,8 @@ function isPastDay(date: Date): boolean {
 }
 
 export function DayColumn({ day, date, targetDay, targetTime, autoOpenDialog }: DayColumnProps) {
+  const lang = useLang();
+  const cfg = getConfig(lang);
   const [selectedSlot, setSelectedSlot] = useState<AgendaSlot | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -68,7 +71,7 @@ export function DayColumn({ day, date, targetDay, targetTime, autoOpenDialog }: 
 
   const handleSlotClick = (slot: AgendaSlot) => {
     if (isSlotExpired(slot, date, isPastDay(date))) {
-      toast.error(agenda.slot.slotUnavailable);
+      toast.error(cfg.agenda.slot.slotUnavailable);
       return;
     }
     setSelectedSlot(slot);
@@ -93,7 +96,7 @@ export function DayColumn({ day, date, targetDay, targetTime, autoOpenDialog }: 
       <div className="flex flex-col gap-1.5 flex-1">
         {day.slots.length === 0 ? (
           <p className="text-xs text-muted-foreground text-center py-4">
-            {agenda.calendar.closed}
+            {cfg.agenda.calendar.closed}
           </p>
         ) : (
           day.slots

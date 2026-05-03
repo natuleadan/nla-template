@@ -20,7 +20,8 @@ import {
   IconMinus,
   IconTrash,
 } from "@tabler/icons-react";
-import { store } from "@/lib/config/site";
+import { useLang } from "@/lib/locale/context";
+import { getConfig } from "@/lib/locale/config";
 import { useWhatsApp } from "@/components/whatsapp-provider";
 
 export interface CartItem {
@@ -36,6 +37,8 @@ interface CartSheetProps {
 }
 
 export function CartSheet({ children }: CartSheetProps) {
+  const lang = useLang();
+  const cfg = getConfig(lang);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [open, setOpen] = useState(false);
   const { openWhatsApp } = useWhatsApp();
@@ -70,15 +73,15 @@ export function CartSheet({ children }: CartSheetProps) {
       )
       .join("\n");
 
-    const mensaje = store.cart.whatsappTemplate(itemsList, total);
-    openWhatsApp({ message: mensaje, title: store.cart.title, productName: "carrito" });
+    const mensaje = cfg.store.cart.whatsappTemplate(itemsList, total);
+    openWhatsApp({ message: mensaje, title: cfg.store.cart.title, productName: "carrito" });
   };
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         {children || (
-          <Button variant="outline" size="icon" className="relative" aria-label={store.cart.openAriaLabel}>
+          <Button variant="outline" size="icon" className="relative" aria-label={cfg.store.cart.openAriaLabel}>
             <IconShoppingCart className="size-5" />
             {totalItems > 0 && (
               <Badge className="absolute -top-2 -right-2 min-w-5 h-5 px-1 flex items-center justify-center text-[10px]">
@@ -91,11 +94,11 @@ export function CartSheet({ children }: CartSheetProps) {
 
       <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
         <SheetHeader>
-          <SheetTitle>{store.cart.title}</SheetTitle>
+          <SheetTitle>{cfg.store.cart.title}</SheetTitle>
           <SheetDescription>
             {cartItems.length > 0
-              ? store.cart.itemsCount(totalItems)
-              : store.cart.empty}
+              ? cfg.store.cart.itemsCount(totalItems)
+              : cfg.store.cart.empty}
           </SheetDescription>
         </SheetHeader>
 
@@ -103,7 +106,7 @@ export function CartSheet({ children }: CartSheetProps) {
           {cartItems.length === 0 ? (
             <div className="text-center py-8" role="status" aria-live="polite">
               <IconShoppingCart className="size-12 mx-auto text-muted-foreground/50 mb-4" />
-              <p className="text-muted-foreground">{store.cart.empty}</p>
+              <p className="text-muted-foreground">{cfg.store.cart.empty}</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -114,7 +117,7 @@ export function CartSheet({ children }: CartSheetProps) {
                       <div className="flex-1">
                         <p className="font-medium">{item.name}</p>
                         <p className="text-sm text-muted-foreground">
-                          {store.cart.perUnit(item.price)}
+                          {cfg.store.cart.perUnit(item.price)}
                         </p>
                       </div>
                       <div className="flex items-center gap-2">
@@ -124,7 +127,7 @@ export function CartSheet({ children }: CartSheetProps) {
                           onClick={() =>
                             updateQuantity(item.id, item.quantity - 1)
                           }
-                          aria-label={store.cart.decreaseAriaLabel(item.name)}
+                          aria-label={cfg.store.cart.decreaseAriaLabel(item.name)}
                         >
                           <IconMinus className="size-4" />
                         </Button>
@@ -137,7 +140,7 @@ export function CartSheet({ children }: CartSheetProps) {
                           onClick={() =>
                             updateQuantity(item.id, item.quantity + 1)
                           }
-                          aria-label={store.cart.increaseAriaLabel(item.name)}
+                          aria-label={cfg.store.cart.increaseAriaLabel(item.name)}
                         >
                           <IconPlus className="size-4" />
                         </Button>
@@ -145,17 +148,17 @@ export function CartSheet({ children }: CartSheetProps) {
                     </div>
                     <div className="flex justify-between items-center mt-2">
                       <span className="text-sm text-muted-foreground">
-                        {store.cart.subtotal(item.price * item.quantity)}
+                        {cfg.store.cart.subtotal(item.price * item.quantity)}
                       </span>
                       <Button
                         variant="ghost"
                         size="sm"
                         className="text-destructive"
                         onClick={() => removeFromCart(item.id)}
-                        aria-label={store.cart.removeAriaLabel(item.name)}
+                        aria-label={cfg.store.cart.removeAriaLabel(item.name)}
                       >
                         <IconTrash className="size-4 mr-1" />
-                        {store.cart.delete}
+                        {cfg.store.cart.delete}
                       </Button>
                     </div>
                   </CardContent>
@@ -165,7 +168,7 @@ export function CartSheet({ children }: CartSheetProps) {
               <Separator />
 
               <div className="flex justify-between items-center">
-                <span className="font-medium">{store.cart.total}</span>
+                <span className="font-medium">{cfg.store.cart.total}</span>
                 <span className="text-xl font-bold">${total.toFixed(2)}</span>
               </div>
             </div>
@@ -180,7 +183,7 @@ export function CartSheet({ children }: CartSheetProps) {
               onClick={handleWhatsAppOrder}
             >
               <IconShoppingCart className="size-5" />
-              {store.cart.orderWhatsApp}
+              {cfg.store.cart.orderWhatsApp}
             </Button>
           </SheetFooter>
         )}

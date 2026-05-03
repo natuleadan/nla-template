@@ -13,7 +13,8 @@ import {
 } from "@/components/ui/command";
 import { IconSearch } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
-import { ui } from "@/lib/config/site";
+import { useLang } from "@/lib/locale/context";
+import { getConfig } from "@/lib/locale/config";
 
 interface SearchItem {
   id: string;
@@ -26,6 +27,8 @@ interface SearchItem {
 }
 
 export function GlobalSearch() {
+  const lang = useLang();
+  const cfg = getConfig(lang);
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState<SearchItem[]>([]);
   const [loaded, setLoaded] = useState(false);
@@ -120,7 +123,7 @@ export function GlobalSearch() {
           loadData();
           setOpen(true);
         }}
-        aria-label={ui.search.ariaLabel}
+        aria-label={cfg.ui.search.ariaLabel}
       >
         <IconSearch className="size-5" />
       </Button>
@@ -130,15 +133,15 @@ export function GlobalSearch() {
           setOpen(v);
           if (v) loadData();
         }}
-        title={ui.search.title}
-        description={ui.search.description}
+        title={cfg.ui.search.title}
+        description={cfg.ui.search.description}
       >
         <Command>
-          <CommandInput placeholder={ui.search.placeholder} />
+          <CommandInput placeholder={cfg.ui.search.placeholder} />
           <CommandList>
-            <CommandEmpty>{ui.search.empty}</CommandEmpty>
+            <CommandEmpty>{cfg.ui.search.empty}</CommandEmpty>
             {items.filter((i) => i.type === "slot").length > 0 && (
-              <CommandGroup heading={ui.search.headings.slots}>
+              <CommandGroup heading={cfg.ui.search.headings.slots}>
                 {items
                   .filter((i) => i.type === "slot")
                   .map((item) => (
@@ -153,7 +156,7 @@ export function GlobalSearch() {
               </CommandGroup>
             )}
             {items.filter((i) => i.type === "product").length > 0 && (
-              <CommandGroup heading={ui.search.headings.products}>
+              <CommandGroup heading={cfg.ui.search.headings.products}>
                 {items
                   .filter((i) => i.type === "product")
                   .map((item) => (
@@ -168,7 +171,7 @@ export function GlobalSearch() {
               </CommandGroup>
             )}
             {items.filter((i) => i.type === "page").length > 0 && (
-              <CommandGroup heading={ui.search.headings.pages}>
+              <CommandGroup heading={cfg.ui.search.headings.pages}>
                 {items
                   .filter((i) => i.type === "page")
                   .map((item) => (
@@ -183,7 +186,7 @@ export function GlobalSearch() {
               </CommandGroup>
             )}
             {items.filter((i) => i.type === "post").length > 0 && (
-              <CommandGroup heading={ui.search.headings.posts}>
+              <CommandGroup heading={cfg.ui.search.headings.posts}>
                 {items
                   .filter((i) => i.type === "post")
                   .map((item) => (

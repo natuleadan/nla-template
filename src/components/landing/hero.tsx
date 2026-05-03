@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,45 +11,49 @@ import {
   IconClock,
   IconHeadset,
 } from "@tabler/icons-react";
-import { home } from "@/lib/config/site";
-
-const features = [
-  { icon: IconBolt, ...home.features.items[0] },
-  { icon: IconShieldCheck, ...home.features.items[1] },
-  { icon: IconBarbell, ...home.features.items[2] },
-];
-
-const benefits = [
-  { icon: IconPackage, ...home.benefits[0] },
-  { icon: IconClock, ...home.benefits[1] },
-  { icon: IconHeadset, ...home.benefits[2] },
-];
+import { useLang } from "@/lib/locale/context";
+import { getConfig } from "@/lib/locale/config";
 
 export function Hero() {
+  const lang = useLang();
+  const cfg = getConfig(lang);
+
+  const features = [
+    { icon: IconBolt, ...cfg.home.features.items[0] },
+    { icon: IconShieldCheck, ...cfg.home.features.items[1] },
+    { icon: IconBarbell, ...cfg.home.features.items[2] },
+  ];
+
+  const benefits = [
+    { icon: IconPackage, ...cfg.home.benefits[0] },
+    { icon: IconClock, ...cfg.home.benefits[1] },
+    { icon: IconHeadset, ...cfg.home.benefits[2] },
+  ];
+
   return (
     <div className="flex flex-col w-full">
       <section className="relative overflow-hidden border-b bg-gradient-to-b from-muted/30 to-muted/10 py-24 md:py-32">
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-              {home.hero.title}
+              {cfg.home.hero.title}
             </h1>
             <p className="mx-auto mt-6 text-lg text-muted-foreground md:text-xl">
-              {home.hero.subtitle}
+              {cfg.home.hero.subtitle}
             </p>
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/tienda">
+              <Link href={`/${lang}/tienda`}>
                 <Button size="lg">
-                  {home.hero.cta.primary}
+                  {cfg.home.hero.cta.primary}
                   <IconArrowRight
                     className="ml-2 size-4"
                     data-icon="inline-end"
                   />
                 </Button>
               </Link>
-              <Link href="/contacto">
+              <Link href={`/${lang}/contacto`}>
                 <Button size="lg" variant="outline">
-                  {home.hero.cta.secondary}
+                  {cfg.home.hero.cta.secondary}
                 </Button>
               </Link>
             </div>
@@ -78,10 +84,10 @@ export function Hero() {
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold tracking-tight">
-              {home.features.title}
+              {cfg.home.features.title}
             </h2>
             <p className="mt-2 text-muted-foreground">
-              {home.features.subtitle}
+              {cfg.home.features.subtitle}
             </p>
           </div>
           <div className="grid gap-6 sm:grid-cols-3">
@@ -105,13 +111,13 @@ export function Hero() {
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-bold tracking-tight">
-              {home.cta.title}
+              {cfg.home.cta.title}
             </h2>
-            <p className="mt-4 text-muted-foreground">{home.cta.description}</p>
+            <p className="mt-4 text-muted-foreground">{cfg.home.cta.description}</p>
             <div className="mt-8">
-              <Link href="/tienda">
+              <Link href={`/${lang}/tienda`}>
                 <Button size="lg">
-                  {home.cta.button}
+                  {cfg.home.cta.button}
                   <IconArrowRight
                     className="ml-2 size-4"
                     data-icon="inline-end"

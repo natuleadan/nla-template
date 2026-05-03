@@ -28,7 +28,8 @@ import {
 import type { Review } from "@/lib/modules/reviews";
 import type { InventoryItem } from "@/lib/config/data/inventory";
 import { isDev } from "@/lib/env";
-import { store, ui } from "@/lib/config/site";
+import { useLang } from "@/lib/locale/context";
+import { getConfig, getDateLocale } from "@/lib/locale/config";
 import { useWhatsApp } from "@/components/whatsapp-provider";
 
 const FALLBACK_IMAGE = "/design/fallback.svg";
@@ -79,7 +80,7 @@ function StarRating({
           type="button"
           onClick={() => setRating?.(star)}
           className={`${star <= rating ? "text-yellow-500" : "text-muted"} hover:scale-110 transition p-1`}
-          aria-label={store.product.starAriaLabel(star)}
+          aria-label={cfg.store.product.starAriaLabel(star)}
         >
           <IconStar className="size-6 fill-current" />
         </button>
@@ -89,7 +90,10 @@ function StarRating({
 }
 
 function ReviewCard({ review }: { review: Review }) {
-  const date = new Date(review.createdAt).toLocaleDateString("es-ES", {
+  const lang = useLang();
+  const cfg = getConfig(lang);
+  const dateLocale = getDateLocale(lang);
+  const date = new Date(review.createdAt).toLocaleDateString(dateLocale, {
     year: "numeric",
     month: "short",
     day: "numeric",
@@ -101,7 +105,7 @@ function ReviewCard({ review }: { review: Review }) {
         <span className="font-medium">{review.name}</span>
         <div className="flex items-center gap-2">
           {review.status === "pending" && (
-            <Badge variant="outline" className="text-xs">{store.reviews.pending}</Badge>
+            <Badge variant="outline" className="text-xs">{cfg.store.reviews.pending}</Badge>
           )}
           <StarRating rating={review.rating} />
         </div>
@@ -116,6 +120,8 @@ export function ProductDetails({
   product: initialProduct,
   initialInventory,
 }: ProductDetailsProps) {
+  const lang = useLang();
+  const cfg = getConfig(lang);
   const [product, setProduct] = useState(initialProduct);
   const [inventory] = useState(initialInventory);
   const { openWhatsApp } = useWhatsApp();
@@ -137,7 +143,7 @@ export function ProductDetails({
   }, []);
 
   const handlePedir = () => {
-    const mensaje = store.product.whatsappTemplate(product);
+    const mensaje = cfg.store.product.whatsappTemplate(product);
     openWhatsApp({ message: mensaje, title: product.name, productId: product.slug, productName: product.name });
   };
 
@@ -148,7 +154,7 @@ export function ProductDetails({
   const handleSubmitReview = () => {
     if (!reviewName || !reviewComment || reviewRating === 0) return;
     const msg = `Quiero dejar una reseña del producto *${product.name}*: ${reviewRating}★ - ${reviewComment}`;
-    openWhatsApp({ message: msg, title: store.reviews.whatsappTitle });
+    openWhatsApp({ message: msg, title: cfg.store.reviews.whatsappTitle });
   };
 
   return (
@@ -156,10 +162,10 @@ export function ProductDetails({
       <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-8 gap-4">
         <div className="flex items-center gap-2 order-1 sm:order-2 w-full sm:w-auto shrink-0 sm:pt-1">
           <ShareDialog url={typeof window !== "undefined" ? window.location.href : ""} title={product.name} description={product.description} price={product.price} />
-          <Link href="/tienda" className="ml-auto sm:ml-2">
-            <Button variant="outline" size="sm" className="gap-2" aria-label={store.product.back}>
+          <Link href={`/${lang}/tienda`} className="ml-auto sm:ml-2">
+            <Button variant="outline" size="sm" className="gap-2" aria-label={cfg.store.product.back}>
               <IconArrowLeft className="size-4" />
-              {store.product.back}
+              {cfg.store.product.back}
             </Button>
           </Link>
         </div>
@@ -232,7 +238,7 @@ export function ProductDetails({
                 product.category === "suplemento" ? "default" : product.category === "servicio" ? "outline" : "secondary"
               }
             >
-              {store.product.badge(product.category)}
+              {cfg.store.product.badge(product.category)}
             </Badge>
           </div>
 
@@ -241,13 +247,13 @@ export function ProductDetails({
               ${product.price.toFixed(2)}
             </span>
             <p className="text-sm text-muted-foreground">
-              {store.product.priceLabel}
+              {cfg.store.product.priceLabel}
             </p>
           </div>
 
           <div className="flex items-center gap-2 text-sm">
             <span className="text-muted-foreground">
-              {store.product.contentLabel}
+              {cfg.store.product.contentLabel}
             </span>
             <span className="font-medium">
               {product.quantity} {product.unit}
@@ -259,14 +265,14 @@ export function ProductDetails({
               <div className="flex items-center gap-2">
                 <IconMapPin className="size-4 text-muted-foreground" />
                 <span className="text-sm text-muted-foreground">
-                  {store.product.availabilityLabel}
+                  {cfg.store.product.availabilityLabel}
                 </span>
                 <Badge
                   variant={totalInventory > 10 ? "default" : "destructive"}
                 >
                   {totalInventory > 10
-                    ? store.product.inStock
-                    : store.product.lowStock}
+                    ? cfg.store.product.inStock
+                    : cfg.store.product.lowStock}
                 </Badge>
               </div>
               <div className="flex flex-wrap gap-2">
@@ -286,14 +292,14 @@ export function ProductDetails({
           )}
 
           <div className="flex flex-wrap gap-2 mt-4">
-            <Button onClick={handlePedir} className="gap-2" aria-label={`${store.product.orderWhatsApp} ${product.name}`}>
+            <Button onClick={handlePedir} className="gap-2" aria-label={`${cfg.store.product.orderWhatsApp} ${product.name}`}>
               <IconBrandWhatsapp className="size-5" />
-              {store.product.orderWhatsApp}
+              {cfg.store.product.orderWhatsApp}
             </Button>
             {(product.type === "service" || product.appointment) && (
-              <Button variant="outline" className="gap-2" onClick={() => window.location.href = `/agenda?producto=${product.slug}`}>
+              <Button variant="outline" className="gap-2" onClick={() => window.location.href = `/${lang}/agenda?producto=${product.slug}`}>
                 <IconCalendar className="size-5" />
-                {product.type === "service" ? store.product.agendaService : store.product.separateProduct}
+                {product.type === "service" ? cfg.store.product.agendaService : cfg.store.product.separateProduct}
               </Button>
             )}
           </div>
@@ -302,14 +308,14 @@ export function ProductDetails({
 
       <div className="mt-12">
         <h2 className="text-xl font-bold mb-4">
-          {store.reviews.title(product.reviews.length)}
+          {cfg.store.reviews.title(product.reviews.length)}
         </h2>
 
         {product.reviews.length > 0 && (
           <div className="flex items-center gap-2 mb-4">
             <StarRating rating={Math.round(avgRating)} />
             <span className="text-sm text-muted-foreground">
-              {store.reviews.summary(avgRating, product.reviews.length)}
+              {cfg.store.reviews.summary(avgRating, product.reviews.length)}
             </span>
           </div>
         )}
@@ -321,15 +327,15 @@ export function ProductDetails({
         </div>
 
         <div className="border rounded-lg p-4 space-y-4 mt-6">
-          <h3 className="font-medium">{store.reviews.writeTitle}</h3>
+          <h3 className="font-medium">{cfg.store.reviews.writeTitle}</h3>
 
           <div className="flex flex-col sm:flex-row gap-4">
             <Input
-              placeholder={store.reviews.namePlaceholder}
+              placeholder={cfg.store.reviews.namePlaceholder}
               value={reviewName}
               onChange={(e) => setReviewName(e.target.value)}
               className="w-full sm:max-w-xs"
-              aria-label={store.reviews.namePlaceholder}
+              aria-label={cfg.store.reviews.namePlaceholder}
             />
             <div className="flex items-center gap-1">
               {[1, 2, 3, 4, 5].map((star) => (
@@ -338,7 +344,7 @@ export function ProductDetails({
                   type="button"
                   onClick={() => setReviewRating(star)}
                   className={`${star <= reviewRating ? "text-yellow-500" : "text-muted"} hover:scale-110 transition p-1`}
-                  aria-label={store.product.starAriaLabel(star)}
+                  aria-label={cfg.store.product.starAriaLabel(star)}
                 >
                   <IconStar className="size-6 fill-current" />
                 </button>
@@ -347,11 +353,11 @@ export function ProductDetails({
           </div>
 
           <Textarea
-            placeholder={store.reviews.commentPlaceholder}
+            placeholder={cfg.store.reviews.commentPlaceholder}
             value={reviewComment}
             onChange={(e) => setReviewComment(e.target.value)}
             rows={3}
-            aria-label={store.reviews.commentPlaceholder}
+            aria-label={cfg.store.reviews.commentPlaceholder}
           />
 
           <Button
@@ -359,7 +365,7 @@ export function ProductDetails({
             disabled={!reviewName || !reviewComment || reviewRating === 0}
           >
             <IconBrandWhatsapp className="size-4 mr-2" />
-            {store.reviews.submit}
+            {cfg.store.reviews.submit}
           </Button>
         </div>
       </div>

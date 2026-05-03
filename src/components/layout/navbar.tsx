@@ -10,21 +10,27 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { IconBrandWhatsapp, IconBarbell, IconMenu2, IconHome, IconBuildingStore, IconNews, IconCalendar, IconFiles, IconMail } from "@tabler/icons-react";
+import {
+  IconBrandWhatsapp,
+  IconBarbell,
+  IconMenu2,
+  IconHome,
+  IconBuildingStore,
+  IconNews,
+  IconCalendar,
+  IconFiles,
+  IconMail,
+} from "@tabler/icons-react";
 import { GlobalSearch } from "@/components/layout/global-search";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { NavDropdown } from "@/components/layout/navbar-dropdown";
+import { LangSwitcher } from "@/components/layout/lang-switcher";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { isDev } from "@/lib/env";
-import { brand, nav, ui } from "@/lib/config/site";
+import { brand } from "@/lib/config/site";
+import { useLang } from "@/lib/locale/context";
+import { getConfig } from "@/lib/locale/config";
 import { useWhatsApp } from "@/components/whatsapp-provider";
-
-const dropdownItems: Record<string, "products" | "posts" | "agenda" | "pages"> = {
-  Tienda: "products",
-  Blog: "posts",
-  Agenda: "agenda",
-  Páginas: "pages",
-};
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   home: IconHome,
@@ -36,6 +42,12 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 };
 
 export function Navbar() {
+  const lang = useLang();
+  const cfg = getConfig(lang);
+  const { nav, ui, brand } = cfg;
+
+  const l = (href: string) => (href === "/" ? `/${lang}` : `/${lang}${href}`);
+
   const [menuOpen, setMenuOpen] = useState(false);
   const { openWhatsApp } = useWhatsApp();
 
@@ -53,7 +65,6 @@ export function Navbar() {
     } catch (e) {
       if (isDev) console.error("Error:", e);
     }
-
     openWhatsApp({ message: brand.whatsappMessage(brand.name), title: ui.navbar.whatsappTitle });
   };
 
@@ -62,10 +73,7 @@ export function Navbar() {
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="flex h-16 items-center justify-between gap-4 px-4 md:px-6 lg:px-8 max-w-7xl mx-auto">
           <div className="flex items-center gap-3 shrink-0">
-            <Link
-              href="/"
-              className="flex items-center gap-3 text-2xl font-bold tracking-tight"
-            >
+            <Link href={`/${lang}`} className="flex items-center gap-3 text-2xl font-bold tracking-tight">
               <IconBarbell className="size-8" />
               <span>{brand.name}</span>
             </Link>
@@ -74,22 +82,10 @@ export function Navbar() {
           <nav className="hidden lg:flex flex-1 justify-end items-center gap-1" aria-label={ui.navbar.desktopAriaLabel}>
             {nav.items.map((item) => {
               const IconComp = iconMap[item.icon];
-              const dropdownType = dropdownItems[item.label];
-              if (dropdownType) {
-                return (
-                  <NavDropdown
-                    key={item.href}
-                    label={item.label}
-                    href={item.href}
-                    type={dropdownType}
-                    icon={item.icon}
-                  />
-                );
-              }
               return (
                 <Link
                   key={item.href}
-                  href={item.href}
+                  href={l(item.href)}
                   className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-muted transition-colors inline-flex items-center gap-1.5"
                 >
                   {IconComp && <IconComp className="size-4" />}
@@ -98,16 +94,11 @@ export function Navbar() {
               );
             })}
             <GlobalSearch />
+            <LangSwitcher />
             <ThemeToggle />
-            <Button
-              onClick={handleWhatsAppClick}
-              size="sm"
-              className="gap-2 ml-2"
-            >
+            <Button onClick={handleWhatsAppClick} size="sm" className="gap-2 ml-2">
               <IconBrandWhatsapp className="size-4" data-icon="inline-start" />
-              <span className="hidden sm:inline">
-                {nav.buttons.whatsappDesktop}
-              </span>
+              <span className="hidden sm:inline">{nav.buttons.whatsappDesktop}</span>
               <span className="sm:hidden">{nav.buttons.whatsappMobile}</span>
             </Button>
           </nav>
@@ -115,23 +106,10 @@ export function Navbar() {
           <nav className="hidden md:flex lg:hidden flex-1 justify-end items-center gap-0.5" aria-label={ui.navbar.desktopAriaLabel}>
             {nav.items.map((item) => {
               const IconComp = iconMap[item.icon];
-              const dropdownType = dropdownItems[item.label];
-              if (dropdownType) {
-                return (
-                  <NavDropdown
-                    key={item.href}
-                    label={item.label}
-                    href={item.href}
-                    type={dropdownType}
-                    icon={item.icon}
-                    compact
-                  />
-                );
-              }
               return (
                 <Link
                   key={item.href}
-                  href={item.href}
+                  href={l(item.href)}
                   className="group p-2.5 text-sm font-medium rounded-lg hover:bg-muted transition-colors inline-flex items-center gap-1"
                 >
                   {IconComp && <IconComp className="size-5 shrink-0" />}
@@ -142,6 +120,7 @@ export function Navbar() {
               );
             })}
             <GlobalSearch />
+            <LangSwitcher />
             <ThemeToggle />
             <Button onClick={handleWhatsAppClick} size="icon" variant="ghost" aria-label={ui.navbar.whatsappAriaLabel}>
               <IconBrandWhatsapp className="size-5" />
@@ -150,6 +129,7 @@ export function Navbar() {
 
           <div className="flex md:hidden items-center gap-1">
             <GlobalSearch />
+            <LangSwitcher />
             <ThemeToggle />
             <Button onClick={handleWhatsAppClick} size="icon" variant="ghost" aria-label={ui.navbar.whatsappAriaLabel}>
               <IconBrandWhatsapp className="size-5" />
@@ -162,30 +142,14 @@ export function Navbar() {
               </SheetTrigger>
               <SheetContent side="right" className="w-72">
                 <SheetTitle className="sr-only">{brand.name}</SheetTitle>
-                <SheetDescription className="sr-only">
-                  {ui.mobileMenuDescription}
-                </SheetDescription>
+                <SheetDescription className="sr-only">{ui.mobileMenuDescription}</SheetDescription>
                 <nav className="flex flex-col gap-1 mt-8" aria-label={ui.navbar.mobileNavAriaLabel}>
                   {nav.items.map((item) => {
                     const IconComp = iconMap[item.icon];
-                    const dropdownType = dropdownItems[item.label];
-                    if (dropdownType) {
-                      return (
-                        <NavDropdown
-                          key={item.href}
-                          label={item.label}
-                          href={item.href}
-                          type={dropdownType}
-                          variant="accordion"
-                          onNav={() => setMenuOpen(false)}
-                          icon={item.icon}
-                        />
-                      );
-                    }
                     return (
                       <Link
                         key={item.href}
-                        href={item.href}
+                        href={l(item.href)}
                         onClick={() => setMenuOpen(false)}
                         className="px-4 py-3 text-base font-medium rounded-lg hover:bg-muted transition-colors inline-flex items-center gap-2"
                       >

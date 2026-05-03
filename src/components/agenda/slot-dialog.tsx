@@ -23,10 +23,12 @@ import {
 import { IconBrandWhatsapp, IconCopy } from "@tabler/icons-react";
 import { toast } from "sonner";
 import { getBaseUrl } from "@/lib/env";
-import { agenda, categoryBadge, ui } from "@/lib/config/site";
+import { useLang } from "@/lib/locale/context";
+import { getConfig, getDateLocale } from "@/lib/locale/config";
 import { useWhatsApp } from "@/components/whatsapp-provider";
 import { getWeekDays } from "@/lib/modules/agenda";
 import { getAppointmentTypes, getSlotsByType } from "@/lib/agenda-utils";
+import { getAllProducts } from "@/lib/modules/products";
 import type { AgendaSlot } from "@/lib/modules/agenda";
 import type { AgendaSlotInfo } from "@/lib/agenda-utils";
 
@@ -46,9 +48,7 @@ interface ProductOption {
   category: string;
 }
 
-import { dayNames } from "@/lib/config/site/agenda";
-
-function formatFullDate(dayName: string, time: string): string {
+function formatFullDate(dayName: string, time: string, dayNames: Record<string, number>, locale = "es"): string {
   const now = new Date();
   const todayDayOfWeek = now.getDay();
   const targetDay = dayNames[dayName];
@@ -58,8 +58,9 @@ function formatFullDate(dayName: string, time: string): string {
   if (diff < 0) diff += 7;
   const d = new Date(now);
   d.setDate(d.getDate() + diff);
+  const loc = getDateLocale(locale);
 
-  return d.toLocaleDateString("es-ES", {
+  return d.toLocaleDateString(loc, {
     weekday: "long",
     day: "numeric",
     month: "long",
@@ -70,6 +71,8 @@ function formatFullDate(dayName: string, time: string): string {
 export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDialogProps) {
   const searchParams = useSearchParams();
   const { openWhatsApp } = useWhatsApp();
+  const lang = useLang();
+  const cfg = getConfig(lang);
   const [message, setMessage] = useState(searchParams.get("mensaje") || "");
   const [products, setProducts] = useState<ProductOption[]>([]);
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -96,7 +99,7 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
     }
     if (slot && dayName) {
       const now = new Date();
-      const targetDay = dayNames[dayName];
+      const targetDay = cfg.dayNames[dayName];
       const today = now.getDay();
       let diff = targetDay - today;
       if (diff < 0) diff += 7;
@@ -105,19 +108,19 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
       return {
         dayName,
         dayNumber: slotDate.getDate(),
-        monthName: slotDate.toLocaleDateString("es-ES", { month: "short" }).replace(".", ""),
+        monthName: slotDate.toLocaleDateString(getDateLocale(lang), { month: "short" }).replace(".", ""),
         time: slot.time,
         type: slot.type || "",
       };
     }
     return null;
-  }, [slot, dayName, searchParams]);
+  }, [slot, dayName, searchParams, lang, cfg.dayNames]);
 
   const pickedSlot = pickedSlotOverride !== undefined ? pickedSlotOverride : urlSlot;
 
   useEffect(() => {
     if (!open) return;
-    getWeekDays().then((days) => {
+    getWeekDays(lang).then((days) => {
       const allTypes = getAppointmentTypes(days);
       setTypes(allTypes);
       const tipo = slot?.type || searchParams.get("tipo") || allTypes[0] || "";
@@ -128,13 +131,12 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
         setAvailableSlots(slots);
       }
     });
-  }, [open, slot, dayName, searchParams]);
+  }, [open, slot, dayName, searchParams, lang]);
 
   const loadProducts = useCallback(async () => {
     try {
-      const res = await fetch("/api/v1/products?limit=100");
-      const data = await res.json();
-      setProducts((data.products || []).map((p: { id: string; name: string; slug: string; price: number; category: string }) => ({
+      const products = await getAllProducts(lang);
+      setProducts(products.map((p) => ({
         id: p.id,
         name: p.name,
         slug: p.slug,
@@ -144,7 +146,7 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
     } catch {
       // Silently fail
     }
-  }, []);
+  }, [lang]);
 
   useEffect(() => {
     if (open) loadProducts();
@@ -161,7 +163,7 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
   const handleTypeChange = async (type: string) => {
     setSelectedType(type);
     setPickedSlotOverride(null);
-    const days = await getWeekDays();
+    const days = await getWeekDays(lang);
     const slots = getSlotsByType(days, type);
     setAvailableSlots(slots);
   };
@@ -173,7 +175,7 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
   if (!pickedSlot && !availableSlots.length && !selectedType) {
     const initial = slot?.type || searchParams.get("tipo") || "";
     if (!initial) {
-      const dayLabel = date.toLocaleDateString("es-ES", {
+      const dayLabel = date.toLocaleDateString(getDateLocale(lang), {
         weekday: "long",
         day: "numeric",
         month: "long",
@@ -182,19 +184,19 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
         <Dialog open={open} onOpenChange={onOpenChange}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>{agenda.slot.dialogTitle}</DialogTitle>
+              <DialogTitle>{cfg.agenda.slot.dialogTitle}</DialogTitle>
               <DialogDescription>
-                {agenda.slot.dialogDescription}
+                {cfg.agenda.slot.dialogDescription}
               </DialogDescription>
             </DialogHeader>
             <div className="py-4 space-y-3">
               <p className="text-sm font-medium capitalize">{dayLabel}</p>
               {types.length > 0 && (
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">{agenda.slot.typeLabel}</label>
+                  <label className="text-sm font-medium">{cfg.agenda.slot.typeLabel}</label>
                   <Select value={selectedType} onValueChange={handleTypeChange}>
                     <SelectTrigger>
-                      <SelectValue placeholder={agenda.slot.typePlaceholder} />
+                      <SelectValue placeholder={cfg.agenda.slot.typePlaceholder} />
                     </SelectTrigger>
                     <SelectContent>
                       {types.map((t) => (
@@ -207,7 +209,7 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
             </div>
             <DialogFooter>
               <Button variant="outline" onClick={() => onOpenChange(false)}>
-                {agenda.slot.cancel}
+                {cfg.agenda.slot.cancel}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -223,13 +225,13 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
           <DialogHeader>
             <DialogTitle>{selectedType}</DialogTitle>
             <DialogDescription>
-              {agenda.slot.timeDescription}
+              {cfg.agenda.slot.timeDescription}
             </DialogDescription>
           </DialogHeader>
           <div className="py-4 space-y-3">
             <Select value={selectedType} onValueChange={handleTypeChange}>
               <SelectTrigger>
-              <SelectValue placeholder={agenda.slot.typePlaceholder} />
+              <SelectValue placeholder={cfg.agenda.slot.typePlaceholder} />
               </SelectTrigger>
               <SelectContent>
                 {types.map((t) => (
@@ -255,13 +257,13 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
               </div>
             ) : (
               <p className="text-sm text-muted-foreground text-center py-4">
-                {agenda.slot.noSlots}
+                {cfg.agenda.slot.noSlots}
               </p>
             )}
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => onOpenChange(false)}>
-              {agenda.slot.cancel}
+              {cfg.agenda.slot.cancel}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -277,29 +279,29 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
     ? `${window.location.protocol}//${window.location.host}`
     : getBaseUrl();
 
-  const fullDate = formatFullDate(pickedSlot.dayName, pickedSlot.time);
+  const fullDate = formatFullDate(pickedSlot.dayName, pickedSlot.time, cfg.dayNames, lang);
 
   const shareUrl = `${baseUrl}/agenda?dia=${encodeURIComponent(pickedSlot.dayName)}&hora=${encodeURIComponent(pickedSlot.time)}&tipo=${encodeURIComponent(selectedType)}${selected ? `&producto=${encodeURIComponent(selected.slug)}` : ""}${message.trim() ? `&mensaje=${encodeURIComponent(message.trim())}` : ""}`;
 
   const handleConsultar = () => {
     const productInfo = selected ? { name: selected.name, price: selected.price } : undefined;
-    const mensaje = agenda.slot.whatsappTemplate(
+    const mensaje = cfg.agenda.slot.whatsappTemplate(
       fullDate,
       pickedSlot.time,
       selectedType,
       message.trim() || undefined,
       productInfo,
     );
-    openWhatsApp({ message: mensaje, title: agenda.slot.dialogTitle });
+    openWhatsApp({ message: mensaje, title: cfg.agenda.slot.dialogTitle });
     onOpenChange(false);
   };
 
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(shareUrl);
-      toast.success(ui.share.toastSuccess);
+      toast.success(cfg.ui.share.toastSuccess);
     } catch {
-      toast.error(ui.share.toastError);
+      toast.error(cfg.ui.share.toastError);
     }
   };
 
@@ -307,15 +309,15 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{agenda.slot.dialogTitle}</DialogTitle>
+          <DialogTitle>{cfg.agenda.slot.dialogTitle}</DialogTitle>
           <DialogDescription>
-            {agenda.slot.dialogDescription}
+            {cfg.agenda.slot.dialogDescription}
           </DialogDescription>
         </DialogHeader>
         <div className="py-2 space-y-3">
           <Select value={selectedType} onValueChange={handleTypeChange}>
             <SelectTrigger>
-               <SelectValue placeholder={agenda.slot.typePlaceholder} />
+               <SelectValue placeholder={cfg.agenda.slot.typePlaceholder} />
             </SelectTrigger>
             <SelectContent>
               {types.map((t) => (
@@ -334,13 +336,13 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
               className="h-auto p-0 text-xs"
               onClick={() => setPickedSlotOverride(null)}
             >
-              {agenda.slot.changeSlot}
+              {cfg.agenda.slot.changeSlot}
             </Button>
           </div>
           <div className="space-y-2">
             <Select value={selectedProduct} onValueChange={setSelectedProduct}>
               <SelectTrigger className="w-full">
-                <SelectValue placeholder={agenda.slot.productPlaceholder} />
+                <SelectValue placeholder={cfg.agenda.slot.productPlaceholder} />
               </SelectTrigger>
               <SelectContent>
                 {products.map((p) => (
@@ -354,7 +356,7 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
               <div className="flex items-center justify-between px-1">
                 <div className="flex items-center gap-2">
                   <Badge variant={selected.category === "suplemento" ? "default" : selected.category === "servicio" ? "outline" : "secondary"} className="text-xs">
-                    {categoryBadge[selected.category] || selected.category}
+                    {cfg.categoryBadge[selected.category] || selected.category}
                   </Badge>
                 </div>
                 <span className="text-sm font-semibold">
@@ -364,7 +366,7 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
             )}
           </div>
           <Textarea
-            placeholder={agenda.slot.messagePlaceholder}
+            placeholder={cfg.agenda.slot.messagePlaceholder}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             rows={3}
@@ -372,15 +374,15 @@ export function SlotDialog({ slot, dayName, date, open, onOpenChange }: SlotDial
         </div>
         <DialogFooter className="sm:[&>button]:flex-1">
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            {agenda.slot.cancel}
+            {cfg.agenda.slot.cancel}
           </Button>
           <Button variant="outline" onClick={handleCopyLink} className="gap-2">
             <IconCopy className="size-4" />
-            {agenda.slot.share}
+            {cfg.agenda.slot.share}
           </Button>
           <Button onClick={handleConsultar} className="gap-2" disabled={message.trim().length < 10}>
             <IconBrandWhatsapp className="size-4" />
-            {agenda.slot.consult}
+            {cfg.agenda.slot.consult}
           </Button>
         </DialogFooter>
       </DialogContent>

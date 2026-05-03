@@ -7,11 +7,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { IconBrandWhatsapp } from "@tabler/icons-react";
 import type { Comment } from "@/lib/modules/comments";
-import { blog } from "@/lib/config/site";
+import { useLang } from "@/lib/locale/context";
+import { getConfig, getDateLocale } from "@/lib/locale/config";
 import { useWhatsApp } from "@/components/whatsapp-provider";
 
 function CommentCard({ comment }: { comment: Comment }) {
-  const date = new Date(comment.createdAt).toLocaleDateString("es-ES", {
+  const lang = useLang();
+  const cfg = getConfig(lang);
+  const dateLocale = getDateLocale(lang);
+  const date = new Date(comment.createdAt).toLocaleDateString(dateLocale, {
     year: "numeric",
     month: "short",
     day: "numeric",
@@ -22,7 +26,7 @@ function CommentCard({ comment }: { comment: Comment }) {
       <div className="flex items-center justify-between">
         <span className="font-medium">{comment.name}</span>
         {comment.status === "pending" && (
-          <Badge variant="outline" className="text-xs">{blog.comments.pending}</Badge>
+          <Badge variant="outline" className="text-xs">{cfg.blog.comments.pending}</Badge>
         )}
       </div>
       <p className="text-muted-foreground text-sm">{comment.comment}</p>
@@ -37,6 +41,8 @@ interface BlogCommentsProps {
 }
 
 export function BlogComments({ postSlug, initialComments }: BlogCommentsProps) {
+  const lang = useLang();
+  const cfg = getConfig(lang);
   const [commentText, setCommentText] = useState("");
   const [commentName, setCommentName] = useState("");
   const { openWhatsApp } = useWhatsApp();
@@ -44,14 +50,14 @@ export function BlogComments({ postSlug, initialComments }: BlogCommentsProps) {
   const handleSubmit = () => {
     if (!commentName || !commentText) return;
     const mensaje = `Quiero comentar el artículo "${postSlug}": ${commentName} - ${commentText}`;
-    const title = blog.comments.whatsappTitle;
+    const title = cfg.blog.comments.whatsappTitle;
     openWhatsApp({ message: mensaje, title });
   };
 
   return (
     <div className="mt-12">
       <h2 className="text-xl font-bold mb-4">
-        {blog.comments.title(initialComments.length)}
+        {cfg.blog.comments.title(initialComments.length)}
       </h2>
 
       <div className="grid gap-4 md:grid-cols-2">
@@ -61,22 +67,22 @@ export function BlogComments({ postSlug, initialComments }: BlogCommentsProps) {
       </div>
 
       <div className="border rounded-lg p-4 space-y-4 mt-6">
-        <h3 className="font-medium">{blog.comments.writeTitle}</h3>
+        <h3 className="font-medium">{cfg.blog.comments.writeTitle}</h3>
 
         <Input
-          placeholder={blog.comments.namePlaceholder}
+          placeholder={cfg.blog.comments.namePlaceholder}
           value={commentName}
           onChange={(e) => setCommentName(e.target.value)}
           className="w-full sm:max-w-xs"
-          aria-label={blog.comments.namePlaceholder}
+          aria-label={cfg.blog.comments.namePlaceholder}
         />
 
         <Textarea
-          placeholder={blog.comments.commentPlaceholder}
+          placeholder={cfg.blog.comments.commentPlaceholder}
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
           rows={3}
-          aria-label={blog.comments.commentPlaceholder}
+          aria-label={cfg.blog.comments.commentPlaceholder}
         />
 
         <Button
@@ -84,7 +90,7 @@ export function BlogComments({ postSlug, initialComments }: BlogCommentsProps) {
           disabled={!commentName || !commentText}
         >
           <IconBrandWhatsapp className="size-4 mr-2" />
-          {blog.comments.submit}
+          {cfg.blog.comments.submit}
         </Button>
       </div>
     </div>

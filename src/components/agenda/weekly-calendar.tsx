@@ -5,7 +5,8 @@ import { useSearchParams } from "next/navigation";
 import { DayColumn } from "./day-column";
 import { Button } from "@/components/ui/button";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
-import { agenda } from "@/lib/config/site";
+import { useLang } from "@/lib/locale/context";
+import { getConfig, getDateLocale } from "@/lib/locale/config";
 import { getWeekMax } from "@/lib/env";
 import type { AgendaDay } from "@/lib/modules/agenda";
 
@@ -23,8 +24,8 @@ function getWeekStartDate(weekOffset: number): Date {
   return monday;
 }
 
-function formatDate(date: Date): string {
-  return date.toLocaleDateString("es-ES", {
+function formatDate(date: Date, locale = "es"): string {
+  return date.toLocaleDateString(getDateLocale(locale), {
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -42,6 +43,8 @@ function getDatesForWeek(monday: Date): Date[] {
 }
 
 export function WeeklyCalendar({ days }: WeeklyCalendarProps) {
+  const lang = useLang();
+  const cfg = getConfig(lang);
   const [weekOffset, setWeekOffset] = useState(0);
   const searchParams = useSearchParams();
   const initialDay = searchParams.get("dia") || undefined;
@@ -73,13 +76,13 @@ export function WeeklyCalendar({ days }: WeeklyCalendarProps) {
           onClick={() => setWeekOffset((p) => p - 1)}
           disabled={!canGoPrev}
           className="gap-2 shrink-0"
-          aria-label={agenda.calendar.previousWeek}
+          aria-label={cfg.agenda.calendar.previousWeek}
         >
           <IconChevronLeft className="size-4" />
-          <span className="hidden sm:inline">{agenda.calendar.previousWeek}</span>
+          <span className="hidden sm:inline">{cfg.agenda.calendar.previousWeek}</span>
         </Button>
         <p className="text-sm font-medium text-muted-foreground text-center truncate min-w-0 px-2" aria-live="polite" aria-atomic="true">
-          {agenda.calendar.weekOf(formatDate(weekStart))}
+          {cfg.agenda.calendar.weekOf(formatDate(weekStart, lang))}
         </p>
         <Button
           variant="outline"
@@ -87,9 +90,9 @@ export function WeeklyCalendar({ days }: WeeklyCalendarProps) {
           onClick={() => setWeekOffset((p) => p + 1)}
           disabled={!canGoNext}
           className="gap-2 shrink-0"
-          aria-label={agenda.calendar.nextWeek}
+          aria-label={cfg.agenda.calendar.nextWeek}
         >
-          <span className="hidden sm:inline">{agenda.calendar.nextWeek}</span>
+          <span className="hidden sm:inline">{cfg.agenda.calendar.nextWeek}</span>
           <IconChevronRight className="size-4" />
         </Button>
       </div>

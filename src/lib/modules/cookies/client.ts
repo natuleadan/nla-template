@@ -1,6 +1,12 @@
 "use client";
 
 import notificationService from "../notification";
+import { getConfig } from "@/lib/locale/config";
+
+function getUiCookie() {
+  const lang = typeof document !== "undefined" ? (document.documentElement.lang || "en") : "en";
+  return getConfig(lang).ui.cookie;
+}
 
 const COOKIE_PREFIX = "str_";
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
@@ -131,7 +137,7 @@ export function acceptAllCookiesClient(): void {
     analytics: true,
     marketing: true,
   });
-  notificationService.success("Cookies aceptadas correctamente");
+  notificationService.success(getUiCookie().accepted);
 }
 
 export function rejectAllCookiesClient(): void {
@@ -140,7 +146,7 @@ export function rejectAllCookiesClient(): void {
     analytics: false,
     marketing: false,
   });
-  notificationService.info("Solo cookies necesarias activadas");
+  notificationService.info(getUiCookie().onlyNecessary);
 }
 
 export function saveCustomCookiePreferences(
@@ -152,7 +158,7 @@ export function saveCustomCookiePreferences(
     analytics,
     marketing,
   });
-  notificationService.success("Preferencias de cookies guardadas");
+  notificationService.success(getUiCookie().saved);
 }
 
 export function getStorageType(

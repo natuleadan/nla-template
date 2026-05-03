@@ -1,9 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ui } from "@/lib/config/site";
+import { useLang } from "@/lib/locale/context";
+import { getConfig } from "@/lib/locale/config";
 
 export function Copyright({ brandName }: { brandName: string }) {
+  const lang = useLang();
+  const cfg = getConfig(lang);
   const [year, setYear] = useState(2026);
   
   useEffect(() => {
@@ -12,7 +15,7 @@ export function Copyright({ brandName }: { brandName: string }) {
 
   return (
     <p className="mt-4 text-sm text-muted-foreground">
-      {ui.copyright(year, brandName)}
+      {cfg.ui.copyright(year, brandName)}
     </p>
   );
 }

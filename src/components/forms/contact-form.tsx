@@ -15,7 +15,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
-import { form, ui } from "@/lib/config/site";
+import { useLang } from "@/lib/locale/context";
+import { getConfig } from "@/lib/locale/config";
 import { useWhatsApp } from "@/components/whatsapp-provider";
 
 interface ContactFormData {
@@ -28,9 +29,10 @@ interface ContactFormProps {
   className?: string;
 }
 
-const t = form.contact;
-
 export function ContactForm({ className }: ContactFormProps) {
+  const lang = useLang();
+  const cfg = getConfig(lang);
+  const t = cfg.form.contact;
   const [submitted, setSubmitted] = useState(false);
   const { openWhatsApp } = useWhatsApp();
 
@@ -46,7 +48,7 @@ export function ContactForm({ className }: ContactFormProps) {
     const mensaje = t.whatsappTemplate(values.nombre, values.email, values.mensaje);
     openWhatsApp({
       message: mensaje,
-      title: "Contacto",
+      title: cfg.pages.contacto.title,
       onSuccess: () => {
         setSubmitted(true);
         contactForm.reset();

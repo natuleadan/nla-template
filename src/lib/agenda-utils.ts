@@ -1,4 +1,5 @@
 import type { AgendaDay } from "@/lib/modules/agenda";
+import { getDateLocale } from "@/lib/locale/config";
 
 export interface AgendaSlotInfo {
   dayName: string;
@@ -18,7 +19,7 @@ export function getAppointmentTypes(days: AgendaDay[]): string[] {
   return Array.from(types);
 }
 
-export function getUpcomingSlots(days: AgendaDay[], limit = 10): AgendaSlotInfo[] {
+export function getUpcomingSlots(days: AgendaDay[], limit = 10, locale = "es"): AgendaSlotInfo[] {
   const now = new Date();
   const todayDayOfWeek = now.getDay();
   const cutoffMinutes = now.getHours() * 60 + now.getMinutes() + 30;
@@ -44,7 +45,7 @@ export function getUpcomingSlots(days: AgendaDay[], limit = 10): AgendaSlotInfo[
 
     const dateNum = new Date(now);
     dateNum.setDate(dateNum.getDate() + offset);
-    const monthName = dateNum.toLocaleDateString("es-ES", { month: "short" }).replace(".", "");
+    const monthName = dateNum.toLocaleDateString(getDateLocale(locale), { month: "short" }).replace(".", "");
 
     for (const slot of slots) {
       if (result.length >= limit) break;
@@ -64,24 +65,26 @@ export function getUpcomingSlots(days: AgendaDay[], limit = 10): AgendaSlotInfo[
 export function getNextAvailableDaySlots(
   days: AgendaDay[],
   maxItems = 3,
+  title?: string,
+  locale = "es",
 ): { slots: AgendaSlotInfo[]; title: string } {
-  const upcoming = getUpcomingSlots(days, maxItems);
-  if (upcoming.length === 0) return { slots: [], title: "Agenda" };
+  const upcoming = getUpcomingSlots(days, maxItems, locale);
+  if (upcoming.length === 0) return { slots: [], title: title || "Agenda" };
 
   const now = new Date();
   const today = days.find((d) => d.dayOfWeek === now.getDay());
   const hasTodaySlots = upcoming.filter((s) => s.dayName === today?.name);
   if (hasTodaySlots.length > 0) {
-    return { slots: hasTodaySlots.slice(0, maxItems), title: "Agenda" };
+    return { slots: hasTodaySlots.slice(0, maxItems), title: title || "Agenda" };
   }
 
   const firstDayName = upcoming[0].dayName;
   const daySlots = upcoming.filter((s) => s.dayName === firstDayName).slice(0, maxItems);
   const firstDayNumber = daySlots[0]?.dayNumber || "";
-  return { slots: daySlots, title: `Agenda ${firstDayName} ${firstDayNumber}` };
+  return { slots: daySlots, title: title ? `${title} ${firstDayName} ${firstDayNumber}` : `Agenda ${firstDayName} ${firstDayNumber}` };
 }
 
-export function getSlotsByType(days: AgendaDay[], type: string): AgendaSlotInfo[] {
+export function getSlotsByType(days: AgendaDay[], type: string, locale = "es"): AgendaSlotInfo[] {
   const now = new Date();
   const todayDayOfWeek = now.getDay();
   const cutoffMinutes = now.getHours() * 60 + now.getMinutes() + 30;
@@ -107,7 +110,7 @@ export function getSlotsByType(days: AgendaDay[], type: string): AgendaSlotInfo[
     const dateNum = new Date(now);
     dateNum.setDate(dateNum.getDate() + offset);
 
-    const monthName = dateNum.toLocaleDateString("es-ES", { month: "short" }).replace(".", "");
+    const monthName = dateNum.toLocaleDateString(getDateLocale(locale), { month: "short" }).replace(".", "");
     for (const slot of slots) {
       result.push({
         dayName: day.name,

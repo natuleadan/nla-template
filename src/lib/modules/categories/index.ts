@@ -1,4 +1,13 @@
-import { categoriesData } from "@/lib/config/data/categories";
+import {
+  productCategories as productCatEs,
+  blogCategories as blogCatEs,
+  pageCategories as pageCatEs,
+} from "@/lib/config/data/categories.es";
+import {
+  productCategories as productCatEn,
+  blogCategories as blogCatEn,
+  pageCategories as pageCatEn,
+} from "@/lib/config/data/categories.en";
 import { CategorySchema } from "./schemas";
 
 export interface Category {
@@ -8,8 +17,29 @@ export interface Category {
   icon?: string;
 }
 
-const categories: Category[] = CategorySchema.array().parse([...categoriesData]);
+const productCats = {
+  es: CategorySchema.array().parse([...productCatEs]),
+  en: CategorySchema.array().parse([...productCatEn]),
+};
 
-export async function getCategories(): Promise<Category[]> {
-  return categories;
+const blogCats = {
+  es: CategorySchema.array().parse([...blogCatEs]),
+  en: CategorySchema.array().parse([...blogCatEn]),
+};
+
+const pageCats = {
+  es: CategorySchema.array().parse([...pageCatEs]),
+  en: CategorySchema.array().parse([...pageCatEn]),
+};
+
+export async function getProductCategories(locale = "es"): Promise<Category[]> {
+  return productCats[locale as keyof typeof productCats] || productCats.es;
+}
+
+export async function getBlogCategories(locale = "es"): Promise<Category[]> {
+  return blogCats[locale as keyof typeof blogCats] || blogCats.es;
+}
+
+export async function getPageCategories(locale = "es"): Promise<Category[]> {
+  return pageCats[locale as keyof typeof pageCats] || pageCats.es;
 }

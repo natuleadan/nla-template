@@ -26,12 +26,11 @@ import {
 } from "@/components/ui/popover";
 import { IconBrandWhatsapp, IconCheck, IconChevronDown } from "@tabler/icons-react";
 import { countryCodes, type CountryCode } from "@/lib/config/data/country-codes";
-import { ui } from "@/lib/config/site";
+import { useLang } from "@/lib/locale/context";
+import { getConfig } from "@/lib/locale/config";
 import notificationService from "@/lib/modules/notification";
 import { getSavedPhone, savePhone } from "@/lib/modules/cookies/client";
 import type { WhatsAppOptions } from "@/components/whatsapp-provider";
-
-const t = ui.whatsapp;
 
 interface WhatsAppDialogProps {
   open: boolean;
@@ -46,6 +45,9 @@ export function WhatsAppDialog({
   options,
   defaultCountryCode,
 }: WhatsAppDialogProps) {
+  const lang = useLang();
+  const cfg = getConfig(lang);
+  const t = cfg.ui.whatsapp;
   const [countryCode, setCountryCode] = useState<CountryCode>(() =>
     countryCodes.find((c) => c.code === (defaultCountryCode || "EC")) || countryCodes[0],
   );

@@ -11,7 +11,8 @@ import {
 } from "@/components/ui/select";
 import { ProductGrid } from "./product-grid";
 import { Spinner } from "@/components/ui/spinner";
-import { store } from "@/lib/config/site";
+import { useLang } from "@/lib/locale/context";
+import { getConfig } from "@/lib/locale/config";
 import { isDev } from "@/lib/env";
 
 interface Product {
@@ -42,6 +43,8 @@ export function TiendaToolbar({
   initialHasMore,
   categories,
 }: TiendaToolbarProps) {
+  const lang = useLang();
+  const cfg = getConfig(lang);
   const [allLoaded, setAllLoaded] = useState<Product[]>(initialProducts);
   const [hasMore, setHasMore] = useState(initialHasMore);
   const [page, setPage] = useState(1);
@@ -54,7 +57,7 @@ export function TiendaToolbar({
     if (loading || !hasMore) return;
     setLoading(true);
     try {
-      const res = await fetch(`/api/v1/products?page=${page + 1}&limit=3`);
+      const res = await fetch(`/api/v1/products?page=${page + 1}&limit=3&locale=${lang}`);
       const data = await res.json();
       setAllLoaded((prev) => [...prev, ...data.products]);
       setHasMore(data.hasMore);
@@ -64,7 +67,7 @@ export function TiendaToolbar({
     } finally {
       setLoading(false);
     }
-  }, [page, loading, hasMore]);
+  }, [page, loading, hasMore, lang]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -93,18 +96,18 @@ export function TiendaToolbar({
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row gap-4">
         <Input
-          placeholder={store.toolbar.searchPlaceholder}
+          placeholder={cfg.store.toolbar.searchPlaceholder}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="sm:max-w-xs"
-          aria-label={store.toolbar.searchPlaceholder}
+          aria-label={cfg.store.toolbar.searchPlaceholder}
         />
         <Select value={category} onValueChange={setCategory}>
           <SelectTrigger className="sm:max-w-xs ml-auto">
-            <SelectValue placeholder={store.toolbar.filterLabel} />
+            <SelectValue placeholder={cfg.store.toolbar.filterLabel} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">{store.toolbar.allCategories}</SelectItem>
+            <SelectItem value="all">{cfg.store.toolbar.allCategories}</SelectItem>
             {categories.map((cat) => (
               <SelectItem key={cat.slug} value={cat.slug}>
                 {cat.name}
@@ -122,7 +125,7 @@ export function TiendaToolbar({
       {hasMore && !loading && <div ref={observerRef} className="h-10" aria-hidden="true" />}
       {!hasMore && allLoaded.length > 0 && (
         <p className="text-center text-sm text-muted-foreground py-4" role="status" aria-live="polite">
-          {store.toolbar.showing(total)}
+          {cfg.store.toolbar.showing(total)}
         </p>
       )}
     </div>

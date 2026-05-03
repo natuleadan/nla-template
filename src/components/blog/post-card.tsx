@@ -12,7 +12,8 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { blog } from "@/lib/config/site";
+import { useLang } from "@/lib/locale/context";
+import { getConfig } from "@/lib/locale/config";
 import { IconArrowRight, IconClock, IconUser, IconCalendar } from "@tabler/icons-react";
 
 const FALLBACK_IMAGE = "/design/fallback.svg";
@@ -38,13 +39,16 @@ export function PostCard({
   publishedAt,
   readingTime,
 }: PostCardProps) {
+  const lang = useLang();
+  const cfg = getConfig(lang);
+  const catLabels = Object.fromEntries((cfg.blogCategories || []).map((c: {slug: string; name: string}) => [c.slug, c.name]));
   const [imgSrc, setImgSrc] = useState(image || FALLBACK_IMAGE);
   const [fallbackUsed, setFallbackUsed] = useState(false);
 
   return (
     <Card className="flex flex-col h-full overflow-hidden gap-0">
       <Link
-        href={`/blog/${slug}`}
+        href={`/${lang}/blog/${slug}`}
         className="block relative aspect-video overflow-hidden"
       >
         <Image
@@ -63,10 +67,10 @@ export function PostCard({
       </Link>
       <CardHeader className="pb-2 px-4 pt-4">
         <Badge variant="secondary" className="w-fit mb-2">
-          {category}
+          {catLabels[category] || category}
         </Badge>
         <CardTitle className="text-lg line-clamp-2">
-          <Link href={`/blog/${slug}`} className="hover:underline">
+          <Link href={`/${lang}/blog/${slug}`} className="hover:underline">
             {title}
           </Link>
         </CardTitle>
@@ -80,7 +84,7 @@ export function PostCard({
         <div className="flex flex-wrap gap-3 text-xs text-muted-foreground w-full">
           <span className="flex items-center gap-1">
             <IconUser className="size-3" />
-            {blog.post.by(author)}
+            {cfg.blog.post.by(author)}
           </span>
           <span className="flex items-center gap-1">
             <IconCalendar className="size-3" />
@@ -88,12 +92,12 @@ export function PostCard({
           </span>
           <span className="flex items-center gap-1">
             <IconClock className="size-3" />
-            {blog.post.readingTime(readingTime)}
+            {cfg.blog.post.readingTime(readingTime)}
           </span>
         </div>
-        <Link href={`/blog/${slug}`} className="w-full">
-          <Button variant="outline" className="gap-2 w-full" aria-label={`${blog.post.readMore}: ${title}`}>
-            {blog.post.readMore}
+        <Link href={`/${lang}/blog/${slug}`} className="w-full">
+          <Button variant="outline" className="gap-2 w-full" aria-label={`${cfg.blog.post.readMore}: ${title}`}>
+            {cfg.blog.post.readMore}
             <IconArrowRight className="size-4" />
           </Button>
         </Link>

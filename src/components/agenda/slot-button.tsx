@@ -2,8 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/config/utils";
+import { useLang } from "@/lib/locale/context";
+import { getConfig } from "@/lib/locale/config";
 import type { AgendaSlot } from "@/lib/modules/agenda";
-import { agenda } from "@/lib/config/site";
 
 interface SlotButtonProps {
   slot: AgendaSlot;
@@ -29,6 +30,8 @@ function getTypeIndex(type?: string): number {
 }
 
 export function SlotButton({ slot, dayName, onClick, disabled }: SlotButtonProps) {
+  const lang = useLang();
+  const cfg = getConfig(lang);
   const colorClass = typeColors[getTypeIndex(slot.type)];
 
   return (
@@ -43,7 +46,7 @@ export function SlotButton({ slot, dayName, onClick, disabled }: SlotButtonProps
           ? "opacity-40 cursor-not-allowed line-through hover:bg-transparent hover:text-inherit pointer-events-auto"
           : colorClass,
       )}
-      aria-label={`${dayName} a las ${slot.time}${slot.type ? ` — ${slot.type}` : ""}${disabled ? agenda.slotButton.unavailable : ""}`}
+      aria-label={`${dayName} a las ${slot.time}${slot.type ? ` — ${slot.type}` : ""}${disabled ? cfg.agenda.slotButton.unavailable : ""}`}
     >
       {slot.type ? (
         <>

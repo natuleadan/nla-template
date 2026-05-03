@@ -1,12 +1,17 @@
+"use client";
+
 import { cn } from "@/lib/config/utils";
 import { IconLoader } from "@tabler/icons-react";
-import { ui } from "@/lib/config/site";
+import { useLang } from "@/lib/locale/context";
+import { getConfig } from "@/lib/locale/config";
 
 function Spinner({ className, ...props }: React.ComponentProps<"svg">) {
+  const lang = useLang();
+  const cfg = getConfig(lang);
   return (
     <IconLoader
       role="status"
-      aria-label={ui.spinner.ariaLabel}
+      aria-label={cfg.ui.spinner.ariaLabel}
       className={cn("size-4 animate-spin", className)}
       {...props}
     />

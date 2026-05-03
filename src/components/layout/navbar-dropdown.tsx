@@ -7,7 +7,8 @@ import { getAllPosts } from "@/lib/modules/blog";
 import { getWeekDays } from "@/lib/modules/agenda";
 import { getAllPaginas } from "@/lib/modules/paginas";
 import { getUpcomingSlots } from "@/lib/agenda-utils";
-import { ui } from "@/lib/config/site";
+import { useLang } from "@/lib/locale/context";
+import { getConfig } from "@/lib/locale/config";
 import { IconHome, IconBuildingStore, IconNews, IconCalendar, IconFiles, IconMail } from "@tabler/icons-react";
 
 type DropdownType = "products" | "posts" | "agenda" | "pages";
@@ -45,33 +46,33 @@ function shuffleArray<T>(array: T[]): T[] {
   return a;
 }
 
-async function loadItems(type: DropdownType): Promise<NavLink[]> {
+async function loadItems(type: DropdownType, lang = "es"): Promise<NavLink[]> {
   switch (type) {
     case "products": {
-      const products = await getAllProducts();
+      const products = await getAllProducts(lang);
       return shuffleArray(products).slice(0, 5).map((p) => ({
-        href: `/tienda/${p.slug}`,
+        href: `/${lang}/tienda/${p.slug}`,
         label: p.name,
       }));
     }
     case "posts": {
-      const posts = await getAllPosts();
+      const posts = await getAllPosts(lang);
       return posts
         .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
         .slice(0, 5)
-        .map((post) => ({ href: `/blog/${post.slug}`, label: post.title }));
+        .map((post) => ({ href: `/${lang}/blog/${post.slug}`, label: post.title }));
     }
     case "agenda": {
-      const days = await getWeekDays();
-      return getUpcomingSlots(days, 5).map((s) => ({
-        href: `/agenda?dia=${encodeURIComponent(s.dayName)}&hora=${encodeURIComponent(s.time)}&tipo=${encodeURIComponent(s.type)}`,
+      const days = await getWeekDays(lang);
+      return getUpcomingSlots(days, 5, lang).map((s) => ({
+        href: `/${lang}/agenda?dia=${encodeURIComponent(s.dayName)}&hora=${encodeURIComponent(s.time)}&tipo=${encodeURIComponent(s.type)}`,
         label: `${s.dayName} ${s.dayNumber} ${s.time} ${s.type}`,
       }));
     }
     case "pages": {
-      const pages = await getAllPaginas();
+      const pages = await getAllPaginas(lang);
       return pages.slice(0, 5).map((page) => ({
-        href: `/paginas/${page.slug}`,
+        href: `/${lang}/paginas/${page.slug}`,
         label: page.title,
       }));
     }
@@ -79,6 +80,8 @@ async function loadItems(type: DropdownType): Promise<NavLink[]> {
 }
 
 function DesktopDropdown({ label, href, type, icon, compact }: NavDropdownProps) {
+  const lang = useLang();
+  const cfg = getConfig(lang);
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState<NavLink[]>([]);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -86,11 +89,11 @@ function DesktopDropdown({ label, href, type, icon, compact }: NavDropdownProps)
 
   useEffect(() => {
     let cancelled = false;
-    loadItems(type).then((result) => {
+    loadItems(type, lang).then((result) => {
       if (!cancelled) setItems(result);
     });
     return () => { cancelled = true; };
-  }, [type]);
+  }, [type, lang]);
 
   const show = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -142,7 +145,7 @@ function DesktopDropdown({ label, href, type, icon, compact }: NavDropdownProps)
               </Link>
             ))
           ) : (
-            <p className="px-3 py-1.5 text-sm text-muted-foreground">{ui.dropdown.noSlots}</p>
+            <p className="px-3 py-1.5 text-sm text-muted-foreground">{cfg.ui.dropdown.noSlots}</p>
           )}
         </div>
       )}
@@ -151,17 +154,19 @@ function DesktopDropdown({ label, href, type, icon, compact }: NavDropdownProps)
 }
 
 function MobileAccordion({ label, href, type, onNav, icon }: NavDropdownProps) {
+  const lang = useLang();
+  const cfg = getConfig(lang);
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState<NavLink[]>([]);
   const IconComp = icon ? iconMap[icon] : null;
 
   useEffect(() => {
     let cancelled = false;
-    loadItems(type).then((result) => {
+    loadItems(type, lang).then((result) => {
       if (!cancelled) setItems(result);
     });
     return () => { cancelled = true; };
-  }, [type]);
+  }, [type, lang]);
 
   return (
     <div>
@@ -177,7 +182,7 @@ function MobileAccordion({ label, href, type, onNav, icon }: NavDropdownProps) {
         <button
           onClick={() => setOpen(!open)}
           className="px-3 py-3 text-base font-medium rounded-r-lg hover:bg-muted transition-colors"
-          aria-label={open ? "Cerrar" : "Abrir"}
+          aria-label={open ? cfg.ui.navbar.closeAria : cfg.ui.navbar.openAria}
         >
           <svg
             className={`size-4 transition-transform ${open ? "rotate-180" : ""}`}
@@ -204,7 +209,7 @@ function MobileAccordion({ label, href, type, onNav, icon }: NavDropdownProps) {
               </Link>
             ))
           ) : (
-            <p className="px-4 py-2 text-sm text-muted-foreground">{ui.dropdown.noSlots}</p>
+            <p className="px-4 py-2 text-sm text-muted-foreground">{cfg.ui.dropdown.noSlots}</p>
           )}
         </div>
       )}

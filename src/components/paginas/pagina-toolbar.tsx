@@ -11,7 +11,8 @@ import {
 } from "@/components/ui/select";
 import { PaginaCard } from "./pagina-card";
 import { Spinner } from "@/components/ui/spinner";
-import { paginas } from "@/lib/config/site";
+import { useLang } from "@/lib/locale/context";
+import { getConfig } from "@/lib/locale/config";
 
 interface PaginaPost {
   id: string;
@@ -41,6 +42,8 @@ export function PaginaToolbar({
   initialHasMore,
   categories,
 }: PaginaToolbarProps) {
+  const lang = useLang();
+  const cfg = getConfig(lang);
   const [allLoaded, setAllLoaded] = useState<PaginaPost[]>(initialPages);
   const [hasMore, setHasMore] = useState(initialHasMore);
   const [page, setPage] = useState(1);
@@ -53,7 +56,7 @@ export function PaginaToolbar({
     if (loading || !hasMore) return;
     setLoading(true);
     try {
-      const res = await fetch(`/api/v1/paginas?page=${page + 1}&limit=6`);
+      const res = await fetch(`/api/v1/paginas?page=${page + 1}&limit=6&locale=${lang}`);
       const data = await res.json();
       setAllLoaded((prev) => [...prev, ...data.pages]);
       setHasMore(data.hasMore);
@@ -63,7 +66,7 @@ export function PaginaToolbar({
     } finally {
       setLoading(false);
     }
-  }, [loading, hasMore, page]);
+  }, [loading, hasMore, page, lang]);
 
   useEffect(() => {
     const el = observerRef.current;
@@ -91,18 +94,18 @@ export function PaginaToolbar({
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row gap-3">
         <Input
-          placeholder={paginas.toolbar.searchPlaceholder}
+          placeholder={cfg.paginas.toolbar.searchPlaceholder}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="sm:max-w-xs"
-          aria-label={paginas.toolbar.searchPlaceholder}
+          aria-label={cfg.paginas.toolbar.searchPlaceholder}
         />
         <Select value={category} onValueChange={setCategory}>
           <SelectTrigger className="sm:max-w-xs ml-auto">
-            <SelectValue placeholder={paginas.toolbar.filterLabel} />
+            <SelectValue placeholder={cfg.paginas.toolbar.filterLabel} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">{paginas.toolbar.allCategories}</SelectItem>
+            <SelectItem value="all">{cfg.paginas.toolbar.allCategories}</SelectItem>
             {categories.map((cat) => (
               <SelectItem key={cat.slug} value={cat.slug}>
                 {cat.name}
@@ -126,13 +129,13 @@ export function PaginaToolbar({
           {hasMore && !loading && <div ref={observerRef} className="h-10" aria-hidden="true" />}
           {!hasMore && allLoaded.length > 0 && (
             <p className="text-center text-sm text-muted-foreground py-4" role="status" aria-live="polite">
-              {paginas.toolbar.showing(total)}
+              {cfg.paginas.toolbar.showing(total)}
             </p>
           )}
         </>
       ) : (
         <p className="text-center text-muted-foreground py-12" role="status" aria-live="polite">
-          {paginas.page.empty}
+          {cfg.paginas.page.empty}
         </p>
       )}
     </div>

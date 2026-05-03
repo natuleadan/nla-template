@@ -1,4 +1,5 @@
-import { commentsData as seedData } from "@/lib/config/data/comments";
+import { commentsData as commentsDataEs } from "@/lib/config/data/comments.es";
+import { commentsData as commentsDataEn } from "@/lib/config/data/comments.en";
 import { CommentSchema } from "./schemas";
 
 export interface Comment {
@@ -12,13 +13,20 @@ export interface Comment {
   phone?: string;
 }
 
-const comments: Comment[] = CommentSchema.array().parse(seedData);
+const allComments = {
+  es: CommentSchema.array().parse(commentsDataEs),
+  en: CommentSchema.array().parse(commentsDataEn),
+};
 
-export async function getComments(postSlug: string): Promise<Comment[]> {
-  if (!postSlug || typeof postSlug !== "string") return [];
-  return comments.filter((c) => c.postSlug === postSlug);
+function getData(locale = "es") {
+  return allComments[locale as keyof typeof allComments] || allComments.es;
 }
 
-export async function getApprovedComments(postSlug: string): Promise<Comment[]> {
-  return comments.filter((c) => c.postSlug === postSlug && c.status === "approved" && c.visibility !== "private");
+export async function getComments(postSlug: string, locale = "es"): Promise<Comment[]> {
+  if (!postSlug || typeof postSlug !== "string") return [];
+  return getData(locale).filter((c) => c.postSlug === postSlug);
+}
+
+export async function getApprovedComments(postSlug: string, locale = "es"): Promise<Comment[]> {
+  return getData(locale).filter((c) => c.postSlug === postSlug && c.status === "approved" && c.visibility !== "private");
 }

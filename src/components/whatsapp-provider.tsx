@@ -14,7 +14,8 @@ import {
   hasValidPhoneCookie,
 } from "@/lib/modules/cookies/client";
 import notificationService from "@/lib/modules/notification";
-import { ui } from "@/lib/config/site";
+import { useLang } from "@/lib/locale/context";
+import { getConfig } from "@/lib/locale/config";
 
 export interface WhatsAppOptions {
   message: string;
@@ -44,8 +45,6 @@ interface WhatsAppProviderProps {
   defaultCountryCode?: string;
 }
 
-const t = ui.whatsapp;
-
 async function sendDirectly(
   to: string,
   message: string,
@@ -69,6 +68,9 @@ export function WhatsAppProvider({
   children,
   defaultCountryCode = "EC",
 }: WhatsAppProviderProps) {
+  const lang = useLang();
+  const cfg = getConfig(lang);
+  const t = cfg.ui.whatsapp;
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState<WhatsAppOptions | null>(null);
 
@@ -77,7 +79,7 @@ export function WhatsAppProvider({
       if (hasValidPhoneCookie()) {
         const savedPhone = getSavedPhone();
         if (savedPhone) {
-          const loadingId = toast.loading(`Enviando a ${savedPhone}...`);
+          const loadingId = toast.loading(t.dialog.sending);
 
           const success = await sendDirectly(
             savedPhone,
@@ -101,7 +103,7 @@ export function WhatsAppProvider({
       setOptions(opts);
       setOpen(true);
     },
-    [],
+    [t.notification.success, t.notification.error, t.dialog.sending],
   );
 
   const handleClose = useCallback(() => {

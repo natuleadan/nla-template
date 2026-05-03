@@ -16,7 +16,8 @@ import { Button } from "@/components/ui/button";
 import { IconBrandWhatsapp, IconEye } from "@tabler/icons-react";
 
 const FALLBACK_IMAGE = "/design/fallback.svg";
-import { store } from "@/lib/config/site";
+import { useLang } from "@/lib/locale/context";
+import { getConfig } from "@/lib/locale/config";
 import { useWhatsApp } from "@/components/whatsapp-provider";
 
 interface ProductCardProps {
@@ -38,12 +39,14 @@ export function ProductCard({
   category,
   image,
 }: ProductCardProps) {
+  const lang = useLang();
+  const cfg = getConfig(lang);
   const [imgSrc, setImgSrc] = useState(image || FALLBACK_IMAGE);
   const [fallbackUsed, setFallbackUsed] = useState(false);
   const { openWhatsApp } = useWhatsApp();
 
   const handlePedir = () => {
-    const mensaje = store.product.whatsappCompact(name, price);
+    const mensaje = cfg.store.product.whatsappCompact(name, price);
     openWhatsApp({ message: mensaje, title: name, productName: name });
   };
 
@@ -56,7 +59,7 @@ export function ProductCard({
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 p-0 relative aspect-[3/4] lg:aspect-square">
-        <Link href={`/tienda/${slug}`} className="block absolute inset-0">
+        <Link href={`/${lang}/tienda/${slug}`} className="block absolute inset-0">
           <Image
             src={imgSrc}
             alt={name}
@@ -74,33 +77,31 @@ export function ProductCard({
         </Link>
         <div className="absolute top-2 left-2 z-10">
           <Badge variant={category === "suplemento" ? "default" : category === "servicio" ? "outline" : "secondary"}>
-            {store.product.badge(category)}
+            {cfg.store.product.badge(category)}
           </Badge>
         </div>
         <div className="absolute bottom-0 right-0 z-10 bg-background/80 backdrop-blur-sm px-3 py-1.5 rounded-lg">
           <span className="text-lg font-bold">${price.toFixed(2)}</span>
           <span className="text-xs text-muted-foreground ml-1">
-            {store.product.priceLabel}
+            {cfg.store.product.priceLabel}
           </span>
         </div>
       </CardContent>
       <CardFooter className="px-3 sm:px-4 py-2">
         <div className="flex gap-2 w-full">
-          <div className="flex-1">
-            <Button
-              onClick={handlePedir}
-              variant="outline"
-              className="gap-1 w-full border-green-600 text-green-700 hover:bg-green-50 dark:border-green-500 dark:text-green-400 dark:hover:bg-green-950"
-              aria-label={`${store.product.pedir} ${name}`}
-            >
-              <IconBrandWhatsapp className="size-4" data-icon="inline-start" />
-              {store.product.pedir}
-            </Button>
-          </div>
-          <Link href={`/tienda/${slug}`} className="flex-1">
-            <Button variant="outline" className="gap-1 w-full" aria-label={`${store.product.ver} ${name}`}>
-              <IconEye className="size-4" data-icon="inline-start" />
-              {store.product.ver}
+          <Button
+            variant="outline"
+            className="flex-1 gap-1 border-green-600 text-green-700 hover:bg-green-50 dark:border-green-500 dark:text-green-400 dark:hover:bg-green-950"
+            aria-label={`${cfg.store.product.pedir} ${name}`}
+            onClick={handlePedir}
+          >
+            <IconBrandWhatsapp className="size-4" />
+            {cfg.store.product.pedir}
+          </Button>
+          <Link href={`/${lang}/tienda/${slug}`} className="flex-1">
+            <Button variant="outline" className="gap-1 w-full" aria-label={`${cfg.store.product.ver} ${name}`}>
+              <IconEye className="size-4" />
+              {cfg.store.product.ver}
             </Button>
           </Link>
         </div>

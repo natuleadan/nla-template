@@ -20,7 +20,8 @@ import {
   saveCustomCookiePreferences,
   getCookieConsent,
 } from "@/lib/modules/cookies/client";
-import { ui } from "@/lib/config/site";
+import { useLang } from "@/lib/locale/context";
+import { getConfig } from "@/lib/locale/config";
 
 interface CookieBannerProps {
   onAccept?: () => void;
@@ -28,6 +29,8 @@ interface CookieBannerProps {
 }
 
 export function CookieBanner({ onAccept, onReject }: CookieBannerProps) {
+  const lang = useLang();
+  const cfg = getConfig(lang);
   const [showBanner, setShowBanner] = useState(false);
   const [showCookieButton, setShowCookieButton] = useState(false);
   const [analytics, setAnalytics] = useState(true);
@@ -97,19 +100,19 @@ export function CookieBanner({ onAccept, onReject }: CookieBannerProps) {
         <CardHeader>
           <div className="flex items-center gap-2">
             <IconCookie className="size-5" />
-            <CardTitle className="text-lg">{ui.cookie.title}</CardTitle>
+            <CardTitle className="text-lg">{cfg.ui.cookie.title}</CardTitle>
           </div>
           <CardDescription>
-            {ui.cookie.description}
+            {cfg.ui.cookie.description}
           </CardDescription>
         </CardHeader>
 
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
             <Label htmlFor="necessary" className="flex flex-col items-start">
-              <span>{ui.cookie.necessary}</span>
+              <span>{cfg.ui.cookie.necessary}</span>
               <span className="text-xs text-muted-foreground">
-                {ui.cookie.alwaysActive}
+                {cfg.ui.cookie.alwaysActive}
               </span>
             </Label>
             <Switch id="necessary" checked disabled />
@@ -117,9 +120,9 @@ export function CookieBanner({ onAccept, onReject }: CookieBannerProps) {
 
           <div className="flex items-center justify-between">
             <Label htmlFor="analytics" className="flex flex-col items-start">
-              <span>{ui.cookie.analytics}</span>
+              <span>{cfg.ui.cookie.analytics}</span>
               <span className="text-xs text-muted-foreground">
-                {ui.cookie.analyticsHelper}
+                {cfg.ui.cookie.analyticsHelper}
               </span>
             </Label>
             <Switch id="analytics" checked={analytics} onCheckedChange={setAnalytics} />
@@ -127,9 +130,9 @@ export function CookieBanner({ onAccept, onReject }: CookieBannerProps) {
 
           <div className="flex items-center justify-between">
             <Label htmlFor="marketing" className="flex flex-col items-start">
-              <span>{ui.cookie.marketing}</span>
+              <span>{cfg.ui.cookie.marketing}</span>
               <span className="text-xs text-muted-foreground">
-                {ui.cookie.marketingHelper}
+                {cfg.ui.cookie.marketingHelper}
               </span>
             </Label>
             <Switch id="marketing" checked={marketing} onCheckedChange={setMarketing} />
@@ -138,13 +141,13 @@ export function CookieBanner({ onAccept, onReject }: CookieBannerProps) {
 
         <CardFooter className="flex flex-col sm:flex-row gap-2 w-full">
           <Button variant="outline" size="sm" onClick={handleRejectAll} className="w-full sm:flex-1">
-            {ui.cookie.reject}
+            {cfg.ui.cookie.reject}
           </Button>
           <Button variant="outline" size="sm" onClick={handleSavePreferences} className="w-full sm:flex-1">
-            {ui.cookie.save}
+            {cfg.ui.cookie.save}
           </Button>
           <Button size="sm" onClick={handleAcceptAll} className="w-full sm:flex-1">
-            {ui.cookie.acceptAll}
+            {cfg.ui.cookie.acceptAll}
           </Button>
         </CardFooter>
       </Card>

@@ -11,7 +11,8 @@ import {
 } from "@/components/ui/select";
 import { PostCard } from "./post-card";
 import { Spinner } from "@/components/ui/spinner";
-import { blog } from "@/lib/config/site";
+import { useLang } from "@/lib/locale/context";
+import { getConfig } from "@/lib/locale/config";
 import { isDev } from "@/lib/env";
 
 interface BlogPost {
@@ -45,6 +46,8 @@ export function BlogToolbar({
   initialHasMore,
   categories,
 }: BlogToolbarProps) {
+  const lang = useLang();
+  const cfg = getConfig(lang);
   const [allLoaded, setAllLoaded] = useState<BlogPost[]>(initialPosts);
   const [hasMore, setHasMore] = useState(initialHasMore);
   const [page, setPage] = useState(1);
@@ -57,7 +60,7 @@ export function BlogToolbar({
     if (loading || !hasMore) return;
     setLoading(true);
     try {
-      const res = await fetch(`/api/v1/blog?page=${page + 1}&limit=6`);
+      const res = await fetch(`/api/v1/blog?page=${page + 1}&limit=6&locale=${lang}`);
       const data = await res.json();
       setAllLoaded((prev) => [...prev, ...data.posts]);
       setHasMore(data.hasMore);
@@ -67,7 +70,7 @@ export function BlogToolbar({
     } finally {
       setLoading(false);
     }
-  }, [page, loading, hasMore]);
+  }, [page, loading, hasMore, lang]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -96,18 +99,18 @@ export function BlogToolbar({
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row gap-4">
         <Input
-          placeholder={blog.toolbar.searchPlaceholder}
+          placeholder={cfg.blog.toolbar.searchPlaceholder}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="sm:max-w-xs"
-          aria-label={blog.toolbar.searchPlaceholder}
+          aria-label={cfg.blog.toolbar.searchPlaceholder}
         />
         <Select value={category} onValueChange={setCategory}>
           <SelectTrigger className="sm:max-w-xs ml-auto">
-            <SelectValue placeholder={blog.toolbar.filterLabel} />
+            <SelectValue placeholder={cfg.blog.toolbar.filterLabel} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">{blog.toolbar.allCategories}</SelectItem>
+            <SelectItem value="all">{cfg.blog.toolbar.allCategories}</SelectItem>
             {categories.map((cat) => (
               <SelectItem key={cat.slug} value={cat.slug}>
                 {cat.name}
@@ -131,13 +134,13 @@ export function BlogToolbar({
           {hasMore && !loading && <div ref={observerRef} className="h-10" aria-hidden="true" />}
           {!hasMore && allLoaded.length > 0 && (
             <p className="text-center text-sm text-muted-foreground py-4" role="status" aria-live="polite">
-              {blog.toolbar.showing(total)}
+              {cfg.blog.toolbar.showing(total)}
             </p>
           )}
         </>
       ) : (
         <p className="text-center text-muted-foreground py-12" role="status" aria-live="polite">
-          {blog.page.empty}
+          {cfg.blog.page.empty}
         </p>
       )}
     </div>
