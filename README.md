@@ -38,15 +38,18 @@
 ### E-commerce
 - **Next.js 16** with App Router and Turbopack
 - **shadcn/ui** components for modern UI
-- **REST API** with 9 public GET endpoints + chat + webhook
+- **REST API** with 12 public GET endpoints + chat + webhook
 - **Scalar API Documentation** at `/api`
-- **WhatsApp API (YCloud)** — send messages via YCloud SDK with country code dialog
+- **WhatsApp API (YCloud)** — send messages via YCloud SDK with country code dialog, with feature flag toggle (wa.me fallback)
 - **Product Gallery** with carousel and fallback images
 - **Reviews** system with star rating
 - **Inventory** tracking by location
 - **Geolocation** service with Vercel headers
-- **Cookie Consent** banner
-- **Notifications** with Sonner toasts
+- **Bilingual EN/ES** with `[lang]` routes, `getConfig()`, `LangProvider`, automatic locale detection
+- **Cookie Consent** banner with optional webhook notification
+- **Notifications** with Sonner toasts via `notificationService`
+- **Dialog service** centralized with `DialogProvider` + `useDialog()` hook
+- **User dropdown menu** with language switcher + theme (system/light/dark) selector
 - **Product filtering** — search + category filter
 
 ### AI Agent Tools (14 tools)
@@ -67,7 +70,7 @@
 | `deleteMemory` | `confirm="BORRAR"` | Deletes ALL customer data (GDPR). Two-step confirmation. |
 | `deriveToHuman` | `reason` | ⚠️ Blocks chat 24h, transfers to admin. Use when no tool exists for user's request. |
 
-**Admin-only (requiere `ADMIN_WHATSAPP` en env):**
+**Admin-only (requiere `WS_ADMIN` en env):**
 
 | Tool | Params | Description |
 |---|---|---|
@@ -87,8 +90,10 @@
 - Booking requires human intervention via agent derivation
 
 ### SEO & Design
-- Dynamic OG/Twitter images (Satori)
-- JSON-LD: BreadcrumbList, Product, BlogPosting, WebPage, Event, Organization, WebSite
+- Dynamic OG/Twitter images (Satori) per locale
+- JSON-LD: BreadcrumbList, Product, BlogPosting, WebPage, Event, Organization, WebSite — all with `inLanguage` dynamic per locale
+- **hreflang alternates** in all pages for bilingual SEO
+- **Bilingual sitemap** with per-locale entries
 - Dynamic brand colors via `NEXT_PUBLIC_BRAND_COLOR` (32 Radix UI palettes)
 - PWA manifest, sitemap.xml, robots.txt, llms.txt
 - Dark mode toggle
@@ -115,7 +120,7 @@ Redis solo almacena datos de infraestructura del agente. No hay datos de tienda 
 El agente es **solo informativo**: responde con datos de las tools de consulta. Si el usuario necesita una acción (comprar, agendar, cancelar, etc.) y no existe tool, el agente llama `deriveToHuman` y un administrador retoma el chat.
 
 ### Testing
-- **282 tests** (Vitest) — 6 test files
+- **291 tests** (Vitest) — 7 test files
 - Organized by domain: webhook, session-store, tools, API endpoints, config coverage, console guards
 
 ## Technology Stack
@@ -127,7 +132,7 @@ El agente es **solo informativo**: responde con datos de las tools de consulta. 
 - **AI**: Vercel AI SDK + OpenAI (gpt-5-nano via Gateway, Whisper for audio)
 - **WhatsApp**: YCloud API (outbound SDK + inbound webhooks)
 - **Redis**: Upstash (sessions, memory, rate limiting, dedup)
-- **Testing**: Vitest (282 tests)
+- **Testing**: Vitest (291 tests)
 - **CI/CD**: GitHub Actions + Semantic Release
 - **Hosting**: Vercel
 
@@ -147,11 +152,13 @@ El agente es **solo informativo**: responde con datos de las tools de consulta. 
 
 | Variable | Description |
 |---|---|
-| `ADMIN_WHATSAPP` | Admin WhatsApp number (private, for admin tools detection) |
+| `WS_ADMIN` | Admin WhatsApp number (private, for admin tools detection), fallback NEXT_PUBLIC_WHATSAPP_NUMBER |
 | `API_KEY` | API key for protected endpoints |
+| `YCLOUD_ENABLED` | Enable YCloud integration (default: `false`, uses wa.me link) |
 | `YCLOUD_API_KEY` | YCloud API key (send + media download) |
 | `YCLOUD_WEBHOOK_SECRET` | Webhook secret for HMAC verification |
 | `WS_ENCRYPTION_KEY` | HMAC key for phone anonymization in Redis |
+| `COOKIE_WEBHOOK_URL` | Cookie consent webhook URL (optional) |
 | `AI_GATEWAY_API_KEY` | Vercel AI Gateway key (chat + images via gateway) |
 | `AI_GATEWAY_ZDR` | Zero Data Retention (default: `false`, requires Vercel Pro/Enterprise) |
 | `OPENAI_API_KEY` | OpenAI API key (audio transcription via Whisper) |
@@ -210,14 +217,28 @@ src/
 │   ├── whatsapp/send/     → outbound WhatsApp sender
 │   └── [products|blog|...] → CRUD endpoints
 ├── components/
-│   ├── ui/whatsapp-dialog.tsx  → phone input + send dialog
+│   ├── ui/
+│   │   ├── whatsapp-dialog.tsx  → phone input + send dialog
+│   │   ├── dialog-provider.tsx  → centralized dialog renderer
+│   │   └── ...
 │   ├── whatsapp-provider.tsx   → useWhatsApp() hook
-│   └── ...
+│   └── layout/
+│       ├── navbar.tsx          → dynamic nav with dropdowns
+│       ├── lang-switcher.tsx   → language dropdown (ES/EN)
+│       ├── theme-toggle.tsx    → theme dropdown (system/light/dark)
+│       └── user-menu.tsx       → unified settings menu
 ├── lib/
+│   ├── locale/
+│   │   ├── config.ts           → getConfig(), getLocaleFromLang()
+│   │   ├── context.tsx         → LangProvider, useLang()
+│   │   ├── seo.ts              → getAlternateLanguages()
+│   │   └── slug-resolver.ts   → cross-locale slug redirect
+│   ├── internal/dialog/        → DialogService, useDialog() hook
 │   ├── external/
-│   │   ├── ai/            → Vercel AI SDK (gateway, openai, transcription, image/pdf analysis)
-│   │   └── upstash/       → Redis client
-│   ├── modules/agents/    → Agent service, session-store, tools, schemas
+│   │   ├── ai/                 → Vercel AI SDK (gateway, openai, transcription, image/pdf analysis)
+│   │   ├── whatsapp/           → YCloud send service
+│   │   └── upstash/            → Redis client
+│   └── modules/agents/         → Agent service, session-store, tools, schemas
 │   ├── config/data/       → Seed data (products, paginas, blog, agenda...)
 │   └── test/              → 282 tests organized by domain
 └── ...
@@ -233,7 +254,8 @@ src/lib/test/
 │   └── tools.test.ts          → products, reviews, pages, blog, agenda, form
 ├── api.test.ts                → REST endpoint auth + CRUD
 ├── config-keys.test.ts        → UI config coverage
-└── console-isdev.test.ts      → console.* guards
+├── console-isdev.test.ts      → console.* guards
+└── no-hardcoded-locale.test.ts → i18n anti-regression
 ```
 
 ## Available Scripts
@@ -244,7 +266,7 @@ src/lib/test/
 | `pnpm build` | Build for production |
 | `pnpm start` | Start production server |
 | `pnpm lint` | ESLint |
-| `pnpm test` | Vitest (282 tests) |
+| `pnpm test` | Vitest (291 tests) |
 | `pnpm format` | Prettier |
 
 ## License
