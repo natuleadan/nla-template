@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getPaginas } from "@/lib/modules/paginas";
+import { getConfig } from "@/lib/locale/config";
 
 export async function GET(request: NextRequest) {
   try {
@@ -10,6 +11,6 @@ export async function GET(request: NextRequest) {
     const data = await getPaginas(page, limit, locale);
     return NextResponse.json(data);
   } catch {
-    return NextResponse.json({ error: "Error al obtener páginas" }, { status: 500 });
+    return NextResponse.json({ error: getConfig("es").ui.api.serverErrorEntity("páginas") }, { status: 500 });
   }
 }

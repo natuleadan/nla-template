@@ -83,6 +83,8 @@ Best regards,
     validation: "Please fill in all fields",
     pending: "Pending",
     whatsappTitle: "New review",
+    submitWhatsappTemplate: (name: string, rating: number, comment: string, productName: string) =>
+      `I want to leave a review for the product *${productName}*: ${rating}★ - ${comment}`,
     whatsappTemplate: (name: string, comment: string, rating: number, productSlug: string, baseUrl: string) =>
       `👋 *Hi ${name}, thanks for your review!*
 

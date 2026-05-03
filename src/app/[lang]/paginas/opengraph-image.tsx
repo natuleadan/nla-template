@@ -34,14 +34,14 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ lan
       >
         <img
           src={`data:image/svg+xml;base64,${bgBase64}`}
-          alt="background"
+          alt={cfg.ui.og.backgroundAlt}
           width={1200}
           height={630}
           style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }}
         />
         <img
           src={`data:image/svg+xml;base64,${logoBase64}`}
-          alt="logo"
+          alt={cfg.ui.og.logoAlt}
           width={180}
           height={180}
           style={{ position: "absolute", top: "40px", left: "50%", transform: "translateX(-50%)", borderRadius: "16px" }}

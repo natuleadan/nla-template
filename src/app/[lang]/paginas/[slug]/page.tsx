@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 
   try {
     const pageData = await getPagina(slug, lang);
-    if (!pageData) return { title: "Page not found" };
+    if (!pageData) return { title: getConfig(lang).ui.notFound.page };
 
     const title = `${pageData.title} | ${brand.name}`;
     const description = pageData.excerpt?.slice(0, 160) || getConfig(lang).brand.description;
@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
       other: { "og:logo": `${baseUrl}/design/logo.svg` },
     };
   } catch {
-    return { title: "Page not found" };
+    return { title: getConfig("en").ui.notFound.page };
   }
 }
 

@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 
   try {
     const post = await getPost(slug, lang);
-    if (!post) return { title: "Article not found" };
+    if (!post) return { title: getConfig(lang).ui.notFound.article };
 
     const title = `${post.title} | ${brand.name}`;
     const description = post.excerpt?.slice(0, 160) || getConfig(lang).brand.description;
@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
       other: { "og:logo": `${baseUrl}/design/logo.svg` },
     };
   } catch {
-    return { title: "Article not found" };
+    return { title: getConfig("en").ui.notFound.article };
   }
 }
 

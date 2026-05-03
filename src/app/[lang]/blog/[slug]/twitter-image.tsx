@@ -56,7 +56,7 @@ export default async function TwitterImage({ params }: RouteParams) {
       >
         <img
           src={`data:image/svg+xml;base64,${fallbackBase64}`}
-          alt="background"
+          alt={cfg.ui.og.backgroundAlt}
           width={1200}
           height={600}
           style={{
@@ -83,7 +83,7 @@ export default async function TwitterImage({ params }: RouteParams) {
         >
           <img
             src={`data:image/svg+xml;base64,${logoBase64}`}
-            alt="logo"
+            alt={cfg.ui.og.logoAlt}
             width={90}
             height={90}
             style={{

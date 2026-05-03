@@ -31,7 +31,7 @@ export default async function ContactTwitterImage({ params }: { params: Promise<
       >
         <img src={`data:image/svg+xml;base64,${bgBase64}`} alt="" width={1200} height={600}
           style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-        <img src={`data:image/svg+xml;base64,${logoBase64}`} alt="logo" width={160} height={160}
+        <img src={`data:image/svg+xml;base64,${logoBase64}`} alt={cfg.ui.og.logoAlt} width={160} height={160}
           style={{ position: "absolute", top: "30px", left: "50%", transform: "translateX(-50%)", borderRadius: "16px" }} />
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", zIndex: 1, padding: "0 48px", marginTop: 70 }}>
           <div style={{ fontSize: 54, fontWeight: 700, color: "#ffffff", textShadow: "2px 2px 8px rgba(0,0,0,0.7)", marginBottom: 16 }}>

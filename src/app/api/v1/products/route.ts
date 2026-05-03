@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAllProducts, getProducts } from "@/lib/modules/products";
+import { getConfig } from "@/lib/locale/config";
 
 export async function GET(request: NextRequest) {
   try {
@@ -16,6 +17,6 @@ export async function GET(request: NextRequest) {
     const products = await getAllProducts(locale);
     return NextResponse.json({ products, total: products.length, hasMore: false });
   } catch {
-    return NextResponse.json({ error: "Error al obtener productos" }, { status: 500 });
+    return NextResponse.json({ error: getConfig("es").ui.api.serverErrorEntity("productos") }, { status: 500 });
   }
 }

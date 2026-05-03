@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getPagina } from "@/lib/modules/paginas";
+import { getConfig } from "@/lib/locale/config";
 import {
   badRequest,
   notFound,
@@ -15,11 +16,11 @@ export async function GET(request: Request, { params }: RouteParams) {
     const { slug } = await params;
     const url = new URL(request.url);
     const locale = url.searchParams.get("locale") || "es";
-    if (!slug || typeof slug !== "string") return badRequest("Slug inválido");
+    if (!slug || typeof slug !== "string") return badRequest(getConfig("es").ui.api.slugInvalid);
     const page = await getPagina(slug, locale);
     if (!page) return notFound("Página");
     return NextResponse.json(page);
   } catch {
-    return serverError("Error al obtener página");
+    return serverError(getConfig("es").ui.api.serverErrorEntity("página"));
   }
 }

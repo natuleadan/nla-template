@@ -83,6 +83,8 @@ Recibimos tu consulta sobre:
     validation: "Completa todos los campos",
     pending: "Pendiente",
     whatsappTitle: "Nueva reseña",
+    submitWhatsappTemplate: (name: string, rating: number, comment: string, productName: string) =>
+      `Quiero dejar una reseña del producto *${productName}*: ${rating}★ - ${comment}`,
     whatsappTemplate: (name: string, comment: string, rating: number, productSlug: string, baseUrl: string) =>
       `👋 *Hola ${name}, gracias por tu reseña!*
 

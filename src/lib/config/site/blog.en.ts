@@ -36,6 +36,8 @@ export const blog = {
     validation: "Please fill in all fields",
     pending: "Pending",
     whatsappTitle: "New comment",
+    submitWhatsappTemplate: (name: string, comment: string, postSlug: string) =>
+      `I want to comment on the article "${postSlug}": ${name} - ${comment}`,
     whatsappTemplate: (name: string, comment: string, postSlug: string, baseUrl: string) =>
       `👋 *Hi ${name}, thanks for your comment!*
 

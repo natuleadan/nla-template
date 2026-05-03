@@ -39,7 +39,7 @@ export default async function TwitterImage({ params }: { params: Promise<{ lang:
       >
         <img
           src={`data:image/svg+xml;base64,${bgBase64}`}
-          alt="background"
+          alt={cfg.ui.og.backgroundAlt}
           width={1200}
           height={600}
           style={{
@@ -53,7 +53,7 @@ export default async function TwitterImage({ params }: { params: Promise<{ lang:
         />
         <img
           src={`data:image/svg+xml;base64,${logoBase64}`}
-          alt="logo"
+          alt={cfg.ui.og.logoAlt}
           width={160}
           height={160}
           style={{

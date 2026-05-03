@@ -1,46 +1,51 @@
 import { NextRequest } from "next/server";
 import { validateApiKey, unauthorized, badRequest, serverError, getAdminPhone } from "@/lib/env";
+import { getConfig } from "@/lib/locale/config";
 import { AgentService } from "@/lib/modules/agents/service";
 import { isRedisConfigured } from "@/lib/external/upstash/redis";
 import { pushMsg, peekLatest, drainAll, isDerived } from "@/lib/modules/agents/session-store";
 import { transcribeAudio } from "@/lib/external/ai/transcribe.service";
 import { analyzeImage, analyzePdf } from "@/lib/external/ai/image.service";
 
+const t = getConfig("es").ui.media;
+
 async function processMediaItem(item: { type: string; url?: string; caption?: string }): Promise<string> {
   switch (item.type) {
     case "image":
       if (item.url) {
         const a = await analyzeImage(item.url, item.caption);
-        return a ? `[Imagen: ${a}]` : (item.caption ? `[Imagen: ${item.caption}]` : "[Imagen]");
+        return a ? t.image(a) : (item.caption ? t.image(item.caption) : t.imageSimple);
       }
-      return item.caption ? `[Imagen: ${item.caption}]` : "[Imagen]";
+      return item.caption ? t.image(item.caption) : t.imageSimple;
     case "audio":
     case "voice":
       if (item.url) {
-        const t = await transcribeAudio(item.url);
-        return t ? `[${item.type === "voice" ? "Nota de voz" : "Audio"} transcrito: ${t}]` : `[${item.type === "voice" ? "Nota de voz" : "Audio"}]`;
+        const transcript = await transcribeAudio(item.url);
+        return item.type === "voice"
+          ? (transcript ? t.voice(transcript) : t.voiceSimple)
+          : (transcript ? t.audio(transcript) : t.audioSimple);
       }
-      return item.type === "voice" ? "[Nota de voz]" : "[Audio]";
+      return item.type === "voice" ? t.voiceSimple : t.audioSimple;
     case "pdf":
       if (item.url) {
         const e = await analyzePdf(item.url, item.caption);
-        return e ? `[PDF extraído: ${e}]` : "[Documento: PDF]";
+        return e ? t.pdf(e) : t.doc("PDF");
       }
-      return "[Documento: PDF]";
+      return t.doc("PDF");
     case "video":
-      return item.caption ? `[Video: ${item.caption}]` : "[Video]";
+      return item.caption ? t.video(item.caption) : t.videoSimple;
     case "document":
-      return `[Documento: ${item.caption || "sin nombre"}]`;
+      return t.doc(item.caption || "sin nombre");
     case "sticker":
-      return "[Sticker]";
+      return t.sticker;
     case "location":
-      return `[Ubicación: ${item.caption || ""}]`;
+      return t.location(item.caption || "", "");
     case "contacts":
-      return `[Contacto: ${item.caption || ""}]`;
+      return t.contact(item.caption || "");
     case "order":
-      return `[Pedido: ${item.caption || "producto"}]`;
+      return t.order(item.caption || "producto", 1);
     default:
-      return `[Mensaje tipo "${item.type}" no soportado]`;
+      return t.unsupported(item.type);
   }
 }
 
@@ -66,11 +71,11 @@ export async function POST(req: NextRequest) {
     }
 
     if (parts.length === 0) {
-      return badRequest("message o media requerido");
+      return badRequest(getConfig("es").ui.api.missingParam("message o media"));
     }
 
     if (await isDerived(phone)) {
-      return Response.json({ success: true, response: "[chat derivado a humano]", phone, derived: true });
+      return Response.json({ success: true, response: getConfig("es").ui.agent.derivedToHuman, phone, derived: true });
     }
 
     let text = parts.join("\n");
@@ -80,7 +85,7 @@ export async function POST(req: NextRequest) {
       await new Promise((r) => setTimeout(r, 10000));
       const latest = await peekLatest(phone);
       if (latest !== text) {
-        return Response.json({ success: true, response: "[en cola, esperando más mensajes...]", phone, queue: true });
+        return Response.json({ success: true, response: getConfig("es").ui.agent.queued, phone, queue: true });
       }
       const all = await drainAll(phone);
       text = all.join(", ");
@@ -101,7 +106,7 @@ export async function POST(req: NextRequest) {
     }
     return Response.json(result);
   } catch (error) {
-    const msg = error instanceof Error ? error.message : "Error desconocido";
+    const msg = error instanceof Error ? error.message : getConfig("es").ui.api.unknown;
     return serverError(error);
   }
 }

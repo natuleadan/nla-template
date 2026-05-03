@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { getBaseUrl } from "@/lib/env";
+import { getConfig } from "@/lib/locale/config";
 
 export const size = {
   width: 32,
@@ -9,6 +10,7 @@ export const contentType = "image/png";
 export const dynamic = "force-dynamic";
 
 export default async function Icon() {
+  const cfg = getConfig("en");
   const logoUrl = `${getBaseUrl()}/design/logo.svg`;
 
   return new ImageResponse(
@@ -24,7 +26,7 @@ export default async function Icon() {
       >
         <img
           src={logoUrl}
-          alt="Logo"
+          alt={cfg.ui.og.logoAlt}
           width={32}
           height={32}
           style={{

@@ -39,7 +39,7 @@ export default async function OpenGraphImage() {
       >
         <img
           src={bgUrl}
-          alt="background"
+          alt={cfg.ui.og.backgroundAlt}
           width={1200}
           height={630}
           style={{
@@ -53,7 +53,7 @@ export default async function OpenGraphImage() {
         />
         <img
           src={logoUrl}
-          alt="logo"
+          alt={cfg.ui.og.logoAlt}
           width={180}
           height={180}
           style={{

@@ -1,11 +1,12 @@
 import type { MetadataRoute } from "next";
-import { brand } from "@/lib/config/site";
+import { getConfig } from "@/lib/locale/config";
 
 export default function manifest(): MetadataRoute.Manifest {
+  const cfg = getConfig("en");
   return {
-    name: brand.name,
-    short_name: brand.name,
-    description: "Your trusted online store. Curated products for your home and office.",
+    name: cfg.brand.name,
+    short_name: cfg.brand.name,
+    description: cfg.brand.description,
     start_url: "/",
     display: "standalone",
     background_color: "#ffffff",

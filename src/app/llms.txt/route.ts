@@ -1,4 +1,5 @@
 import { getBaseUrl, isDev } from "@/lib/env";
+import { getConfig } from "@/lib/locale/config";
 import { getAllProducts } from "@/lib/modules/products";
 
 const LOCALES = ["es", "en"];
@@ -10,11 +11,12 @@ export async function GET() {
       ? rawBaseUrl.slice(0, -1)
       : rawBaseUrl;
 
+    const cfg = getConfig("en");
     const lines: string[] = [];
 
-    lines.push(`# Acme Inc`);
+    lines.push(`# ${cfg.brand.name}`);
     lines.push(``);
-    lines.push(`> Your trusted online store. Curated products for your home and office.`);
+    lines.push(`> ${cfg.brand.description}`);
     lines.push(``);
     lines.push(`## Base URL`);
     lines.push(`- ${baseUrl}`);

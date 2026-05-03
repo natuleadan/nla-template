@@ -58,14 +58,14 @@ export default async function ContactoPage({ params }: { params: Promise<{ lang:
             <div className="flex items-start gap-4 py-3">
               <IconMapPin className="size-5 mt-1 text-primary" />
               <div>
-                <p className="font-medium">{cfg.pages.contacto.address || "Dirección"}</p>
+                <p className="font-medium">{cfg.pages.contacto.address}</p>
                 <p className="text-sm text-muted-foreground">{brand.address}</p>
               </div>
             </div>
             <div className="flex items-start gap-4 py-3">
               <IconPhone className="size-5 mt-1 text-primary" />
               <div>
-                <p className="font-medium">{cfg.pages.contacto.phone || "Teléfono"}</p>
+                <p className="font-medium">{cfg.pages.contacto.phoneLabel}</p>
                 <p className="text-sm text-muted-foreground">{getWhatsappNumber() || brand.phone}</p>
               </div>
             </div>
