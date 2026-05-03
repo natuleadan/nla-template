@@ -1,0 +1,90 @@
+import type { AgendaDay } from "@/lib/modules/agenda";
+
+export const agendaData: AgendaDay[] = [
+  {
+    name: "Lunes",
+    nameShort: "Lun",
+    dayOfWeek: 1,
+    slots: [
+      { time: "09:00", available: true, type: "Atención general" },
+      { time: "10:00", available: true, type: "Atención general" },
+      { time: "11:00", available: true, type: "Seguimiento" },
+      { time: "12:00", available: true, type: "Consulta" },
+      { time: "15:00", available: true, type: "Primera vez" },
+      { time: "16:00", available: true, type: "Atención general" },
+      { time: "17:00", available: true, type: "Seguimiento" },
+    ],
+  },
+  {
+    name: "Martes",
+    nameShort: "Mar",
+    dayOfWeek: 2,
+    slots: [
+      { time: "09:00", available: true, type: "Primera vez" },
+      { time: "10:00", available: true, type: "Atención general" },
+      { time: "11:00", available: true, type: "Consulta" },
+      { time: "12:00", available: true, type: "Seguimiento" },
+      { time: "15:00", available: true, type: "Atención general" },
+      { time: "16:00", available: true, type: "Primera vez" },
+      { time: "17:00", available: true, type: "Atención general" },
+      { time: "18:00", available: true, type: "Seguimiento" },
+    ],
+  },
+  {
+    name: "Miércoles",
+    nameShort: "Mié",
+    dayOfWeek: 3,
+    slots: [
+      { time: "09:00", available: true, type: "Atención general" },
+      { time: "10:00", available: true, type: "Seguimiento" },
+      { time: "11:00", available: true, type: "Consulta" },
+      { time: "12:00", available: true, type: "Primera vez" },
+      { time: "15:00", available: true, type: "Atención general" },
+      { time: "16:00", available: true, type: "Atención general" },
+    ],
+  },
+  {
+    name: "Jueves",
+    nameShort: "Jue",
+    dayOfWeek: 4,
+    slots: [
+      { time: "09:00", available: true, type: "Consulta" },
+      { time: "10:00", available: true, type: "Atención general" },
+      { time: "11:00", available: true, type: "Primera vez" },
+      { time: "12:00", available: true, type: "Seguimiento" },
+      { time: "15:00", available: true, type: "Atención general" },
+      { time: "16:00", available: true, type: "Seguimiento" },
+      { time: "17:00", available: true, type: "Atención general" },
+    ],
+  },
+  {
+    name: "Viernes",
+    nameShort: "Vie",
+    dayOfWeek: 5,
+    slots: [
+      { time: "09:00", available: true, type: "Atención general" },
+      { time: "10:00", available: true, type: "Primera vez" },
+      { time: "11:00", available: true, type: "Seguimiento" },
+      { time: "12:00", available: true, type: "Consulta" },
+      { time: "15:00", available: true, type: "Atención general" },
+      { time: "16:00", available: true, type: "Atención general" },
+    ],
+  },
+  {
+    name: "Sábado",
+    nameShort: "Sáb",
+    dayOfWeek: 6,
+    slots: [
+      { time: "09:00", available: true, type: "Atención general" },
+      { time: "10:00", available: true, type: "Primera vez" },
+      { time: "11:00", available: true, type: "Seguimiento" },
+      { time: "12:00", available: true, type: "Consulta" },
+    ],
+  },
+  {
+    name: "Domingo",
+    nameShort: "Dom",
+    dayOfWeek: 0,
+    slots: [],
+  },
+];
