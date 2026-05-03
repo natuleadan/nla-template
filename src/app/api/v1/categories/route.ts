@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getProductCategories, getBlogCategories, getPageCategories } from "@/lib/modules/categories";
+import {
+  getProductCategories,
+  getBlogCategories,
+  getPageCategories,
+} from "@/lib/modules/categories";
 
 export async function GET(request: NextRequest) {
   const locale = request.nextUrl.searchParams.get("locale") || "es";

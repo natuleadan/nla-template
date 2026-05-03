@@ -34,8 +34,7 @@ export const home = {
   ],
   cta: {
     title: "Ready to get started?",
-    description:
-      "Explore our store and find the products you need.",
+    description: "Explore our store and find the products you need.",
     button: "View all products",
   },
 };

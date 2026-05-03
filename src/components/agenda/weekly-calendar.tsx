@@ -79,9 +79,15 @@ export function WeeklyCalendar({ days }: WeeklyCalendarProps) {
           aria-label={cfg.agenda.calendar.previousWeek}
         >
           <IconChevronLeft className="size-4" />
-          <span className="hidden sm:inline">{cfg.agenda.calendar.previousWeek}</span>
+          <span className="hidden sm:inline">
+            {cfg.agenda.calendar.previousWeek}
+          </span>
         </Button>
-        <p className="text-sm font-medium text-muted-foreground text-center truncate min-w-0 px-2" aria-live="polite" aria-atomic="true">
+        <p
+          className="text-sm font-medium text-muted-foreground text-center truncate min-w-0 px-2"
+          aria-live="polite"
+          aria-atomic="true"
+        >
           {cfg.agenda.calendar.weekOf(formatDate(weekStart, lang))}
         </p>
         <Button
@@ -92,7 +98,9 @@ export function WeeklyCalendar({ days }: WeeklyCalendarProps) {
           className="gap-2 shrink-0"
           aria-label={cfg.agenda.calendar.nextWeek}
         >
-          <span className="hidden sm:inline">{cfg.agenda.calendar.nextWeek}</span>
+          <span className="hidden sm:inline">
+            {cfg.agenda.calendar.nextWeek}
+          </span>
           <IconChevronRight className="size-4" />
         </Button>
       </div>

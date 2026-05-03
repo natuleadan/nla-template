@@ -8,7 +8,8 @@ import {
   getBlogPaths,
   getAgendaPaths,
   getPaginasPaths,
-  getWhatsappPaths, getChatPaths,
+  getWhatsappPaths,
+  getChatPaths,
 } from "./endpoints";
 
 export function buildOpenApiSpec(examples: ApiExamples): OpenApiSpec {

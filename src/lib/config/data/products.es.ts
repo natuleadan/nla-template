@@ -16,7 +16,8 @@ export const allProducts: Product[] = [
     price: 899,
     originalPrice: 1099,
     description: "Portapapeles de aluminio liviano con clip firme",
-    longDescription: "Portapapeles fabricado en aluminio de alta resistencia. Ideal para oficina, campo o uso diario. Su clip de acero inoxidable sujeta hasta 100 hojas. Incluye soporte para bolígrafo.",
+    longDescription:
+      "Portapapeles fabricado en aluminio de alta resistencia. Ideal para oficina, campo o uso diario. Su clip de acero inoxidable sujeta hasta 100 hojas. Incluye soporte para bolígrafo.",
     image: "/design/fallback.svg",
     images: imgs("Portapapeles+Aluminio", 3),
     category: "papeleria",
@@ -36,7 +37,8 @@ export const allProducts: Product[] = [
     price: 499,
     originalPrice: 599,
     description: "Papel bond de alta calidad para impresión y escritura",
-    longDescription: "Resma de papel bond de 500 gramos. Ideal para impresión láser, inyección de tinta y escritura a mano. Color blanco brillante, 75 g/m². Certificado FSC.",
+    longDescription:
+      "Resma de papel bond de 500 gramos. Ideal para impresión láser, inyección de tinta y escritura a mano. Color blanco brillante, 75 g/m². Certificado FSC.",
     image: "/design/fallback.svg",
     images: imgs("Papel+Bond", 2),
     category: "papeleria",
@@ -56,7 +58,8 @@ export const allProducts: Product[] = [
     price: 299,
     originalPrice: 399,
     description: "Bolígrafo retráctil de escritura suave y precisa",
-    longDescription: "Bolígrafo retráctil con punta media 1.0mm y tinta de secado rápido. Cuerpo ergonómico con grip de goma para escritura cómoda prolongada. Ideal para oficina y estudio.",
+    longDescription:
+      "Bolígrafo retráctil con punta media 1.0mm y tinta de secado rápido. Cuerpo ergonómico con grip de goma para escritura cómoda prolongada. Ideal para oficina y estudio.",
     image: "/design/fallback.svg",
     images: imgs("Boligrafo+Retractil", 4),
     category: "escritura",
@@ -75,7 +78,8 @@ export const allProducts: Product[] = [
     unit: "u",
     price: 1499,
     description: "Grapadora metálica de uso rudo con grapado hasta 30 hojas",
-    longDescription: "Grapadora profesional fabricada en metal con base de caucho antideslizante. Capacidad de grapado de hasta 30 hojas de 80 g/m². Carga 100 grapas estándar 26/6. Incluye 500 grapas de regalo.",
+    longDescription:
+      "Grapadora profesional fabricada en metal con base de caucho antideslizante. Capacidad de grapado de hasta 30 hojas de 80 g/m². Carga 100 grapas estándar 26/6. Incluye 500 grapas de regalo.",
     image: "/design/fallback.svg",
     images: imgs("Grapadora+Metalica", 3),
     category: "herramientas",
@@ -90,7 +94,8 @@ export const allProducts: Product[] = [
     price: 399,
     originalPrice: 499,
     description: "Cinta adhesiva transparente multiusos",
-    longDescription: "Cinta adhesiva transparente de polipropileno biorientado (BOPP). Adherencia permanente y resistencia a la tracción. Ideal para sellado de cajas, embalaje ligero y uso doméstico.",
+    longDescription:
+      "Cinta adhesiva transparente de polipropileno biorientado (BOPP). Adherencia permanente y resistencia a la tracción. Ideal para sellado de cajas, embalaje ligero y uso doméstico.",
     image: "/design/fallback.svg",
     images: imgs("Cinta+Adhesiva", 3),
     category: "herramientas",
@@ -109,7 +114,8 @@ export const allProducts: Product[] = [
     unit: "u",
     price: 799,
     description: "Tijeras multiusos con hoja de acero inoxidable",
-    longDescription: "Tijeras multiusos con hojas de acero inoxidable templado y mangos ergonómicos de plástico con inserciones de goma. Corte preciso en papel, tela, cartón y materiales ligeros. Longitud total: 20 cm.",
+    longDescription:
+      "Tijeras multiusos con hojas de acero inoxidable templado y mangos ergonómicos de plástico con inserciones de goma. Corte preciso en papel, tela, cartón y materiales ligeros. Longitud total: 20 cm.",
     image: "/design/fallback.svg",
     images: imgs("Tijeras+Multiusos", 2),
     category: "herramientas",
@@ -124,7 +130,8 @@ export const allProducts: Product[] = [
     price: 599,
     originalPrice: 749,
     description: "Regla de acero inoxidable con escala grabada láser",
-    longDescription: "Regla profesional de acero inoxidable 304 con escala grabada por láser (indeleble). Doble escala: milimétrica y en pulgadas. Borde biselado para corte preciso con cúter. Incluye orificio de suspensión.",
+    longDescription:
+      "Regla profesional de acero inoxidable 304 con escala grabada por láser (indeleble). Doble escala: milimétrica y en pulgadas. Borde biselado para corte preciso con cúter. Incluye orificio de suspensión.",
     image: "/design/fallback.svg",
     images: imgs("Regla+Acero", 3),
     category: "herramientas",
@@ -144,7 +151,8 @@ export const allProducts: Product[] = [
     price: 199,
     originalPrice: 299,
     description: "Borrador de nata suave que no daña el papel",
-    longDescription: "Borrador de nata de alta calidad. Extra suave, no mancha ni daña el papel. Ideal para lápiz grafito y carbón. Migas limpias sin residuos pegajosos. Pack de 2 unidades.",
+    longDescription:
+      "Borrador de nata de alta calidad. Extra suave, no mancha ni daña el papel. Ideal para lápiz grafito y carbón. Migas limpias sin residuos pegajosos. Pack de 2 unidades.",
     image: "/design/fallback.svg",
     images: imgs("Borrador+Nata", 2),
     category: "escritura",
@@ -158,7 +166,8 @@ export const allProducts: Product[] = [
     unit: "u",
     price: 399,
     description: "Lápiz de grafito HB #2 para escritura y dibujo",
-    longDescription: "Lápiz de grafito HB #2 de alta calidad. Madera de cedro, goma de borrar en la punta. Escritura suave y uniforme. Ideal para escuela, oficina y dibujo técnico. Caja con 12 unidades.",
+    longDescription:
+      "Lápiz de grafito HB #2 de alta calidad. Madera de cedro, goma de borrar en la punta. Escritura suave y uniforme. Ideal para escuela, oficina y dibujo técnico. Caja con 12 unidades.",
     image: "/design/fallback.svg",
     images: imgs("Lapiz+HB", 2),
     category: "escritura",
@@ -171,8 +180,10 @@ export const allProducts: Product[] = [
     quantity: "1",
     unit: "u",
     price: 349,
-    description: "Corrector líquido de secado rápido con aplicador de precisión",
-    longDescription: "Corrector líquido con fórmula de secado rápido (10 segundos). Aplicador metálico de punta fina para correcciones precisas. Cobertura opaca sin grietas. 20 ml. No tóxico.",
+    description:
+      "Corrector líquido de secado rápido con aplicador de precisión",
+    longDescription:
+      "Corrector líquido con fórmula de secado rápido (10 segundos). Aplicador metálico de punta fina para correcciones precisas. Cobertura opaca sin grietas. 20 ml. No tóxico.",
     image: "/design/fallback.svg",
     images: imgs("Corrector+Liquido", 2),
     category: "escritura",
@@ -186,8 +197,10 @@ export const allProducts: Product[] = [
     unit: "u",
     price: 699,
     originalPrice: 899,
-    description: "Carpeta colgante con pestaña plastificada y refuerzo metálico",
-    longDescription: "Carpeta colgante para archivo con rieles metálicos y pestaña plastificada con etiqueta. Capacidad: 200 hojas. Color surtido. Pack de 5 unidades. Compatible con sistemas de archivo estándar.",
+    description:
+      "Carpeta colgante con pestaña plastificada y refuerzo metálico",
+    longDescription:
+      "Carpeta colgante para archivo con rieles metálicos y pestaña plastificada con etiqueta. Capacidad: 200 hojas. Color surtido. Pack de 5 unidades. Compatible con sistemas de archivo estándar.",
     image: "/design/fallback.svg",
     images: imgs("Carpeta+Colgante", 3),
     category: "papeleria",
@@ -205,7 +218,8 @@ export const allProducts: Product[] = [
     unit: "u",
     price: 499,
     description: "Sobre manila de papel kraft resistente",
-    longDescription: "Sobre manila fabricado en papel kraft de 120 g/m². Cierre con lengüeta y adhesivo. Ideal para envío de documentos y protección de papeles. Pack de 10 unidades.",
+    longDescription:
+      "Sobre manila fabricado en papel kraft de 120 g/m². Cierre con lengüeta y adhesivo. Ideal para envío de documentos y protección de papeles. Pack de 10 unidades.",
     image: "/design/fallback.svg",
     images: imgs("Sobre+Manila", 2),
     category: "papeleria",
@@ -224,7 +238,8 @@ export const allProducts: Product[] = [
     price: 599,
     originalPrice: 799,
     description: "Resaltador con tinta fluorescente de larga duración",
-    longDescription: "Resaltador con tinta fluorescente vibrante. Punta biselada para trazos fino (1mm) y grueso (5mm). Tinta de larga duración que no traspasa el papel. Pack de 4 colores: amarillo, verde, naranja y rosa.",
+    longDescription:
+      "Resaltador con tinta fluorescente vibrante. Punta biselada para trazos fino (1mm) y grueso (5mm). Tinta de larga duración que no traspasa el papel. Pack de 4 colores: amarillo, verde, naranja y rosa.",
     image: "/design/fallback.svg",
     images: imgs("Resaltador", 4),
     category: "escritura",
@@ -244,7 +259,8 @@ export const allProducts: Product[] = [
     unit: "u",
     price: 1999,
     description: "Perforadora metálica de 3 agujeros con guía ajustable",
-    longDescription: "Perforadora profesional de 3 agujeros fabricada en metal con base antideslizante. Guía de papel ajustable para tamaños carta y oficio. Capacidad: hasta 20 hojas de 80 g/m². Incluye bandeja recolectora de residuos.",
+    longDescription:
+      "Perforadora profesional de 3 agujeros fabricada en metal con base antideslizante. Guía de papel ajustable para tamaños carta y oficio. Capacidad: hasta 20 hojas de 80 g/m². Incluye bandeja recolectora de residuos.",
     image: "/design/fallback.svg",
     images: imgs("Perforadora+3+Agujeros", 3),
     category: "herramientas",
@@ -258,7 +274,8 @@ export const allProducts: Product[] = [
     unit: "u",
     price: 1299,
     description: "Calculadora básica con pantalla LCD de 8 dígitos",
-    longDescription: "Calculadora básica con pantalla LCD de 8 dígitos. Funciones: suma, resta, multiplicación, división, porcentaje, raíz cuadrada y memoria. Alimentación solar y batería de respaldo. Teclas grandes de fácil presión. Ideal para oficina y uso diario.",
+    longDescription:
+      "Calculadora básica con pantalla LCD de 8 dígitos. Funciones: suma, resta, multiplicación, división, porcentaje, raíz cuadrada y memoria. Alimentación solar y batería de respaldo. Teclas grandes de fácil presión. Ideal para oficina y uso diario.",
     image: "/design/fallback.svg",
     images: imgs("Calculadora+Basica", 3),
     category: "herramientas",
@@ -272,7 +289,8 @@ export const allProducts: Product[] = [
     unit: "u",
     price: 599,
     description: "Cutter de precisión con hoja retráctil de 18mm",
-    longDescription: "Cutter de precisión con cuerpo metálico y hoja de acero al carbono de 18mm. Cierre de seguridad automático, bloqueo de hoja y almacenamiento para hojas de repuesto (incluye 5). Ideal para manualidades, maquetas y trabajos detallados.",
+    longDescription:
+      "Cutter de precisión con cuerpo metálico y hoja de acero al carbono de 18mm. Cierre de seguridad automático, bloqueo de hoja y almacenamiento para hojas de repuesto (incluye 5). Ideal para manualidades, maquetas y trabajos detallados.",
     image: "/design/fallback.svg",
     images: imgs("Cutter+Precision", 2),
     category: "herramientas",

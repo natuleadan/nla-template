@@ -3,11 +3,17 @@ import { aiModel } from "@/lib/external/ai/client";
 import { getZeroDataRetention } from "@/lib/env";
 import { SYSTEM_PROMPT, FIRST_TIME_INTRO } from "./config";
 import { getAiTools } from "./tools";
-import { getSession, createSession, addToHistory, isDerived } from "./session-store";
+import {
+  getSession,
+  createSession,
+  addToHistory,
+  isDerived,
+} from "./session-store";
 import type { ToolContext, CoreMessage } from "./types";
 
 const FALLBACK = "Disculpa, no pude procesar tu solicitud. ¿Puedes repetirlo?";
-const RATE_LIMIT = "Estoy recibiendo muchas solicitudes en este momento. Por favor espera unos segundos e inténtalo de nuevo.";
+const RATE_LIMIT =
+  "Estoy recibiendo muchas solicitudes en este momento. Por favor espera unos segundos e inténtalo de nuevo.";
 
 export class AgentService {
   static async processMessage(
@@ -24,7 +30,9 @@ export class AgentService {
     }
 
     const userMsg: CoreMessage =
-      typeof message === "string" ? { role: "user", content: message } : message;
+      typeof message === "string"
+        ? { role: "user", content: message }
+        : message;
     await addToHistory(context.phone, userMsg);
 
     const freshSession = await getSession(context.phone);
@@ -43,7 +51,10 @@ INFORMACIÓN DEL CLIENTE:
       const result = streamText({
         model: aiModel,
         system,
-        messages: history as Array<{ role: "user" | "assistant"; content: string }>,
+        messages: history as Array<{
+          role: "user" | "assistant";
+          content: string;
+        }>,
         tools,
         toolChoice: "auto",
         stopWhen: stepCountIs(15),
@@ -64,7 +75,10 @@ INFORMACIÓN DEL CLIENTE:
       return text;
     } catch (error: unknown) {
       const msg = error instanceof Error ? error.message : "";
-      const text = msg.includes("rate_limit") || msg.includes("429") ? RATE_LIMIT : FALLBACK;
+      const text =
+        msg.includes("rate_limit") || msg.includes("429")
+          ? RATE_LIMIT
+          : FALLBACK;
       await addToHistory(context.phone, { role: "assistant", content: text });
       return text;
     }

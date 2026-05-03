@@ -42,7 +42,10 @@ export async function getAllPaginas(locale = "es"): Promise<PaginaPost[]> {
   return getData(locale);
 }
 
-export async function getPagina(slug: string, locale = "es"): Promise<PaginaPost | null> {
+export async function getPagina(
+  slug: string,
+  locale = "es",
+): Promise<PaginaPost | null> {
   if (!slug || typeof slug !== "string") return null;
   return getData(locale).find((p) => p.slug === slug) || null;
 }

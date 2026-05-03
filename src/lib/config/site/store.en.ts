@@ -21,8 +21,7 @@ export const store = {
     showing: (total: number) => `Showing ${total} products`,
   },
   product: {
-    badge: (category: string) =>
-      categoryBadge[category] || category,
+    badge: (category: string) => categoryBadge[category] || category,
     priceLabel: "Tax included",
     pedir: "Order",
     ver: "Details",
@@ -83,9 +82,20 @@ Best regards,
     validation: "Please fill in all fields",
     pending: "Pending",
     whatsappTitle: "New review",
-    submitWhatsappTemplate: (name: string, rating: number, comment: string, productName: string) =>
+    submitWhatsappTemplate: (
+      name: string,
+      rating: number,
+      comment: string,
+      productName: string,
+    ) =>
       `I want to leave a review for the product *${productName}*: ${rating}★ - ${comment}`,
-    whatsappTemplate: (name: string, comment: string, rating: number, productSlug: string, baseUrl: string) =>
+    whatsappTemplate: (
+      name: string,
+      comment: string,
+      rating: number,
+      productSlug: string,
+      baseUrl: string,
+    ) =>
       `👋 *Hi ${name}, thanks for your review!*
 
 We have received your rating for the product:

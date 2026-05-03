@@ -9,7 +9,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { IconShare, IconBrandX, IconBrandFacebook, IconBrandLinkedin, IconMail } from "@tabler/icons-react";
+import {
+  IconShare,
+  IconBrandX,
+  IconBrandFacebook,
+  IconBrandLinkedin,
+  IconMail,
+} from "@tabler/icons-react";
 import notificationService from "@/lib/modules/notification";
 import { useLang } from "@/lib/locale/context";
 import { getConfig } from "@/lib/locale/config";
@@ -22,7 +28,13 @@ interface ShareDialogProps {
   price?: number;
 }
 
-export function ShareDialog({ url, label, title, description, price }: ShareDialogProps) {
+export function ShareDialog({
+  url,
+  label,
+  title,
+  description,
+  price,
+}: ShareDialogProps) {
   const lang = useLang();
   const cfg = getConfig(lang);
   const resolvedLabel = label || cfg.ui.share.label;
@@ -46,9 +58,7 @@ export function ShareDialog({ url, label, title, description, price }: ShareDial
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{resolvedLabel}</DialogTitle>
-          <DialogDescription>
-            {cfg.ui.share.description}
-          </DialogDescription>
+          <DialogDescription>{cfg.ui.share.description}</DialogDescription>
         </DialogHeader>
         <div className="space-y-3">
           <div>
@@ -77,7 +87,12 @@ export function ShareDialog({ url, label, title, description, price }: ShareDial
                 variant="outline"
                 size="sm"
                 className="flex-1 gap-1.5"
-                onClick={() => window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`, "_blank")}
+                onClick={() =>
+                  window.open(
+                    `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`,
+                    "_blank",
+                  )
+                }
                 aria-label={cfg.ui.share.twitter}
               >
                 <IconBrandX className="size-4" />
@@ -87,7 +102,12 @@ export function ShareDialog({ url, label, title, description, price }: ShareDial
                 variant="outline"
                 size="sm"
                 className="flex-1 gap-1.5"
-                onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, "_blank")}
+                onClick={() =>
+                  window.open(
+                    `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+                    "_blank",
+                  )
+                }
                 aria-label={cfg.ui.share.facebook}
               >
                 <IconBrandFacebook className="size-4" />
@@ -97,7 +117,12 @@ export function ShareDialog({ url, label, title, description, price }: ShareDial
                 variant="outline"
                 size="sm"
                 className="flex-1 gap-1.5"
-                onClick={() => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, "_blank")}
+                onClick={() =>
+                  window.open(
+                    `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+                    "_blank",
+                  )
+                }
                 aria-label={cfg.ui.share.linkedin}
               >
                 <IconBrandLinkedin className="size-4" />
@@ -113,7 +138,9 @@ export function ShareDialog({ url, label, title, description, price }: ShareDial
                   if (price !== undefined) parts.push(`$${price.toFixed(2)}`);
                   if (description) parts.push(description);
                   parts.push(url);
-                  window.open(`mailto:?subject=${encodeURIComponent(title ? cfg.ui.share.emailSubject(title) : cfg.ui.share.emailSubjectFallback)}&body=${encodeURIComponent(parts.join("\n\n"))}`);
+                  window.open(
+                    `mailto:?subject=${encodeURIComponent(title ? cfg.ui.share.emailSubject(title) : cfg.ui.share.emailSubjectFallback)}&body=${encodeURIComponent(parts.join("\n\n"))}`,
+                  );
                 }}
                 aria-label={cfg.ui.share.email}
               >

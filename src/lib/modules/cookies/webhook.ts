@@ -19,20 +19,23 @@ function hashIp(ip: string): string {
   let hash = 0;
   for (let i = 0; i < ip.length; i++) {
     const char = ip.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
+    hash = (hash << 5) - hash + char;
     hash |= 0;
   }
   return Math.abs(hash).toString(16);
 }
 
-export async function notifyCookieConsentWebhook(consent: CookieConsentPayload["consent"]) {
+export async function notifyCookieConsentWebhook(
+  consent: CookieConsentPayload["consent"],
+) {
   const webhookUrl = getCookieWebhookUrl();
   if (!webhookUrl) return;
 
   try {
     const h = await headers();
     const ip = h.get("x-forwarded-for") || h.get("x-real-ip") || "";
-    const country = h.get("x-vercel-ip-country") || h.get("cloudfront-viewer-country") || "";
+    const country =
+      h.get("x-vercel-ip-country") || h.get("cloudfront-viewer-country") || "";
     const userAgent = h.get("user-agent") || "";
 
     const payload: CookieConsentPayload = {

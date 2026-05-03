@@ -24,10 +24,20 @@ async function getInitialData(locale: string) {
     { slug: "legal", name: cfg.paginas.category.legal },
     { slug: "politicas", name: cfg.paginas.category.politicas },
   ];
-  return { pages: allPages, categories, initialPages: initial.pages, total: initial.total, hasMore: initial.hasMore };
+  return {
+    pages: allPages,
+    categories,
+    initialPages: initial.pages,
+    total: initial.total,
+    hasMore: initial.hasMore,
+  };
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
   const { lang } = await params;
   const { pages } = await getInitialData(lang);
   const cfg = getConfig(lang);
@@ -38,48 +48,101 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 
   return {
     alternates: getAlternateLanguages(lang, "/paginas", baseUrl),
-    title, description,
+    title,
+    description,
     openGraph: {
-      title, description,
-      siteName: brand.name, type: "website", url,
+      title,
+      description,
+      siteName: brand.name,
+      type: "website",
+      url,
       locale: getLocaleFromLang(lang),
-      images: [{ url: `${baseUrl}/${lang}/paginas/opengraph-image`, width: 1200, height: 630, alt: title }],
+      images: [
+        {
+          url: `${baseUrl}/${lang}/paginas/opengraph-image`,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
     },
     twitter: {
-      card: "summary_large_image", title, description,
-      images: [{ url: `${baseUrl}/${lang}/paginas/twitter-image`, width: 1200, height: 600, alt: title }],
+      card: "summary_large_image",
+      title,
+      description,
+      images: [
+        {
+          url: `${baseUrl}/${lang}/paginas/twitter-image`,
+          width: 1200,
+          height: 600,
+          alt: title,
+        },
+      ],
     },
     other: { "og:logo": `${baseUrl}/design/logo.svg` },
   };
 }
 
-export default async function PaginasPage({ params }: { params: Promise<{ lang: string }> }) {
+export default async function PaginasPage({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
   const { lang } = await params;
   const cfg = getConfig(lang);
-  const { categories, initialPages, total, hasMore, pages } = await getInitialData(lang);
+  const { categories, initialPages, total, hasMore, pages } =
+    await getInitialData(lang);
   const baseUrl = getBaseUrl();
 
-  const jsonLdPages = pages.map((p) => ({ title: p.title, url: `${baseUrl}/${lang}/paginas/${p.slug}` }));
+  const jsonLdPages = pages.map((p) => ({
+    title: p.title,
+    url: `${baseUrl}/${lang}/paginas/${p.slug}`,
+  }));
 
   return (
     <>
-      <JsonLdBreadcrumb levels={[{ name: cfg.nav.items[0].label, item: `${baseUrl}/${lang}` }, { name: cfg.paginas.page.title, item: `${baseUrl}/${lang}/paginas` }]} />
-      <JsonLdPaginasList name={cfg.paginas.page.title} total={total} pages={jsonLdPages} />
+      <JsonLdBreadcrumb
+        levels={[
+          { name: cfg.nav.items[0].label, item: `${baseUrl}/${lang}` },
+          { name: cfg.paginas.page.title, item: `${baseUrl}/${lang}/paginas` },
+        ]}
+      />
+      <JsonLdPaginasList
+        name={cfg.paginas.page.title}
+        total={total}
+        pages={jsonLdPages}
+      />
       <div className="px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full py-8">
-        <PageHeader title={cfg.paginas.page.title} description={cfg.paginas.page.description} />
-        <Suspense fallback={<div className="space-y-6">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Skeleton className="h-10 sm:max-w-xs flex-1" />
-            <Skeleton className="h-10 sm:max-w-xs ml-auto w-full sm:w-auto" />
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Array.from({ length: 3 }).map((_, i) => <PaginaCardSkeleton key={i} />)}
-          </div>
-        </div>}>
+        <PageHeader
+          title={cfg.paginas.page.title}
+          description={cfg.paginas.page.description}
+        />
+        <Suspense
+          fallback={
+            <div className="space-y-6">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Skeleton className="h-10 sm:max-w-xs flex-1" />
+                <Skeleton className="h-10 sm:max-w-xs ml-auto w-full sm:w-auto" />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <PaginaCardSkeleton key={i} />
+                ))}
+              </div>
+            </div>
+          }
+        >
           {total > 0 ? (
-            <PaginaToolbar initialPages={initialPages} total={total} initialHasMore={hasMore} categories={categories} />
+            <PaginaToolbar
+              initialPages={initialPages}
+              total={total}
+              initialHasMore={hasMore}
+              categories={categories}
+            />
           ) : (
-            <Empty className="py-12"><p className="text-muted-foreground">{cfg.paginas.page.empty}</p></Empty>
+            <Empty className="py-12">
+              <p className="text-muted-foreground">{cfg.paginas.page.empty}</p>
+            </Empty>
           )}
         </Suspense>
       </div>

@@ -57,7 +57,9 @@ export function TiendaToolbar({
     if (loading || !hasMore) return;
     setLoading(true);
     try {
-      const res = await fetch(`/api/v1/products?page=${page + 1}&limit=3&locale=${lang}`);
+      const res = await fetch(
+        `/api/v1/products?page=${page + 1}&limit=3&locale=${lang}`,
+      );
       const data = await res.json();
       setAllLoaded((prev) => [...prev, ...data.products]);
       setHasMore(data.hasMore);
@@ -107,7 +109,9 @@ export function TiendaToolbar({
             <SelectValue placeholder={cfg.store.toolbar.filterLabel} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">{cfg.store.toolbar.allCategories}</SelectItem>
+            <SelectItem value="all">
+              {cfg.store.toolbar.allCategories}
+            </SelectItem>
             {categories.map((cat) => (
               <SelectItem key={cat.slug} value={cat.slug}>
                 {cat.name}
@@ -118,13 +122,23 @@ export function TiendaToolbar({
       </div>
       <ProductGrid products={filteredProducts} />
       {loading && (
-        <div className="flex justify-center py-4" role="status" aria-live="polite">
+        <div
+          className="flex justify-center py-4"
+          role="status"
+          aria-live="polite"
+        >
           <Spinner />
         </div>
       )}
-      {hasMore && !loading && <div ref={observerRef} className="h-10" aria-hidden="true" />}
+      {hasMore && !loading && (
+        <div ref={observerRef} className="h-10" aria-hidden="true" />
+      )}
       {!hasMore && allLoaded.length > 0 && (
-        <p className="text-center text-sm text-muted-foreground py-4" role="status" aria-live="polite">
+        <p
+          className="text-center text-sm text-muted-foreground py-4"
+          role="status"
+          aria-live="polite"
+        >
           {cfg.store.toolbar.showing(total)}
         </p>
       )}

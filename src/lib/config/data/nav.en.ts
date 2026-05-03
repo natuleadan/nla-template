@@ -15,9 +15,7 @@ export const nav = {
     columns: [
       {
         title: "Store",
-        links: [
-          { href: "/tienda", label: "All products" },
-        ],
+        links: [{ href: "/tienda", label: "All products" }],
       },
       {
         title: "Blog",

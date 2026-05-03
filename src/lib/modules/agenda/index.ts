@@ -28,15 +28,24 @@ export async function getWeekDays(locale = "es"): Promise<AgendaDay[]> {
   return getData(locale);
 }
 
-export async function getDayByIndex(index: number, locale = "es"): Promise<AgendaDay | null> {
+export async function getDayByIndex(
+  index: number,
+  locale = "es",
+): Promise<AgendaDay | null> {
   return getData(locale).find((d) => d.dayOfWeek === index) || null;
 }
 
-export async function getDayByName(name: string, locale = "es"): Promise<AgendaDay | null> {
+export async function getDayByName(
+  name: string,
+  locale = "es",
+): Promise<AgendaDay | null> {
   return getData(locale).find((d) => d.name === name) || null;
 }
 
-export async function getAvailableSlots(dayName: string, locale = "es"): Promise<AgendaSlot[]> {
+export async function getAvailableSlots(
+  dayName: string,
+  locale = "es",
+): Promise<AgendaSlot[]> {
   const day = await getDayByName(dayName, locale);
   if (!day) return [];
   return day.slots.filter((s) => s.available);

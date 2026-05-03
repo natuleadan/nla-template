@@ -39,14 +39,18 @@ export async function GET() {
       lines.push(`- [Agenda](${baseUrl}/${locale}/agenda)`);
       lines.push(`- [Pages / Páginas](${baseUrl}/${locale}/paginas)`);
       lines.push(`- [Contact / Contacto](${baseUrl}/${locale}/contacto)`);
-      lines.push(`- [Privacy / Privacidad](${baseUrl}/${locale}/paginas/privacidad)`);
+      lines.push(
+        `- [Privacy / Privacidad](${baseUrl}/${locale}/paginas/privacidad)`,
+      );
       lines.push(`- [Terms / Términos](${baseUrl}/${locale}/paginas/terminos)`);
       lines.push(`- [Data / Datos](${baseUrl}/${locale}/datos)`);
       lines.push(``);
 
       lines.push(`### Products`);
       for (const product of products) {
-        lines.push(`- [${product.name}](${baseUrl}/${locale}/tienda/${product.slug})`);
+        lines.push(
+          `- [${product.name}](${baseUrl}/${locale}/tienda/${product.slug})`,
+        );
       }
       lines.push(``);
     }

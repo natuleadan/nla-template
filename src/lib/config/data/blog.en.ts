@@ -5,7 +5,8 @@ export const blogPostsData: BlogPost[] = [
     id: "1",
     slug: "nutrition-guide",
     title: "Complete Nutrition Guide",
-    excerpt: "Discover the basic principles of balanced eating and how to apply them in your daily life.",
+    excerpt:
+      "Discover the basic principles of balanced eating and how to apply them in your daily life.",
     content: `<p>Nutrition is a fundamental pillar for maintaining a healthy lifestyle. Proper eating not only provides you with the energy needed for your daily activities but also strengthens your immune system and prevents diseases.</p>
 
 <blockquote>"Let food be thy medicine and medicine be thy food." — Hippocrates</blockquote>
@@ -85,8 +86,10 @@ Example: 70kg × 0.033 = 2.31L/day</code></pre>
     id: "2",
     slug: "daily-organization",
     title: "How to Organize Your Daily Routine",
-    excerpt: "A practical guide to structuring your day and maximizing your productivity with healthy habits.",
-    content: "<p>A well-organized daily routine is the key to achieving consistent results in any area of your life. Whether you're looking to improve your productivity, your health, or your overall well-being, organizing your day makes all the difference.</p><h2>The Importance of Routine</h2><p>Having a structured routine reduces decision fatigue and frees up mental energy for what really matters. When you automate small decisions, your brain has more resources for important tasks.</p><h2>Productive Morning</h2><p>The first 30 minutes of your day set the tone for the rest. Wake up at the same time, hydrate, and spend time planning your day before checking your phone.</p><h2>Work Blocks</h2><p>Organize your time into 90-minute blocks with 10-15 minute breaks between each one. This technique, known as interval management, leverages your brain's natural concentration rhythms.</p><h2>Restorative Evening</h2><p>A consistent evening routine (no screens 1 hour before bed, light reading, cool temperature) significantly improves sleep quality and recovery for the next day.</p>",
+    excerpt:
+      "A practical guide to structuring your day and maximizing your productivity with healthy habits.",
+    content:
+      "<p>A well-organized daily routine is the key to achieving consistent results in any area of your life. Whether you're looking to improve your productivity, your health, or your overall well-being, organizing your day makes all the difference.</p><h2>The Importance of Routine</h2><p>Having a structured routine reduces decision fatigue and frees up mental energy for what really matters. When you automate small decisions, your brain has more resources for important tasks.</p><h2>Productive Morning</h2><p>The first 30 minutes of your day set the tone for the rest. Wake up at the same time, hydrate, and spend time planning your day before checking your phone.</p><h2>Work Blocks</h2><p>Organize your time into 90-minute blocks with 10-15 minute breaks between each one. This technique, known as interval management, leverages your brain's natural concentration rhythms.</p><h2>Restorative Evening</h2><p>A consistent evening routine (no screens 1 hour before bed, light reading, cool temperature) significantly improves sleep quality and recovery for the next day.</p>",
     image: "/images/blog/entrenamiento.jpg",
     author: "Carlos López",
     category: "productividad",
@@ -98,8 +101,10 @@ Example: 70kg × 0.033 = 2.31L/day</code></pre>
     id: "3",
     slug: "benefits-of-rest",
     title: "Benefits of Active Rest",
-    excerpt: "Rest is essential for health and well-being. Learn why it's important and how to optimize your recovery.",
-    content: "<p>Rest is probably the most underestimated component of a healthy life. Many believe that more activity is always better, but the reality is that the body and mind regenerate during rest.</p><h2>Why Is Rest Important?</h2><p>During daily activity, we generate physical and mental wear and tear. It's during rest that the body repairs tissues, consolidates memory, and recharges energy. Without adequate rest, performance declines.</p><h2>Quality Sleep</h2><p>Sleeping between 7 and 9 hours is crucial for health. During deep sleep, the body releases hormones essential for cell repair and the immune system.</p><h2>Active Rest Days</h2><p>An active rest day can include walks, gentle stretching, or reading. These activities promote circulation and help clear the mind without adding extra stress.</p>",
+    excerpt:
+      "Rest is essential for health and well-being. Learn why it's important and how to optimize your recovery.",
+    content:
+      "<p>Rest is probably the most underestimated component of a healthy life. Many believe that more activity is always better, but the reality is that the body and mind regenerate during rest.</p><h2>Why Is Rest Important?</h2><p>During daily activity, we generate physical and mental wear and tear. It's during rest that the body repairs tissues, consolidates memory, and recharges energy. Without adequate rest, performance declines.</p><h2>Quality Sleep</h2><p>Sleeping between 7 and 9 hours is crucial for health. During deep sleep, the body releases hormones essential for cell repair and the immune system.</p><h2>Active Rest Days</h2><p>An active rest day can include walks, gentle stretching, or reading. These activities promote circulation and help clear the mind without adding extra stress.</p>",
     image: "/images/blog/descanso.jpg",
     author: "Ana Martínez",
     category: "salud",
@@ -111,8 +116,10 @@ Example: 70kg × 0.033 = 2.31L/day</code></pre>
     id: "4",
     slug: "protein-benefits",
     title: "Benefits of Protein in Your Diet",
-    excerpt: "Discover why protein is essential for your health and how to easily incorporate it into your daily meals.",
-    content: "<p>Protein is one of the most important macronutrients for the functioning of the human body. From tissue repair to the production of enzymes and hormones, its functions are multiple and essential.</p><h2>Why Do We Need Protein?</h2><p>Proteins are made up of amino acids, which are the building blocks of the body. The human body uses proteins to build and repair tissues, produce enzymes and hormones, and maintain the health of bones, muscles, and skin.</p><h2>Sources of Protein</h2><p>There are animal sources (lean meats, fish, eggs, dairy) and plant sources (legumes, tofu, quinoa, nuts). A varied diet that includes both sources ensures a complete amino acid profile.</p><h2>How Much Protein Do I Need?</h2><p>The recommended amount varies depending on age, activity level, and individual goals. As a general reference, a consumption of 0.8 to 1.2 grams per kilogram of body weight per day is suggested.</p><h2>Practical Tips</h2><p>Including protein in every main meal helps maintain satiety and stabilize blood sugar levels. A handful of nuts, a hard-boiled egg, or a glass of milk are simple and effective options.</p>",
+    excerpt:
+      "Discover why protein is essential for your health and how to easily incorporate it into your daily meals.",
+    content:
+      "<p>Protein is one of the most important macronutrients for the functioning of the human body. From tissue repair to the production of enzymes and hormones, its functions are multiple and essential.</p><h2>Why Do We Need Protein?</h2><p>Proteins are made up of amino acids, which are the building blocks of the body. The human body uses proteins to build and repair tissues, produce enzymes and hormones, and maintain the health of bones, muscles, and skin.</p><h2>Sources of Protein</h2><p>There are animal sources (lean meats, fish, eggs, dairy) and plant sources (legumes, tofu, quinoa, nuts). A varied diet that includes both sources ensures a complete amino acid profile.</p><h2>How Much Protein Do I Need?</h2><p>The recommended amount varies depending on age, activity level, and individual goals. As a general reference, a consumption of 0.8 to 1.2 grams per kilogram of body weight per day is suggested.</p><h2>Practical Tips</h2><p>Including protein in every main meal helps maintain satiety and stabilize blood sugar levels. A handful of nuts, a hard-boiled egg, or a glass of milk are simple and effective options.</p>",
     image: "/images/blog/proteina.jpg",
     author: "Laura Mendoza",
     category: "nutricion",

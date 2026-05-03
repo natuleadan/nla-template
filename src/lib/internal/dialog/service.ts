@@ -20,7 +20,8 @@ export interface DialogOptions {
 }
 
 export class DialogService {
-  private static listeners: Set<(dialogs: Map<string, DialogOptions>) => void> = new Set();
+  private static listeners: Set<(dialogs: Map<string, DialogOptions>) => void> =
+    new Set();
   private static dialogs: Map<string, DialogOptions> = new Map();
   private static dialogCounter = 0;
 
@@ -45,7 +46,9 @@ export class DialogService {
     return new Map(this.dialogs);
   }
 
-  static subscribe(listener: (dialogs: Map<string, DialogOptions>) => void): () => void {
+  static subscribe(
+    listener: (dialogs: Map<string, DialogOptions>) => void,
+  ): () => void {
     this.listeners.add(listener);
     return () => this.listeners.delete(listener);
   }

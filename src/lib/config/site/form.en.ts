@@ -24,7 +24,8 @@ export const form = {
     submitting: "Sending...",
     success: {
       title: "Message sent!",
-      description: "Thank you for contacting us. We will get back to you shortly.",
+      description:
+        "Thank you for contacting us. We will get back to you shortly.",
       button: "Send another message",
     },
     notifications: {
@@ -48,6 +49,5 @@ We will get back to you shortly. In the meantime, you can check out our products
 
 Best regards,
 *${brand.name}*`,
-
   },
 };

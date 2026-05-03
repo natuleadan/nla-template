@@ -1,5 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { anonymizePhone, addToHistory, getMyHistory, getSession } from "@/lib/modules/agents/session-store";
+import {
+  anonymizePhone,
+  addToHistory,
+  getMyHistory,
+  getSession,
+} from "@/lib/modules/agents/session-store";
 import type { CoreMessage } from "@/lib/modules/agents/types";
 
 describe("session-store - anonymizePhone", () => {
@@ -56,7 +61,10 @@ describe("session-store - SessionState type", () => {
   });
 
   it("should support system role messages", () => {
-    const msg: CoreMessage = { role: "system", content: "[Button pressed] Product X" };
+    const msg: CoreMessage = {
+      role: "system",
+      content: "[Button pressed] Product X",
+    };
     expect(msg.role).toBe("system");
     expect(msg.content).toContain("Product X");
   });
@@ -79,7 +87,8 @@ describe("session-store - SessionState type", () => {
     for (let i = 0; i < 60; i++) {
       history.push({ role: "user", content: `msg ${i}` });
     }
-    const trimmed = history.length > MAX_HISTORY ? history.slice(-MAX_HISTORY) : history;
+    const trimmed =
+      history.length > MAX_HISTORY ? history.slice(-MAX_HISTORY) : history;
     expect(trimmed).toHaveLength(50);
     expect(trimmed[0].content).toBe("msg 10");
   });

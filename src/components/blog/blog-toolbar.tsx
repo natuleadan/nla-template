@@ -60,7 +60,9 @@ export function BlogToolbar({
     if (loading || !hasMore) return;
     setLoading(true);
     try {
-      const res = await fetch(`/api/v1/blog?page=${page + 1}&limit=6&locale=${lang}`);
+      const res = await fetch(
+        `/api/v1/blog?page=${page + 1}&limit=6&locale=${lang}`,
+      );
       const data = await res.json();
       setAllLoaded((prev) => [...prev, ...data.posts]);
       setHasMore(data.hasMore);
@@ -110,7 +112,9 @@ export function BlogToolbar({
             <SelectValue placeholder={cfg.blog.toolbar.filterLabel} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">{cfg.blog.toolbar.allCategories}</SelectItem>
+            <SelectItem value="all">
+              {cfg.blog.toolbar.allCategories}
+            </SelectItem>
             {categories.map((cat) => (
               <SelectItem key={cat.slug} value={cat.slug}>
                 {cat.name}
@@ -127,19 +131,33 @@ export function BlogToolbar({
             ))}
           </div>
           {loading && (
-            <div className="flex justify-center py-4" role="status" aria-live="polite">
+            <div
+              className="flex justify-center py-4"
+              role="status"
+              aria-live="polite"
+            >
               <Spinner />
             </div>
           )}
-          {hasMore && !loading && <div ref={observerRef} className="h-10" aria-hidden="true" />}
+          {hasMore && !loading && (
+            <div ref={observerRef} className="h-10" aria-hidden="true" />
+          )}
           {!hasMore && allLoaded.length > 0 && (
-            <p className="text-center text-sm text-muted-foreground py-4" role="status" aria-live="polite">
+            <p
+              className="text-center text-sm text-muted-foreground py-4"
+              role="status"
+              aria-live="polite"
+            >
               {cfg.blog.toolbar.showing(total)}
             </p>
           )}
         </>
       ) : (
-        <p className="text-center text-muted-foreground py-12" role="status" aria-live="polite">
+        <p
+          className="text-center text-muted-foreground py-12"
+          role="status"
+          aria-live="polite"
+        >
           {cfg.blog.page.empty}
         </p>
       )}

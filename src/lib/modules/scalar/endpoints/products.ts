@@ -8,8 +8,7 @@ export function getProductsPaths(examples: {
       get: {
         tags: ["Products"],
         summary: "Lista todos los productos",
-        description:
-          "Retorna el catálogo de productos. Endpoint público.",
+        description: "Retorna el catálogo de productos. Endpoint público.",
         security: [],
         responses: {
           "200": {
@@ -51,7 +50,9 @@ export function getProductsPaths(examples: {
             in: "path",
             required: true,
             schema: { type: "string" },
-            example: (examples.products[0] as { slug?: string })?.slug || "example-slug",
+            example:
+              (examples.products[0] as { slug?: string })?.slug ||
+              "example-slug",
             description: "Slug del producto",
           },
         ],

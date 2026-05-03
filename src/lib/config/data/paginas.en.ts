@@ -5,7 +5,8 @@ export const paginasData: PaginaPost[] = [
     id: "pag_1",
     slug: "terms",
     title: "Terms and Conditions",
-    excerpt: "Learn about the general terms and conditions of use for our platform and services.",
+    excerpt:
+      "Learn about the general terms and conditions of use for our platform and services.",
     content: `<h2>1. Acceptance of the Terms</h2>
 <p>By accessing, browsing, or using this website and any of the services offered through it (hereinafter, the "Platform"), you agree to be bound by these Terms and Conditions (the "Agreement"). This Agreement constitutes a legally binding contract between you, either as an individual or as a representative of a legal entity (hereinafter, "User" or "you"), and [Company Name] (hereinafter, "the Company", "we", or "our"). If you do not agree to all of these terms and conditions, you should not access or use the Platform or any of its services.</p>
 <p>The Company reserves the right to modify these terms at any time, notifying you of such changes through the Platform or via the registered email address. Continued use of the Platform after the publication of any modification constitutes acceptance of such changes. We recommend that you periodically review this page to stay informed of any updates. The date of the last update is indicated at the beginning of this document.</p>
@@ -84,7 +85,8 @@ export const paginasData: PaginaPost[] = [
     id: "pag_2",
     slug: "privacy",
     title: "Privacy Policy",
-    excerpt: "Information on how we collect, use and protect your personal data.",
+    excerpt:
+      "Information on how we collect, use and protect your personal data.",
     content: `<h2>1. Data Controller</h2>
 <p>[Company Name] (hereinafter, "the Company", "we", or "our"), with registered address at [company address] and contact email [email@example.com], is responsible for the processing of personal data collected through the Platform. This Privacy Policy describes how we collect, use, store, and protect your personal information when you access and use our services.</p>
 <p><strong>Summary:</strong> We collect your information only with your consent; we only collect the minimum amount of personal information necessary to fulfill the purpose of your interaction with us; we do not sell your information to third parties; and we only use it as described in this Privacy Policy. We recommend that you read the complete document to understand all the details.</p>
@@ -180,7 +182,8 @@ export const paginasData: PaginaPost[] = [
     id: "pag_3",
     slug: "data",
     title: "Data Policy",
-    excerpt: "Details on the processing of personal data and the confidentiality of the information.",
+    excerpt:
+      "Details on the processing of personal data and the confidentiality of the information.",
     content: `<h2>1. Introduction and Definitions</h2>
 <p>This Data Policy complements our Privacy Policy and provides detailed information about the technical and organizational security measures implemented to protect your personal data, international data transfers, procedures for exercising your rights, and any other matter related to data processing on our Platform.</p>
 <p>[Company Name] is committed to protecting the privacy and confidentiality of all personal data you entrust to us, in compliance with applicable data protection laws and regulations.</p>
@@ -272,7 +275,8 @@ export const paginasData: PaginaPost[] = [
     id: "pag_4",
     slug: "quality",
     title: "Quality Policy",
-    excerpt: "Our commitment to excellence and continuous improvement in all our products and services.",
+    excerpt:
+      "Our commitment to excellence and continuous improvement in all our products and services.",
     content: `<h2>1. Organizational Context</h2>
 <p>The Company operates in a digital e-commerce environment and artificial intelligence-based customer service, providing its Users with a web platform for exploring products and services, as well as communication channels through WhatsApp. The Company's Quality Management System (QMS) is designed to understand the needs and expectations of Users and relevant interested parties, determining the internal and external factors that may affect the Company's ability to achieve the intended results of its QMS.</p>
 <p>The Company has identified relevant interested parties for the QMS, including Users, technology service providers (Vercel, Upstash, OpenAI, YCloud), internal staff, and regulatory bodies. The requirements of these interested parties that are relevant to the QMS are determined, and the Company periodically monitors and reviews this information.</p>
@@ -303,7 +307,8 @@ export const paginasData: PaginaPost[] = [
     id: "pag_5",
     slug: "data-security",
     title: "Data Security Policy",
-    excerpt: "Measures and protocols to guarantee the security of information and operations.",
+    excerpt:
+      "Measures and protocols to guarantee the security of information and operations.",
     content: `<h2>1. Organizational Context</h2>
 <p>The Company operates in a digital e-commerce environment and artificial intelligence-based customer service, processing Users' personal data through its web Platform and WhatsApp communication channels. The objective of this Information Security Policy is to establish the framework for protecting the confidentiality, integrity, and availability of information and the Company's technological assets, as well as the personal data of Users processed through the Platform. This policy applies to all employees, contractors, suppliers, and systems that interact with the Company's technological infrastructure, including the web platform, communication systems (WhatsApp), databases (Redis), artificial intelligence services, and any other component of the information system.</p>
 <p>The Company is committed to implementing, maintaining, and continuously improving an Information Security Management System (ISMS) in accordance with ISO/IEC 27001, in order to protect its information assets against internal and external threats, ensuring business continuity and minimizing security risks. Relevant interested parties for the ISMS have been identified, including Users, employees, technology service providers, and regulatory bodies.</p>
@@ -357,7 +362,8 @@ export const paginasData: PaginaPost[] = [
     id: "pag_6",
     slug: "environment",
     title: "Environmental Policy",
-    excerpt: "Our commitment to sustainability and reducing the environmental impact of our operations.",
+    excerpt:
+      "Our commitment to sustainability and reducing the environmental impact of our operations.",
     content: `<h2>1. Organizational Context</h2>
 <p>The Company recognizes that its operations, although primarily digital, have an environmental impact derived from the electricity consumption of its technological infrastructure (servers, development equipment), electronic waste generation, office materials consumption, and staff mobility. The Company has determined the external and internal environmental issues that are relevant to its purpose and that affect its ability to achieve the intended results of its Environmental Management System (EMS), including climate change, energy efficiency, waste management, and interested party expectations regarding sustainability.</p>
 <p>The Company has identified relevant interested parties for the EMS, including Users, employees, cloud service providers, regulatory bodies, and the local community. The needs and expectations of these interested parties that are relevant to the EMS are determined and understood.</p>
@@ -388,7 +394,8 @@ export const paginasData: PaginaPost[] = [
     id: "pag_7",
     slug: "health-safety",
     title: "Health and Safety Policy",
-    excerpt: "Commitment to protecting the health and safety of our collaborators in the work environment.",
+    excerpt:
+      "Commitment to protecting the health and safety of our collaborators in the work environment.",
     content: `<h2>1. Organizational Context</h2>
 <p>The Company recognizes that the occupational health and safety of its collaborators is a fundamental value and an essential requirement for the sustainability and success of its operations. The Company's main activity is the development and operation of a digital e-commerce platform and artificial intelligence-based customer service. Identified occupational hazards include, among others, ergonomic hazards derived from prolonged work in front of display screens, psychosocial hazards associated with workload and customer service, electrical hazards in the handling of computer equipment, and hazards related to visual fatigue and musculoskeletal disorders.</p>
 <p>The Company has identified relevant interested parties for the Occupational Health and Safety Management System (OH&S MS), including collaborators, contractors, suppliers, regulatory bodies, and visitors. The needs and expectations of these interested parties are determined and understood.</p>

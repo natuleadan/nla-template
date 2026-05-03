@@ -20,7 +20,10 @@ export function Providers({
     <ThemeProvider>
       <TooltipProvider>
         <DialogProvider>
-          <WhatsAppProvider defaultCountryCode={defaultCountryCode} ycloudEnabled={ycloudEnabled}>
+          <WhatsAppProvider
+            defaultCountryCode={defaultCountryCode}
+            ycloudEnabled={ycloudEnabled}
+          >
             {children}
             <Toaster />
             <CookieBanner />

@@ -5,7 +5,8 @@ export const paginasData: PaginaPost[] = [
     id: "pag_1",
     slug: "terminos",
     title: "Términos y Condiciones",
-    excerpt: "Conoce los términos y condiciones generales de uso de nuestra plataforma y servicios.",
+    excerpt:
+      "Conoce los términos y condiciones generales de uso de nuestra plataforma y servicios.",
     content: `<h2>1. Aceptación de los Términos</h2>
 <p>Al acceder, navegar o utilizar este sitio web y cualquiera de los servicios ofrecidos a través del mismo (en adelante, la "Plataforma"), usted acepta estar sujeto a estos Términos y Condiciones (el "Acuerdo"). Este Acuerdo constituye un contrato legalmente vinculante entre usted, ya sea como persona natural o en representación de una persona jurídica (en adelante, "Usuario" o "usted"), y [Nombre de la empresa] (en adelante, "la Empresa", "nosotros" o "nuestro"). Si no está de acuerdo con la totalidad de estos términos y condiciones, no debe acceder ni utilizar la Plataforma ni ninguno de sus servicios.</p>
 <p>La Empresa se reserva el derecho de modificar estos términos en cualquier momento, notificando dichos cambios a través de la Plataforma o mediante el correo electrónico registrado. El uso continuado de la Plataforma después de la publicación de cualquier modificación constituye la aceptación de dichos cambios. Le recomendamos revisar periódicamente esta página para estar al tanto de cualquier actualización. La fecha de la última actualización se indica al comienzo de este documento.</p>
@@ -84,7 +85,8 @@ export const paginasData: PaginaPost[] = [
     id: "pag_2",
     slug: "privacidad",
     title: "Política de Privacidad",
-    excerpt: "Información sobre cómo recopilamos, usamos y protegemos tus datos personales.",
+    excerpt:
+      "Información sobre cómo recopilamos, usamos y protegemos tus datos personales.",
     content: `<h2>1. Responsable del Tratamiento</h2>
 <p>[Nombre de la empresa] (en adelante, "la Empresa", "nosotros" o "nuestro"), con domicilio en [dirección de la empresa] y correo electrónico de contacto [correo@ejemplo.com], es la responsable del tratamiento de los datos personales recopilados a través de la Plataforma. Esta Política de Privacidad describe cómo recopilamos, utilizamos, almacenamos y protegemos su información personal cuando usted accede y utiliza nuestros servicios.</p>
 <p><strong>Resumen:</strong> Recopilamos su información únicamente con su consentimiento; solo recopilamos la cantidad mínima de información personal necesaria para cumplir con el propósito de su interacción con nosotros; no vendemos su información a terceros; y solo la utilizamos como se describe en esta Política de Privacidad. Le recomendamos leer el documento completo para comprender todos los detalles.</p>
@@ -180,7 +182,8 @@ export const paginasData: PaginaPost[] = [
     id: "pag_3",
     slug: "datos",
     title: "Política de Datos",
-    excerpt: "Detalle sobre el tratamiento de datos personales y la confidencialidad de la información.",
+    excerpt:
+      "Detalle sobre el tratamiento de datos personales y la confidencialidad de la información.",
     content: `<h2>1. Introducción y Definiciones</h2>
 <p>Esta Política de Datos complementa nuestra Política de Privacidad y proporciona información detallada sobre las medidas de seguridad técnicas y organizativas implementadas para proteger sus datos personales, las transferencias internacionales de datos, los procedimientos para el ejercicio de sus derechos y cualquier otra cuestión relacionada con el tratamiento de datos en nuestra Plataforma.</p>
 <p>[Nombre de la empresa] se compromete a proteger la privacidad y confidencialidad de todos los datos personales que nos confía, cumpliendo con las leyes y regulaciones aplicables en materia de protección de datos.</p>
@@ -272,7 +275,8 @@ export const paginasData: PaginaPost[] = [
     id: "pag_4",
     slug: "calidad",
     title: "Política de Calidad",
-    excerpt: "Nuestro compromiso con la excelencia y la mejora continua en todos nuestros productos y servicios.",
+    excerpt:
+      "Nuestro compromiso con la excelencia y la mejora continua en todos nuestros productos y servicios.",
     content: `<h2>1. Contexto de la Organización</h2>
 <p>La Empresa opera en un entorno digital de comercio electrónico y servicios de atención al cliente basados en inteligencia artificial, proporcionando a sus Usuarios una plataforma web para la exploración de productos y servicios, así como canales de comunicación a través de WhatsApp. El Sistema de Gestión de Calidad (SGC) de la Empresa está diseñado para comprender las necesidades y expectativas de los Usuarios y de las partes interesadas pertinentes, determinando los factores internos y externos que pueden afectar a la capacidad de la Empresa para lograr los resultados previstos de su SGC.</p>
 <p>La Empresa ha identificado las partes interesadas pertinentes para el SGC, incluyendo Usuarios, proveedores de servicios tecnológicos (Vercel, Upstash, OpenAI, YCloud), personal interno y organismos reguladores. Se determinan los requisitos de estas partes interesadas que son pertinentes para el SGC, y la Empresa realiza el seguimiento y la revisión de esta información de manera periódica.</p>
@@ -303,7 +307,8 @@ export const paginasData: PaginaPost[] = [
     id: "pag_5",
     slug: "seguridad-datos",
     title: "Política de Seguridad de Datos",
-    excerpt: "Medidas y protocolos para garantizar la seguridad de la información y las operaciones.",
+    excerpt:
+      "Medidas y protocolos para garantizar la seguridad de la información y las operaciones.",
     content: `<h2>1. Contexto de la Organización</h2>
 <p>La Empresa opera en un entorno digital de comercio electrónico y servicios de atención al cliente basados en inteligencia artificial, procesando datos personales de Usuarios a través de su Plataforma web y canales de comunicación WhatsApp. El objetivo de esta Política de Seguridad de la Información es establecer el marco de referencia para proteger la confidencialidad, integridad y disponibilidad de la información y los activos tecnológicos de la Empresa, así como de los datos personales de los Usuarios que son tratados a través de la Plataforma. Esta política aplica a todos los empleados, contratistas, proveedores y sistemas que interactúan con la infraestructura tecnológica de la Empresa, incluyendo la plataforma web, los sistemas de comunicación (WhatsApp), las bases de datos (Redis), los servicios de inteligencia artificial y cualquier otro componente del sistema de información.</p>
 <p>La Empresa se compromete a implementar, mantener y mejorar continuamente un Sistema de Gestión de Seguridad de la Información (SGSI) conforme a la norma ISO/IEC 27001, con el fin de proteger sus activos de información contra amenazas internas y externas, garantizando la continuidad del negocio y minimizando los riesgos de seguridad. Se han identificado las partes interesadas pertinentes para el SGSI, incluyendo Usuarios, empleados, proveedores de servicios tecnológicos y organismos reguladores.</p>
@@ -357,7 +362,8 @@ export const paginasData: PaginaPost[] = [
     id: "pag_6",
     slug: "ambiente",
     title: "Política Ambiental",
-    excerpt: "Nuestro compromiso con la sostenibilidad y la reducción del impacto ambiental de nuestras operaciones.",
+    excerpt:
+      "Nuestro compromiso con la sostenibilidad y la reducción del impacto ambiental de nuestras operaciones.",
     content: `<h2>1. Contexto de la Organización</h2>
 <p>La Empresa reconoce que sus operaciones, aunque principalmente digitales, tienen un impacto ambiental derivado del consumo de energía eléctrica de sus infraestructuras tecnológicas (servidores, equipos de desarrollo), la generación de residuos electrónicos, el consumo de materiales de oficina y la movilidad de su personal. La Empresa ha determinado las cuestiones ambientales externas e internas que son pertinentes para su propósito y que afectan a su capacidad para lograr los resultados previstos de su Sistema de Gestión Ambiental (SGA), incluyendo el cambio climático, la eficiencia energética, la gestión de residuos y las expectativas de sus partes interesadas en materia de sostenibilidad.</p>
 <p>La Empresa ha identificado las partes interesadas pertinentes para el SGA, incluyendo Usuarios, empleados, proveedores de servicios cloud, organismos reguladores y la comunidad local. Se determinan y comprenden las necesidades y expectativas de estas partes interesadas que son pertinentes al SGA.</p>
@@ -388,7 +394,8 @@ export const paginasData: PaginaPost[] = [
     id: "pag_7",
     slug: "seguridad-salud",
     title: "Política de Salud y Seguridad Ocupacional",
-    excerpt: "Compromiso con la protección de la salud y la seguridad de nuestros colaboradores en el entorno laboral.",
+    excerpt:
+      "Compromiso con la protección de la salud y la seguridad de nuestros colaboradores en el entorno laboral.",
     content: `<h2>1. Contexto de la Organización</h2>
 <p>La Empresa reconoce que la salud y seguridad ocupacional de sus colaboradores es un valor fundamental y un requisito indispensable para la sostenibilidad y el éxito de sus operaciones. La actividad principal de la Empresa es el desarrollo y operación de una plataforma digital de comercio electrónico y servicios de atención al cliente basados en inteligencia artificial. Los riesgos laborales identificados incluyen, entre otros, los riesgos ergonómicos derivados del trabajo prolongado frente a pantallas de visualización, los riesgos psicosociales asociados a la carga de trabajo y la atención al cliente, los riesgos eléctricos en el manejo de equipos informáticos, y los riesgos relacionados con la fatiga visual y los trastornos musculoesqueléticos.</p>
 <p>La Empresa ha identificado las partes interesadas pertinentes para el Sistema de Gestión de Salud y Seguridad en el Trabajo (SGSST), incluyendo colaboradores, contratistas, proveedores, organismos reguladores y visitantes. Se determinan y comprenden las necesidades y expectativas de estas partes interesadas.</p>

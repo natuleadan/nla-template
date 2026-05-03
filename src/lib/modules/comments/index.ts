@@ -22,11 +22,22 @@ function getData(locale = "es") {
   return allComments[locale as keyof typeof allComments] || allComments.es;
 }
 
-export async function getComments(postSlug: string, locale = "es"): Promise<Comment[]> {
+export async function getComments(
+  postSlug: string,
+  locale = "es",
+): Promise<Comment[]> {
   if (!postSlug || typeof postSlug !== "string") return [];
   return getData(locale).filter((c) => c.postSlug === postSlug);
 }
 
-export async function getApprovedComments(postSlug: string, locale = "es"): Promise<Comment[]> {
-  return getData(locale).filter((c) => c.postSlug === postSlug && c.status === "approved" && c.visibility !== "private");
+export async function getApprovedComments(
+  postSlug: string,
+  locale = "es",
+): Promise<Comment[]> {
+  return getData(locale).filter(
+    (c) =>
+      c.postSlug === postSlug &&
+      c.status === "approved" &&
+      c.visibility !== "private",
+  );
 }

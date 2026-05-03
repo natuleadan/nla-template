@@ -59,7 +59,10 @@ export function ProductCard({
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 p-0 relative aspect-[3/4] lg:aspect-square">
-        <Link href={`/${lang}/tienda/${slug}`} className="block absolute inset-0">
+        <Link
+          href={`/${lang}/tienda/${slug}`}
+          className="block absolute inset-0"
+        >
           <Image
             src={imgSrc}
             alt={name}
@@ -76,7 +79,15 @@ export function ProductCard({
           />
         </Link>
         <div className="absolute top-2 left-2 z-10">
-          <Badge variant={category === "suplemento" ? "default" : category === "servicio" ? "outline" : "secondary"}>
+          <Badge
+            variant={
+              category === "suplemento"
+                ? "default"
+                : category === "servicio"
+                  ? "outline"
+                  : "secondary"
+            }
+          >
             {cfg.store.product.badge(category)}
           </Badge>
         </div>
@@ -99,7 +110,11 @@ export function ProductCard({
             {cfg.store.product.pedir}
           </Button>
           <Link href={`/${lang}/tienda/${slug}`} className="flex-1">
-            <Button variant="outline" className="gap-1 w-full" aria-label={`${cfg.store.product.ver} ${name}`}>
+            <Button
+              variant="outline"
+              className="gap-1 w-full"
+              aria-label={`${cfg.store.product.ver} ${name}`}
+            >
               <IconEye className="size-4" />
               {cfg.store.product.ver}
             </Button>

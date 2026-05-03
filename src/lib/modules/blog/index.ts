@@ -46,7 +46,10 @@ export async function getAllPosts(locale = "es"): Promise<BlogPost[]> {
   return getData(locale);
 }
 
-export async function getPost(slug: string, locale = "es"): Promise<BlogPost | null> {
+export async function getPost(
+  slug: string,
+  locale = "es",
+): Promise<BlogPost | null> {
   if (!slug || typeof slug !== "string") return null;
   return getData(locale).find((p) => p.slug === slug) || null;
 }

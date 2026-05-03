@@ -5,8 +5,7 @@ export const paginas = {
     title: "Pages",
     description: "Legal documents, policies and company regulations",
     empty: "No pages available",
-    metaTitle: (count: number) =>
-      `Pages (${count}) | ${brand.name}`,
+    metaTitle: (count: number) => `Pages (${count}) | ${brand.name}`,
     metaDescription: (count: number) =>
       count > 0
         ? `Review our ${count} legal pages and policies.`

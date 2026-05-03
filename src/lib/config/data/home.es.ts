@@ -30,7 +30,10 @@ export const home = {
     { title: "Envío gratis", description: "En pedidos mayores a $50" },
     { title: "Pago seguro", description: "Transferencia, depósito o efectivo" },
     { title: "Soporte", description: "Atención al cliente vía WhatsApp" },
-    { title: "Devoluciones", description: "Cambios y devoluciones sin complicaciones" },
+    {
+      title: "Devoluciones",
+      description: "Cambios y devoluciones sin complicaciones",
+    },
   ],
   cta: {
     title: "¿Listo para empezar?",

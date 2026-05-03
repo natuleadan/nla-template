@@ -6,7 +6,11 @@ import { getBaseUrl } from "@/lib/env";
 import { getConfig, getLocaleFromLang } from "@/lib/locale/config";
 import { getAlternateLanguages } from "@/lib/locale/seo";
 
-export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
   const { lang } = await params;
   const cfg = getConfig(lang);
   const baseUrl = getBaseUrl();
@@ -19,23 +23,44 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
       siteName: brand.name,
       type: "website",
       url: `${baseUrl}/${lang}`,
-      images: [{ url: `${baseUrl}/opengraph-image`, width: 1200, height: 630, alt: brand.name }],
+      images: [
+        {
+          url: `${baseUrl}/opengraph-image`,
+          width: 1200,
+          height: 630,
+          alt: brand.name,
+        },
+      ],
       locale: getLocaleFromLang(lang),
     },
     twitter: {
       card: "summary_large_image",
-      images: [{ url: `${baseUrl}/twitter-image`, width: 1200, height: 600, alt: brand.name }],
+      images: [
+        {
+          url: `${baseUrl}/twitter-image`,
+          width: 1200,
+          height: 600,
+          alt: brand.name,
+        },
+      ],
     },
     other: { "og:logo": `${baseUrl}/design/logo.svg` },
     keywords: cfg.brand.metadata.keywords,
   };
 }
 
-export default async function HomePage({ params }: { params: Promise<{ lang: string }> }) {
+export default async function HomePage({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
   const { lang } = await params;
   return (
     <>
-      <HomeJsonLd locale={lang} homeLabel={getConfig(lang).nav.items[0].label} />
+      <HomeJsonLd
+        locale={lang}
+        homeLabel={getConfig(lang).nav.items[0].label}
+      />
       <Hero />
     </>
   );

@@ -21,7 +21,10 @@ describe("API Products", () => {
         category: "suplemento",
       },
     ];
-    mockFetch.mockResolvedValue({ ok: true, json: async () => ({ products: mockProducts, total: 1, hasMore: false }) });
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => ({ products: mockProducts, total: 1, hasMore: false }),
+    });
     const res = await fetch(`${BASE_URL}/api/v1/products`);
     const data = await res.json();
     expect(res.ok).toBe(true);
@@ -61,7 +64,13 @@ describe("API Resenas", () => {
 
   it("GET /api/v1/resenas/[productSlug] returns reviews", async () => {
     const mockReviews = [
-      { id: "1", name: "Carlos", comment: "Excelente", rating: 5, createdAt: "2026-04-25T10:00:00Z" },
+      {
+        id: "1",
+        name: "Carlos",
+        comment: "Excelente",
+        rating: 5,
+        createdAt: "2026-04-25T10:00:00Z",
+      },
     ];
     mockFetch.mockResolvedValue({ ok: true, json: async () => mockReviews });
     const res = await fetch(`${BASE_URL}/api/v1/resenas/proteina-whey`);
@@ -94,7 +103,11 @@ describe("API Paginas", () => {
   });
 
   it("GET /api/v1/paginas returns pages", async () => {
-    const mockPages = { pages: [{ id: "pag_1", slug: "terminos", title: "Términos" }], total: 1, hasMore: false };
+    const mockPages = {
+      pages: [{ id: "pag_1", slug: "terminos", title: "Términos" }],
+      total: 1,
+      hasMore: false,
+    };
     mockFetch.mockResolvedValue({ ok: true, json: async () => mockPages });
     const res = await fetch(`${BASE_URL}/api/v1/paginas`);
     const data = await res.json();
@@ -103,7 +116,12 @@ describe("API Paginas", () => {
   });
 
   it("GET /api/v1/paginas/[slug] returns page detail", async () => {
-    const mockPage = { id: "pag_1", slug: "terminos", title: "Términos", content: "<p>Contenido</p>" };
+    const mockPage = {
+      id: "pag_1",
+      slug: "terminos",
+      title: "Términos",
+      content: "<p>Contenido</p>",
+    };
     mockFetch.mockResolvedValue({ ok: true, json: async () => mockPage });
     const res = await fetch(`${BASE_URL}/api/v1/paginas/terminos`);
     const data = await res.json();
@@ -118,7 +136,11 @@ describe("API Blog", () => {
   });
 
   it("GET /api/v1/blog returns posts", async () => {
-    const mockPosts = { posts: [{ id: "blog_1", slug: "test-post", title: "Test" }], total: 1, hasMore: false };
+    const mockPosts = {
+      posts: [{ id: "blog_1", slug: "test-post", title: "Test" }],
+      total: 1,
+      hasMore: false,
+    };
     mockFetch.mockResolvedValue({ ok: true, json: async () => mockPosts });
     const res = await fetch(`${BASE_URL}/api/v1/blog`);
     const data = await res.json();

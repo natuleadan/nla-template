@@ -1,10 +1,24 @@
 import { brand } from "../data/brand";
 
 const dayNames: Record<string, number> = {
-  Domingo: 0, Lunes: 1, Martes: 2, Miércoles: 3, Jueves: 4, Viernes: 5, Sábado: 6,
+  Domingo: 0,
+  Lunes: 1,
+  Martes: 2,
+  Miércoles: 3,
+  Jueves: 4,
+  Viernes: 5,
+  Sábado: 6,
 };
 
-const dayList = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+const dayList = [
+  "Domingo",
+  "Lunes",
+  "Martes",
+  "Miércoles",
+  "Jueves",
+  "Viernes",
+  "Sábado",
+];
 
 export { dayNames, dayList };
 
@@ -27,8 +41,7 @@ export const agenda = {
   slot: {
     slotUnavailable: "Este horario ya no está disponible",
     dialogTitle: "Consultar disponibilidad",
-    dialogDescription:
-      "¿Desea consultar disponibilidad de cita?",
+    dialogDescription: "¿Desea consultar disponibilidad de cita?",
     confirm: "Consultar",
     cancel: "Cancelar",
     typeLabel: "Tipo de cita",
@@ -66,7 +79,8 @@ Estamos revisando la disponibilidad para esa fecha y horario. Te confirmaremos a
     unavailable: " — no disponible",
   },
   jsonld: {
-    citaDe: (type: string, businessName: string) => `Cita de ${type} - ${businessName}`,
+    citaDe: (type: string, businessName: string) =>
+      `Cita de ${type} - ${businessName}`,
     cita: (businessName: string) => `Cita - ${businessName}`,
     citaDisponible: "Cita disponible",
   },

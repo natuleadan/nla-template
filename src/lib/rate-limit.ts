@@ -19,7 +19,11 @@ export class RateLimiter {
 
     if (!entry || now > entry.resetAt) {
       this.store.set(key, { count: 1, resetAt: now + this.config.windowMs });
-      return { allowed: true, remaining: this.config.maxRequests - 1, resetAt: now + this.config.windowMs };
+      return {
+        allowed: true,
+        remaining: this.config.maxRequests - 1,
+        resetAt: now + this.config.windowMs,
+      };
     }
 
     entry.count++;
@@ -28,7 +32,11 @@ export class RateLimiter {
       return { allowed: false, remaining: 0, resetAt: entry.resetAt };
     }
 
-    return { allowed: true, remaining: this.config.maxRequests - entry.count, resetAt: entry.resetAt };
+    return {
+      allowed: true,
+      remaining: this.config.maxRequests - entry.count,
+      resetAt: entry.resetAt,
+    };
   }
 
   reset(key: string) {
@@ -37,8 +45,14 @@ export class RateLimiter {
 }
 
 export const perMinute = new RateLimiter({ maxRequests: 2, windowMs: 60_000 });
-export const perHour = new RateLimiter({ maxRequests: 10, windowMs: 3_600_000 });
-export const globalPerHour = new RateLimiter({ maxRequests: 50, windowMs: 3_600_000 });
+export const perHour = new RateLimiter({
+  maxRequests: 10,
+  windowMs: 3_600_000,
+});
+export const globalPerHour = new RateLimiter({
+  maxRequests: 50,
+  windowMs: 3_600_000,
+});
 
 export function getClientIp(request: Request): string {
   const forwarded = request.headers.get("x-forwarded-for");

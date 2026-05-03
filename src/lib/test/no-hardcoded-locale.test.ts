@@ -15,7 +15,11 @@ function getAllTsxFiles(dir: string): string[] {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   for (const entry of entries) {
     const full = path.join(dir, entry.name);
-    if (entry.isDirectory() && !entry.name.startsWith(".") && entry.name !== "node_modules") {
+    if (
+      entry.isDirectory() &&
+      !entry.name.startsWith(".") &&
+      entry.name !== "node_modules"
+    ) {
       results.push(...getAllTsxFiles(full));
     } else if (entry.isFile() && /\.(tsx|ts)$/.test(entry.name)) {
       results.push(full);
@@ -26,7 +30,10 @@ function getAllTsxFiles(dir: string): string[] {
 
 describe("no hardcoded locale ternaries", () => {
   const files = getAllTsxFiles(SRC_DIR).filter(
-    (f) => !f.includes("node_modules") && !f.includes(".test.") && !f.includes("/config/"),
+    (f) =>
+      !f.includes("node_modules") &&
+      !f.includes(".test.") &&
+      !f.includes("/config/"),
   );
 
   it("should not have lang === 'en' or locale === 'en' hardcoded in tsx/ts files", () => {
@@ -52,7 +59,9 @@ describe("no hardcoded locale ternaries", () => {
     }
 
     if (violations.length > 0) {
-      console.log("\nHardcoded locale ternaries found (use config keys instead):");
+      console.log(
+        "\nHardcoded locale ternaries found (use config keys instead):",
+      );
       for (const v of violations) console.log(`  ${v}`);
     }
 

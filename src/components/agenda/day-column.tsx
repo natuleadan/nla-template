@@ -18,7 +18,11 @@ interface DayColumnProps {
   autoOpenDialog: boolean;
 }
 
-function isSlotExpired(slot: AgendaSlot, date: Date, isPastDay: boolean): boolean {
+function isSlotExpired(
+  slot: AgendaSlot,
+  date: Date,
+  isPastDay: boolean,
+): boolean {
   if (!slot.available || isPastDay) return true;
   if (!isTodayDate(date)) return false;
   const now = new Date();
@@ -44,7 +48,13 @@ function isPastDay(date: Date): boolean {
   return date.getTime() < today.getTime();
 }
 
-export function DayColumn({ day, date, targetDay, targetTime, autoOpenDialog }: DayColumnProps) {
+export function DayColumn({
+  day,
+  date,
+  targetDay,
+  targetTime,
+  autoOpenDialog,
+}: DayColumnProps) {
   const lang = useLang();
   const cfg = getConfig(lang);
   const [selectedSlot, setSelectedSlot] = useState<AgendaSlot | null>(null);
@@ -86,10 +96,18 @@ export function DayColumn({ day, date, targetDay, targetTime, autoOpenDialog }: 
       )}
     >
       <div className="flex flex-col items-center gap-1 mb-2">
-        <Badge variant="default" className="text-xs px-2 py-0 max-w-full truncate">
+        <Badge
+          variant="default"
+          className="text-xs px-2 py-0 max-w-full truncate"
+        >
           {day.name}
         </Badge>
-        <p className={cn("text-2xl font-bold leading-none", isToday && "text-primary")}>
+        <p
+          className={cn(
+            "text-2xl font-bold leading-none",
+            isToday && "text-primary",
+          )}
+        >
           {date.getDate()}
         </p>
       </div>

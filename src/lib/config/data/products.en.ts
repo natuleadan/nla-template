@@ -16,7 +16,8 @@ export const allProducts: Product[] = [
     price: 899,
     originalPrice: 1099,
     description: "Lightweight aluminum clipboard with firm clip",
-    longDescription: "Clipboard made of high-strength aluminum. Ideal for office, field, or daily use. Its stainless steel clip holds up to 100 sheets. Includes pen holder.",
+    longDescription:
+      "Clipboard made of high-strength aluminum. Ideal for office, field, or daily use. Its stainless steel clip holds up to 100 sheets. Includes pen holder.",
     image: "/design/fallback.svg",
     images: imgs("Portapapeles+Aluminio", 3),
     category: "papeleria",
@@ -36,7 +37,8 @@ export const allProducts: Product[] = [
     price: 499,
     originalPrice: 599,
     description: "High-quality bond paper for printing and writing",
-    longDescription: "Bond paper ream of 500 grams. Ideal for laser printing, inkjet printing, and handwriting. Bright white color, 75 g/m². FSC certified.",
+    longDescription:
+      "Bond paper ream of 500 grams. Ideal for laser printing, inkjet printing, and handwriting. Bright white color, 75 g/m². FSC certified.",
     image: "/design/fallback.svg",
     images: imgs("Papel+Bond", 2),
     category: "papeleria",
@@ -56,7 +58,8 @@ export const allProducts: Product[] = [
     price: 299,
     originalPrice: 399,
     description: "Retractable pen with smooth and precise writing",
-    longDescription: "Retractable pen with 1.0mm medium tip and quick-drying ink. Ergonomic body with rubber grip for comfortable extended writing. Ideal for office and study.",
+    longDescription:
+      "Retractable pen with 1.0mm medium tip and quick-drying ink. Ergonomic body with rubber grip for comfortable extended writing. Ideal for office and study.",
     image: "/design/fallback.svg",
     images: imgs("Boligrafo+Retractil", 4),
     category: "escritura",
@@ -75,7 +78,8 @@ export const allProducts: Product[] = [
     unit: "u",
     price: 1499,
     description: "Heavy-duty metal stapler, staples up to 30 sheets",
-    longDescription: "Professional stapler made of metal with non-slip rubber base. Stapling capacity of up to 30 sheets of 80 g/m². Loads 100 standard 26/6 staples. Includes 500 free staples.",
+    longDescription:
+      "Professional stapler made of metal with non-slip rubber base. Stapling capacity of up to 30 sheets of 80 g/m². Loads 100 standard 26/6 staples. Includes 500 free staples.",
     image: "/design/fallback.svg",
     images: imgs("Grapadora+Metalica", 3),
     category: "herramientas",
@@ -90,7 +94,8 @@ export const allProducts: Product[] = [
     price: 399,
     originalPrice: 499,
     description: "Multi-purpose clear adhesive tape",
-    longDescription: "Clear adhesive tape made of biaxially oriented polypropylene (BOPP). Permanent adhesion and tensile strength. Ideal for sealing boxes, light packaging, and household use.",
+    longDescription:
+      "Clear adhesive tape made of biaxially oriented polypropylene (BOPP). Permanent adhesion and tensile strength. Ideal for sealing boxes, light packaging, and household use.",
     image: "/design/fallback.svg",
     images: imgs("Cinta+Adhesiva", 3),
     category: "herramientas",
@@ -109,7 +114,8 @@ export const allProducts: Product[] = [
     unit: "u",
     price: 799,
     description: "Multi-purpose scissors with stainless steel blade",
-    longDescription: "Multi-purpose scissors with tempered stainless steel blades and ergonomic plastic handles with rubber inserts. Precise cutting on paper, fabric, cardboard, and light materials. Total length: 20 cm.",
+    longDescription:
+      "Multi-purpose scissors with tempered stainless steel blades and ergonomic plastic handles with rubber inserts. Precise cutting on paper, fabric, cardboard, and light materials. Total length: 20 cm.",
     image: "/design/fallback.svg",
     images: imgs("Tijeras+Multiusos", 2),
     category: "herramientas",
@@ -124,7 +130,8 @@ export const allProducts: Product[] = [
     price: 599,
     originalPrice: 749,
     description: "Stainless steel ruler with laser-etched scale",
-    longDescription: "Professional 304 stainless steel ruler with laser-etched scale (indelible). Dual scale: metric and inches. Beveled edge for precise cutting with a utility knife. Includes hanging hole.",
+    longDescription:
+      "Professional 304 stainless steel ruler with laser-etched scale (indelible). Dual scale: metric and inches. Beveled edge for precise cutting with a utility knife. Includes hanging hole.",
     image: "/design/fallback.svg",
     images: imgs("Regla+Acero", 3),
     category: "herramientas",
@@ -144,7 +151,8 @@ export const allProducts: Product[] = [
     price: 199,
     originalPrice: 299,
     description: "Soft kneaded eraser that doesn't damage paper",
-    longDescription: "High-quality kneaded eraser. Extra soft, does not smudge or damage paper. Ideal for graphite pencil and charcoal. Clean crumbs without sticky residue. Pack of 2 units.",
+    longDescription:
+      "High-quality kneaded eraser. Extra soft, does not smudge or damage paper. Ideal for graphite pencil and charcoal. Clean crumbs without sticky residue. Pack of 2 units.",
     image: "/design/fallback.svg",
     images: imgs("Borrador+Nata", 2),
     category: "escritura",
@@ -158,7 +166,8 @@ export const allProducts: Product[] = [
     unit: "u",
     price: 399,
     description: "HB #2 graphite pencil for writing and drawing",
-    longDescription: "High-quality HB #2 graphite pencil. Cedar wood, eraser tip. Smooth and uniform writing. Ideal for school, office, and technical drawing. Box of 12 units.",
+    longDescription:
+      "High-quality HB #2 graphite pencil. Cedar wood, eraser tip. Smooth and uniform writing. Ideal for school, office, and technical drawing. Box of 12 units.",
     image: "/design/fallback.svg",
     images: imgs("Lapiz+HB", 2),
     category: "escritura",
@@ -172,7 +181,8 @@ export const allProducts: Product[] = [
     unit: "u",
     price: 349,
     description: "Quick-drying liquid corrector with precision applicator",
-    longDescription: "Liquid corrector with quick-drying formula (10 seconds). Fine-tip metal applicator for precise corrections. Opaque coverage without cracks. 20 ml. Non-toxic.",
+    longDescription:
+      "Liquid corrector with quick-drying formula (10 seconds). Fine-tip metal applicator for precise corrections. Opaque coverage without cracks. 20 ml. Non-toxic.",
     image: "/design/fallback.svg",
     images: imgs("Corrector+Liquido", 2),
     category: "escritura",
@@ -187,7 +197,8 @@ export const allProducts: Product[] = [
     price: 699,
     originalPrice: 899,
     description: "Hanging folder with plastic tab and metal reinforcement",
-    longDescription: "Hanging file folder with metal rails and plastic tab with label. Capacity: 200 sheets. Assorted colors. Pack of 5 units. Compatible with standard filing systems.",
+    longDescription:
+      "Hanging file folder with metal rails and plastic tab with label. Capacity: 200 sheets. Assorted colors. Pack of 5 units. Compatible with standard filing systems.",
     image: "/design/fallback.svg",
     images: imgs("Carpeta+Colgante", 3),
     category: "papeleria",
@@ -205,7 +216,8 @@ export const allProducts: Product[] = [
     unit: "u",
     price: 499,
     description: "Sturdy kraft paper manila envelope",
-    longDescription: "Manila envelope made of 120 g/m² kraft paper. Closure with flap and adhesive. Ideal for sending documents and protecting papers. Pack of 10 units.",
+    longDescription:
+      "Manila envelope made of 120 g/m² kraft paper. Closure with flap and adhesive. Ideal for sending documents and protecting papers. Pack of 10 units.",
     image: "/design/fallback.svg",
     images: imgs("Sobre+Manila", 2),
     category: "papeleria",
@@ -224,7 +236,8 @@ export const allProducts: Product[] = [
     price: 599,
     originalPrice: 799,
     description: "Highlighter with long-lasting fluorescent ink",
-    longDescription: "Highlighter with vibrant fluorescent ink. Beveled tip for fine (1mm) and thick (5mm) strokes. Long-lasting ink that does not bleed through paper. Pack of 4 colors: yellow, green, orange, and pink.",
+    longDescription:
+      "Highlighter with vibrant fluorescent ink. Beveled tip for fine (1mm) and thick (5mm) strokes. Long-lasting ink that does not bleed through paper. Pack of 4 colors: yellow, green, orange, and pink.",
     image: "/design/fallback.svg",
     images: imgs("Resaltador", 4),
     category: "escritura",
@@ -244,7 +257,8 @@ export const allProducts: Product[] = [
     unit: "u",
     price: 1999,
     description: "3-hole metal punch with adjustable guide",
-    longDescription: "Professional 3-hole punch made of metal with non-slip base. Adjustable paper guide for letter and legal sizes. Capacity: up to 20 sheets of 80 g/m². Includes waste tray.",
+    longDescription:
+      "Professional 3-hole punch made of metal with non-slip base. Adjustable paper guide for letter and legal sizes. Capacity: up to 20 sheets of 80 g/m². Includes waste tray.",
     image: "/design/fallback.svg",
     images: imgs("Perforadora+3+Agujeros", 3),
     category: "herramientas",
@@ -258,7 +272,8 @@ export const allProducts: Product[] = [
     unit: "u",
     price: 1299,
     description: "Basic calculator with 8-digit LCD display",
-    longDescription: "Basic calculator with 8-digit LCD display. Functions: addition, subtraction, multiplication, division, percentage, square root, and memory. Solar powered with backup battery. Large, easy-press keys. Ideal for office and daily use.",
+    longDescription:
+      "Basic calculator with 8-digit LCD display. Functions: addition, subtraction, multiplication, division, percentage, square root, and memory. Solar powered with backup battery. Large, easy-press keys. Ideal for office and daily use.",
     image: "/design/fallback.svg",
     images: imgs("Calculadora+Basica", 3),
     category: "herramientas",
@@ -272,7 +287,8 @@ export const allProducts: Product[] = [
     unit: "u",
     price: 599,
     description: "Precision cutter with 18mm retractable blade",
-    longDescription: "Precision cutter with metal body and 18mm carbon steel blade. Automatic safety lock, blade lock, and storage for replacement blades (includes 5). Ideal for crafts, models, and detailed work.",
+    longDescription:
+      "Precision cutter with metal body and 18mm carbon steel blade. Automatic safety lock, blade lock, and storage for replacement blades (includes 5). Ideal for crafts, models, and detailed work.",
     image: "/design/fallback.svg",
     images: imgs("Cutter+Precision", 2),
     category: "herramientas",

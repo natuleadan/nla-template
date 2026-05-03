@@ -14,7 +14,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLang } from "@/lib/locale/context";
 import { getConfig } from "@/lib/locale/config";
-import { IconArrowRight, IconClock, IconUser, IconCalendar } from "@tabler/icons-react";
+import {
+  IconArrowRight,
+  IconClock,
+  IconUser,
+  IconCalendar,
+} from "@tabler/icons-react";
 
 const FALLBACK_IMAGE = "/design/fallback.svg";
 
@@ -41,7 +46,12 @@ export function PostCard({
 }: PostCardProps) {
   const lang = useLang();
   const cfg = getConfig(lang);
-  const catLabels = Object.fromEntries((cfg.blogCategories || []).map((c: {slug: string; name: string}) => [c.slug, c.name]));
+  const catLabels = Object.fromEntries(
+    (cfg.blogCategories || []).map((c: { slug: string; name: string }) => [
+      c.slug,
+      c.name,
+    ]),
+  );
   const [imgSrc, setImgSrc] = useState(image || FALLBACK_IMAGE);
   const [fallbackUsed, setFallbackUsed] = useState(false);
 
@@ -76,9 +86,7 @@ export function PostCard({
         </CardTitle>
       </CardHeader>
       <CardContent className="flex-1 px-4 pb-2">
-        <p className="text-sm text-muted-foreground line-clamp-2">
-          {excerpt}
-        </p>
+        <p className="text-sm text-muted-foreground line-clamp-2">{excerpt}</p>
       </CardContent>
       <CardFooter className="px-4 pb-4 pt-2 flex flex-col gap-3">
         <div className="flex flex-wrap gap-3 text-xs text-muted-foreground w-full">
@@ -96,7 +104,11 @@ export function PostCard({
           </span>
         </div>
         <Link href={`/${lang}/blog/${slug}`} className="w-full">
-          <Button variant="outline" className="gap-2 w-full" aria-label={`${cfg.blog.post.readMore}: ${title}`}>
+          <Button
+            variant="outline"
+            className="gap-2 w-full"
+            aria-label={`${cfg.blog.post.readMore}: ${title}`}
+          >
             {cfg.blog.post.readMore}
             <IconArrowRight className="size-4" />
           </Button>

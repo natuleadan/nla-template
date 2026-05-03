@@ -27,23 +27,37 @@ export function getChatPaths(): Record<string, OpenApiPath> {
                   },
                   phone: {
                     type: "string",
-                    description: "Identificador de sesión (opcional, default: chat_00000000000)",
+                    description:
+                      "Identificador de sesión (opcional, default: chat_00000000000)",
                     example: "test_1234567890",
                   },
                   media: {
                     type: "string",
-                    enum: ["image", "audio", "voice", "pdf", "video", "document", "sticker", "location", "contacts", "order"],
+                    enum: [
+                      "image",
+                      "audio",
+                      "voice",
+                      "pdf",
+                      "video",
+                      "document",
+                      "sticker",
+                      "location",
+                      "contacts",
+                      "order",
+                    ],
                     description: "Tipo de media a procesar",
                     example: "image",
                   },
                   mediaUrl: {
                     type: "string",
-                    description: "URL del archivo media (requerido si media está presente)",
+                    description:
+                      "URL del archivo media (requerido si media está presente)",
                     example: "https://ejemplo.com/imagen.jpg",
                   },
                   mediaCaption: {
                     type: "string",
-                    description: "Texto descriptivo o instrucción para el análisis del media",
+                    description:
+                      "Texto descriptivo o instrucción para el análisis del media",
                     example: "describe esta imagen",
                   },
                   customerName: {
@@ -106,7 +120,8 @@ export function getWhatsappPaths(): Record<string, OpenApiPath> {
                 properties: {
                   to: {
                     type: "string",
-                    description: "Número de teléfono en formato E.164 (ej: +593991234567)",
+                    description:
+                      "Número de teléfono en formato E.164 (ej: +593991234567)",
                     example: "+593991234567",
                   },
                   message: {
@@ -116,12 +131,14 @@ export function getWhatsappPaths(): Record<string, OpenApiPath> {
                   },
                   productId: {
                     type: "string",
-                    description: "ID del producto (opcional, se guarda en historial)",
+                    description:
+                      "ID del producto (opcional, se guarda en historial)",
                     example: "prod_001",
                   },
                   productName: {
                     type: "string",
-                    description: "Nombre del producto (opcional, se guarda en historial)",
+                    description:
+                      "Nombre del producto (opcional, se guarda en historial)",
                     example: "Proteína Whey",
                   },
                 },
@@ -228,7 +245,14 @@ export function getWhatsappPaths(): Record<string, OpenApiPath> {
                       to: { type: "string" },
                       type: {
                         type: "string",
-                        enum: ["text", "image", "button", "interactive", "location", "request_welcome"],
+                        enum: [
+                          "text",
+                          "image",
+                          "button",
+                          "interactive",
+                          "location",
+                          "request_welcome",
+                        ],
                       },
                       text: {
                         type: "object",
@@ -258,8 +282,11 @@ export function getWhatsappPaths(): Record<string, OpenApiPath> {
         },
         responses: {
           "200": {
-            description: "Mensaje recibido. Se procesará y responderá al cliente.",
-            content: { "text/plain": { schema: { type: "string" }, example: "OK" } },
+            description:
+              "Mensaje recibido. Se procesará y responderá al cliente.",
+            content: {
+              "text/plain": { schema: { type: "string" }, example: "OK" },
+            },
           },
           "403": { description: "Firma HMAC inválida" },
         },

@@ -32,7 +32,11 @@ async function getInitialData(locale: string) {
   };
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
   const { lang } = await params;
   const { products } = await getInitialData(lang);
   const cfg = getConfig(lang);
@@ -46,26 +50,47 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     title,
     description,
     openGraph: {
-      title, description,
+      title,
+      description,
       siteName: brand.name,
       type: "website",
       url,
-      images: [{ url: `${baseUrl}/${lang}/tienda/opengraph-image`, width: 1200, height: 630, alt: title }],
+      images: [
+        {
+          url: `${baseUrl}/${lang}/tienda/opengraph-image`,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
       locale: getLocaleFromLang(lang),
     },
     twitter: {
       card: "summary_large_image",
-      title, description,
-      images: [{ url: `${baseUrl}/${lang}/tienda/twitter-image`, width: 1200, height: 600, alt: title }],
+      title,
+      description,
+      images: [
+        {
+          url: `${baseUrl}/${lang}/tienda/twitter-image`,
+          width: 1200,
+          height: 600,
+          alt: title,
+        },
+      ],
     },
     other: { "og:logo": `${baseUrl}/design/logo.svg` },
   };
 }
 
-export default async function TiendaPage({ params }: { params: Promise<{ lang: string }> }) {
+export default async function TiendaPage({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
   const { lang } = await params;
   const cfg = getConfig(lang);
-  const { categories, initialProducts, total, hasMore, products } = await getInitialData(lang);
+  const { categories, initialProducts, total, hasMore, products } =
+    await getInitialData(lang);
   const baseUrl = getBaseUrl();
 
   const jsonLdProducts = products.map((p) => ({
@@ -82,22 +107,38 @@ export default async function TiendaPage({ params }: { params: Promise<{ lang: s
           { name: cfg.store.page.title, item: `${baseUrl}/${lang}/tienda` },
         ]}
       />
-      <JsonLdProductList name={cfg.store.page.title} total={total} products={jsonLdProducts} />
+      <JsonLdProductList
+        name={cfg.store.page.title}
+        total={total}
+        products={jsonLdProducts}
+      />
       <div className="px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full py-8">
-        <PageHeader title={cfg.store.page.title} description={cfg.store.page.description} />
-        <Suspense fallback={
-          <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Skeleton className="h-10 sm:max-w-xs flex-1" />
-              <Skeleton className="h-10 sm:max-w-xs ml-auto w-full sm:w-auto" />
+        <PageHeader
+          title={cfg.store.page.title}
+          description={cfg.store.page.description}
+        />
+        <Suspense
+          fallback={
+            <div className="space-y-6">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Skeleton className="h-10 sm:max-w-xs flex-1" />
+                <Skeleton className="h-10 sm:max-w-xs ml-auto w-full sm:w-auto" />
+              </div>
+              <div className="grid gap-4 grid-cols-1 xs:grid-cols-2 lg:grid-cols-4">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <ProductCardSkeleton key={i} />
+                ))}
+              </div>
             </div>
-            <div className="grid gap-4 grid-cols-1 xs:grid-cols-2 lg:grid-cols-4">
-              {Array.from({ length: 4 }).map((_, i) => <ProductCardSkeleton key={i} />)}
-            </div>
-          </div>
-        }>
+          }
+        >
           {total > 0 ? (
-            <TiendaToolbar initialProducts={initialProducts} total={total} initialHasMore={hasMore} categories={categories} />
+            <TiendaToolbar
+              initialProducts={initialProducts}
+              total={total}
+              initialHasMore={hasMore}
+              categories={categories}
+            />
           ) : (
             <Empty className="py-12">
               <p className="text-muted-foreground">{cfg.store.page.empty}</p>

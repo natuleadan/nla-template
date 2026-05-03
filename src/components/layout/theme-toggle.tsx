@@ -8,7 +8,12 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { IconSun, IconMoon, IconDeviceDesktop, IconCheck } from "@tabler/icons-react";
+import {
+  IconSun,
+  IconMoon,
+  IconDeviceDesktop,
+  IconCheck,
+} from "@tabler/icons-react";
 import { useLang } from "@/lib/locale/context";
 import { getConfig } from "@/lib/locale/config";
 
@@ -26,7 +31,11 @@ export function ThemeToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" aria-label={cfg.ui.navbar.themeAriaLabel}>
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label={cfg.ui.navbar.themeAriaLabel}
+        >
           <IconSun className="size-5 hidden dark:block" />
           <IconMoon className="size-5 block dark:hidden" />
         </Button>
@@ -46,7 +55,9 @@ export function ThemeToggle() {
                   {mode.label}
                 </span>
               </span>
-              {theme === mode.value && <IconCheck className="size-4 shrink-0" />}
+              {theme === mode.value && (
+                <IconCheck className="size-4 shrink-0" />
+              )}
             </DropdownMenuItem>
           );
         })}

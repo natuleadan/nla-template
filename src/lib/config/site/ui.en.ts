@@ -1,5 +1,4 @@
 export const ui = {
-
   skipToContent: "Skip to main content",
   mobileMenuDescription: "Main navigation menu",
   search: {
@@ -98,7 +97,8 @@ export const ui = {
       rateLimitGlobal: "Too many messages sent. Try again later.",
       rateLimitMinute: "Too many requests. Wait a minute.",
       rateLimitHour: "You have reached the hourly message limit.",
-      rateLimitRecipient: "This number has received several messages. Try again later.",
+      rateLimitRecipient:
+        "This number has received several messages. Try again later.",
       sendError: "Error sending message",
     },
   },
@@ -170,7 +170,8 @@ export const ui = {
     location: (name: string, address: string, lat?: number, lng?: number) =>
       `[Location: ${[name, address].filter(Boolean).join(", ")}]${lat && lng ? ` (GPS: ${lat}, ${lng})` : ""}`,
     contact: (info: string) => `[Contact: ${info}]`,
-    order: (productId: string, qty: number) => `[Order: product ${productId || "unknown"}, quantity ${qty || 1}]`,
+    order: (productId: string, qty: number) =>
+      `[Order: product ${productId || "unknown"}, quantity ${qty || 1}]`,
     system: (body: string) => `[System: ${body || "system event"}]`,
     unsupported: (type: string) => `[Message type "${type}" not supported]`,
     welcomeText: "Hello, I\u2019m a new customer",

@@ -7,16 +7,31 @@ export const schemas: Record<string, OpenApiSchema> = {
       id: { type: "string", example: "1" },
       slug: { type: "string", example: "proteina-whey" },
       name: { type: "string", example: "Proteína en Polvo 1kg" },
-      description: { type: "string", example: "Proteína en polvo sabor chocolate" },
-      longDescription: { type: "string", example: "Proteína en polvo de alta calidad. Ideal para después del entrenamiento." },
+      description: {
+        type: "string",
+        example: "Proteína en polvo sabor chocolate",
+      },
+      longDescription: {
+        type: "string",
+        example:
+          "Proteína en polvo de alta calidad. Ideal para después del entrenamiento.",
+      },
       price: { type: "number", example: 1299 },
       originalPrice: { type: "number", example: 1499 },
       category: { type: "string", example: "suplemento" },
       image: { type: "string", example: "/design/fallback.svg" },
-      images: { type: "array", items: { type: "string" }, example: ["/design/fallback.svg"] },
+      images: {
+        type: "array",
+        items: { type: "string" },
+        example: ["/design/fallback.svg"],
+      },
       quantity: { type: "string", example: "1" },
       unit: { type: "string", example: "kg" },
-      type: { type: "string", enum: ["product", "service"], example: "product" },
+      type: {
+        type: "string",
+        enum: ["product", "service"],
+        example: "product",
+      },
       appointment: { type: "boolean", example: false },
       variants: {
         type: "array",
@@ -85,7 +100,11 @@ export const schemas: Record<string, OpenApiSchema> = {
       image: { type: "string", example: "/images/blog/nutricion.jpg" },
       author: { type: "string", example: "María García" },
       category: { type: "string", example: "nutricion" },
-      tags: { type: "array", items: { type: "string" }, example: ["nutrición", "proteínas"] },
+      tags: {
+        type: "array",
+        items: { type: "string" },
+        example: ["nutrición", "proteínas"],
+      },
       publishedAt: { type: "string", example: "2025-12-15" },
       readingTime: { type: "integer", example: 5 },
     },

@@ -30,9 +30,21 @@ describe("webhook - signature verification", () => {
     const ts = "1654084800";
     const signed = `${ts}.${body}`;
 
-    const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
-    const sig = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(signed));
-    const hex = Array.from(new Uint8Array(sig)).map((b) => b.toString(16).padStart(2, "0")).join("");
+    const key = await crypto.subtle.importKey(
+      "raw",
+      new TextEncoder().encode(secret),
+      { name: "HMAC", hash: "SHA-256" },
+      false,
+      ["sign"],
+    );
+    const sig = await crypto.subtle.sign(
+      "HMAC",
+      key,
+      new TextEncoder().encode(signed),
+    );
+    const hex = Array.from(new Uint8Array(sig))
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
 
     const header = `t=${ts},s=${hex}`;
     expect(header).toMatch(/^t=\d+,s=[a-f0-9]{64}$/);
@@ -43,9 +55,21 @@ describe("webhook - signature verification", () => {
     expect(t).toBe(ts);
     expect(s).toBe(hex);
 
-    const verifyKey = await crypto.subtle.importKey("raw", new TextEncoder().encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
-    const verifySig = await crypto.subtle.sign("HMAC", verifyKey, new TextEncoder().encode(`${t}.${body}`));
-    const verifyHex = Array.from(new Uint8Array(verifySig)).map((b) => b.toString(16).padStart(2, "0")).join("");
+    const verifyKey = await crypto.subtle.importKey(
+      "raw",
+      new TextEncoder().encode(secret),
+      { name: "HMAC", hash: "SHA-256" },
+      false,
+      ["sign"],
+    );
+    const verifySig = await crypto.subtle.sign(
+      "HMAC",
+      verifyKey,
+      new TextEncoder().encode(`${t}.${body}`),
+    );
+    const verifyHex = Array.from(new Uint8Array(verifySig))
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
     expect(verifyHex).toBe(hex);
   });
 
@@ -54,12 +78,27 @@ describe("webhook - signature verification", () => {
     const body = JSON.stringify(PAYLOAD);
     const ts = "1654084800";
     const signed = `${ts}.${body}`;
-    const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
-    const sig = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(signed));
-    const hex = Array.from(new Uint8Array(sig)).map((b) => b.toString(16).padStart(2, "0")).join("");
+    const key = await crypto.subtle.importKey(
+      "raw",
+      new TextEncoder().encode(secret),
+      { name: "HMAC", hash: "SHA-256" },
+      false,
+      ["sign"],
+    );
+    const sig = await crypto.subtle.sign(
+      "HMAC",
+      key,
+      new TextEncoder().encode(signed),
+    );
+    const hex = Array.from(new Uint8Array(sig))
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
 
     const badHeader = `t=${ts},s=0000000000000000000000000000000000000000000000000000000000000000`;
-    const badSig = badHeader.split(",").find((p) => p.startsWith("s="))?.split("=")[1];
+    const badSig = badHeader
+      .split(",")
+      .find((p) => p.startsWith("s="))
+      ?.split("=")[1];
     expect(badSig).not.toBe(hex);
   });
 });
@@ -81,28 +120,76 @@ describe("webhook - payload parsing", () => {
   it("should ignore non-text message types", () => {
     const types = ["image", "audio", "video", "unsupported"];
     for (const t of types) {
-      const p = { ...PAYLOAD, whatsappInboundMessage: { ...PAYLOAD.whatsappInboundMessage, type: t, text: undefined } };
+      const p = {
+        ...PAYLOAD,
+        whatsappInboundMessage: {
+          ...PAYLOAD.whatsappInboundMessage,
+          type: t,
+          text: undefined,
+        },
+      };
       expect(p.whatsappInboundMessage?.type).toBe(t);
     }
   });
 
   it("should handle button reply", () => {
-    const p = { ...PAYLOAD, whatsappInboundMessage: { ...PAYLOAD.whatsappInboundMessage, type: "button", text: undefined, button: { payload: "opt_in", text: "Quiero info" } } };
+    const p = {
+      ...PAYLOAD,
+      whatsappInboundMessage: {
+        ...PAYLOAD.whatsappInboundMessage,
+        type: "button",
+        text: undefined,
+        button: { payload: "opt_in", text: "Quiero info" },
+      },
+    };
     expect(p.whatsappInboundMessage?.button?.text).toBe("Quiero info");
   });
 
   it("should handle interactive list reply", () => {
-    const p = { ...PAYLOAD, whatsappInboundMessage: { ...PAYLOAD.whatsappInboundMessage, type: "interactive", text: undefined, interactive: { type: "list_reply", list_reply: { id: "opt_1", title: "Productos", description: "Ver" } } } };
-    expect(p.whatsappInboundMessage?.interactive?.list_reply?.title).toBe("Productos");
+    const p = {
+      ...PAYLOAD,
+      whatsappInboundMessage: {
+        ...PAYLOAD.whatsappInboundMessage,
+        type: "interactive",
+        text: undefined,
+        interactive: {
+          type: "list_reply",
+          list_reply: { id: "opt_1", title: "Productos", description: "Ver" },
+        },
+      },
+    };
+    expect(p.whatsappInboundMessage?.interactive?.list_reply?.title).toBe(
+      "Productos",
+    );
   });
 
   it("should handle location message", () => {
-    const p = { ...PAYLOAD, whatsappInboundMessage: { ...PAYLOAD.whatsappInboundMessage, type: "location", text: undefined, location: { latitude: -0.18, longitude: -78.48, name: "Quito", address: "Ecuador" } } };
+    const p = {
+      ...PAYLOAD,
+      whatsappInboundMessage: {
+        ...PAYLOAD.whatsappInboundMessage,
+        type: "location",
+        text: undefined,
+        location: {
+          latitude: -0.18,
+          longitude: -78.48,
+          name: "Quito",
+          address: "Ecuador",
+        },
+      },
+    };
     expect(p.whatsappInboundMessage?.location?.name).toBe("Quito");
   });
 
   it("should handle request_welcome event", () => {
-    const p = { ...PAYLOAD, whatsappInboundMessage: { ...PAYLOAD.whatsappInboundMessage, type: "request_welcome", text: undefined } };
+    const p = {
+      ...PAYLOAD,
+      whatsappInboundMessage: {
+        ...PAYLOAD.whatsappInboundMessage,
+        type: "request_welcome",
+        text: undefined,
+      },
+    };
     expect(p.whatsappInboundMessage?.type).toBe("request_welcome");
   });
 });
@@ -115,6 +202,8 @@ describe("webhook - URL handling", () => {
 
   it("should work with localhost", () => {
     const url = "http://localhost:3000/api/v1/webhooks/ycloud";
-    expect(url).toMatch(/^https?:\/\/localhost:\d+\/api\/v1\/webhooks\/ycloud$/);
+    expect(url).toMatch(
+      /^https?:\/\/localhost:\d+\/api\/v1\/webhooks\/ycloud$/,
+    );
   });
 });

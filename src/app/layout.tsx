@@ -1,7 +1,8 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-import { getBaseUrl, getIndexingEnabled } from "@/lib/env";
+import { getBaseUrl, getIndexingEnabled, getYcloudEnabled } from "@/lib/env";
+import { getConfig } from "@/lib/locale/config";
 import { VercelMetricsGuard } from "@/components/analytics/vercel-metrics-guard";
 import "./globals.css";
 import { Providers } from "@/components/providers";
@@ -20,11 +21,12 @@ const fontSans = Roboto({
 export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = getBaseUrl();
   const indexing = getIndexingEnabled();
+  const cfg = getConfig("en");
 
   return {
     metadataBase: new URL(baseUrl),
-    title: "Acme Inc",
-    description: "Your trusted online store. Curated products for your home and office.",
+    title: cfg.brand.name,
+    description: cfg.brand.description,
     icons: { icon: "/icon", apple: "/apple-icon" },
     robots: { index: indexing, follow: indexing },
   };
@@ -33,6 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const cfg = getConfig("en");
   return (
     <html lang="en" suppressHydrationWarning className={fontSans.variable}>
       <head>
@@ -43,21 +46,29 @@ export default function RootLayout({
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-background focus:text-foreground focus:border focus:rounded-md"
         >
-          Skip to main content
+          {cfg.ui.skipToContent}
         </a>
         <Suspense>
           <LangProvider>
-            <Providers>
-            <VercelMetricsGuard />
-            <div className="flex min-h-screen flex-col">
-              <Suspense><Navbar /></Suspense>
-              <main id="main-content" className="flex-1 flex flex-col" tabIndex={-1}>
-                <Suspense>{children}</Suspense>
-              </main>
-              <Suspense><Footer /></Suspense>
-            </div>
-          </Providers>
-        </LangProvider>
+            <Providers ycloudEnabled={getYcloudEnabled()}>
+              <VercelMetricsGuard />
+              <div className="flex min-h-screen flex-col">
+                <Suspense>
+                  <Navbar />
+                </Suspense>
+                <main
+                  id="main-content"
+                  className="flex-1 flex flex-col"
+                  tabIndex={-1}
+                >
+                  <Suspense>{children}</Suspense>
+                </main>
+                <Suspense>
+                  <Footer />
+                </Suspense>
+              </div>
+            </Providers>
+          </LangProvider>
         </Suspense>
       </body>
     </html>

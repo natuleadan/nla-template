@@ -22,7 +22,10 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: LOCALES.flatMap((locale) => [`/${locale}/`, `/${locale}`]).concat([
+        allow: LOCALES.flatMap((locale) => [
+          `/${locale}/`,
+          `/${locale}`,
+        ]).concat([
           "/llms.txt",
           "/sitemap.xml",
           "/robots.txt",

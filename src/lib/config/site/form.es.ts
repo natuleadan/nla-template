@@ -48,6 +48,5 @@ Te responderemos a la brevedad. Mientras tanto, puedes revisar nuestros producto
 
 ¡Saludos,
 *${brand.name}*`,
-
   },
 };

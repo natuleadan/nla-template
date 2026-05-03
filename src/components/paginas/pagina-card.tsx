@@ -20,7 +20,9 @@ export function PaginaCard({ page }: PaginaCardProps) {
     >
       <div className="space-y-2">
         <Badge variant="secondary" className="text-xs">
-          {page.category === "legal" ? cfg.paginas.category.legal : cfg.paginas.category.politicas}
+          {page.category === "legal"
+            ? cfg.paginas.category.legal
+            : cfg.paginas.category.politicas}
         </Badge>
         <h3 className="font-semibold leading-tight">{page.title}</h3>
         <p className="text-sm text-muted-foreground line-clamp-2">

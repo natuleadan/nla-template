@@ -10,7 +10,11 @@ export { form as formEs } from "./form.es";
 export { store as storeEn } from "./store.en";
 export { ui as uiEn } from "./ui.en";
 export { blog as blogEn } from "./blog.en";
-export { agenda as agendaEn, dayList as dayListEn, dayNames as dayNamesEn } from "./agenda.en";
+export {
+  agenda as agendaEn,
+  dayList as dayListEn,
+  dayNames as dayNamesEn,
+} from "./agenda.en";
 export { paginas as paginasEn } from "./paginas.en";
 export { form as formEn } from "./form.en";
 

@@ -14,27 +14,25 @@ export default async function AppleIcon() {
   const logoUrl = `${getBaseUrl()}/design/logo.svg`;
 
   return new ImageResponse(
-    (
-      <div
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <img
+        src={logoUrl}
+        alt={cfg.ui.og.logoAlt}
+        width={180}
+        height={180}
         style={{
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          objectFit: "contain",
         }}
-      >
-        <img
-          src={logoUrl}
-          alt={cfg.ui.og.logoAlt}
-          width={180}
-          height={180}
-          style={{
-            objectFit: "contain",
-          }}
-        />
-      </div>
-    ),
+      />
+    </div>,
     {
       ...size,
     },

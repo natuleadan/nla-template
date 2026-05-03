@@ -55,7 +55,8 @@ export function getBlogPaths(examples: {
       get: {
         tags: ["Blog"],
         summary: "Obtiene un artículo por slug",
-        description: "Retorna un artículo del blog por su slug. Endpoint público.",
+        description:
+          "Retorna un artículo del blog por su slug. Endpoint público.",
         security: [],
         parameters: [
           {
@@ -63,7 +64,8 @@ export function getBlogPaths(examples: {
             in: "path",
             required: true,
             schema: { type: "string" },
-            example: (examples.posts[0] as { slug?: string })?.slug || "example-post",
+            example:
+              (examples.posts[0] as { slug?: string })?.slug || "example-post",
             description: "Slug del artículo",
           },
         ],

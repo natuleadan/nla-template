@@ -54,7 +54,11 @@ export function CookieBanner({ onAccept, onReject }: CookieBannerProps) {
     acceptAllCookiesClient();
     setShowBanner(false);
     setShowCookieButton(true);
-    notifyCookieConsentWebhook({ necessary: true, analytics: true, marketing: true });
+    notifyCookieConsentWebhook({
+      necessary: true,
+      analytics: true,
+      marketing: true,
+    });
     onAccept?.();
   };
 
@@ -62,7 +66,11 @@ export function CookieBanner({ onAccept, onReject }: CookieBannerProps) {
     rejectAllCookiesClient();
     setShowBanner(false);
     setShowCookieButton(true);
-    notifyCookieConsentWebhook({ necessary: true, analytics: false, marketing: false });
+    notifyCookieConsentWebhook({
+      necessary: true,
+      analytics: false,
+      marketing: false,
+    });
     onReject?.();
   };
 
@@ -100,62 +108,91 @@ export function CookieBanner({ onAccept, onReject }: CookieBannerProps) {
 
       {showBanner && (
         <div className="fixed bottom-4 left-4 right-4 z-50 sm:max-w-md sm:left-4 sm:right-auto">
-      <Card className="shadow-lg">
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <IconCookie className="size-5" />
-            <CardTitle className="text-lg">{cfg.ui.cookie.title}</CardTitle>
-          </div>
-          <CardDescription>
-            {cfg.ui.cookie.description}
-          </CardDescription>
-        </CardHeader>
+          <Card className="shadow-lg">
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <IconCookie className="size-5" />
+                <CardTitle className="text-lg">{cfg.ui.cookie.title}</CardTitle>
+              </div>
+              <CardDescription>{cfg.ui.cookie.description}</CardDescription>
+            </CardHeader>
 
-        <CardContent className="space-y-4">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="necessary" className="flex flex-col items-start">
-              <span>{cfg.ui.cookie.necessary}</span>
-              <span className="text-xs text-muted-foreground">
-                {cfg.ui.cookie.alwaysActive}
-              </span>
-            </Label>
-            <Switch id="necessary" checked disabled />
-          </div>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between">
+                <Label
+                  htmlFor="necessary"
+                  className="flex flex-col items-start"
+                >
+                  <span>{cfg.ui.cookie.necessary}</span>
+                  <span className="text-xs text-muted-foreground">
+                    {cfg.ui.cookie.alwaysActive}
+                  </span>
+                </Label>
+                <Switch id="necessary" checked disabled />
+              </div>
 
-          <div className="flex items-center justify-between">
-            <Label htmlFor="analytics" className="flex flex-col items-start">
-              <span>{cfg.ui.cookie.analytics}</span>
-              <span className="text-xs text-muted-foreground">
-                {cfg.ui.cookie.analyticsHelper}
-              </span>
-            </Label>
-            <Switch id="analytics" checked={analytics} onCheckedChange={setAnalytics} />
-          </div>
+              <div className="flex items-center justify-between">
+                <Label
+                  htmlFor="analytics"
+                  className="flex flex-col items-start"
+                >
+                  <span>{cfg.ui.cookie.analytics}</span>
+                  <span className="text-xs text-muted-foreground">
+                    {cfg.ui.cookie.analyticsHelper}
+                  </span>
+                </Label>
+                <Switch
+                  id="analytics"
+                  checked={analytics}
+                  onCheckedChange={setAnalytics}
+                />
+              </div>
 
-          <div className="flex items-center justify-between">
-            <Label htmlFor="marketing" className="flex flex-col items-start">
-              <span>{cfg.ui.cookie.marketing}</span>
-              <span className="text-xs text-muted-foreground">
-                {cfg.ui.cookie.marketingHelper}
-              </span>
-            </Label>
-            <Switch id="marketing" checked={marketing} onCheckedChange={setMarketing} />
-          </div>
-        </CardContent>
+              <div className="flex items-center justify-between">
+                <Label
+                  htmlFor="marketing"
+                  className="flex flex-col items-start"
+                >
+                  <span>{cfg.ui.cookie.marketing}</span>
+                  <span className="text-xs text-muted-foreground">
+                    {cfg.ui.cookie.marketingHelper}
+                  </span>
+                </Label>
+                <Switch
+                  id="marketing"
+                  checked={marketing}
+                  onCheckedChange={setMarketing}
+                />
+              </div>
+            </CardContent>
 
-        <CardFooter className="flex flex-col sm:flex-row gap-2 w-full">
-          <Button variant="outline" size="sm" onClick={handleRejectAll} className="w-full sm:flex-1">
-            {cfg.ui.cookie.reject}
-          </Button>
-          <Button variant="outline" size="sm" onClick={handleSavePreferences} className="w-full sm:flex-1">
-            {cfg.ui.cookie.save}
-          </Button>
-          <Button size="sm" onClick={handleAcceptAll} className="w-full sm:flex-1">
-            {cfg.ui.cookie.acceptAll}
-          </Button>
-        </CardFooter>
-      </Card>
-      </div>
+            <CardFooter className="flex flex-col sm:flex-row gap-2 w-full">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleRejectAll}
+                className="w-full sm:flex-1"
+              >
+                {cfg.ui.cookie.reject}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleSavePreferences}
+                className="w-full sm:flex-1"
+              >
+                {cfg.ui.cookie.save}
+              </Button>
+              <Button
+                size="sm"
+                onClick={handleAcceptAll}
+                className="w-full sm:flex-1"
+              >
+                {cfg.ui.cookie.acceptAll}
+              </Button>
+            </CardFooter>
+          </Card>
+        </div>
       )}
     </>
   );

@@ -25,82 +25,80 @@ export default async function OpenGraphImage() {
   const logoUrl = `data:image/svg+xml;base64,${logoBase64}`;
 
   return new ImageResponse(
-    (
-      <div
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "relative",
+      }}
+    >
+      <img
+        src={bgUrl}
+        alt={cfg.ui.og.backgroundAlt}
+        width={1200}
+        height={630}
         style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
           width: "100%",
           height: "100%",
+          objectFit: "cover",
+        }}
+      />
+      <img
+        src={logoUrl}
+        alt={cfg.ui.og.logoAlt}
+        width={180}
+        height={180}
+        style={{
+          position: "absolute",
+          top: "40px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          borderRadius: "16px",
+        }}
+      />
+      <div
+        style={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center",
-          position: "relative",
+          textAlign: "center",
+          zIndex: 1,
+          padding: "0 48px",
+          marginTop: "80px",
         }}
       >
-        <img
-          src={bgUrl}
-          alt={cfg.ui.og.backgroundAlt}
-          width={1200}
-          height={630}
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-          }}
-        />
-        <img
-          src={logoUrl}
-          alt={cfg.ui.og.logoAlt}
-          width={180}
-          height={180}
-          style={{
-            position: "absolute",
-            top: "40px",
-            left: "50%",
-            transform: "translateX(-50%)",
-            borderRadius: "16px",
-          }}
-        />
         <div
           style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            textAlign: "center",
-            zIndex: 1,
-            padding: "0 48px",
-            marginTop: "80px",
+            fontSize: 64,
+            fontWeight: 700,
+            color: "#ffffff",
+            textShadow: "2px 2px 8px rgba(0,0,0,0.7)",
+            marginBottom: 20,
           }}
         >
-          <div
-            style={{
-              fontSize: 64,
-              fontWeight: 700,
-              color: "#ffffff",
-              textShadow: "2px 2px 8px rgba(0,0,0,0.7)",
-              marginBottom: 20,
-            }}
-          >
-            {cfg.brand.name}
-          </div>
-          <div
-            style={{
-              fontSize: 28,
-              color: "#ffffff",
-              textShadow: "1px 1px 4px rgba(0,0,0,0.7)",
-              textAlign: "center",
-              maxWidth: "800px",
-              lineHeight: 1.4,
-            }}
-          >
-            {cfg.brand.description}
-          </div>
+          {cfg.brand.name}
+        </div>
+        <div
+          style={{
+            fontSize: 28,
+            color: "#ffffff",
+            textShadow: "1px 1px 4px rgba(0,0,0,0.7)",
+            textAlign: "center",
+            maxWidth: "800px",
+            lineHeight: 1.4,
+          }}
+        >
+          {cfg.brand.description}
         </div>
       </div>
-    ),
+    </div>,
     {
       ...size,
     },

@@ -19,16 +19,24 @@ export function getAppointmentTypes(days: AgendaDay[]): string[] {
   return Array.from(types);
 }
 
-export function getUpcomingSlots(days: AgendaDay[], limit = 10, locale = "es"): AgendaSlotInfo[] {
+export function getUpcomingSlots(
+  days: AgendaDay[],
+  limit = 10,
+  locale = "es",
+): AgendaSlotInfo[] {
   const now = new Date();
   const todayDayOfWeek = now.getDay();
   const cutoffMinutes = now.getHours() * 60 + now.getMinutes() + 30;
 
-  const daysOrdered = [0, 1, 2, 3, 4, 5, 6].map((offset) => {
-    const d = new Date(now);
-    d.setDate(d.getDate() + offset);
-    return { offset, day: days.find((day) => day.dayOfWeek === d.getDay()) };
-  }).filter((e): e is { offset: number; day: AgendaDay } => e.day !== undefined);
+  const daysOrdered = [0, 1, 2, 3, 4, 5, 6]
+    .map((offset) => {
+      const d = new Date(now);
+      d.setDate(d.getDate() + offset);
+      return { offset, day: days.find((day) => day.dayOfWeek === d.getDay()) };
+    })
+    .filter(
+      (e): e is { offset: number; day: AgendaDay } => e.day !== undefined,
+    );
 
   const result: AgendaSlotInfo[] = [];
 
@@ -45,7 +53,9 @@ export function getUpcomingSlots(days: AgendaDay[], limit = 10, locale = "es"): 
 
     const dateNum = new Date(now);
     dateNum.setDate(dateNum.getDate() + offset);
-    const monthName = dateNum.toLocaleDateString(getDateLocale(locale), { month: "short" }).replace(".", "");
+    const monthName = dateNum
+      .toLocaleDateString(getDateLocale(locale), { month: "short" })
+      .replace(".", "");
 
     for (const slot of slots) {
       if (result.length >= limit) break;
@@ -75,25 +85,43 @@ export function getNextAvailableDaySlots(
   const today = days.find((d) => d.dayOfWeek === now.getDay());
   const hasTodaySlots = upcoming.filter((s) => s.dayName === today?.name);
   if (hasTodaySlots.length > 0) {
-    return { slots: hasTodaySlots.slice(0, maxItems), title: title || "Agenda" };
+    return {
+      slots: hasTodaySlots.slice(0, maxItems),
+      title: title || "Agenda",
+    };
   }
 
   const firstDayName = upcoming[0].dayName;
-  const daySlots = upcoming.filter((s) => s.dayName === firstDayName).slice(0, maxItems);
+  const daySlots = upcoming
+    .filter((s) => s.dayName === firstDayName)
+    .slice(0, maxItems);
   const firstDayNumber = daySlots[0]?.dayNumber || "";
-  return { slots: daySlots, title: title ? `${title} ${firstDayName} ${firstDayNumber}` : `Agenda ${firstDayName} ${firstDayNumber}` };
+  return {
+    slots: daySlots,
+    title: title
+      ? `${title} ${firstDayName} ${firstDayNumber}`
+      : `Agenda ${firstDayName} ${firstDayNumber}`,
+  };
 }
 
-export function getSlotsByType(days: AgendaDay[], type: string, locale = "es"): AgendaSlotInfo[] {
+export function getSlotsByType(
+  days: AgendaDay[],
+  type: string,
+  locale = "es",
+): AgendaSlotInfo[] {
   const now = new Date();
   const todayDayOfWeek = now.getDay();
   const cutoffMinutes = now.getHours() * 60 + now.getMinutes() + 30;
 
-  const daysOrdered = [0, 1, 2, 3, 4, 5, 6].map((offset) => {
-    const d = new Date(now);
-    d.setDate(d.getDate() + offset);
-    return { offset, day: days.find((day) => day.dayOfWeek === d.getDay()) };
-  }).filter((e): e is { offset: number; day: AgendaDay } => e.day !== undefined);
+  const daysOrdered = [0, 1, 2, 3, 4, 5, 6]
+    .map((offset) => {
+      const d = new Date(now);
+      d.setDate(d.getDate() + offset);
+      return { offset, day: days.find((day) => day.dayOfWeek === d.getDay()) };
+    })
+    .filter(
+      (e): e is { offset: number; day: AgendaDay } => e.day !== undefined,
+    );
 
   const result: AgendaSlotInfo[] = [];
 
@@ -110,7 +138,9 @@ export function getSlotsByType(days: AgendaDay[], type: string, locale = "es"): 
     const dateNum = new Date(now);
     dateNum.setDate(dateNum.getDate() + offset);
 
-    const monthName = dateNum.toLocaleDateString(getDateLocale(locale), { month: "short" }).replace(".", "");
+    const monthName = dateNum
+      .toLocaleDateString(getDateLocale(locale), { month: "short" })
+      .replace(".", "");
     for (const slot of slots) {
       result.push({
         dayName: day.name,

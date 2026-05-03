@@ -4,7 +4,10 @@ import notificationService from "../notification";
 import { getConfig } from "@/lib/locale/config";
 
 function getUiCookie() {
-  const lang = typeof document !== "undefined" ? (document.documentElement.lang || "en") : "en";
+  const lang =
+    typeof document !== "undefined"
+      ? document.documentElement.lang || "en"
+      : "en";
   return getConfig(lang).ui.cookie;
 }
 

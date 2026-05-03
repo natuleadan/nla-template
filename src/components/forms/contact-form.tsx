@@ -45,7 +45,11 @@ export function ContactForm({ className }: ContactFormProps) {
   });
 
   async function onSubmit(values: ContactFormData) {
-    const mensaje = t.whatsappTemplate(values.nombre, values.email, values.mensaje);
+    const mensaje = t.whatsappTemplate(
+      values.nombre,
+      values.email,
+      values.mensaje,
+    );
     openWhatsApp({
       message: mensaje,
       title: cfg.pages.contacto.title,

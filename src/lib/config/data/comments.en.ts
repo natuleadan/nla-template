@@ -5,7 +5,8 @@ export const commentsData: Comment[] = [
     id: "1",
     postSlug: "beneficios-de-la-proteina",
     name: "Ana G.",
-    comment: "Great article, it helped me better understand how to incorporate protein into my diet.",
+    comment:
+      "Great article, it helped me better understand how to incorporate protein into my diet.",
     createdAt: "2026-04-14T10:00:00Z",
     status: "approved",
   },

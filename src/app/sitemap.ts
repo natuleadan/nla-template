@@ -8,7 +8,11 @@ export const revalidate = 300;
 const LOCALES = ["es", "en"];
 
 function alternatesFor(path: string, baseUrl: string) {
-  return { languages: Object.fromEntries(LOCALES.map((l) => [l, `${baseUrl}/${l}${path}`])) };
+  return {
+    languages: Object.fromEntries(
+      LOCALES.map((l) => [l, `${baseUrl}/${l}${path}`]),
+    ),
+  };
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

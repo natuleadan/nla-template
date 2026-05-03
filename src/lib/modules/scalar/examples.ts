@@ -15,13 +15,12 @@ export async function getApiExamples(): Promise<ApiExamples> {
   const exampleProducts = result.products.slice(0, 2);
   const exampleSlug = exampleProducts[0]?.slug || "example-product";
 
-  const [reviews, posts, days, pages] =
-    await Promise.all([
-      getApprovedReviews(exampleSlug),
-      getAllPosts(),
-      getWeekDays(),
-      getAllPaginas(),
-    ]);
+  const [reviews, posts, days, pages] = await Promise.all([
+    getApprovedReviews(exampleSlug),
+    getAllPosts(),
+    getWeekDays(),
+    getAllPaginas(),
+  ]);
 
   return {
     products: exampleProducts,

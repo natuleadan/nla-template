@@ -11,11 +11,7 @@ function detectLang(pathname: string): string {
   return "en";
 }
 
-export function LangProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function LangProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const lang = detectLang(pathname);
 

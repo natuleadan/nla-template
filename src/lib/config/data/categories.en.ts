@@ -28,4 +28,8 @@ export const pageCategories: CategoryData[] = [
   { id: "l2", name: "Policies", slug: "politicas", icon: "file-text" },
 ];
 
-export const categoriesData: CategoryData[] = [...productCategories, ...blogCategories, ...pageCategories];
+export const categoriesData: CategoryData[] = [
+  ...productCategories,
+  ...blogCategories,
+  ...pageCategories,
+];

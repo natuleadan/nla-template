@@ -2,7 +2,9 @@ import { experimental_transcribe as transcribe } from "ai";
 import { openai } from "@ai-sdk/openai";
 import { getYcloudApiKey, isDev } from "@/lib/env";
 
-export async function transcribeAudio(audioLink: string): Promise<string | null> {
+export async function transcribeAudio(
+  audioLink: string,
+): Promise<string | null> {
   if (!audioLink) return null;
 
   try {
@@ -10,7 +12,11 @@ export async function transcribeAudio(audioLink: string): Promise<string | null>
       headers: { Authorization: `Bearer ${getYcloudApiKey()}` },
     });
     if (!audioRes.ok) {
-      if (isDev) console.error("[TRANSCRIBE] Failed to download audio:", audioRes.status);
+      if (isDev)
+        console.error(
+          "[TRANSCRIBE] Failed to download audio:",
+          audioRes.status,
+        );
       return null;
     }
 

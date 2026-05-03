@@ -8,7 +8,7 @@ export function Copyright({ brandName }: { brandName: string }) {
   const lang = useLang();
   const cfg = getConfig(lang);
   const [year, setYear] = useState(2026);
-  
+
   useEffect(() => {
     setYear(new Date().getFullYear());
   }, []);

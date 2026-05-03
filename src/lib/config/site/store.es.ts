@@ -21,8 +21,7 @@ export const store = {
     showing: (total: number) => `Mostrando ${total} productos`,
   },
   product: {
-    badge: (category: string) =>
-      categoryBadge[category] || category,
+    badge: (category: string) => categoryBadge[category] || category,
     priceLabel: "IVA incluido",
     pedir: "Pedir",
     ver: "Detalles",
@@ -83,9 +82,20 @@ Recibimos tu consulta sobre:
     validation: "Completa todos los campos",
     pending: "Pendiente",
     whatsappTitle: "Nueva reseña",
-    submitWhatsappTemplate: (name: string, rating: number, comment: string, productName: string) =>
+    submitWhatsappTemplate: (
+      name: string,
+      rating: number,
+      comment: string,
+      productName: string,
+    ) =>
       `Quiero dejar una reseña del producto *${productName}*: ${rating}★ - ${comment}`,
-    whatsappTemplate: (name: string, comment: string, rating: number, productSlug: string, baseUrl: string) =>
+    whatsappTemplate: (
+      name: string,
+      comment: string,
+      rating: number,
+      productSlug: string,
+      baseUrl: string,
+    ) =>
       `👋 *Hola ${name}, gracias por tu reseña!*
 
 Hemos recibido tu valoración para el producto:

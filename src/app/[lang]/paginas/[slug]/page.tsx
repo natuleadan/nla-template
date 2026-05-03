@@ -8,7 +8,11 @@ import { getBaseUrl } from "@/lib/env";
 import { getConfig, getLocaleFromLang } from "@/lib/locale/config";
 import { getAlternateLanguages } from "@/lib/locale/seo";
 
-export async function generateMetadata({ params }: { params: Promise<{ lang: string; slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string; slug: string }>;
+}): Promise<Metadata> {
   const { lang, slug } = await params;
   const baseUrl = getBaseUrl();
 
@@ -17,21 +21,41 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     if (!pageData) return { title: getConfig(lang).ui.notFound.page };
 
     const title = `${pageData.title} | ${brand.name}`;
-    const description = pageData.excerpt?.slice(0, 160) || getConfig(lang).brand.description;
+    const description =
+      pageData.excerpt?.slice(0, 160) || getConfig(lang).brand.description;
 
     return {
       alternates: getAlternateLanguages(lang, `/paginas/${slug}`, baseUrl),
-      title, description,
+      title,
+      description,
       openGraph: {
-        title, description,
-        siteName: brand.name, type: "article",
+        title,
+        description,
+        siteName: brand.name,
+        type: "article",
         url: `${baseUrl}/${lang}/paginas/${slug}`,
         locale: getLocaleFromLang(lang),
-        images: [{ url: `${baseUrl}/${lang}/paginas/${slug}/opengraph-image`, width: 1200, height: 630, alt: title }],
+        images: [
+          {
+            url: `${baseUrl}/${lang}/paginas/${slug}/opengraph-image`,
+            width: 1200,
+            height: 630,
+            alt: title,
+          },
+        ],
       },
       twitter: {
-        card: "summary_large_image", title, description,
-        images: [{ url: `${baseUrl}/${lang}/paginas/${slug}/twitter-image`, width: 1200, height: 600, alt: title }],
+        card: "summary_large_image",
+        title,
+        description,
+        images: [
+          {
+            url: `${baseUrl}/${lang}/paginas/${slug}/twitter-image`,
+            width: 1200,
+            height: 600,
+            alt: title,
+          },
+        ],
       },
       other: { "og:logo": `${baseUrl}/design/logo.svg` },
     };
@@ -40,7 +64,11 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   }
 }
 
-export default async function PaginaDetailPage({ params }: { params: Promise<{ lang: string; slug: string }> }) {
+export default async function PaginaDetailPage({
+  params,
+}: {
+  params: Promise<{ lang: string; slug: string }>;
+}) {
   return (
     <Suspense fallback={<PaginaDetailsSkeleton />}>
       <PaginaContent params={params} />

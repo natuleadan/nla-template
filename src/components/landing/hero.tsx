@@ -113,7 +113,9 @@ export function Hero() {
             <h2 className="text-3xl font-bold tracking-tight">
               {cfg.home.cta.title}
             </h2>
-            <p className="mt-4 text-muted-foreground">{cfg.home.cta.description}</p>
+            <p className="mt-4 text-muted-foreground">
+              {cfg.home.cta.description}
+            </p>
             <div className="mt-8">
               <Link href={`/${lang}/tienda`}>
                 <Button size="lg">

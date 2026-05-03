@@ -6,7 +6,8 @@ export function getAgendaPaths(): Record<string, OpenApiPath> {
       get: {
         tags: ["Agenda"],
         summary: "Obtiene la agenda y horarios disponibles",
-        description: "Retorna los horarios disponibles por día. Endpoint público.",
+        description:
+          "Retorna los horarios disponibles por día. Endpoint público.",
         security: [],
         parameters: [
           {

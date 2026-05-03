@@ -2,9 +2,21 @@ import { safeJsonLd } from "@/lib/utils";
 import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
 import { getConfig } from "@/lib/locale/config";
-import type { Graph, Organization, WebSite, WebPage, BreadcrumbList } from "schema-dts";
+import type {
+  Graph,
+  Organization,
+  WebSite,
+  WebPage,
+  BreadcrumbList,
+} from "schema-dts";
 
-export function HomeJsonLd({ locale = "es", homeLabel }: { locale?: string; homeLabel?: string }) {
+export function HomeJsonLd({
+  locale = "es",
+  homeLabel,
+}: {
+  locale?: string;
+  homeLabel?: string;
+}) {
   const baseUrl = getBaseUrl();
   const cfg = getConfig(locale);
 

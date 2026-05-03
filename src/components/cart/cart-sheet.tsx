@@ -74,14 +74,23 @@ export function CartSheet({ children }: CartSheetProps) {
       .join("\n");
 
     const mensaje = cfg.store.cart.whatsappTemplate(itemsList, total);
-    openWhatsApp({ message: mensaje, title: cfg.store.cart.title, productName: "carrito" });
+    openWhatsApp({
+      message: mensaje,
+      title: cfg.store.cart.title,
+      productName: "carrito",
+    });
   };
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         {children || (
-          <Button variant="outline" size="icon" className="relative" aria-label={cfg.store.cart.openAriaLabel}>
+          <Button
+            variant="outline"
+            size="icon"
+            className="relative"
+            aria-label={cfg.store.cart.openAriaLabel}
+          >
             <IconShoppingCart className="size-5" />
             {totalItems > 0 && (
               <Badge className="absolute -top-2 -right-2 min-w-5 h-5 px-1 flex items-center justify-center text-[10px]">
@@ -127,11 +136,16 @@ export function CartSheet({ children }: CartSheetProps) {
                           onClick={() =>
                             updateQuantity(item.id, item.quantity - 1)
                           }
-                          aria-label={cfg.store.cart.decreaseAriaLabel(item.name)}
+                          aria-label={cfg.store.cart.decreaseAriaLabel(
+                            item.name,
+                          )}
                         >
                           <IconMinus className="size-4" />
                         </Button>
-                        <span className="w-10 text-center font-medium" aria-live="polite">
+                        <span
+                          className="w-10 text-center font-medium"
+                          aria-live="polite"
+                        >
                           {item.quantity}
                         </span>
                         <Button
@@ -140,7 +154,9 @@ export function CartSheet({ children }: CartSheetProps) {
                           onClick={() =>
                             updateQuantity(item.id, item.quantity + 1)
                           }
-                          aria-label={cfg.store.cart.increaseAriaLabel(item.name)}
+                          aria-label={cfg.store.cart.increaseAriaLabel(
+                            item.name,
+                          )}
                         >
                           <IconPlus className="size-4" />
                         </Button>

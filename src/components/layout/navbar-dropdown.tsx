@@ -9,7 +9,14 @@ import { getAllPaginas } from "@/lib/modules/paginas";
 import { getUpcomingSlots } from "@/lib/agenda-utils";
 import { useLang } from "@/lib/locale/context";
 import { getConfig } from "@/lib/locale/config";
-import { IconHome, IconBuildingStore, IconNews, IconCalendar, IconFiles, IconMail } from "@tabler/icons-react";
+import {
+  IconHome,
+  IconBuildingStore,
+  IconNews,
+  IconCalendar,
+  IconFiles,
+  IconMail,
+} from "@tabler/icons-react";
 
 type DropdownType = "products" | "posts" | "agenda" | "pages";
 
@@ -50,17 +57,26 @@ async function loadItems(type: DropdownType, lang = "es"): Promise<NavLink[]> {
   switch (type) {
     case "products": {
       const products = await getAllProducts(lang);
-      return shuffleArray(products).slice(0, 5).map((p) => ({
-        href: `/${lang}/tienda/${p.slug}`,
-        label: p.name,
-      }));
+      return shuffleArray(products)
+        .slice(0, 5)
+        .map((p) => ({
+          href: `/${lang}/tienda/${p.slug}`,
+          label: p.name,
+        }));
     }
     case "posts": {
       const posts = await getAllPosts(lang);
       return posts
-        .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+        .sort(
+          (a, b) =>
+            new Date(b.publishedAt).getTime() -
+            new Date(a.publishedAt).getTime(),
+        )
         .slice(0, 5)
-        .map((post) => ({ href: `/${lang}/blog/${post.slug}`, label: post.title }));
+        .map((post) => ({
+          href: `/${lang}/blog/${post.slug}`,
+          label: post.title,
+        }));
     }
     case "agenda": {
       const days = await getWeekDays(lang);
@@ -79,12 +95,20 @@ async function loadItems(type: DropdownType, lang = "es"): Promise<NavLink[]> {
   }
 }
 
-function DesktopDropdown({ label, href, type, icon, compact }: NavDropdownProps) {
+function DesktopDropdown({
+  label,
+  href,
+  type,
+  icon,
+  compact,
+}: NavDropdownProps) {
   const lang = useLang();
   const cfg = getConfig(lang);
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState<NavLink[]>([]);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined,
+  );
   const IconComp = icon ? iconMap[icon] : null;
 
   useEffect(() => {
@@ -92,7 +116,9 @@ function DesktopDropdown({ label, href, type, icon, compact }: NavDropdownProps)
     loadItems(type, lang).then((result) => {
       if (!cancelled) setItems(result);
     });
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [type, lang]);
 
   const show = () => {
@@ -105,7 +131,11 @@ function DesktopDropdown({ label, href, type, icon, compact }: NavDropdownProps)
   };
 
   return (
-    <div className={`relative ${compact ? "group" : ""}`} onMouseEnter={show} onMouseLeave={hide}>
+    <div
+      className={`relative ${compact ? "group" : ""}`}
+      onMouseEnter={show}
+      onMouseLeave={hide}
+    >
       <Link
         href={href}
         className={`px-3 py-2 text-sm font-medium rounded-lg hover:bg-muted transition-colors inline-flex items-center ${compact ? "gap-1" : "gap-1.5"}`}
@@ -114,15 +144,35 @@ function DesktopDropdown({ label, href, type, icon, compact }: NavDropdownProps)
         {compact ? (
           <span className="max-w-0 group-hover:max-w-40 overflow-hidden transition-all duration-200 whitespace-nowrap inline-flex items-center gap-1">
             <span className="pl-1">{label}</span>
-            <svg className="size-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            <svg
+              className="size-3 shrink-0"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+              />
             </svg>
           </span>
         ) : (
           <>
             {label}
-            <svg className="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            <svg
+              className="size-3"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+              />
             </svg>
           </>
         )}
@@ -145,7 +195,9 @@ function DesktopDropdown({ label, href, type, icon, compact }: NavDropdownProps)
               </Link>
             ))
           ) : (
-            <p className="px-3 py-1.5 text-sm text-muted-foreground">{cfg.ui.dropdown.noSlots}</p>
+            <p className="px-3 py-1.5 text-sm text-muted-foreground">
+              {cfg.ui.dropdown.noSlots}
+            </p>
           )}
         </div>
       )}
@@ -165,7 +217,9 @@ function MobileAccordion({ label, href, type, onNav, icon }: NavDropdownProps) {
     loadItems(type, lang).then((result) => {
       if (!cancelled) setItems(result);
     });
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [type, lang]);
 
   return (
@@ -191,7 +245,11 @@ function MobileAccordion({ label, href, type, onNav, icon }: NavDropdownProps) {
             stroke="currentColor"
             strokeWidth={2}
           >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+            />
           </svg>
         </button>
       </div>
@@ -209,7 +267,9 @@ function MobileAccordion({ label, href, type, onNav, icon }: NavDropdownProps) {
               </Link>
             ))
           ) : (
-            <p className="px-4 py-2 text-sm text-muted-foreground">{cfg.ui.dropdown.noSlots}</p>
+            <p className="px-4 py-2 text-sm text-muted-foreground">
+              {cfg.ui.dropdown.noSlots}
+            </p>
           )}
         </div>
       )}

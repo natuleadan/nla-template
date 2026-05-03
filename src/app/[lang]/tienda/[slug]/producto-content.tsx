@@ -1,3 +1,4 @@
+import { cacheLife } from "next/cache";
 import { ProductDetails } from "@/components/products/product-details";
 import { getProduct } from "@/lib/modules/products";
 import { getReviews } from "@/lib/modules/reviews";
@@ -17,11 +18,18 @@ interface ProductoContentProps {
 }
 
 export async function ProductoContent({ params }: ProductoContentProps) {
+  "use cache";
+  cacheLife("hours");
   const { lang, slug } = await params;
   const cfg = getConfig(lang);
   const baseUrl = getBaseUrl();
 
-  const { data: product } = await resolveSlug(slug, lang, getProduct, "/tienda");
+  const { data: product } = await resolveSlug(
+    slug,
+    lang,
+    getProduct,
+    "/tienda",
+  );
 
   const [reviews] = await Promise.all([getReviews(slug, lang)]);
   const inventory = inventoryData[slug] || [];
@@ -45,7 +53,11 @@ export async function ProductoContent({ params }: ProductoContentProps) {
       <JsonLdProduct
         name={product.name}
         description={product.description || ""}
-        image={product.image ? `${baseUrl}${product.image}` : `${baseUrl}/design/fallback.svg`}
+        image={
+          product.image
+            ? `${baseUrl}${product.image}`
+            : `${baseUrl}/design/fallback.svg`
+        }
         url={`${baseUrl}/${lang}/tienda/${slug}`}
         price={product.price}
         inStock={inventory.length > 0}
@@ -61,7 +73,10 @@ export async function ProductoContent({ params }: ProductoContentProps) {
         ratingValue={4}
         reviewCount={reviews.length}
       />
-      <ProductDetails product={productWithReviews} initialInventory={inventory} />
+      <ProductDetails
+        product={productWithReviews}
+        initialInventory={inventory}
+      />
     </>
   );
 }

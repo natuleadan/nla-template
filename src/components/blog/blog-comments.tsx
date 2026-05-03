@@ -26,7 +26,9 @@ function CommentCard({ comment }: { comment: Comment }) {
       <div className="flex items-center justify-between">
         <span className="font-medium">{comment.name}</span>
         {comment.status === "pending" && (
-          <Badge variant="outline" className="text-xs">{cfg.blog.comments.pending}</Badge>
+          <Badge variant="outline" className="text-xs">
+            {cfg.blog.comments.pending}
+          </Badge>
         )}
       </div>
       <p className="text-muted-foreground text-sm">{comment.comment}</p>
@@ -49,7 +51,11 @@ export function BlogComments({ postSlug, initialComments }: BlogCommentsProps) {
 
   const handleSubmit = () => {
     if (!commentName || !commentText) return;
-    const mensaje = cfg.blog.comments.submitWhatsappTemplate(commentName, commentText, postSlug);
+    const mensaje = cfg.blog.comments.submitWhatsappTemplate(
+      commentName,
+      commentText,
+      postSlug,
+    );
     const title = cfg.blog.comments.whatsappTitle;
     openWhatsApp({ message: mensaje, title });
   };
@@ -85,10 +91,7 @@ export function BlogComments({ postSlug, initialComments }: BlogCommentsProps) {
           aria-label={cfg.blog.comments.commentPlaceholder}
         />
 
-        <Button
-          onClick={handleSubmit}
-          disabled={!commentName || !commentText}
-        >
+        <Button onClick={handleSubmit} disabled={!commentName || !commentText}>
           <IconBrandWhatsapp className="size-4 mr-2" />
           {cfg.blog.comments.submit}
         </Button>

@@ -29,7 +29,12 @@ function getTypeIndex(type?: string): number {
   return Math.abs(hash) % typeColors.length;
 }
 
-export function SlotButton({ slot, dayName, onClick, disabled }: SlotButtonProps) {
+export function SlotButton({
+  slot,
+  dayName,
+  onClick,
+  disabled,
+}: SlotButtonProps) {
   const lang = useLang();
   const cfg = getConfig(lang);
   const colorClass = typeColors[getTypeIndex(slot.type)];

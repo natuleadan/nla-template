@@ -1,5 +1,4 @@
 export const ui = {
-
   skipToContent: "Saltar al contenido principal",
   mobileMenuDescription: "Menú de navegación principal",
   search: {
@@ -66,7 +65,8 @@ export const ui = {
   whatsapp: {
     dialog: {
       title: "Enviar por WhatsApp",
-      description: "Ingresa tu n\u00famero de WhatsApp para recibir la informaci\u00f3n.",
+      description:
+        "Ingresa tu n\u00famero de WhatsApp para recibir la informaci\u00f3n.",
       searchCountry: "Buscar pa\u00eds...",
       countryNotFound: "Pa\u00eds no encontrado",
       phonePlaceholder: "N\u00famero de tel\u00e9fono",
@@ -94,11 +94,13 @@ export const ui = {
       numberNotConfigured: "N\u00famero de negocio no configurado",
       missingParams: "Faltan par\u00e1metros requeridos",
       rateLimitIp: "M\u00e1s despacio. Int\u00e9ntalo en 30 segundos.",
-      rateLimitTo: "Demasiados mensajes a este n\u00famero. Espera 30 segundos.",
+      rateLimitTo:
+        "Demasiados mensajes a este n\u00famero. Espera 30 segundos.",
       rateLimitGlobal: "Demasiados mensajes enviados. Intenta m\u00e1s tarde.",
       rateLimitMinute: "Demasiadas solicitudes. Espera un minuto.",
       rateLimitHour: "Has alcanzado el l\u00edmite de mensajes por hora.",
-      rateLimitRecipient: "Este n\u00famero ya ha recibido varios mensajes. Intenta m\u00e1s tarde.",
+      rateLimitRecipient:
+        "Este n\u00famero ya ha recibido varios mensajes. Intenta m\u00e1s tarde.",
       sendError: "Error al enviar mensaje",
     },
   },
@@ -170,7 +172,8 @@ export const ui = {
     location: (name: string, address: string, lat?: number, lng?: number) =>
       `[Ubicación: ${[name, address].filter(Boolean).join(", ")}]${lat && lng ? ` (GPS: ${lat}, ${lng})` : ""}`,
     contact: (info: string) => `[Contacto: ${info}]`,
-    order: (productId: string, qty: number) => `[Pedido: producto ${productId || "desconocido"}, cantidad ${qty || 1}]`,
+    order: (productId: string, qty: number) =>
+      `[Pedido: producto ${productId || "desconocido"}, cantidad ${qty || 1}]`,
     system: (body: string) => `[Sistema: ${body || "evento del sistema"}]`,
     unsupported: (type: string) => `[Mensaje tipo "${type}" no soportado]`,
     welcomeText: "Hola, soy nuevo cliente",

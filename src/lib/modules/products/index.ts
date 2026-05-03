@@ -33,7 +33,10 @@ export async function getAllProducts(locale = "es"): Promise<Product[]> {
   return getData(locale);
 }
 
-export async function getProduct(slug: string, locale = "es"): Promise<Product | null> {
+export async function getProduct(
+  slug: string,
+  locale = "es",
+): Promise<Product | null> {
   if (!slug || typeof slug !== "string") return null;
   return getData(locale).find((p) => p.slug === slug) || null;
 }

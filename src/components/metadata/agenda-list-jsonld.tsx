@@ -18,7 +18,12 @@ interface JsonLdAgendaListProps {
   businessName: string;
 }
 
-export function JsonLdAgendaList({ name, slots, baseUrl, businessName }: JsonLdAgendaListProps) {
+export function JsonLdAgendaList({
+  name,
+  slots,
+  baseUrl,
+  businessName,
+}: JsonLdAgendaListProps) {
   const lang = useLang();
   const cfg = getConfig(lang);
   const jsonLd: WithContext<CollectionPage> = {
@@ -36,7 +41,8 @@ export function JsonLdAgendaList({ name, slots, baseUrl, businessName }: JsonLdA
           name: slot.type
             ? cfg.agenda.jsonld.citaDe(slot.type, businessName)
             : cfg.agenda.jsonld.cita(businessName),
-          description: slot.description || slot.type || cfg.agenda.jsonld.citaDisponible,
+          description:
+            slot.description || slot.type || cfg.agenda.jsonld.citaDisponible,
           startDate: slot.startDate,
           location: {
             "@type": "Place",

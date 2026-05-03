@@ -23,10 +23,7 @@ async function optimizeImage(buffer: Uint8Array): Promise<Uint8Array> {
     resizeOpts.width = Math.round(meta.width * Math.sqrt(ratio));
   }
 
-  const compressed = await img
-    .jpeg({ quality })
-    .resize(resizeOpts)
-    .toBuffer();
+  const compressed = await img.jpeg({ quality }).resize(resizeOpts).toBuffer();
 
   if (compressed.length < buffer.length) {
     return new Uint8Array(compressed);
@@ -46,30 +43,44 @@ async function downloadMedia(link: string): Promise<Uint8Array | null> {
   return new Uint8Array(await res.arrayBuffer());
 }
 
-export async function analyzeImage(imageLink: string, caption?: string): Promise<string | null> {
+export async function analyzeImage(
+  imageLink: string,
+  caption?: string,
+): Promise<string | null> {
   if (!imageLink) return null;
   try {
     const raw = await downloadMedia(imageLink);
     if (!raw) return null;
 
     const optimized = raw.length > MAX_BYTES ? await optimizeImage(raw) : raw;
-    if (isDev) console.log("[IMAGE] Compressed:", raw.length, "→", optimized.length, "bytes");
+    if (isDev)
+      console.log(
+        "[IMAGE] Compressed:",
+        raw.length,
+        "→",
+        optimized.length,
+        "bytes",
+      );
 
     const prompt = caption
       ? `${caption}. Describe el contenido en español.`
       : "Describe brevemente el contenido de esta imagen en español.";
 
-    const zdr = getZeroDataRetention() ? { gateway: { zeroDataRetention: true } } : undefined;
+    const zdr = getZeroDataRetention()
+      ? { gateway: { zeroDataRetention: true } }
+      : undefined;
 
     const result = await generateText({
       model: aiModel,
-      messages: [{
-        role: "user",
-        content: [
-          { type: "text", text: prompt },
-          { type: "image", image: optimized },
-        ],
-      }],
+      messages: [
+        {
+          role: "user",
+          content: [
+            { type: "text", text: prompt },
+            { type: "image", image: optimized },
+          ],
+        },
+      ],
       ...(zdr && { providerOptions: zdr }),
     });
     return result.text?.trim() || null;
@@ -79,7 +90,10 @@ export async function analyzeImage(imageLink: string, caption?: string): Promise
   }
 }
 
-export async function analyzePdf(pdfLink: string, caption?: string): Promise<string | null> {
+export async function analyzePdf(
+  pdfLink: string,
+  caption?: string,
+): Promise<string | null> {
   if (!pdfLink) return null;
   try {
     const raw = await downloadMedia(pdfLink);
@@ -91,13 +105,15 @@ export async function analyzePdf(pdfLink: string, caption?: string): Promise<str
 
     const result = await generateText({
       model: aiModel,
-      messages: [{
-        role: "user",
-        content: [
-          { type: "text", text: prompt },
-          { type: "file", data: raw, mediaType: "application/pdf" },
-        ],
-      }],
+      messages: [
+        {
+          role: "user",
+          content: [
+            { type: "text", text: prompt },
+            { type: "file", data: raw, mediaType: "application/pdf" },
+          ],
+        },
+      ],
       ...(getZeroDataRetention() && {
         providerOptions: { gateway: { zeroDataRetention: true } },
       }),

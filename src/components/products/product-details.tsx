@@ -72,6 +72,8 @@ function StarRating({
   rating: number;
   setRating?: (r: number) => void;
 }) {
+  const lang = useLang();
+  const cfg = getConfig(lang);
   return (
     <div className="flex gap-1">
       {[1, 2, 3, 4, 5].map((star) => (
@@ -105,7 +107,9 @@ function ReviewCard({ review }: { review: Review }) {
         <span className="font-medium">{review.name}</span>
         <div className="flex items-center gap-2">
           {review.status === "pending" && (
-            <Badge variant="outline" className="text-xs">{cfg.store.reviews.pending}</Badge>
+            <Badge variant="outline" className="text-xs">
+              {cfg.store.reviews.pending}
+            </Badge>
           )}
           <StarRating rating={review.rating} />
         </div>
@@ -144,7 +148,12 @@ export function ProductDetails({
 
   const handlePedir = () => {
     const mensaje = cfg.store.product.whatsappTemplate(product);
-    openWhatsApp({ message: mensaje, title: product.name, productId: product.slug, productName: product.name });
+    openWhatsApp({
+      message: mensaje,
+      title: product.name,
+      productId: product.slug,
+      productName: product.name,
+    });
   };
 
   const [reviewName, setReviewName] = useState("");
@@ -153,7 +162,12 @@ export function ProductDetails({
 
   const handleSubmitReview = () => {
     if (!reviewName || !reviewComment || reviewRating === 0) return;
-    const msg = cfg.store.reviews.submitWhatsappTemplate(reviewName, reviewRating, reviewComment, product.name);
+    const msg = cfg.store.reviews.submitWhatsappTemplate(
+      reviewName,
+      reviewRating,
+      reviewComment,
+      product.name,
+    );
     openWhatsApp({ message: msg, title: cfg.store.reviews.whatsappTitle });
   };
 
@@ -161,9 +175,19 @@ export function ProductDetails({
     <div className="px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full py-8">
       <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-8 gap-4">
         <div className="flex items-center gap-2 order-1 sm:order-2 w-full sm:w-auto shrink-0 sm:pt-1">
-          <ShareDialog url={typeof window !== "undefined" ? window.location.href : ""} title={product.name} description={product.description} price={product.price} />
+          <ShareDialog
+            url={typeof window !== "undefined" ? window.location.href : ""}
+            title={product.name}
+            description={product.description}
+            price={product.price}
+          />
           <Link href={`/${lang}/tienda`} className="ml-auto sm:ml-2">
-            <Button variant="outline" size="sm" className="gap-2" aria-label={cfg.store.product.back}>
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-2"
+              aria-label={cfg.store.product.back}
+            >
               <IconArrowLeft className="size-4" />
               {cfg.store.product.back}
             </Button>
@@ -177,10 +201,7 @@ export function ProductDetails({
       <div className="grid gap-8 md:grid-cols-2 mt-8">
         <div className="rounded-lg bg-muted overflow-hidden relative">
           {product.images && product.images.length > 1 ? (
-            <Carousel
-              className="w-full"
-              setApi={handleCarouselApi}
-            >
+            <Carousel className="w-full" setApi={handleCarouselApi}>
               <CarouselContent>
                 {product.images.map((img, idx) => (
                   <CarouselItem key={idx}>
@@ -235,7 +256,11 @@ export function ProductDetails({
           <div className="flex items-center gap-2">
             <Badge
               variant={
-                product.category === "suplemento" ? "default" : product.category === "servicio" ? "outline" : "secondary"
+                product.category === "suplemento"
+                  ? "default"
+                  : product.category === "servicio"
+                    ? "outline"
+                    : "secondary"
               }
             >
               {cfg.store.product.badge(product.category)}
@@ -292,14 +317,26 @@ export function ProductDetails({
           )}
 
           <div className="flex flex-wrap gap-2 mt-4">
-            <Button onClick={handlePedir} className="gap-2" aria-label={`${cfg.store.product.orderWhatsApp} ${product.name}`}>
+            <Button
+              onClick={handlePedir}
+              className="gap-2"
+              aria-label={`${cfg.store.product.orderWhatsApp} ${product.name}`}
+            >
               <IconBrandWhatsapp className="size-5" />
               {cfg.store.product.orderWhatsApp}
             </Button>
             {(product.type === "service" || product.appointment) && (
-              <Button variant="outline" className="gap-2" onClick={() => window.location.href = `/${lang}/agenda?producto=${product.slug}`}>
+              <Button
+                variant="outline"
+                className="gap-2"
+                onClick={() =>
+                  (window.location.href = `/${lang}/agenda?producto=${product.slug}`)
+                }
+              >
                 <IconCalendar className="size-5" />
-                {product.type === "service" ? cfg.store.product.agendaService : cfg.store.product.separateProduct}
+                {product.type === "service"
+                  ? cfg.store.product.agendaService
+                  : cfg.store.product.separateProduct}
               </Button>
             )}
           </div>

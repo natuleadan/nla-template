@@ -1,7 +1,6 @@
 import { safeJsonLd } from "@/lib/utils";
 import type { WithContext, CollectionPage } from "schema-dts";
 
-
 interface ProductItem {
   name: string;
   url: string;
@@ -14,7 +13,11 @@ interface JsonLdProductListProps {
   products: ProductItem[];
 }
 
-export function JsonLdProductList({ name, total, products }: JsonLdProductListProps) {
+export function JsonLdProductList({
+  name,
+  total,
+  products,
+}: JsonLdProductListProps) {
   const jsonLd: WithContext<CollectionPage> = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",

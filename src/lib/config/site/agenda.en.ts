@@ -1,10 +1,24 @@
 import { brand } from "../data/brand";
 
 const dayNames: Record<string, number> = {
-  Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6,
+  Sunday: 0,
+  Monday: 1,
+  Tuesday: 2,
+  Wednesday: 3,
+  Thursday: 4,
+  Friday: 5,
+  Saturday: 6,
 };
 
-const dayList = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const dayList = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 
 export { dayNames, dayList };
 
@@ -12,7 +26,8 @@ export const agenda = {
   page: {
     title: "Schedule",
     description: "Check our available hours and book your appointment",
-    metaTitle: (count: number) => `Schedule (${count} appointments) | ${brand.name}`,
+    metaTitle: (count: number) =>
+      `Schedule (${count} appointments) | ${brand.name}`,
     metaDescription: (count: number) =>
       count > 0
         ? `Check our ${count} available slots and book your appointment.`
@@ -27,8 +42,7 @@ export const agenda = {
   slot: {
     slotUnavailable: "This time slot is no longer available",
     dialogTitle: "Check availability",
-    dialogDescription:
-      "Would you like to check appointment availability?",
+    dialogDescription: "Would you like to check appointment availability?",
     confirm: "Check",
     cancel: "Cancel",
     typeLabel: "Appointment type",
@@ -66,7 +80,8 @@ Best regards,
     unavailable: " — not available",
   },
   jsonld: {
-    citaDe: (type: string, businessName: string) => `${type} Appointment - ${businessName}`,
+    citaDe: (type: string, businessName: string) =>
+      `${type} Appointment - ${businessName}`,
     cita: (businessName: string) => `Appointment - ${businessName}`,
     citaDisponible: "Available appointment",
   },

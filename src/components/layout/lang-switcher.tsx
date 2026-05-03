@@ -23,7 +23,11 @@ export function LangSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" aria-label={cfg.ui.navbar.langAriaLabel}>
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label={cfg.ui.navbar.langAriaLabel}
+        >
           <IconLanguage className="size-5" />
         </Button>
       </DropdownMenuTrigger>

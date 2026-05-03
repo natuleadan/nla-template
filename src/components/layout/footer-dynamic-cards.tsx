@@ -6,7 +6,10 @@ import { getAllProducts, type Product } from "@/lib/modules/products";
 import { getAllPosts, type BlogPost } from "@/lib/modules/blog";
 import { getWeekDays } from "@/lib/modules/agenda";
 import { getAllPaginas, type PaginaPost } from "@/lib/modules/paginas";
-import { getNextAvailableDaySlots, type AgendaSlotInfo } from "@/lib/agenda-utils";
+import {
+  getNextAvailableDaySlots,
+  type AgendaSlotInfo,
+} from "@/lib/agenda-utils";
 import { useLang } from "@/lib/locale/context";
 import { getConfig } from "@/lib/locale/config";
 
@@ -27,7 +30,10 @@ export function FooterDynamicCards() {
 
   const [randomProducts, setRandomProducts] = useState<Product[]>([]);
   const [recentPosts, setRecentPosts] = useState<BlogPost[]>([]);
-  const [agendaState, setAgendaState] = useState<{ slots: AgendaSlotInfo[]; title: string }>({ slots: [], title: agenda.page.title });
+  const [agendaState, setAgendaState] = useState<{
+    slots: AgendaSlotInfo[];
+    title: string;
+  }>({ slots: [], title: agenda.page.title });
   const [paginas, setPaginas] = useState<PaginaPost[]>([]);
 
   useEffect(() => {
@@ -35,7 +41,15 @@ export function FooterDynamicCards() {
       setRandomProducts(shuffleArray(products).slice(0, 3));
     });
     getAllPosts(lang).then((posts) => {
-      setRecentPosts(posts.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()).slice(0, 3));
+      setRecentPosts(
+        posts
+          .sort(
+            (a, b) =>
+              new Date(b.publishedAt).getTime() -
+              new Date(a.publishedAt).getTime(),
+          )
+          .slice(0, 3),
+      );
     });
     getWeekDays(lang).then((days) => {
       setAgendaState(getNextAvailableDaySlots(days, 3, undefined, lang));
@@ -52,12 +66,19 @@ export function FooterDynamicCards() {
       {randomProducts.length > 0 && (
         <nav aria-label={tiendaCol.title}>
           <h3 className="mb-4 font-semibold">
-            <Link href={l("/tienda")} className="hover:underline">{tiendaCol.title}</Link>
+            <Link href={l("/tienda")} className="hover:underline">
+              {tiendaCol.title}
+            </Link>
           </h3>
           <ul className="space-y-2">
             {randomProducts.map((p) => (
               <li key={p.slug}>
-                <Link href={l(`/tienda/${p.slug}`)} className="text-sm text-muted-foreground hover:text-foreground transition-colors line-clamp-1">{p.name}</Link>
+                <Link
+                  href={l(`/tienda/${p.slug}`)}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors line-clamp-1"
+                >
+                  {p.name}
+                </Link>
               </li>
             ))}
           </ul>
@@ -67,12 +88,19 @@ export function FooterDynamicCards() {
       {recentPosts.length > 0 && (
         <nav aria-label={blogCol.title}>
           <h3 className="mb-4 font-semibold">
-            <Link href={l("/blog")} className="hover:underline">{blogCol.title}</Link>
+            <Link href={l("/blog")} className="hover:underline">
+              {blogCol.title}
+            </Link>
           </h3>
           <ul className="space-y-2">
             {recentPosts.map((post) => (
               <li key={post.slug}>
-                <Link href={l(`/blog/${post.slug}`)} className="text-sm text-muted-foreground hover:text-foreground transition-colors line-clamp-1">{post.title}</Link>
+                <Link
+                  href={l(`/blog/${post.slug}`)}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors line-clamp-1"
+                >
+                  {post.title}
+                </Link>
               </li>
             ))}
           </ul>
@@ -81,14 +109,20 @@ export function FooterDynamicCards() {
 
       <nav aria-label={agenda.page.title}>
         <h3 className="mb-4 font-semibold">
-          <Link href={l("/agenda")} className="hover:underline">{agendaState.title}</Link>
+          <Link href={l("/agenda")} className="hover:underline">
+            {agendaState.title}
+          </Link>
         </h3>
         {agendaState.slots.length > 0 ? (
           <ul className="space-y-2">
             {agendaState.slots.map((slot, i) => (
               <li key={i}>
-                <Link href={l(`/agenda?dia=${encodeURIComponent(slot.dayName)}&hora=${encodeURIComponent(slot.time)}&tipo=${encodeURIComponent(slot.type)}`)}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors line-clamp-1">
+                <Link
+                  href={l(
+                    `/agenda?dia=${encodeURIComponent(slot.dayName)}&hora=${encodeURIComponent(slot.time)}&tipo=${encodeURIComponent(slot.type)}`,
+                  )}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors line-clamp-1"
+                >
                   {slot.time} {slot.type}
                 </Link>
               </li>
@@ -102,12 +136,19 @@ export function FooterDynamicCards() {
       {paginas.length > 0 && (
         <nav aria-label={pagesCol.title}>
           <h3 className="mb-4 font-semibold">
-            <Link href={l("/paginas")} className="hover:underline">{pagesCol.title}</Link>
+            <Link href={l("/paginas")} className="hover:underline">
+              {pagesCol.title}
+            </Link>
           </h3>
           <ul className="space-y-2">
             {paginas.map((page) => (
               <li key={page.slug}>
-                <Link href={l(`/paginas/${page.slug}`)} className="text-sm text-muted-foreground hover:text-foreground transition-colors line-clamp-1">{page.title}</Link>
+                <Link
+                  href={l(`/paginas/${page.slug}`)}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors line-clamp-1"
+                >
+                  {page.title}
+                </Link>
               </li>
             ))}
           </ul>

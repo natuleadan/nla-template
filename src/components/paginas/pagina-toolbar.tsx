@@ -56,7 +56,9 @@ export function PaginaToolbar({
     if (loading || !hasMore) return;
     setLoading(true);
     try {
-      const res = await fetch(`/api/v1/paginas?page=${page + 1}&limit=6&locale=${lang}`);
+      const res = await fetch(
+        `/api/v1/paginas?page=${page + 1}&limit=6&locale=${lang}`,
+      );
       const data = await res.json();
       setAllLoaded((prev) => [...prev, ...data.pages]);
       setHasMore(data.hasMore);
@@ -105,7 +107,9 @@ export function PaginaToolbar({
             <SelectValue placeholder={cfg.paginas.toolbar.filterLabel} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">{cfg.paginas.toolbar.allCategories}</SelectItem>
+            <SelectItem value="all">
+              {cfg.paginas.toolbar.allCategories}
+            </SelectItem>
             {categories.map((cat) => (
               <SelectItem key={cat.slug} value={cat.slug}>
                 {cat.name}
@@ -122,19 +126,33 @@ export function PaginaToolbar({
             ))}
           </div>
           {loading && (
-            <div className="flex justify-center py-4" role="status" aria-live="polite">
+            <div
+              className="flex justify-center py-4"
+              role="status"
+              aria-live="polite"
+            >
               <Spinner />
             </div>
           )}
-          {hasMore && !loading && <div ref={observerRef} className="h-10" aria-hidden="true" />}
+          {hasMore && !loading && (
+            <div ref={observerRef} className="h-10" aria-hidden="true" />
+          )}
           {!hasMore && allLoaded.length > 0 && (
-            <p className="text-center text-sm text-muted-foreground py-4" role="status" aria-live="polite">
+            <p
+              className="text-center text-sm text-muted-foreground py-4"
+              role="status"
+              aria-live="polite"
+            >
               {cfg.paginas.toolbar.showing(total)}
             </p>
           )}
         </>
       ) : (
-        <p className="text-center text-muted-foreground py-12" role="status" aria-live="polite">
+        <p
+          className="text-center text-muted-foreground py-12"
+          role="status"
+          aria-live="polite"
+        >
           {cfg.paginas.page.empty}
         </p>
       )}

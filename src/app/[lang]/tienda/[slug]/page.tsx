@@ -8,7 +8,11 @@ import { getBaseUrl } from "@/lib/env";
 import { getConfig, getLocaleFromLang } from "@/lib/locale/config";
 import { getAlternateLanguages } from "@/lib/locale/seo";
 
-export async function generateMetadata({ params }: { params: Promise<{ lang: string; slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string; slug: string }>;
+}): Promise<Metadata> {
   const { lang, slug } = await params;
   const baseUrl = getBaseUrl();
 
@@ -17,22 +21,41 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     if (!product) return { title: getConfig(lang).ui.notFound.product };
 
     const title = `${product.name} | ${brand.name}`;
-    const description = product.description?.slice(0, 160) || getConfig(lang).brand.description;
+    const description =
+      product.description?.slice(0, 160) || getConfig(lang).brand.description;
 
     return {
       alternates: getAlternateLanguages(lang, `/tienda/${slug}`, baseUrl),
-      title, description,
+      title,
+      description,
       openGraph: {
-        title, description,
-        siteName: brand.name, type: "website",
+        title,
+        description,
+        siteName: brand.name,
+        type: "website",
         url: `${baseUrl}/${lang}/tienda/${slug}`,
-        images: [{ url: `${baseUrl}/${lang}/tienda/${slug}/opengraph-image`, width: 1200, height: 630, alt: product.name }],
+        images: [
+          {
+            url: `${baseUrl}/${lang}/tienda/${slug}/opengraph-image`,
+            width: 1200,
+            height: 630,
+            alt: product.name,
+          },
+        ],
         locale: getLocaleFromLang(lang),
       },
       twitter: {
         card: "summary_large_image",
-        title, description,
-        images: [{ url: `${baseUrl}/${lang}/tienda/${slug}/twitter-image`, width: 1200, height: 600, alt: product.name }],
+        title,
+        description,
+        images: [
+          {
+            url: `${baseUrl}/${lang}/tienda/${slug}/twitter-image`,
+            width: 1200,
+            height: 600,
+            alt: product.name,
+          },
+        ],
       },
       other: { "og:logo": `${baseUrl}/design/logo.svg` },
     };
@@ -41,7 +64,11 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   }
 }
 
-export default async function ProductoPage({ params }: { params: Promise<{ lang: string; slug: string }> }) {
+export default async function ProductoPage({
+  params,
+}: {
+  params: Promise<{ lang: string; slug: string }>;
+}) {
   return (
     <Suspense fallback={<ProductDetailsSkeleton />}>
       <ProductoContent params={params} />

@@ -12,7 +12,11 @@ interface JsonLdPaginasListProps {
   pages: PageItem[];
 }
 
-export function JsonLdPaginasList({ name, total, pages }: JsonLdPaginasListProps) {
+export function JsonLdPaginasList({
+  name,
+  total,
+  pages,
+}: JsonLdPaginasListProps) {
   const jsonLd: WithContext<CollectionPage> = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",

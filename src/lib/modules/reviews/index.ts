@@ -23,11 +23,22 @@ function getData(locale = "es") {
   return allReviews[locale as keyof typeof allReviews] || allReviews.es;
 }
 
-export async function getReviews(productSlug: string, locale = "es"): Promise<Review[]> {
+export async function getReviews(
+  productSlug: string,
+  locale = "es",
+): Promise<Review[]> {
   if (!productSlug || typeof productSlug !== "string") return [];
   return getData(locale).filter((r) => r.productSlug === productSlug);
 }
 
-export async function getApprovedReviews(slug: string, locale = "es"): Promise<Review[]> {
-  return getData(locale).filter((r) => r.productSlug === slug && r.status === "approved" && r.visibility !== "private");
+export async function getApprovedReviews(
+  slug: string,
+  locale = "es",
+): Promise<Review[]> {
+  return getData(locale).filter(
+    (r) =>
+      r.productSlug === slug &&
+      r.status === "approved" &&
+      r.visibility !== "private",
+  );
 }

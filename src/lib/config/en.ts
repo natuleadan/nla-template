@@ -12,7 +12,12 @@ export { form } from "./site/form.en";
 export { allProducts } from "./data/products.en";
 export { blogPostsData } from "./data/blog.en";
 export { paginasData } from "./data/paginas.en";
-export { categoriesData, productCategories, blogCategories, pageCategories } from "./data/categories.en";
+export {
+  categoriesData,
+  productCategories,
+  blogCategories,
+  pageCategories,
+} from "./data/categories.en";
 export { reviewsData } from "./data/reviews.en";
 export { commentsData } from "./data/comments.en";
 export { agendaData } from "./data/agenda.en";

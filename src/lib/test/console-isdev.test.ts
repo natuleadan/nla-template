@@ -21,7 +21,10 @@ function getAllSourceFiles(dir: string): string[] {
 }
 
 const allSourceFiles = getAllSourceFiles(SRC_DIR).filter(
-  (f) => !f.includes(".test.") && !f.includes("/config/") && !f.includes("node_modules"),
+  (f) =>
+    !f.includes(".test.") &&
+    !f.includes("/config/") &&
+    !f.includes("node_modules"),
 );
 
 const CONSOLE_PATTERN = /\bconsole\.(log|error|warn|info|debug|trace)\s*\(/;
@@ -46,17 +49,21 @@ describe("console.* calls must be wrapped in isDev guard", () => {
 
         // Check if the current line has the guard, or the previous line ends with `if (isDev)`
         const prevLine = i > 0 ? lines[i - 1] : "";
-        const isGuarded = guardRe.test(line) || /if\s*\(\s*isDev\s*\)\s*$/.test(prevLine);
+        const isGuarded =
+          guardRe.test(line) || /if\s*\(\s*isDev\s*\)\s*$/.test(prevLine);
 
         if (!isGuarded) {
           violations.push({ line: i + 1, text: line.trim() });
         }
       }
 
-      expect(violations, [
-        `Found bare console. calls in ${path.relative(SRC_DIR, file)}:`,
-        ...violations.map((v) => `  line ${v.line}: ${v.text}`),
-      ].join("\n")).toEqual([]);
+      expect(
+        violations,
+        [
+          `Found bare console. calls in ${path.relative(SRC_DIR, file)}:`,
+          ...violations.map((v) => `  line ${v.line}: ${v.text}`),
+        ].join("\n"),
+      ).toEqual([]);
     });
   }
 });

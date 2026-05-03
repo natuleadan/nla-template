@@ -39,7 +39,21 @@ function DialogWrapper({ dialog }: { dialog: DialogOptions }) {
 
   return (
     <Dialog open onOpenChange={handleBackdropClick}>
-      <DialogContent className={dialog.size === "sm" ? "sm:max-w-sm" : dialog.size === "lg" ? "sm:max-w-lg" : dialog.size === "xl" ? "sm:max-w-4xl" : dialog.size === "wide" ? "sm:max-w-6xl" : dialog.size === "full" ? "sm:max-w-full" : "sm:max-w-md"}>
+      <DialogContent
+        className={
+          dialog.size === "sm"
+            ? "sm:max-w-sm"
+            : dialog.size === "lg"
+              ? "sm:max-w-lg"
+              : dialog.size === "xl"
+                ? "sm:max-w-4xl"
+                : dialog.size === "wide"
+                  ? "sm:max-w-6xl"
+                  : dialog.size === "full"
+                    ? "sm:max-w-full"
+                    : "sm:max-w-md"
+        }
+      >
         <DialogHeader>
           <DialogTitle>{dialog.title}</DialogTitle>
           {dialog.description && (
@@ -57,8 +71,11 @@ function DialogWrapper({ dialog }: { dialog: DialogOptions }) {
               <Button
                 key={idx}
                 variant={
-                  button.variant === "destructive" ? "destructive" :
-                  button.variant === "primary" ? "default" : "outline"
+                  button.variant === "destructive"
+                    ? "destructive"
+                    : button.variant === "primary"
+                      ? "default"
+                      : "outline"
                 }
                 disabled={button.disabled || button.loading}
                 onClick={() => handleButtonClick(button.onClick)}
@@ -77,7 +94,9 @@ function DialogWrapper({ dialog }: { dialog: DialogOptions }) {
 }
 
 export function DialogProvider({ children }: { children: React.ReactNode }) {
-  const [dialogs, setDialogs] = React.useState<Map<string, DialogOptions>>(new Map());
+  const [dialogs, setDialogs] = React.useState<Map<string, DialogOptions>>(
+    new Map(),
+  );
 
   React.useEffect(() => {
     const unsubscribe = DialogService.subscribe((updatedDialogs) => {

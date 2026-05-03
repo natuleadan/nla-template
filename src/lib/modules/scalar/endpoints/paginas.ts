@@ -55,7 +55,8 @@ export function getPaginasPaths(examples: {
       get: {
         tags: ["Páginas"],
         summary: "Obtiene una página por slug",
-        description: "Retorna una página institucional por su slug. Endpoint público.",
+        description:
+          "Retorna una página institucional por su slug. Endpoint público.",
         security: [],
         parameters: [
           {
@@ -63,7 +64,8 @@ export function getPaginasPaths(examples: {
             in: "path",
             required: true,
             schema: { type: "string" },
-            example: (examples.pages[0] as { slug?: string })?.slug || "terminos",
+            example:
+              (examples.pages[0] as { slug?: string })?.slug || "terminos",
             description: "Slug de la página",
           },
         ],

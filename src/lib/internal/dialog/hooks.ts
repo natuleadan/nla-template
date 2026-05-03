@@ -4,7 +4,9 @@ import * as React from "react";
 import { DialogService, type DialogOptions } from "./service";
 
 export function useDialog() {
-  const [dialogs, setDialogs] = React.useState<Map<string, DialogOptions>>(new Map());
+  const [dialogs, setDialogs] = React.useState<Map<string, DialogOptions>>(
+    new Map(),
+  );
 
   React.useEffect(() => {
     const unsubscribe = DialogService.subscribe((updatedDialogs) => {

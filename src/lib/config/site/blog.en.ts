@@ -38,7 +38,12 @@ export const blog = {
     whatsappTitle: "New comment",
     submitWhatsappTemplate: (name: string, comment: string, postSlug: string) =>
       `I want to comment on the article "${postSlug}": ${name} - ${comment}`,
-    whatsappTemplate: (name: string, comment: string, postSlug: string, baseUrl: string) =>
+    whatsappTemplate: (
+      name: string,
+      comment: string,
+      postSlug: string,
+      baseUrl: string,
+    ) =>
       `👋 *Hi ${name}, thanks for your comment!*
 
 We have received your contribution on our blog:
