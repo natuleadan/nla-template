@@ -1,13 +1,14 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-import { getBaseUrl, getIndexingEnabled, VERCEL_ENV } from "@/lib/env";
+import { getBaseUrl, getIndexingEnabled } from "@/lib/env";
 import { VercelMetricsGuard } from "@/components/analytics/vercel-metrics-guard";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { BrandColorScript } from "@/components/layout/brand-color-script";
-import { brand, ui } from "@/lib/config/site";
+import { LangProvider } from "@/lib/locale/context";
 
 const fontSans = Roboto({
   subsets: ["latin"],
@@ -22,26 +23,18 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     metadataBase: new URL(baseUrl),
-    title: brand.metadata.titleSuffix(brand.name),
-    description: brand.description,
-    icons: {
-      icon: "/icon",
-      apple: "/apple-icon",
-    },
-    robots: {
-      index: indexing,
-      follow: indexing,
-    },
+    title: "Acme Inc",
+    description: "Your trusted online store. Curated products for your home and office.",
+    icons: { icon: "/icon", apple: "/apple-icon" },
+    robots: { index: indexing, follow: indexing },
   };
 }
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="es" suppressHydrationWarning className={fontSans.variable}>
+    <html lang="en" suppressHydrationWarning className={fontSans.variable}>
       <head>
         <BrandColorScript />
       </head>
@@ -50,18 +43,22 @@ export default function RootLayout({
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-background focus:text-foreground focus:border focus:rounded-md"
         >
-          {ui.skipToContent}
+          Skip to main content
         </a>
-        <Providers>
-          <VercelMetricsGuard />
-          <div className="flex min-h-screen flex-col">
-            <Navbar />
-            <main id="main-content" className="flex-1 flex flex-col" tabIndex={-1}>
-              {children}
-            </main>
-            <Footer />
-          </div>
-        </Providers>
+        <Suspense>
+          <LangProvider>
+            <Providers>
+            <VercelMetricsGuard />
+            <div className="flex min-h-screen flex-col">
+              <Suspense><Navbar /></Suspense>
+              <main id="main-content" className="flex-1 flex flex-col" tabIndex={-1}>
+                <Suspense>{children}</Suspense>
+              </main>
+              <Suspense><Footer /></Suspense>
+            </div>
+          </Providers>
+        </LangProvider>
+        </Suspense>
       </body>
     </html>
   );

@@ -1,0 +1,20 @@
+// Spanish locale barrel — aggregates all .es.ts configs
+export { brand } from "./data/brand.es";
+export { nav } from "./data/nav.es";
+export { home } from "./data/home.es";
+export { pages } from "./data/contacto.es";
+export { store, categoryBadge } from "./site/store.es";
+export { ui } from "./site/ui.es";
+export { blog } from "./site/blog.es";
+export { agenda, dayNames, dayList } from "./site/agenda.es";
+export { paginas } from "./site/paginas.es";
+export { form } from "./site/form.es";
+export { allProducts } from "./data/products.es";
+export { blogPostsData } from "./data/blog.es";
+export { paginasData } from "./data/paginas.es";
+export { categoriesData, productCategories, blogCategories, pageCategories } from "./data/categories.es";
+export { reviewsData } from "./data/reviews.es";
+export { commentsData } from "./data/comments.es";
+export { agendaData } from "./data/agenda.es";
+export { inventoryData } from "./data/inventory.es";
+export { countryCodes } from "./data/country-codes.es";
