@@ -51,7 +51,7 @@ export interface OpenApiSpec {
     license?: { name: string; url: string };
   };
   servers: Array<{ url: string; description?: string }>;
-  security: Record<string, unknown>[];
+  security?: Record<string, unknown>[];
   components: {
     securitySchemes: Record<string, unknown>;
     schemas: Record<string, OpenApiSchema>;
@@ -64,10 +64,6 @@ export interface ApiExamples {
   products: unknown[];
   categories: unknown[];
   reviews: unknown[];
-  inventory: unknown;
-  messages: unknown[];
-  orders: unknown[];
-  page: unknown;
   posts: unknown[];
   days: unknown[];
   pages: unknown[];

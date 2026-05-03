@@ -5,10 +5,6 @@ import {
   getProductsPaths,
   getCategoriesPaths,
   getReviewsPaths,
-  getInventoryPaths,
-  getOrdersPaths,
-  getPagesPaths,
-  getFormPaths,
   getBlogPaths,
   getAgendaPaths,
   getPaginasPaths,
@@ -19,12 +15,8 @@ export function buildOpenApiSpec(examples: ApiExamples): OpenApiSpec {
   const productsPaths = getProductsPaths(examples);
   const categoriesPaths = getCategoriesPaths(examples);
   const reviewsPaths = getReviewsPaths(examples);
-  const inventoryPaths = getInventoryPaths(examples);
-  const ordersPaths = getOrdersPaths(examples);
-  const pagesPaths = getPagesPaths(examples);
-  const formularioPaths = getFormPaths(examples);
   const blogPaths = getBlogPaths(examples);
-  const agendaPaths = getAgendaPaths(examples);
+  const agendaPaths = getAgendaPaths();
   const paginasPaths = getPaginasPaths(examples);
   const whatsappPaths = getWhatsappPaths();
   const chatPaths = getChatPaths();
@@ -32,12 +24,12 @@ export function buildOpenApiSpec(examples: ApiExamples): OpenApiSpec {
   return {
     openapi: "3.1.0",
     info: {
-      title: "GymFood API",
-      description:
-        "API para la tienda de suplementos y alimentos fitness. Todos los endpoints protegidos requieren `x-api-key` en el header.",
+      title: "ACME Store API",
       version: "1.0.0",
+      description:
+        "API pública de la tienda. Endpoints de solo lectura con datos estáticos. Chat y webhooks protegidos por API key y HMAC respectivamente.",
       contact: {
-        name: "Soporte GymFood",
+        name: "Soporte ACME",
         email: "soporte@ejemplo.com",
       },
       license: {
@@ -51,7 +43,6 @@ export function buildOpenApiSpec(examples: ApiExamples): OpenApiSpec {
         description: "Servidor de desarrollo",
       },
     ],
-    security: [{ ApiKeyAuth: [] }],
     components: {
       securitySchemes,
       schemas,
@@ -60,11 +51,7 @@ export function buildOpenApiSpec(examples: ApiExamples): OpenApiSpec {
     paths: {
       ...productsPaths,
       ...reviewsPaths,
-      ...inventoryPaths,
-      ...ordersPaths,
       ...categoriesPaths,
-      ...pagesPaths,
-      ...formularioPaths,
       ...blogPaths,
       ...agendaPaths,
       ...paginasPaths,

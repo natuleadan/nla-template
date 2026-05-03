@@ -34,11 +34,4 @@ export async function getAvailableSlots(dayName: string): Promise<AgendaSlot[]> 
   return day.slots.filter((s) => s.available);
 }
 
-export async function clearAgenda(): Promise<void> {
-  days.length = 0;
-}
 
-export async function resetAgenda(): Promise<void> {
-  days.length = 0;
-  days.push(...agendaData);
-}

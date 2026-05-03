@@ -36,35 +36,3 @@ export async function getPagina(slug: string): Promise<PaginaPost | null> {
   if (!slug || typeof slug !== "string") return null;
   return pages.find((p) => p.slug === slug) || null;
 }
-
-export async function createPagina(
-  data: Record<string, unknown>,
-): Promise<PaginaPost | null> {
-  if (!data.title) return null;
-  const id = String(pages.length + 1);
-  const slug = String(data.title).toLowerCase().replace(/\s+/g, "-");
-  const page: PaginaPost = {
-    id,
-    slug,
-    title: String(data.title),
-    excerpt: String(data.excerpt || ""),
-    content: String(data.content || ""),
-    category: String(data.category || ""),
-    publishedAt: String(
-      data.publishedAt || new Date().toISOString().split("T")[0],
-    ),
-  };
-  pages.push(page);
-  return page;
-}
-
-export async function deletePagina(slug: string): Promise<boolean> {
-  const idx = pages.findIndex((p) => p.slug === slug);
-  if (idx === -1) return false;
-  pages.splice(idx, 1);
-  return true;
-}
-
-export async function clearPaginas(): Promise<void> {
-  pages.length = 0;
-}

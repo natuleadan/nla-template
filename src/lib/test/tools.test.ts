@@ -4,10 +4,6 @@ import { getReviews } from "@/lib/modules/reviews";
 import { getAllPaginas, getPagina } from "@/lib/modules/paginas";
 import { getAllPosts, getPost } from "@/lib/modules/blog";
 import { getWeekDays, getDayByName } from "@/lib/modules/agenda";
-import {
-  addFormMessage, getFormMessages, deleteFormMessages,
-} from "@/lib/modules/form";
-
 describe("tools - products", () => {
   it("getAllProducts should return catalog", async () => {
     const products = await getAllProducts();
@@ -135,16 +131,5 @@ describe("tools - agenda", () => {
   it("getDayByName should return null for invalid day", async () => {
     const d = await getDayByName("FakeDayX");
     expect(d).toBeNull();
-  });
-});
-
-describe("tools - form module", () => {
-  it("should add and retrieve messages", async () => {
-    deleteFormMessages();
-    addFormMessage({ nombre: "Test", email: "t@t.com", mensaje: "test msg" });
-    const msgs = await getFormMessages();
-    expect(msgs.length).toBe(1);
-    expect(msgs[0].nombre).toBe("Test");
-    deleteFormMessages();
   });
 });

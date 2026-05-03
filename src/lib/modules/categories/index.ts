@@ -1,4 +1,3 @@
-import { cacheLife, cacheTag } from "next/cache";
 import { categoriesData } from "@/lib/config/data/categories";
 import { CategorySchema } from "./schemas";
 
@@ -12,25 +11,5 @@ export interface Category {
 const categories: Category[] = CategorySchema.array().parse([...categoriesData]);
 
 export async function getCategories(): Promise<Category[]> {
-  "use cache";
-  cacheLife("days");
-  cacheTag("categories");
   return categories;
-}
-
-export function addCategory(category: Omit<Category, "id">): Category {
-  const newCategory: Category = {
-    id: Date.now().toString(),
-    ...category,
-  };
-  categories.push(newCategory);
-  return newCategory;
-}
-
-export function updateCategories(data: Partial<Category>[]): Category[] {
-  return categories;
-}
-
-export function deleteCategories(): void {
-  categories.length = 0;
 }

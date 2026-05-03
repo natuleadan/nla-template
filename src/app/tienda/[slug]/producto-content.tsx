@@ -2,10 +2,10 @@ import { notFound } from "next/navigation";
 import { ProductDetails } from "@/components/products/product-details";
 import { getProduct } from "@/lib/modules/products";
 import { getReviews } from "@/lib/modules/reviews";
-import { getInventory } from "@/lib/modules/inventory";
 import type { Product } from "@/lib/modules/products";
 import type { Review } from "@/lib/modules/reviews";
-import type { InventoryItem } from "@/lib/modules/inventory";
+import type { InventoryItem } from "@/lib/config/data/inventory";
+import { inventoryData } from "@/lib/config/data/inventory";
 import { brand, store } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
 import { JsonLdProduct } from "@/components/metadata/product-jsonld";
@@ -22,10 +22,10 @@ export async function ProductoContent({ params }: ProductoContentProps) {
   const product = await getProduct(slug);
   if (!product) return notFound();
 
-  const [reviews, inventory] = await Promise.all([
+  const [reviews] = await Promise.all([
     getReviews(slug),
-    getInventory(slug),
   ]);
+  const inventory = inventoryData[slug] || [];
 
   const { quantity: _q, unit: _u, ...rest } = product;
   const productWithReviews: Omit<Product, "quantity" | "unit"> & {

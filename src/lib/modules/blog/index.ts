@@ -40,39 +40,3 @@ export async function getPost(slug: string): Promise<BlogPost | null> {
   if (!slug || typeof slug !== "string") return null;
   return posts.find((p) => p.slug === slug) || null;
 }
-
-export async function createPost(
-  data: Record<string, unknown>,
-): Promise<BlogPost | null> {
-  if (!data.title) return null;
-  const id = String(posts.length + 1);
-  const slug = String(data.title).toLowerCase().replace(/\s+/g, "-");
-  const post: BlogPost = {
-    id,
-    slug,
-    title: String(data.title),
-    excerpt: String(data.excerpt || ""),
-    content: String(data.content || ""),
-    image: String(data.image || ""),
-    author: String(data.author || ""),
-    category: String(data.category || ""),
-    tags: data.tags as string[] | undefined,
-    publishedAt: String(
-      data.publishedAt || new Date().toISOString().split("T")[0],
-    ),
-    readingTime: Number(data.readingTime) || 1,
-  };
-  posts.push(post);
-  return post;
-}
-
-export async function deletePost(slug: string): Promise<boolean> {
-  const idx = posts.findIndex((p) => p.slug === slug);
-  if (idx === -1) return false;
-  posts.splice(idx, 1);
-  return true;
-}
-
-export async function clearPosts(): Promise<void> {
-  posts.length = 0;
-}

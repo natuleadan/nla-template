@@ -7,77 +7,47 @@ export function getPaginasPaths(examples: {
     "/api/v1/paginas": {
       get: {
         tags: ["Páginas"],
-        summary: "Lista todas las páginas",
-        description:
-          "Retorna un array con todas las páginas. Endpoint público.",
+        summary: "Lista las páginas institucionales",
+        description: "Retorna las páginas de contenido. Endpoint público.",
         security: [],
+        parameters: [
+          {
+            name: "page",
+            in: "query",
+            schema: { type: "integer" },
+            example: "1",
+          },
+          {
+            name: "limit",
+            in: "query",
+            schema: { type: "integer" },
+            example: "6",
+          },
+        ],
         responses: {
           "200": {
             description: "Lista de páginas",
             content: {
               "application/json": {
                 schema: {
-                  type: "array",
-                  items: { $ref: "#/components/schemas/PaginaPost" },
+                  type: "object",
+                  properties: {
+                    pages: {
+                      type: "array",
+                      items: { $ref: "#/components/schemas/PaginaPost" },
+                    },
+                    total: { type: "integer" },
+                    hasMore: { type: "boolean" },
+                  },
                 },
-                example: examples.pages,
+                example: {
+                  pages: examples.pages,
+                  total: examples.pages.length,
+                  hasMore: false,
+                },
               },
             },
           },
-        },
-      },
-      post: {
-        tags: ["Páginas"],
-        summary: "Crea una nueva página",
-        description: "Requiere API key en header x-api-key",
-        security: [{ ApiKeyAuth: [] }],
-        requestBody: {
-          required: true,
-          content: {
-            "application/json": {
-              schema: {
-                type: "object",
-                required: ["title"],
-                properties: {
-                  title: { type: "string" },
-                  excerpt: { type: "string" },
-                  content: { type: "string" },
-                  category: { type: "string" },
-                },
-              },
-              example: {
-                title: "Nueva Página",
-                excerpt: "Resumen de la página",
-                content: "<p>Contenido</p>",
-                category: "legal",
-              },
-            },
-          },
-        },
-        responses: {
-          "201": { description: "Página creada exitosamente" },
-          "400": { description: "Datos inválidos" },
-          "401": { description: "API key inválida" },
-        },
-      },
-      put: {
-        tags: ["Páginas"],
-        summary: "Actualiza páginas",
-        description: "Requiere API key en header x-api-key",
-        security: [{ ApiKeyAuth: [] }],
-        responses: {
-          "200": { description: "Páginas actualizadas" },
-          "401": { description: "API key inválida" },
-        },
-      },
-      delete: {
-        tags: ["Páginas"],
-        summary: "Elimina todas las páginas",
-        description: "Requiere API key en header x-api-key",
-        security: [{ ApiKeyAuth: [] }],
-        responses: {
-          "200": { description: "Páginas eliminadas" },
-          "401": { description: "API key inválida" },
         },
       },
     },
@@ -85,7 +55,7 @@ export function getPaginasPaths(examples: {
       get: {
         tags: ["Páginas"],
         summary: "Obtiene una página por slug",
-        description: "Retorna una página específica por su slug. Endpoint público.",
+        description: "Retorna una página institucional por su slug. Endpoint público.",
         security: [],
         parameters: [
           {
@@ -107,66 +77,6 @@ export function getPaginasPaths(examples: {
               },
             },
           },
-          "404": { description: "Página no encontrada" },
-        },
-      },
-      post: {
-        tags: ["Páginas"],
-        summary: "Crea una página con slug específico",
-        description: "Requiere API key en header x-api-key",
-        security: [{ ApiKeyAuth: [] }],
-        parameters: [
-          {
-            name: "slug",
-            in: "path",
-            required: true,
-            schema: { type: "string" },
-            description: "Slug de la página",
-          },
-        ],
-        responses: {
-          "201": { description: "Página creada" },
-          "400": { description: "Datos inválidos" },
-          "401": { description: "API key inválida" },
-        },
-      },
-      put: {
-        tags: ["Páginas"],
-        summary: "Actualiza una página por slug",
-        description: "Requiere API key en header x-api-key",
-        security: [{ ApiKeyAuth: [] }],
-        parameters: [
-          {
-            name: "slug",
-            in: "path",
-            required: true,
-            schema: { type: "string" },
-            description: "Slug de la página",
-          },
-        ],
-        responses: {
-          "200": { description: "Página actualizada" },
-          "401": { description: "API key inválida" },
-          "404": { description: "Página no encontrada" },
-        },
-      },
-      delete: {
-        tags: ["Páginas"],
-        summary: "Elimina una página por slug",
-        description: "Requiere API key en header x-api-key",
-        security: [{ ApiKeyAuth: [] }],
-        parameters: [
-          {
-            name: "slug",
-            in: "path",
-            required: true,
-            schema: { type: "string" },
-            description: "Slug de la página",
-          },
-        ],
-        responses: {
-          "200": { description: "Página eliminada" },
-          "401": { description: "API key inválida" },
           "404": { description: "Página no encontrada" },
         },
       },

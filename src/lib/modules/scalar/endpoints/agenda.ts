@@ -1,19 +1,25 @@
 import type { OpenApiPath } from "../types";
 
-export function getAgendaPaths(examples: {
-  days: unknown[];
-}): Record<string, OpenApiPath> {
+export function getAgendaPaths(): Record<string, OpenApiPath> {
   return {
     "/api/v1/agenda": {
       get: {
         tags: ["Agenda"],
-        summary: "Obtiene la agenda semanal",
-        description:
-          "Retorna los días de la semana con sus horarios disponibles. Endpoint público.",
+        summary: "Obtiene la agenda y horarios disponibles",
+        description: "Retorna los horarios disponibles por día. Endpoint público.",
         security: [],
+        parameters: [
+          {
+            name: "day",
+            in: "query",
+            schema: { type: "string" },
+            example: "Lunes",
+            description: "Nombre del día en español (opcional)",
+          },
+        ],
         responses: {
           "200": {
-            description: "Agenda semanal",
+            description: "Agenda",
             content: {
               "application/json": {
                 schema: {
@@ -25,42 +31,9 @@ export function getAgendaPaths(examples: {
                     },
                   },
                 },
-                example: { days: examples.days },
               },
             },
           },
-        },
-      },
-      post: {
-        tags: ["Agenda"],
-        summary: "Crea una nueva semana en la agenda",
-        description: "Requiere API key en header x-api-key",
-        security: [{ ApiKeyAuth: [] }],
-        responses: {
-          "201": { description: "Semana creada exitosamente" },
-          "400": { description: "Datos inválidos" },
-          "401": { description: "API key inválida" },
-        },
-      },
-      put: {
-        tags: ["Agenda"],
-        summary: "Actualiza la agenda semanal",
-        description: "Requiere API key en header x-api-key",
-        security: [{ ApiKeyAuth: [] }],
-        responses: {
-          "200": { description: "Agenda actualizada" },
-          "401": { description: "API key inválida" },
-        },
-      },
-      delete: {
-        tags: ["Agenda"],
-        summary: "Elimina todos los datos de la agenda",
-        description:
-          "Requiere API key en header x-api-key. Peligroso - elimina todos los horarios.",
-        security: [{ ApiKeyAuth: [] }],
-        responses: {
-          "200": { description: "Agenda eliminada" },
-          "401": { description: "API key inválida" },
         },
       },
     },

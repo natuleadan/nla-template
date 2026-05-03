@@ -1,4 +1,9 @@
-import type { InventoryItem } from "@/lib/modules/inventory";
+export interface InventoryItem {
+  location: string;
+  quantity: number;
+  reserved: number;
+  available: number;
+}
 
 export const inventoryData: Record<string, InventoryItem[]> = {
   "proteina-whey": [

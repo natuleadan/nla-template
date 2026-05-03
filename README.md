@@ -23,7 +23,7 @@
 - **AI agent** with `gpt-5-nano` via Vercel AI Gateway — responds to customer inquiries
 - **Multimodal**: audio transcription (Whisper via OpenAI), image analysis with compression, PDF text extraction
 - **Protected chat API** at `/api/v1/chat` — same agent logic, requires `x-api-key` header
-- **Agent tools**: products, product detail (with reviews), pages, blog, agenda, company info, long-term memory
+- **Agent tools**: products, product detail, pages, blog, company info, long-term memory, derivation to human
 - **Phone anonymization** — HMAC-SHA256 with `WS_ENCRYPTION_KEY`, no raw numbers in Redis
 - **Session history** — 7 days in Redis, persists across serverless instances
 - **Long-term memory** — 1 year in Redis, agent persists customer preferences/data
@@ -49,53 +49,31 @@
 - **Notifications** with Sonner toasts
 - **Product filtering** — search + category filter
 
-### AI Agent Tools (36 tools)
+### AI Agent Tools (14 tools)
 
-**Públicas (cualquier usuario) — 23 tools:**
+**Públicas (cualquier usuario) — 11 tools:**
 
 | Tool | Params | Description |
 |---|---|---|
-| `getProducts` | `query?`, `category?` | Catalog + stock por variante (desde Redis) |
-| `getProductDetail` | `slug` | Product info + variantes + stock + reviews aprobadas |
-| `getPages` | `query?`, `category?` | Institutional pages |
+| `getProducts` | `query?`, `category?` | Product catalog from hardcoded data |
+| `getProductDetail` | `slug` | Full product info with variants and prices |
+| `getPages` | `query?`, `category?` | Institutional pages (terms, privacy, etc.) |
 | `getPageDetail` | `slug` | Full page content |
 | `getBlog` | `query?`, `category?` | Blog posts |
 | `getPostDetail` | `slug` | Full article content |
-| `getAgenda` | `day?` | Available slots (checked against Redis real-time) |
-| `getCompanyInfo` | — | Contact/social data |
-| `saveLongMemory` | `key`, `value`, `override?` | 1-year persistent memory |
-| `searchMyHistory` | `limit?` | Recent conversation history |
-| `deleteMemory` | `confirm="BORRAR"` | Deletes ALL customer data (GDPR) |
-| `createReview` | `productSlug`, `comment`, `rating` | Creates review (pending moderation, name from WhatsApp or "Anónimo") |
-| `getMyReviews` | — | User's own reviews |
-| `setReviewVisibility` | `id`, `visibility` | Toggle public/private on own review |
-| `createComment` | `postSlug`, `name`, `comment` | Blog comment (pending moderation) |
-| `getMyComments` | — | User's own comments |
-| `setCommentVisibility` | `id`, `visibility` | Toggle public/private on own comment |
-| `getMyAppointments` | — | User's own appointments |
-| `createAppointment` | `day`, `time`, `type` | Book appointment (checks real availability, notifies admin) |
-| `createOrder` | `items`, `total`, `email`, `idNumber`, `fullName`, `deliveryAddress` | Create order (pending_payment, notifies admin) |
-| `getMyOrders` | — | User's own orders |
-| `getOrderDetail` | `id` | Order detail (own or admin) |
-| `shareDeliveryGps` | `orderId`, `lat`, `lng` | Save delivery GPS location |
+| `getCompanyInfo` | — | Contact/social data from brand config |
+| `saveLongMemory` | `key`, `value`, `override?` | 1-year persistent memory in Redis |
+| `searchMyHistory` | `limit?` | Recent conversation history from Redis session |
+| `deleteMemory` | `confirm="BORRAR"` | Deletes ALL customer data (GDPR). Two-step confirmation. |
+| `deriveToHuman` | `reason` | ⚠️ Blocks chat 24h, transfers to admin. Use when no tool exists for user's request. |
 
 **Admin-only (requiere `ADMIN_WHATSAPP` en env):**
 
 | Tool | Params | Description |
 |---|---|---|
-| `updateStock` | `slug`, `variantId`, `quantity` | Set product variant stock in Redis |
-| `getPendingReviews` | — | List reviews pending moderation |
-| `approveReview` | `id` | Approve review → visible to public |
-| `rejectReview` | `id` | Reject review → removed from queue |
-| `getPendingComments` | — | List comments pending moderation |
-| `approveComment` | `id` | Approve comment |
-| `rejectComment` | `id` | Reject comment |
-| `getAllAppointments` | — | All appointments in system |
-| `getAppointmentDetail` | `id` | Full appointment details |
-| `updateApptStatus` | `id`, `status` | Set confirmed/cancelled/completed/noshow |
-| `getAllOrders` | — | All orders in system |
-| `updateOrderStatus` | `id`, `status` | paid/shipping/delivered/cancelled |
-| `verifyPayment` | `id`, `confirmed` | Human-in-the-loop: confirms payment, notifies customer |
+| `getDerivedConversations` | — | Lists all chats pending human attention (SCAN wa:derived:*) |
+| `resolveDerivation` | `phone` | Frees a derived chat so the agent resumes responding |
+| `findChatByPhone` | `phone` | Looks up session history for a given phone number |
 
 ### Pages & Blog
 - Pages module — legal & policy pages, config-driven
@@ -104,9 +82,9 @@
 - JSON-LD structured data
 
 ### Scheduling
-- Weekly calendar with responsive grid
+- Weekly calendar with responsive grid (frontend only)
 - Time slots config-driven per day
-- WhatsApp booking via YCloud API
+- Booking requires human intervention via agent derivation
 
 ### SEO & Design
 - Dynamic OG/Twitter images (Satori)
@@ -117,22 +95,28 @@
 - CORS proxy via middleware
 
 ### Storage
-- **Upstash Redis** for production — sessions, long-term memory, rate limiting, dedup, message queue
-- **In-memory Map fallback** when Redis is not configured — same APIs, no persistence across restarts
-- **Phone anonymization** via HMAC-SHA256 with `WS_ENCRYPTION_KEY` — no raw phone numbers in Redis
+- **Upstash Redis** for production — sessions, long-term memory, rate limiting, dedup, message queue, derivation flags
+- **In-memory Map fallback** when Redis is not configured — same APIs, no persistence across restarts (derivation always returns false)
+- **Phone anonymization** via HMAC-SHA256 with `WS_ENCRYPTION_KEY` — no raw phone numbers in Redis keys
 
-### Redis Business Data
-- **Stock**: `bus:stock:{slug}` — HASH por variante, actualizado por admin
-- **Reviews**: `bus:review:{id}` + sets pending/approved/my — moderación + visibilidad public/private
-- **Comments**: `bus:comment:{id}` + sets pending/approved/my — moderación + visibilidad
-- **Appointments**: `bus:appointment:{id}` + agenda hash `bus:agenda:{day}` — disponibilidad real
-- **Orders**: `bus:order:{id}` + sets my/all + GPS `deliveryGpsLat/Lng` — ciclo de pago con human-in-the-loop
-- **Admin detection**: `ADMIN_WHATSAPP` env var privada (no expuesta al público)
-- **Notifications**: creación de cita/pedido → notifica al admin; confirmación de pago → notifica al cliente
+### Redis — Solo infraestructura del agente
+Redis solo almacena datos de infraestructura del agente. No hay datos de tienda (productos, pedidos, reseñas, citas, stock) en Redis.
+
+| Key Pattern | TTL | Purpose |
+|---|---|---|
+| `wa:session:{hash}` | 7d | Chat history + session state |
+| `wa:longmemory:{hash}` | 365d | Agent-persisted customer data |
+| `wa:queue:{hash}` | — | Message debounce (cleared after drain) |
+| `wa:dedup:{wamid}` | 1h | Webhook deduplication |
+| `wa:ratelimit:ip:{ip}` | 30s | Per-IP rate limit |
+| `wa:ratelimit:to:{to}` | 30s | Per-recipient rate limit |
+| `wa:derived:{hash}` | 24h | Derivation flag — blocks agent, requires admin |
+
+El agente es **solo informativo**: responde con datos de las tools de consulta. Si el usuario necesita una acción (comprar, agendar, cancelar, etc.) y no existe tool, el agente llama `deriveToHuman` y un administrador retoma el chat.
 
 ### Testing
-- **325 tests** (Vitest)
-- Organized by domain: webhook, session-store, tools, config coverage, console guards
+- **315 tests** (Vitest) — 6 test files
+- Organized by domain: webhook, session-store, tools, API endpoints, config coverage, console guards
 
 ## Technology Stack
 
@@ -143,7 +127,7 @@
 - **AI**: Vercel AI SDK + OpenAI (gpt-5-nano via Gateway, Whisper for audio)
 - **WhatsApp**: YCloud API (outbound SDK + inbound webhooks)
 - **Redis**: Upstash (sessions, memory, rate limiting, dedup)
-- **Testing**: Vitest (325 tests)
+- **Testing**: Vitest (315 tests)
 - **CI/CD**: GitHub Actions + Semantic Release
 - **Hosting**: Vercel
 
@@ -179,24 +163,20 @@
 
 | Route | Methods | Data source | Auth |
 |---|---|---|---|---|
-| `/api/v1/products` | GET, POST, PUT, DELETE | Seed + Redis stock | POST/PUT/DELETE require key |
-| `/api/v1/products/[slug]` | GET, POST, PUT, DELETE | Seed + Redis stock + reviews | POST/PUT/DELETE require key |
-| `/api/v1/categories` | GET, POST, PUT, DELETE | Seed (validated) | POST/PUT/DELETE require key |
-| `/api/v1/pages` | GET, POST, PUT, DELETE | Seed (validated) | POST/PUT/DELETE require key |
-| `/api/v1/paginas` | GET, POST, PUT, DELETE | Seed (validated) | POST/PUT require key |
-| `/api/v1/paginas/[slug]` | GET, POST, PUT, DELETE | Seed (validated) | POST/PUT/DELETE require key |
-| `/api/v1/blog` | GET, POST, PUT, DELETE | Seed (validated) | POST/PUT require key |
-| `/api/v1/blog/[slug]` | GET, POST, PUT, DELETE | Seed (validated) | POST/PUT/DELETE require key |
-| `/api/v1/resenas/[productSlug]` | GET, POST, PUT, DELETE | Seed + Redis approved | PUT/DELETE require key, GET/POST público |
-| `/api/v1/inventario/[productSlug]` | GET, POST, PUT, DELETE | Seed + Redis stock enrich | POST/PUT/DELETE require key |
-| `/api/v1/pedidos` | GET, POST, PUT, DELETE | Redis `bus:order:*` | GET/PUT/DELETE require key, POST público |
-| `/api/v1/pedidos/[id]` | GET | Redis `bus:order:{id}` | Público |
+| `/api/v1/products` | GET, POST, PUT, DELETE | Seed (hardcoded TS) | POST/PUT/DELETE require key |
+| `/api/v1/products/[slug]` | GET, POST, PUT, DELETE | Seed (hardcoded TS) | POST/PUT/DELETE require key |
+| `/api/v1/categories` | GET, POST, PUT, DELETE | Seed (hardcoded TS) | POST/PUT/DELETE require key |
+| `/api/v1/pages` | GET, POST, PUT, DELETE | Seed (hardcoded TS) | POST/PUT/DELETE require key |
+| `/api/v1/paginas` | GET, POST, PUT, DELETE | Seed (hardcoded TS) | POST/PUT/DELETE require key |
+| `/api/v1/paginas/[slug]` | GET, POST, PUT, DELETE | Seed (hardcoded TS) | POST/PUT/DELETE require key |
+| `/api/v1/blog` | GET, POST, PUT, DELETE | Seed (hardcoded TS) | POST/PUT/DELETE require key |
+| `/api/v1/blog/[slug]` | GET, POST, PUT, DELETE | Seed (hardcoded TS) | POST/PUT/DELETE require key |
+| `/api/v1/resenas/[productSlug]` | GET | Seed (in-memory) | Público |
 | `/api/v1/formulario` | GET, POST, PUT, DELETE | In-memory | POST público, GET/PUT/DELETE require key |
-| `/api/v1/agenda` | GET, POST, PUT, DELETE | Seed + Redis slots | POST/PUT require key |
-| `/api/v1/chat` | POST | Redis + AI | Requiere key |
+| `/api/v1/agenda` | GET, POST, PUT, DELETE | Seed (in-memory) | POST/PUT/DELETE require key |
+| `/api/v1/chat` | POST | Redis (sessions) + AI | Requiere key |
 | `/api/v1/webhooks/ycloud` | GET, POST | YCloud WhatsApp | Público (HMAC) |
 | `/api/v1/whatsapp/send` | POST | YCloud SDK | Público (rate-limited) |
-| `/ordenes/[orderId]` | GET | Redis via Server Component | Público (Partial Prerender) |
 
 ### Authentication
 POST/PUT/DELETE endpoints require header: `x-api-key: your_api_key`
@@ -221,6 +201,7 @@ This allows full local development without Redis. Restarting the server clears a
 | `wa:dedup:{wamid}` | STRING | 1 hour | yCloud retry dedup |
 | `wa:ratelimit:ip:{ip}` | STRING | 30s | Per-IP rate limit |
 | `wa:ratelimit:to:{number}` | STRING | 30s | Per-recipient rate limit |
+| `wa:derived:{hash}` | STRING | 24h | Derivation flag — blocks agent, flags chat for admin |
 
 ## Project Structure
 
@@ -252,7 +233,8 @@ src/lib/test/
 ├── agents/
 │   ├── webhook.test.ts        → signature, payload, URL
 │   ├── session-store.test.ts  → anonymize, session, dedup, multimodal
-│   └── tools.test.ts          → products, reviews, pages, blog, agenda
+│   └── tools.test.ts          → products, reviews, pages, blog, agenda, form
+├── api.test.ts                → REST endpoint auth + CRUD
 ├── config-keys.test.ts        → UI config coverage
 └── console-isdev.test.ts      → console.* guards
 ```
@@ -265,7 +247,7 @@ src/lib/test/
 | `pnpm build` | Build for production |
 | `pnpm start` | Start production server |
 | `pnpm lint` | ESLint |
-| `pnpm test` | Vitest (325 tests) |
+| `pnpm test` | Vitest (315 tests) |
 | `pnpm format` | Prettier |
 
 ## License

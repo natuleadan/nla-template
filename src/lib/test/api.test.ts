@@ -1,11 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { getBaseUrl, getApiKey } from "@/lib/env";
+import { getBaseUrl } from "@/lib/env";
 
 const mockFetch = vi.fn();
 vi.stubGlobal("fetch", mockFetch);
 
 const BASE_URL = getBaseUrl();
-const API_KEY = getApiKey();
 
 describe("API Products", () => {
   beforeEach(() => {
@@ -20,27 +19,14 @@ describe("API Products", () => {
         name: "Proteína Whey",
         price: 29.99,
         category: "suplemento",
-        quantity: 1,
-        unit: "lb",
-      },
-      {
-        id: "2",
-        slug: "creatina-monohidratada",
-        name: "Creatina Monohidratada",
-        price: 19.99,
-        category: "suplemento",
-        quantity: 300,
-        unit: "g",
       },
     ];
-    mockFetch.mockResolvedValue({ ok: true, json: async () => mockProducts });
+    mockFetch.mockResolvedValue({ ok: true, json: async () => ({ products: mockProducts, total: 1, hasMore: false }) });
     const res = await fetch(`${BASE_URL}/api/v1/products`);
     const data = await res.json();
     expect(res.ok).toBe(true);
-    expect(Array.isArray(data)).toBe(true);
-    expect(data.length).toBe(2);
-    expect(data[0]).toHaveProperty("slug");
-    expect(data[0]).toHaveProperty("price");
+    expect(data.products.length).toBe(1);
+    expect(data.products[0]).toHaveProperty("slug");
   });
 
   it("GET /api/v1/products/[slug] returns single product", async () => {
@@ -48,12 +34,8 @@ describe("API Products", () => {
       id: "1",
       slug: "proteina-whey",
       name: "Proteína Whey",
-      description: "Proteína de suero",
       price: 29.99,
       category: "suplemento",
-      quantity: 1,
-      unit: "lb",
-      longDescription: "Descripción larga",
       reviews: [],
     };
     mockFetch.mockResolvedValue({ ok: true, json: async () => mockProduct });
@@ -61,7 +43,6 @@ describe("API Products", () => {
     const data = await res.json();
     expect(res.ok).toBe(true);
     expect(data.slug).toBe("proteina-whey");
-    expect(data).toHaveProperty("longDescription");
     expect(data).toHaveProperty("reviews");
   });
 
@@ -70,39 +51,6 @@ describe("API Products", () => {
     const res = await fetch(`${BASE_URL}/api/v1/products/non-existent`);
     expect(res.ok).toBe(false);
     expect(res.status).toBe(404);
-  });
-
-  it("POST /api/v1/products requires API key", async () => {
-    mockFetch.mockResolvedValue({ ok: false, status: 401 });
-    const res = await fetch(`${BASE_URL}/api/v1/products`, { method: "POST" });
-    expect(res.status).toBe(401);
-  });
-
-  it("POST /api/v1/products with API key succeeds", async () => {
-    mockFetch.mockResolvedValue({
-      ok: true,
-      status: 201,
-      json: async () => ({ message: "Producto creado" }),
-    });
-    const res = await fetch(`${BASE_URL}/api/v1/products`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "x-api-key": API_KEY },
-    });
-    expect(res.status).toBe(201);
-  });
-
-  it("PUT /api/v1/products requires API key", async () => {
-    mockFetch.mockResolvedValue({ ok: false, status: 401 });
-    const res = await fetch(`${BASE_URL}/api/v1/products`, { method: "PUT" });
-    expect(res.status).toBe(401);
-  });
-
-  it("DELETE /api/v1/products requires API key", async () => {
-    mockFetch.mockResolvedValue({ ok: false, status: 401 });
-    const res = await fetch(`${BASE_URL}/api/v1/products`, {
-      method: "DELETE",
-    });
-    expect(res.status).toBe(401);
   });
 });
 
@@ -113,151 +61,13 @@ describe("API Resenas", () => {
 
   it("GET /api/v1/resenas/[productSlug] returns reviews", async () => {
     const mockReviews = [
-      {
-        id: "1",
-        name: "Carlos",
-        comment: "Excelente",
-        rating: 5,
-        createdAt: "2026-04-25T10:00:00Z",
-      },
+      { id: "1", name: "Carlos", comment: "Excelente", rating: 5, createdAt: "2026-04-25T10:00:00Z" },
     ];
     mockFetch.mockResolvedValue({ ok: true, json: async () => mockReviews });
     const res = await fetch(`${BASE_URL}/api/v1/resenas/proteina-whey`);
     const data = await res.json();
     expect(res.ok).toBe(true);
     expect(Array.isArray(data)).toBe(true);
-  });
-
-  it("POST /api/v1/resenas creates new review", async () => {
-    const newReview = { name: "Pepe", comment: "Muy bueno", rating: 5 };
-    const mockResponse = {
-      id: "3",
-      productSlug: "proteina-whey",
-      ...newReview,
-      createdAt: "2026-04-25T12:00:00Z",
-    };
-    mockFetch.mockResolvedValue({
-      ok: true,
-      status: 201,
-      json: async () => mockResponse,
-    });
-    const res = await fetch(`${BASE_URL}/api/v1/resenas/proteina-whey`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newReview),
-    });
-    const data = await res.json();
-    expect(res.status).toBe(201);
-    expect(data.name).toBe("Pepe");
-  });
-
-  it("POST validates required fields", async () => {
-    mockFetch.mockResolvedValue({
-      ok: false,
-      status: 400,
-      json: async () => ({ error: "Datos inválidos" }),
-    });
-    const res = await fetch(`${BASE_URL}/api/v1/resenas/proteina-whey`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: "", comment: "", rating: 0 }),
-    });
-    expect(res.status).toBe(400);
-  });
-
-  it("PUT /api/v1/resenas requires API key", async () => {
-    mockFetch.mockResolvedValue({ ok: false, status: 401 });
-    const res = await fetch(`${BASE_URL}/api/v1/resenas/proteina-whey`, {
-      method: "PUT",
-    });
-    expect(res.status).toBe(401);
-  });
-
-  it("DELETE /api/v1/resenas requires API key", async () => {
-    mockFetch.mockResolvedValue({ ok: false, status: 401 });
-    const res = await fetch(`${BASE_URL}/api/v1/resenas/proteina-whey`, {
-      method: "DELETE",
-    });
-    expect(res.status).toBe(401);
-  });
-});
-
-describe("API Inventario", () => {
-  beforeEach(() => {
-    mockFetch.mockReset();
-  });
-
-  it("GET /api/v1/inventario returns inventory", async () => {
-    const mockInventory = {
-      productSlug: "proteina-whey",
-      total: 35,
-      locations: [
-        { location: "Bogotá - Norte", quantity: 15 },
-        { location: "Bogotá - Centro", quantity: 20 },
-      ],
-    };
-    mockFetch.mockResolvedValue({ ok: true, json: async () => mockInventory });
-    const res = await fetch(`${BASE_URL}/api/v1/inventario/proteina-whey`);
-    const data = await res.json();
-    expect(res.ok).toBe(true);
-    expect(data.productSlug).toBe("proteina-whey");
-    expect(data.total).toBe(35);
-  });
-
-  it("PUT /api/v1/inventario requires API key", async () => {
-    mockFetch.mockResolvedValue({ ok: false, status: 401 });
-    const res = await fetch(`${BASE_URL}/api/v1/inventario/proteina-whey`, {
-      method: "PUT",
-    });
-    expect(res.status).toBe(401);
-  });
-
-  it("DELETE /api/v1/inventario requires API key", async () => {
-    mockFetch.mockResolvedValue({ ok: false, status: 401 });
-    const res = await fetch(`${BASE_URL}/api/v1/inventario/proteina-whey`, {
-      method: "DELETE",
-    });
-    expect(res.status).toBe(401);
-  });
-});
-
-describe("API Pedidos", () => {
-  beforeEach(() => {
-    mockFetch.mockReset();
-  });
-
-  it("POST /api/v1/pedidos creates new order", async () => {
-    const order = {
-      productId: "1",
-      productName: "Proteína Whey",
-      price: 29.99,
-    };
-    const mockResponse = {
-      id: "1",
-      ...order,
-      createdAt: "2026-04-25T12:00:00Z",
-    };
-    mockFetch.mockResolvedValue({ ok: true, json: async () => mockResponse });
-    const res = await fetch(`${BASE_URL}/api/v1/pedidos`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(order),
-    });
-    const data = await res.json();
-    expect(res.ok).toBe(true);
-    expect(data.productName).toBe("Proteína Whey");
-  });
-
-  it("PUT /api/v1/pedidos requires API key", async () => {
-    mockFetch.mockResolvedValue({ ok: false, status: 401 });
-    const res = await fetch(`${BASE_URL}/api/v1/pedidos`, { method: "PUT" });
-    expect(res.status).toBe(401);
-  });
-
-  it("DELETE /api/v1/pedidos requires API key", async () => {
-    mockFetch.mockResolvedValue({ ok: false, status: 401 });
-    const res = await fetch(`${BASE_URL}/api/v1/pedidos`, { method: "DELETE" });
-    expect(res.status).toBe(401);
   });
 });
 
@@ -268,87 +78,51 @@ describe("API Categorías", () => {
 
   it("GET /api/v1/categories returns category list", async () => {
     const mockCategories = [
-      { id: "suplemento", name: "Suplementos" },
-      { id: "comida", name: "Alimentos" },
+      { id: "cat_1", name: "Categoría 1", slug: "cat-1" },
     ];
     mockFetch.mockResolvedValue({ ok: true, json: async () => mockCategories });
     const res = await fetch(`${BASE_URL}/api/v1/categories`);
     const data = await res.json();
     expect(res.ok).toBe(true);
     expect(Array.isArray(data)).toBe(true);
-    expect(data.length).toBe(2);
-  });
-
-  it("POST /api/v1/categories requires API key", async () => {
-    mockFetch.mockResolvedValue({ ok: false, status: 401 });
-    const res = await fetch(`${BASE_URL}/api/v1/categories`, {
-      method: "POST",
-    });
-    expect(res.status).toBe(401);
-  });
-
-  it("DELETE /api/v1/categories requires API key", async () => {
-    mockFetch.mockResolvedValue({ ok: false, status: 401 });
-    const res = await fetch(`${BASE_URL}/api/v1/categories`, {
-      method: "DELETE",
-    });
-    expect(res.status).toBe(401);
   });
 });
 
-describe("API Formulario", () => {
+describe("API Paginas", () => {
   beforeEach(() => {
     mockFetch.mockReset();
   });
 
-  it("POST /api/v1/formulario submits contact form", async () => {
-    const formData = {
-      nombre: "Juan",
-      email: "juan@email.com",
-      mensaje: "Hola",
-    };
-    mockFetch.mockResolvedValue({
-      ok: true,
-      json: async () => ({ success: true, message: "Mensaje enviado" }),
-    });
-    const res = await fetch(`${BASE_URL}/api/v1/formulario`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
+  it("GET /api/v1/paginas returns pages", async () => {
+    const mockPages = { pages: [{ id: "pag_1", slug: "terminos", title: "Términos" }], total: 1, hasMore: false };
+    mockFetch.mockResolvedValue({ ok: true, json: async () => mockPages });
+    const res = await fetch(`${BASE_URL}/api/v1/paginas`);
     const data = await res.json();
     expect(res.ok).toBe(true);
-    expect(data.success).toBe(true);
+    expect(data.pages.length).toBe(1);
   });
 
-  it("GET /api/v1/formulario requires API key", async () => {
-    mockFetch.mockResolvedValue({ ok: false, status: 401 });
-    const res = await fetch(`${BASE_URL}/api/v1/formulario`);
-    expect(res.status).toBe(401);
-  });
-});
-
-describe("API Pages", () => {
-  beforeEach(() => {
-    mockFetch.mockReset();
-  });
-
-  it("GET /api/v1/pages returns page content", async () => {
-    const mockPage = {
-      title: "Contacto",
-      description: "Contáctanos",
-      content: [{ type: "text", content: "Dirección..." }],
-    };
+  it("GET /api/v1/paginas/[slug] returns page detail", async () => {
+    const mockPage = { id: "pag_1", slug: "terminos", title: "Términos", content: "<p>Contenido</p>" };
     mockFetch.mockResolvedValue({ ok: true, json: async () => mockPage });
-    const res = await fetch(`${BASE_URL}/api/v1/pages?page=contacto`);
+    const res = await fetch(`${BASE_URL}/api/v1/paginas/terminos`);
     const data = await res.json();
     expect(res.ok).toBe(true);
-    expect(data.title).toBe("Contacto");
+    expect(data.title).toBe("Términos");
+  });
+});
+
+describe("API Blog", () => {
+  beforeEach(() => {
+    mockFetch.mockReset();
   });
 
-  it("POST /api/v1/pages requires API key", async () => {
-    mockFetch.mockResolvedValue({ ok: false, status: 401 });
-    const res = await fetch(`${BASE_URL}/api/v1/pages`, { method: "POST" });
-    expect(res.status).toBe(401);
+  it("GET /api/v1/blog returns posts", async () => {
+    const mockPosts = { posts: [{ id: "blog_1", slug: "test-post", title: "Test" }], total: 1, hasMore: false };
+    mockFetch.mockResolvedValue({ ok: true, json: async () => mockPosts });
+    const res = await fetch(`${BASE_URL}/api/v1/blog`);
+    const data = await res.json();
+    expect(res.ok).toBe(true);
+    expect(data.posts.length).toBe(1);
   });
 });

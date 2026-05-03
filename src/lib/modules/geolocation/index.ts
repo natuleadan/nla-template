@@ -183,6 +183,6 @@ export async function getGeoDataForApi(): Promise<UserGeoData> {
 
 export function getGeoHeaders(): Record<string, string> {
   return {
-    "X-GymFood-Anon-ID": "set-by-server",
+    "X-ACME-Anon-ID": "set-by-server",
   };
 }

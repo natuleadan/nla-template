@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
+
 import {
   Carousel,
   CarouselContent,
@@ -21,15 +22,12 @@ import {
   IconBrandWhatsapp,
   IconArrowLeft,
   IconStar,
-  IconSend,
-  IconLoader2,
   IconMapPin,
   IconCalendar,
 } from "@tabler/icons-react";
-import { createReview, type Review } from "@/lib/modules/reviews";
-import { type InventoryItem } from "@/lib/modules/inventory";
+import type { Review } from "@/lib/modules/reviews";
+import type { InventoryItem } from "@/lib/config/data/inventory";
 import { isDev } from "@/lib/env";
-import notificationService from "@/lib/modules/notification";
 import { store, ui } from "@/lib/config/site";
 import { useWhatsApp } from "@/components/whatsapp-provider";
 
@@ -121,12 +119,6 @@ export function ProductDetails({
   const [product, setProduct] = useState(initialProduct);
   const [inventory] = useState(initialInventory);
   const { openWhatsApp } = useWhatsApp();
-  const [newReview, setNewReview] = useState({
-    name: "",
-    comment: "",
-    rating: 0,
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [fallbackUsed, setFallbackUsed] = useState(false);
   const [currentImage, setCurrentImage] = useState(1);
 
@@ -149,35 +141,14 @@ export function ProductDetails({
     openWhatsApp({ message: mensaje, title: product.name, productId: product.slug, productName: product.name });
   };
 
-  const handleSubmitReview = async () => {
-    if (!newReview.name || !newReview.comment || newReview.rating === 0) {
-      notificationService.warning(store.reviews.validation);
-      return;
-    }
+  const [reviewName, setReviewName] = useState("");
+  const [reviewComment, setReviewComment] = useState("");
+  const [reviewRating, setReviewRating] = useState(0);
 
-    setIsSubmitting(true);
-    try {
-      const savedReview = await createReview(product.slug, newReview);
-      setProduct((prev) => ({
-        ...prev,
-        reviews: [...prev.reviews, savedReview],
-      }));
-      setNewReview({ name: "", comment: "", rating: 0 });
-      notificationService.success(store.reviews.success);
-      const mensaje = store.reviews.whatsappTemplate(
-        savedReview.name,
-        savedReview.comment,
-        savedReview.rating,
-        product.slug,
-        typeof window !== "undefined" ? window.location.origin : "",
-      );
-      openWhatsApp({ message: mensaje, title: store.reviews.whatsappTitle });
-    } catch (error) {
-      if (isDev) console.error("Error submitting review:", error);
-      notificationService.error(store.reviews.error);
-    } finally {
-      setIsSubmitting(false);
-    }
+  const handleSubmitReview = () => {
+    if (!reviewName || !reviewComment || reviewRating === 0) return;
+    const msg = `Quiero dejar una reseña del producto *${product.name}*: ${reviewRating}★ - ${reviewComment}`;
+    openWhatsApp({ message: msg, title: store.reviews.whatsappTitle });
   };
 
   return (
@@ -355,44 +326,40 @@ export function ProductDetails({
           <div className="flex flex-col sm:flex-row gap-4">
             <Input
               placeholder={store.reviews.namePlaceholder}
-              value={newReview.name}
-              onChange={(e) =>
-                setNewReview({ ...newReview, name: e.target.value })
-              }
+              value={reviewName}
+              onChange={(e) => setReviewName(e.target.value)}
               className="w-full sm:max-w-xs"
               aria-label={store.reviews.namePlaceholder}
             />
-            <StarRating
-              rating={newReview.rating}
-              setRating={(r) => setNewReview({ ...newReview, rating: r })}
-            />
+            <div className="flex items-center gap-1">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  type="button"
+                  onClick={() => setReviewRating(star)}
+                  className={`${star <= reviewRating ? "text-yellow-500" : "text-muted"} hover:scale-110 transition p-1`}
+                  aria-label={store.product.starAriaLabel(star)}
+                >
+                  <IconStar className="size-6 fill-current" />
+                </button>
+              ))}
+            </div>
           </div>
 
           <Textarea
             placeholder={store.reviews.commentPlaceholder}
-            value={newReview.comment}
-            onChange={(e) =>
-              setNewReview({ ...newReview, comment: e.target.value })
-            }
+            value={reviewComment}
+            onChange={(e) => setReviewComment(e.target.value)}
             rows={3}
             aria-label={store.reviews.commentPlaceholder}
           />
 
           <Button
             onClick={handleSubmitReview}
-            disabled={
-              isSubmitting ||
-              !newReview.name ||
-              !newReview.comment ||
-              newReview.rating === 0
-            }
+            disabled={!reviewName || !reviewComment || reviewRating === 0}
           >
-            {isSubmitting ? (
-              <IconLoader2 className="size-4 mr-2 animate-spin" />
-            ) : (
-              <IconSend className="size-4 mr-2" />
-            )}
-            {isSubmitting ? store.reviews.submitting : store.reviews.submit}
+            <IconBrandWhatsapp className="size-4 mr-2" />
+            {store.reviews.submit}
           </Button>
         </div>
       </div>
