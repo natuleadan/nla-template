@@ -42,16 +42,14 @@ function getAllTsFiles(dir: string): string[] {
   return results;
 }
 
-function findImportFiles(
-  allFiles: string[],
-  configName: string,
-): string[] {
-  const pattern = new RegExp(
+function findImportFiles(allFiles: string[], configName: string): string[] {
+  const sitePattern = new RegExp(
     `from\\s+["']@/lib/config/site["']|import\\s+\\{.*\\b${configName}\\b.*\\}\\s+from\\s+["']@/lib/config/site`,
   );
+  const localePattern = /from\s+["']@\/lib\/locale\/config["']/;
   return allFiles.filter((f) => {
     const content = fs.readFileSync(f, "utf-8");
-    return pattern.test(content);
+    return sitePattern.test(content) || localePattern.test(content);
   });
 }
 
@@ -79,7 +77,6 @@ describe("config keys coverage", () => {
       const definedKeys = collectStringKeys(config);
       const definedPaths = Object.keys(definedKeys);
 
-      // Find files that import this config object
       const importFiles = findImportFiles(allFiles, name);
 
       const deadKeys: string[] = [];
@@ -90,18 +87,18 @@ describe("config keys coverage", () => {
           .join("\\.");
 
         const refPattern = new RegExp(`\\b${name}\\.${escaped}\\b`);
+        const cfgPattern = new RegExp(`\\bcfg\\.${name}\\.${escaped}\\b`);
         let found = false;
 
         for (const file of importFiles) {
           const content = fs.readFileSync(file, "utf-8");
-          if (refPattern.test(content)) {
+          if (refPattern.test(content) || cfgPattern.test(content)) {
             found = true;
             break;
           }
         }
 
         if (!found) {
-          // Check if parent path is referenced (destructured access)
           const parts = kp.split(".");
           for (let i = parts.length - 1; i >= 1; i--) {
             const parentPath = parts.slice(0, i).join(".");
@@ -111,9 +108,15 @@ describe("config keys coverage", () => {
                 .map((seg) => seg.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
                 .join("\\.")}\\b`,
             );
+            const parentCfgPattern = new RegExp(
+              `\\bcfg\\.${name}\\.${parentPath
+                .split(".")
+                .map((seg) => seg.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+                .join("\\.")}\\b`,
+            );
             for (const file of importFiles) {
               const content = fs.readFileSync(file, "utf-8");
-              if (parentPattern.test(content)) {
+              if (parentPattern.test(content) || parentCfgPattern.test(content)) {
                 found = true;
                 break;
               }
@@ -144,7 +147,6 @@ describe("config keys reverse check", () => {
       const definedKeys = collectStringKeys(config);
       const allDefined = new Set(Object.keys(definedKeys));
 
-      // Build array prop names too
       function addArrayProps(obj: unknown, prefix = "") {
         if (typeof obj !== "object" || obj === null) return;
         for (const [k, v] of Object.entries(obj)) {
@@ -158,10 +160,10 @@ describe("config keys reverse check", () => {
       }
       addArrayProps(config);
 
-      // Look for dotted references in files that import this config
       const importFiles = findImportFiles(allFiles, name);
       const escapedName = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
       const refPattern = new RegExp(`\\b${escapedName}\\.([a-zA-Z0-9_.]+)`, "g");
+      const cfgRefPattern = new RegExp(`\\bcfg\\.${escapedName}\\.([a-zA-Z0-9_.]+)`, "g");
 
       const JS_METHODS = new Set([
         "length", "map", "find", "filter", "slice", "splice", "push", "pop",
@@ -172,29 +174,33 @@ describe("config keys reverse check", () => {
       ]);
 
       const missing: string[] = [];
+      const checked = new Set<string>();
 
       for (const file of importFiles) {
         const content = fs.readFileSync(file, "utf-8");
-        let match;
-        while ((match = refPattern.exec(content)) !== null) {
-          const suffix = match[1];
-          if (!suffix) continue;
 
-          const parts = suffix.split(".");
-          const lastPart = parts[parts.length - 1];
-          if (JS_METHODS.has(lastPart)) continue;
+        for (const pattern of [refPattern, cfgRefPattern]) {
+          pattern.lastIndex = 0;
+          let match: RegExpExecArray | null;
+          while ((match = pattern.exec(content)) !== null) {
+            const suffix = match[1];
+            if (!suffix || checked.has(suffix)) continue;
+            checked.add(suffix);
 
-          // Check if this suffix matches a defined key
-          if (allDefined.has(suffix)) continue;
+            const parts = suffix.split(".");
+            const lastPart = parts[parts.length - 1];
+            if (JS_METHODS.has(lastPart)) continue;
 
-          // Check prefix match
-          const isKnown = [...allDefined].some(
-            (d) => suffix.startsWith(d + ".") || d.startsWith(suffix),
-          );
-          if (isKnown) continue;
+            if (allDefined.has(suffix)) continue;
 
-          const relPath = path.relative(SRC_DIR, file);
-          missing.push(`  ${name}.${suffix} → ${relPath}`);
+            const isKnown = [...allDefined].some(
+              (d) => suffix.startsWith(d + ".") || d.startsWith(suffix),
+            );
+            if (isKnown) continue;
+
+            const relPath = path.relative(SRC_DIR, file);
+            missing.push(`  ${name}.${suffix} \u2192 ${relPath}`);
+          }
         }
       }
 

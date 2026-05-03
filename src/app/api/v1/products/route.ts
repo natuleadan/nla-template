@@ -6,13 +6,14 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const page = parseInt(searchParams.get("page") || "1", 10);
     const limit = parseInt(searchParams.get("limit") || "8", 10);
+    const locale = searchParams.get("locale") || "es";
 
     if (page > 1) {
-      const result = await getProducts(page, limit);
+      const result = await getProducts(page, limit, locale);
       return NextResponse.json(result);
     }
 
-    const products = await getAllProducts();
+    const products = await getAllProducts(locale);
     return NextResponse.json({ products, total: products.length, hasMore: false });
   } catch {
     return NextResponse.json({ error: "Error al obtener productos" }, { status: 500 });

@@ -1,6 +1,6 @@
 import type { ApiExamples } from "./types";
 import { getProducts } from "@/lib/modules/products";
-import { getCategories } from "@/lib/modules/categories";
+import { getProductCategories } from "@/lib/modules/categories";
 import { getApprovedReviews } from "@/lib/modules/reviews";
 import { getAllPosts } from "@/lib/modules/blog";
 import { getWeekDays } from "@/lib/modules/agenda";
@@ -8,8 +8,8 @@ import { getAllPaginas } from "@/lib/modules/paginas";
 
 export async function getApiExamples(): Promise<ApiExamples> {
   const [result, categories] = await Promise.all([
-    getProducts(),
-    getCategories(),
+    getProducts(1, 25),
+    getProductCategories(),
   ]);
 
   const exampleProducts = result.products.slice(0, 2);

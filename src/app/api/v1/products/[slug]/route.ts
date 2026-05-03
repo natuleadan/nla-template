@@ -10,10 +10,12 @@ interface RouteParams {
 export async function GET(request: Request, { params }: RouteParams) {
   try {
     const { slug } = await params;
+    const url = new URL(request.url);
+    const locale = url.searchParams.get("locale") || "es";
     if (!slug || typeof slug !== "string") return badRequest("Slug inválido");
-    const product = await getProduct(slug);
+    const product = await getProduct(slug, locale);
     if (!product) return notFound("Producto");
-    const reviews = await getApprovedReviews(slug);
+    const reviews = await getApprovedReviews(slug, locale);
     return NextResponse.json({ ...product, quantity: Number(product.quantity), reviews });
   } catch {
     return serverError("Error al obtener producto");

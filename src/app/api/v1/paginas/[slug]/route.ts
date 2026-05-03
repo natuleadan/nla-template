@@ -13,9 +13,10 @@ interface RouteParams {
 export async function GET(request: Request, { params }: RouteParams) {
   try {
     const { slug } = await params;
-    if (!slug || typeof slug !== "string")
-      return badRequest("Slug inválido");
-    const page = await getPagina(slug);
+    const url = new URL(request.url);
+    const locale = url.searchParams.get("locale") || "es";
+    if (!slug || typeof slug !== "string") return badRequest("Slug inválido");
+    const page = await getPagina(slug, locale);
     if (!page) return notFound("Página");
     return NextResponse.json(page);
   } catch {

@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: brand.name,
     short_name: brand.name,
-    description: brand.description,
+    description: "Your trusted online store. Curated products for your home and office.",
     start_url: "/",
     display: "standalone",
     background_color: "#ffffff",
