@@ -11,7 +11,7 @@ export function JsonLdContact({ locale = "es" }: { locale?: string }) {
     "@type": "ContactPage",
     name: `${brand.name} - Contacto`,
     description: brand.description,
-    url: `${baseUrl}/contacto`,
+    url: `${baseUrl}/${locale}/contacto`,
     mainEntity: {
       "@type": "Organization",
       name: brand.name,

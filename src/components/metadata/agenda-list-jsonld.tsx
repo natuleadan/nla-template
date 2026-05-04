@@ -50,7 +50,7 @@ export function JsonLdAgendaList({
           },
           offers: {
             "@type": "Offer",
-            url: `${baseUrl}/agenda`,
+            url: `${baseUrl}/${lang}/agenda`,
             availability: "https://schema.org/InStock",
           },
         },

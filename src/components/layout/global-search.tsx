@@ -125,15 +125,15 @@ export function GlobalSearch() {
   const handleSelect = (item: SearchItem) => {
     setOpen(false);
     if (item.type === "product") {
-      router.push(`/tienda/${item.slug}`);
+      router.push(`/${lang}/tienda/${item.slug}`);
     } else if (item.type === "slot") {
       router.push(
-        `/agenda?dia=${encodeURIComponent(item.slotDay!)}&hora=${encodeURIComponent(item.slotTime!)}`,
+        `/${lang}/agenda?dia=${encodeURIComponent(item.slotDay!)}&hora=${encodeURIComponent(item.slotTime!)}`,
       );
     } else if (item.type === "page") {
-      router.push(`/paginas/${item.slug}`);
+      router.push(`/${lang}/paginas/${item.slug}`);
     } else {
-      router.push(`/blog/${item.slug}`);
+      router.push(`/${lang}/blog/${item.slug}`);
     }
   };
 

@@ -1,11 +1,16 @@
 import type { MetadataRoute } from "next";
 import { getBaseUrl } from "@/lib/env";
-import { getAllProducts } from "@/lib/modules/products";
+import {
+  getAllProducts,
+  getProductSlugById,
+} from "@/lib/modules/products";
+import { getAllPosts, getPostSlugById } from "@/lib/modules/blog";
+import { getAllPaginas, getPaginaSlugById } from "@/lib/modules/paginas";
+
+const LOCALES = ["es", "en"];
 
 export const dynamic = "force-dynamic";
 export const revalidate = 300;
-
-const LOCALES = ["es", "en"];
 
 function alternatesFor(path: string, baseUrl: string) {
   return {
@@ -13,6 +18,20 @@ function alternatesFor(path: string, baseUrl: string) {
       LOCALES.map((l) => [l, `${baseUrl}/${l}${path}`]),
     ),
   };
+}
+
+async function alternatesForEntity<T>(
+  id: string,
+  prefix: string,
+  getSlug: (id: string, locale: string) => Promise<string | undefined>,
+  baseUrl: string,
+) {
+  const languages: Record<string, string> = {};
+  for (const locale of LOCALES) {
+    const slug = await getSlug(id, locale);
+    languages[locale] = `${baseUrl}/${locale}${prefix}${slug}`;
+  }
+  return { languages };
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -23,55 +42,72 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const entries: MetadataRoute.Sitemap = [];
 
-  for (const locale of LOCALES) {
-    const products = await getAllProducts(locale);
-    const l = (path: string) => `${baseUrl}/${locale}${path}`;
+  const staticPages = [
+    { path: "", priority: 1, changeFreq: "daily" as const },
+    { path: "/tienda", priority: 0.9, changeFreq: "daily" as const },
+    { path: "/blog", priority: 0.9, changeFreq: "daily" as const },
+    { path: "/agenda", priority: 0.6, changeFreq: "weekly" as const },
+    { path: "/contacto", priority: 0.5, changeFreq: "monthly" as const },
+    { path: "/paginas/privacidad", priority: 0.3, changeFreq: "monthly" as const },
+    { path: "/paginas/terminos", priority: 0.3, changeFreq: "monthly" as const },
+  ];
 
+  for (const page of staticPages) {
     entries.push({
-      url: l(""),
+      url: `${baseUrl}/es${page.path}`,
       lastModified: new Date(),
-      changeFrequency: "daily" as const,
-      priority: 1,
-      alternates: alternatesFor("", baseUrl),
+      changeFrequency: page.changeFreq,
+      priority: page.priority,
+      alternates: alternatesFor(page.path, baseUrl),
     });
-    entries.push({
-      url: l("/tienda"),
-      lastModified: new Date(),
-      changeFrequency: "daily" as const,
-      priority: 0.9,
-      alternates: alternatesFor("/tienda", baseUrl),
-    });
-    entries.push({
-      url: l("/contacto"),
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-      alternates: alternatesFor("/contacto", baseUrl),
-    });
-    entries.push({
-      url: l("/paginas/privacidad"),
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.3,
-      alternates: alternatesFor("/paginas/privacidad", baseUrl),
-    });
-    entries.push({
-      url: l("/paginas/terminos"),
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.3,
-      alternates: alternatesFor("/paginas/terminos", baseUrl),
-    });
+  }
 
-    for (const product of products) {
-      entries.push({
-        url: `${baseUrl}/${locale}/tienda/${product.slug}`,
-        lastModified: new Date(),
-        changeFrequency: "weekly" as const,
-        priority: 0.8,
-        alternates: alternatesFor(`/tienda/${product.slug}`, baseUrl),
-      });
-    }
+  const allProductsEs = await getAllProducts("es");
+  for (const product of allProductsEs) {
+    entries.push({
+      url: `${baseUrl}/es/tienda/${product.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+      alternates: await alternatesForEntity(
+        product.id,
+        "/tienda/",
+        getProductSlugById,
+        baseUrl,
+      ),
+    });
+  }
+
+  const allPostsEs = await getAllPosts("es");
+  for (const post of allPostsEs) {
+    entries.push({
+      url: `${baseUrl}/es/blog/${post.slug}`,
+      lastModified: new Date(post.publishedAt),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+      alternates: await alternatesForEntity(
+        post.id,
+        "/blog/",
+        getPostSlugById,
+        baseUrl,
+      ),
+    });
+  }
+
+  const allPaginasEs = await getAllPaginas("es");
+  for (const page of allPaginasEs) {
+    entries.push({
+      url: `${baseUrl}/es/paginas/${page.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.4,
+      alternates: await alternatesForEntity(
+        page.id,
+        "/paginas/",
+        getPaginaSlugById,
+        baseUrl,
+      ),
+    });
   }
 
   return entries;

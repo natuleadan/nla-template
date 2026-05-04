@@ -60,7 +60,7 @@ export function HomeJsonLd({
             "@type": "SearchAction",
             target: {
               "@type": "EntryPoint",
-              urlTemplate: `${baseUrl}/tienda?q={search_term_string}`,
+              urlTemplate: `${baseUrl}/${locale}/tienda?q={search_term_string}`,
             },
             "query-input": "required name=search_term_string",
           },

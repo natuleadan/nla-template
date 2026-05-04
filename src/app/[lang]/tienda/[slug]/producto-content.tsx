@@ -32,7 +32,7 @@ export async function ProductoContent({ params }: ProductoContentProps) {
   );
 
   const [reviews] = await Promise.all([getReviews(slug, lang)]);
-  const inventory = inventoryData[slug] || [];
+  const inventory = inventoryData[product.id] || [];
 
   const { quantity: _q, unit: _u, ...rest } = product;
   const productWithReviews: Omit<Product, "quantity" | "unit"> & {

@@ -5,7 +5,7 @@ import { cn } from "@/lib/config/utils";
 import { IconChevronRight, IconDots } from "@tabler/icons-react";
 import { getConfig } from "@/lib/locale/config";
 
-const ui = getConfig("en").ui;
+const ui = getConfig("es").ui;
 
 function Breadcrumb({ className, ...props }: React.ComponentProps<"nav">) {
   return (
