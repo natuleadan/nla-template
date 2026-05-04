@@ -80,6 +80,11 @@ export const paginasData: PaginaPost[] = [
 <p>Si modificamos este Acuerdo: publicaremos la modificación en la Plataforma o le proporcionaremos una notificación de la modificación. También indicaremos la fecha de la última actualización al comienzo de este Acuerdo. Al continuar accediendo o utilizando los Servicios y/o la Plataforma después de haber publicado una modificación en la Plataforma o de haberle proporcionado una notificación de una modificación, usted indica que acepta estar sujeto al Acuerdo modificado. SI EL ACUERDO MODIFICADO NO LE RESULTA ACEPTABLE, DEJE DE UTILIZAR LOS SERVICIOS Y LA PLATAFORMA INMEDIATAMENTE.</p>`,
     category: "legal",
     publishedAt: "2026-01-01",
+    attachments: [
+      { name: "Términos legales.pdf", url: "/medias/pages/terminos/terminos-legales.pdf", size: "2.8 MB" },
+      { name: "Anexo de precios.xlsx", url: "/medias/pages/terminos/anexo-precios.xlsx", size: "1.5 MB" },
+      { name: "Política de privacidad.docx", url: "/medias/pages/terminos/politica-privacidad.docx", size: "1.2 MB" },
+    ],
   },
   {
     id: "pag_2",

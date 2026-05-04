@@ -11,6 +11,7 @@ export interface PaginaPost {
   category: string;
   publishedAt: string;
   updatedAt?: string;
+  attachments?: Array<{ name: string; url: string; size?: string }>;
 }
 
 const pages = {

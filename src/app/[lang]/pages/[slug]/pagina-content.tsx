@@ -3,6 +3,7 @@ import Link from "next/link";
 import { PageHeader } from "@/components/layout/page-header";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { BlogAttachments } from "@/components/blog/blog-attachments";
 import { ShareDialog } from "@/components/ui/share-dialog";
 import { IconArrowLeft } from "@tabler/icons-react";
 import { Prose } from "@/components/ui/prose";
@@ -85,6 +86,11 @@ export async function PaginaContent({ params }: PaginaContentProps) {
           </span>
         </div>
         <Prose html={pageData.content} />
+        {pageData.attachments && pageData.attachments.length > 0 && (
+          <div className="mt-8">
+            <BlogAttachments attachments={pageData.attachments} columns={3} />
+          </div>
+        )}
       </div>
     </>
   );

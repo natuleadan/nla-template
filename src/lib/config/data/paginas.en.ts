@@ -80,6 +80,11 @@ export const paginasData: PaginaPost[] = [
 <p>If we modify this Agreement: we will post the modification on the Platform or provide you with notice of the modification. We will also indicate the date of the last update at the beginning of this Agreement. By continuing to access or use the Services and/or the Platform after we have posted a modification on the Platform or provided you with notice of a modification, you indicate that you agree to be bound by the modified Agreement. IF THE MODIFIED AGREEMENT IS NOT ACCEPTABLE TO YOU, STOP USING THE SERVICES AND PLATFORM IMMEDIATELY.</p>`,
     category: "legal",
     publishedAt: "2026-01-01",
+    attachments: [
+      { name: "Legal Terms.pdf", url: "/medias/pages/terms/legal-terms.pdf", size: "2.8 MB" },
+      { name: "Price Annex.xlsx", url: "/medias/pages/terms/price-annex.xlsx", size: "1.5 MB" },
+      { name: "Privacy Policy.docx", url: "/medias/pages/terms/privacy-policy.docx", size: "1.2 MB" },
+    ],
   },
   {
     id: "pag_2",
