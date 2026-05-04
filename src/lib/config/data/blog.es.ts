@@ -2,7 +2,7 @@ import type { BlogPost } from "@/lib/modules/blog";
 
 export const blogPostsData: BlogPost[] = [
   {
-    id: "1",
+    id: "001",
     slug: "guia-de-nutricion",
     title: "Guía Completa de Nutrición",
     excerpt:
@@ -88,7 +88,7 @@ Ejemplo: 70kg × 0.033 = 2.31L/día</code></pre>
     ],
   },
   {
-    id: "2",
+    id: "002",
     slug: "organizacion-diaria",
     title: "Cómo Organizar tu Rutina Diaria",
     excerpt:
@@ -103,7 +103,7 @@ Ejemplo: 70kg × 0.033 = 2.31L/día</code></pre>
     readingTime: 7,
   },
   {
-    id: "3",
+    id: "003",
     slug: "beneficios-del-descanso",
     title: "Beneficios del Descanso Activo",
     excerpt:
@@ -118,7 +118,7 @@ Ejemplo: 70kg × 0.033 = 2.31L/día</code></pre>
     readingTime: 4,
   },
   {
-    id: "4",
+    id: "004",
     slug: "beneficios-de-la-proteina",
     title: "Beneficios de la Proteína en tu Dieta",
     excerpt:

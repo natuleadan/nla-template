@@ -4,7 +4,7 @@ export const schemas: Record<string, OpenApiSchema> = {
   Product: {
     type: "object",
     properties: {
-      id: { type: "string", example: "1" },
+      id: { type: "string", example: "001" },
       slug: { type: "string", example: "proteina-whey" },
       name: { type: "string", example: "Proteína en Polvo 1kg" },
       description: {
@@ -92,7 +92,7 @@ export const schemas: Record<string, OpenApiSchema> = {
   BlogPost: {
     type: "object",
     properties: {
-      id: { type: "string", example: "blog_1" },
+      id: { type: "string", example: "001" },
       slug: { type: "string", example: "guia-de-nutricion" },
       title: { type: "string", example: "Nutrición para el Gym" },
       excerpt: { type: "string", example: "Descubre los mejores alimentos..." },
@@ -112,7 +112,7 @@ export const schemas: Record<string, OpenApiSchema> = {
   PaginaPost: {
     type: "object",
     properties: {
-      id: { type: "string", example: "pag_1" },
+      id: { type: "string", example: "001" },
       slug: { type: "string", example: "terminos" },
       title: { type: "string", example: "Términos y Condiciones" },
       excerpt: { type: "string", example: "Conoce los términos..." },

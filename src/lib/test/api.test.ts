@@ -14,7 +14,7 @@ describe("API Products", () => {
   it("GET /api/v1/products returns product list", async () => {
     const mockProducts = [
       {
-        id: "1",
+        id: "001",
         slug: "proteina-whey",
         name: "Proteína Whey",
         price: 29.99,
@@ -34,7 +34,7 @@ describe("API Products", () => {
 
   it("GET /api/v1/products/[slug] returns single product", async () => {
     const mockProduct = {
-      id: "1",
+      id: "001",
       slug: "proteina-whey",
       name: "Proteína Whey",
       price: 29.99,
@@ -65,7 +65,7 @@ describe("API Resenas", () => {
   it("GET /api/v1/resenas/[productSlug] returns reviews", async () => {
     const mockReviews = [
       {
-        id: "1",
+        id: "001",
         name: "Carlos",
         comment: "Excelente",
         rating: 5,
@@ -104,7 +104,7 @@ describe("API Paginas", () => {
 
   it("GET /api/v1/paginas returns pages", async () => {
     const mockPages = {
-      pages: [{ id: "pag_1", slug: "terminos", title: "Términos" }],
+      pages: [{ id: "001", slug: "terminos", title: "Términos" }],
       total: 1,
       hasMore: false,
     };
@@ -117,7 +117,7 @@ describe("API Paginas", () => {
 
   it("GET /api/v1/paginas/[slug] returns page detail", async () => {
     const mockPage = {
-      id: "pag_1",
+      id: "001",
       slug: "terminos",
       title: "Términos",
       content: "<p>Contenido</p>",
@@ -137,7 +137,7 @@ describe("API Blog", () => {
 
   it("GET /api/v1/blog returns posts", async () => {
     const mockPosts = {
-      posts: [{ id: "blog_1", slug: "test-post", title: "Test" }],
+      posts: [{ id: "001", slug: "test-post", title: "Test" }],
       total: 1,
       hasMore: false,
     };

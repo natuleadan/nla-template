@@ -8,7 +8,7 @@ const imgs = (name: string, count: number): string[] =>
 
 export const allProducts: Product[] = [
   {
-    id: "1",
+    id: "001",
     slug: "portapapeles-aluminio",
     name: "Portapapeles de Aluminio",
     quantity: "1",
@@ -34,7 +34,7 @@ export const allProducts: Product[] = [
     ],
   },
   {
-    id: "2",
+    id: "002",
     slug: "hoja-papel-bond",
     name: "Hoja de Papel Bond 500gr",
     quantity: "500",
@@ -55,7 +55,7 @@ export const allProducts: Product[] = [
     ],
   },
   {
-    id: "3",
+    id: "003",
     slug: "boligrafo-retractil",
     name: "Bolígrafo Retráctil",
     quantity: "1",
@@ -76,7 +76,7 @@ export const allProducts: Product[] = [
     ],
   },
   {
-    id: "4",
+    id: "004",
     slug: "grapadora-metalica",
     name: "Grapadora Metálica",
     quantity: "1",
@@ -91,7 +91,7 @@ export const allProducts: Product[] = [
     type: "product",
   },
   {
-    id: "5",
+    id: "005",
     slug: "cinta-adhesiva-transparente",
     name: "Cinta Adhesiva Transparente",
     quantity: "1",
@@ -112,7 +112,7 @@ export const allProducts: Product[] = [
     ],
   },
   {
-    id: "6",
+    id: "006",
     slug: "tijeras-multiusos",
     name: "Tijeras Multiusos",
     quantity: "1",
@@ -127,7 +127,7 @@ export const allProducts: Product[] = [
     type: "product",
   },
   {
-    id: "7",
+    id: "007",
     slug: "regla-acero-inoxidable",
     name: "Regla de Acero Inoxidable",
     quantity: "1",
@@ -148,7 +148,7 @@ export const allProducts: Product[] = [
     ],
   },
   {
-    id: "8",
+    id: "008",
     slug: "borrador-nata",
     name: "Borrador de Nata",
     quantity: "1",
@@ -164,7 +164,7 @@ export const allProducts: Product[] = [
     type: "product",
   },
   {
-    id: "9",
+    id: "009",
     slug: "lapiz-hb",
     name: "Lápiz HB #2",
     quantity: "12",
@@ -179,7 +179,7 @@ export const allProducts: Product[] = [
     type: "product",
   },
   {
-    id: "10",
+    id: "010",
     slug: "corrector-liquido",
     name: "Corrector Líquido",
     quantity: "1",
@@ -195,7 +195,7 @@ export const allProducts: Product[] = [
     type: "product",
   },
   {
-    id: "11",
+    id: "011",
     slug: "carpeta-colgante",
     name: "Carpeta Colgante",
     quantity: "5",
@@ -216,7 +216,7 @@ export const allProducts: Product[] = [
     ],
   },
   {
-    id: "12",
+    id: "012",
     slug: "sobre-manila",
     name: "Sobre Manila",
     quantity: "10",
@@ -235,7 +235,7 @@ export const allProducts: Product[] = [
     ],
   },
   {
-    id: "13",
+    id: "013",
     slug: "resaltador",
     name: "Resaltador",
     quantity: "4",
@@ -257,7 +257,7 @@ export const allProducts: Product[] = [
     ],
   },
   {
-    id: "14",
+    id: "014",
     slug: "perforadora-3-agujeros",
     name: "Perforadora 3 Agujeros",
     quantity: "1",
@@ -272,7 +272,7 @@ export const allProducts: Product[] = [
     type: "product",
   },
   {
-    id: "15",
+    id: "015",
     slug: "calculadora-basica",
     name: "Calculadora Básica",
     quantity: "1",
@@ -287,7 +287,7 @@ export const allProducts: Product[] = [
     type: "product",
   },
   {
-    id: "16",
+    id: "016",
     slug: "cutter-precision",
     name: "Cutter de Precisión",
     quantity: "1",

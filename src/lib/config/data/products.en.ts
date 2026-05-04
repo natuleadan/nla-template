@@ -8,7 +8,7 @@ const imgs = (name: string, count: number): string[] =>
 
 export const allProducts: Product[] = [
   {
-    id: "1",
+    id: "001",
     slug: "aluminum-clipboard",
     name: "Aluminum Clipboard",
     quantity: "1",
@@ -34,7 +34,7 @@ export const allProducts: Product[] = [
     ],
   },
   {
-    id: "2",
+    id: "002",
     slug: "bond-paper-sheet",
     name: "Bond Paper Sheet 500g",
     quantity: "500",
@@ -55,7 +55,7 @@ export const allProducts: Product[] = [
     ],
   },
   {
-    id: "3",
+    id: "003",
     slug: "retractable-pen",
     name: "Retractable Pen",
     quantity: "1",
@@ -76,7 +76,7 @@ export const allProducts: Product[] = [
     ],
   },
   {
-    id: "4",
+    id: "004",
     slug: "heavy-duty-stapler",
     name: "Heavy Duty Stapler",
     quantity: "1",
@@ -91,7 +91,7 @@ export const allProducts: Product[] = [
     type: "product",
   },
   {
-    id: "5",
+    id: "005",
     slug: "clear-adhesive-tape",
     name: "Clear Adhesive Tape",
     quantity: "1",
@@ -112,7 +112,7 @@ export const allProducts: Product[] = [
     ],
   },
   {
-    id: "6",
+    id: "006",
     slug: "multi-purpose-scissors",
     name: "Multi-Purpose Scissors",
     quantity: "1",
@@ -127,7 +127,7 @@ export const allProducts: Product[] = [
     type: "product",
   },
   {
-    id: "7",
+    id: "007",
     slug: "stainless-steel-ruler",
     name: "Stainless Steel Ruler",
     quantity: "1",
@@ -148,7 +148,7 @@ export const allProducts: Product[] = [
     ],
   },
   {
-    id: "8",
+    id: "008",
     slug: "kneaded-eraser",
     name: "Kneaded Eraser",
     quantity: "1",
@@ -164,7 +164,7 @@ export const allProducts: Product[] = [
     type: "product",
   },
   {
-    id: "9",
+    id: "009",
     slug: "hb-pencil",
     name: "HB Pencil #2",
     quantity: "12",
@@ -179,7 +179,7 @@ export const allProducts: Product[] = [
     type: "product",
   },
   {
-    id: "10",
+    id: "010",
     slug: "liquid-corrector",
     name: "Liquid Corrector",
     quantity: "1",
@@ -194,7 +194,7 @@ export const allProducts: Product[] = [
     type: "product",
   },
   {
-    id: "11",
+    id: "011",
     slug: "hanging-folder",
     name: "Hanging Folder",
     quantity: "5",
@@ -214,7 +214,7 @@ export const allProducts: Product[] = [
     ],
   },
   {
-    id: "12",
+    id: "012",
     slug: "manila-envelope",
     name: "Manila Envelope",
     quantity: "10",
@@ -233,7 +233,7 @@ export const allProducts: Product[] = [
     ],
   },
   {
-    id: "13",
+    id: "013",
     slug: "highlighter",
     name: "Highlighter",
     quantity: "4",
@@ -255,7 +255,7 @@ export const allProducts: Product[] = [
     ],
   },
   {
-    id: "14",
+    id: "014",
     slug: "3-hole-punch",
     name: "3-Hole Punch",
     quantity: "1",
@@ -270,7 +270,7 @@ export const allProducts: Product[] = [
     type: "product",
   },
   {
-    id: "15",
+    id: "015",
     slug: "basic-calculator",
     name: "Basic Calculator",
     quantity: "1",
@@ -285,7 +285,7 @@ export const allProducts: Product[] = [
     type: "product",
   },
   {
-    id: "16",
+    id: "016",
     slug: "precision-cutter",
     name: "Precision Cutter",
     quantity: "1",

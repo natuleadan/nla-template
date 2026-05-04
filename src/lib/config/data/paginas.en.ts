@@ -2,7 +2,7 @@ import type { PaginaPost } from "@/lib/modules/paginas";
 
 export const paginasData: PaginaPost[] = [
   {
-    id: "pag_1",
+    id: "001",
     slug: "terms",
     title: "Terms and Conditions",
     excerpt:
@@ -87,7 +87,7 @@ export const paginasData: PaginaPost[] = [
     ],
   },
   {
-    id: "pag_2",
+    id: "002",
     slug: "privacy",
     title: "Privacy Policy",
     excerpt:
@@ -184,7 +184,7 @@ export const paginasData: PaginaPost[] = [
     publishedAt: "2026-01-01",
   },
   {
-    id: "pag_3",
+    id: "003",
     slug: "data",
     title: "Data Policy",
     excerpt:
@@ -277,7 +277,7 @@ export const paginasData: PaginaPost[] = [
     publishedAt: "2026-01-01",
   },
   {
-    id: "pag_4",
+    id: "004",
     slug: "quality",
     title: "Quality Policy",
     excerpt:
@@ -309,7 +309,7 @@ export const paginasData: PaginaPost[] = [
     publishedAt: "2026-01-15",
   },
   {
-    id: "pag_5",
+    id: "005",
     slug: "data-security",
     title: "Data Security Policy",
     excerpt:
@@ -364,7 +364,7 @@ export const paginasData: PaginaPost[] = [
     publishedAt: "2026-01-15",
   },
   {
-    id: "pag_6",
+    id: "006",
     slug: "environment",
     title: "Environmental Policy",
     excerpt:
@@ -396,7 +396,7 @@ export const paginasData: PaginaPost[] = [
     publishedAt: "2026-01-15",
   },
   {
-    id: "pag_7",
+    id: "007",
     slug: "health-safety",
     title: "Health and Safety Policy",
     excerpt:
