@@ -1,3 +1,9 @@
+## [2.0.3](https://github.com/natuleadan/nla-template/compare/v2.0.2...v2.0.3) (2026-05-04)
+
+### Bug Fixes
+
+* **ui:** replace nla palette with default and add brand color validation ([8bfbba9](https://github.com/natuleadan/nla-template/commit/8bfbba9e11af1ffe3dfe790848c57bf5346b683f))
+
 ## [2.0.2](https://github.com/natuleadan/nla-template/compare/v2.0.1...v2.0.2) (2026-05-04)
 
 ### Bug Fixes
