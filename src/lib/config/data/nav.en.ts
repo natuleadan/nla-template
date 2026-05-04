@@ -2,7 +2,7 @@ export const nav = {
   items: [
     { href: "/", label: "Home", icon: "home" },
     { href: "/store", label: "Store", icon: "store", type: "products" },
-    { href: "/news", label: "Blog", icon: "news", type: "posts" },
+    { href: "/news", label: "News", icon: "news", type: "posts" },
     { href: "/schedule", label: "Schedule", icon: "calendar", type: "agenda" },
     { href: "/pages", label: "Pages", icon: "files", type: "pages" },
     { href: "/contact", label: "Contact", icon: "mail" },

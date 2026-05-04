@@ -1,6 +1,7 @@
 import { cacheLife } from "next/cache";
 import Link from "next/link";
 import { BlogHeroImage } from "@/components/blog/blog-hero-image";
+import { BlogAttachments } from "@/components/blog/blog-attachments";
 import { BlogComments } from "@/components/blog/blog-comments";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -91,13 +92,18 @@ export async function PostContent({ params }: PostContentProps) {
         </div>
         <div className="md:flex md:gap-8 lg:gap-12 md:items-start">
           <div className="md:w-80 lg:w-96 shrink-0 mb-6 md:mb-0">
-            <div className="relative aspect-video md:aspect-[3/4] rounded-lg overflow-hidden md:sticky md:top-24">
+            <div className="relative aspect-video md:aspect-[3/4] rounded-lg overflow-hidden">
               <BlogHeroImage
                 src={post.image || "/design/fallback.svg"}
                 alt={post.title}
                 priority
               />
             </div>
+            {post.attachments && post.attachments.length > 0 && (
+              <div className="mt-6">
+                <BlogAttachments attachments={post.attachments} />
+              </div>
+            )}
           </div>
           <div className="md:flex-1 min-w-0 space-y-4">
             <div className="flex flex-wrap gap-2">

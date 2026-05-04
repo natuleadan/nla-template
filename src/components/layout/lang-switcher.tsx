@@ -37,7 +37,7 @@ export function LangSwitcher() {
           const translatedSlug = getLocalizedSlug(pathname, locale);
           const defaultHref = `/${locale}${rest}`;
           const href = translatedSlug
-            ? `/${locale}/${pathname.match(/^\/(en|es)\/(tienda|blog|paginas)\//)?.[2]}/${translatedSlug}`
+            ? `/${locale}/${pathname.match(/^\/(en|es)\/(store|news|pages)\//)?.[2]}/${translatedSlug}`
             : defaultHref;
 
           return (

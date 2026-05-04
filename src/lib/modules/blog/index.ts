@@ -15,6 +15,13 @@ export interface BlogPost {
   publishedAt: string;
   updatedAt?: string;
   readingTime: number;
+  attachments?: Attachment[];
+}
+
+export interface Attachment {
+  name: string;
+  url: string;
+  size?: string;
 }
 
 const posts = {

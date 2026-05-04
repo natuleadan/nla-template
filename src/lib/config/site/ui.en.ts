@@ -11,7 +11,7 @@ export const ui = {
       slots: "Upcoming appointments",
       products: "Products",
       pages: "Pages",
-      posts: "Blog",
+      posts: "News",
     },
   },
   spinner: {

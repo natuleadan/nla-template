@@ -1,5 +1,11 @@
 import { z } from "zod";
 
+export const AttachmentSchema = z.object({
+  name: z.string().min(1),
+  url: z.string().min(1),
+  size: z.string().optional(),
+});
+
 export const BlogPostSchema = z.object({
   id: z.string().min(1),
   slug: z.string().min(1),
@@ -13,4 +19,5 @@ export const BlogPostSchema = z.object({
   publishedAt: z.string(),
   updatedAt: z.string().optional(),
   readingTime: z.number().min(0),
+  attachments: z.array(AttachmentSchema).optional(),
 });

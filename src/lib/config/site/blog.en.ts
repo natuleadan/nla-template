@@ -2,10 +2,10 @@ import { brand } from "../data/brand";
 
 export const blog = {
   page: {
-    title: "Blog",
+    title: "News",
     description: "Articles about nutrition, training and health",
     empty: "No articles available",
-    metaTitle: (count: number) => `Blog (${count} articles) | ${brand.name}`,
+    metaTitle: (count: number) => `News (${count} articles) | ${brand.name}`,
     metaDescription: (count: number) =>
       count > 0
         ? `Read our ${count} articles about nutrition, training and health.`
@@ -21,7 +21,7 @@ export const blog = {
     readingTime: (min: number) => `${min} min read`,
     publishedAt: (date: string) => `Published on ${date}`,
     by: (author: string) => `By ${author}`,
-    back: "Back to blog",
+    back: "Back to news",
     readMore: "Read more",
   },
   comments: {
@@ -56,6 +56,6 @@ Your comment will be reviewed and published soon. Thank you for being part of ou
 *${brand.name}*`,
   },
   og: {
-    fallbackTitle: "Blog",
+    fallbackTitle: "News",
   },
 };

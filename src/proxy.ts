@@ -11,6 +11,7 @@ function isStaticRoute(pathname: string): boolean {
     pathname === "/api" ||
     pathname.startsWith("/api/") ||
     pathname.startsWith("/_next") ||
+    pathname.startsWith("/medias/") ||
     pathname === "/icon" ||
     pathname === "/apple-icon" ||
     pathname === "/robots.txt" ||
