@@ -7,6 +7,7 @@ import {
   IconMusic,
   IconVideo,
   IconExternalLink,
+  IconPaperclip,
 } from "@tabler/icons-react";
 
 interface Attachment {
@@ -18,6 +19,7 @@ interface Attachment {
 interface BlogAttachmentsProps {
   attachments: Attachment[];
   columns?: 1 | 3;
+  title?: string;
 }
 
 const iconMap: Record<string, typeof IconFile> = {
@@ -49,12 +51,14 @@ function getExtension(url: string): string {
 export function BlogAttachments({
   attachments,
   columns = 1,
+  title = "Adjuntos",
 }: BlogAttachmentsProps) {
   return (
     <div className="space-y-3">
-      <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-        Adjuntos
-      </h3>
+      <div className="flex items-center gap-2">
+        <IconPaperclip className="size-4 text-muted-foreground shrink-0" />
+        <span className="text-sm text-muted-foreground">{title}</span>
+      </div>
       {columns === 3 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {attachments.map((att, i) => {

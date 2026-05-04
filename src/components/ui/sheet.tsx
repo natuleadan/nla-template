@@ -82,7 +82,7 @@ function SheetContent({
               className="absolute top-3 right-3"
               size="icon-sm"
             >
-              <IconX />
+              <IconX className="size-5" />
               <span className="sr-only">Cerrar</span>
             </Button>
           </SheetPrimitive.Close>

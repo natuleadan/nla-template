@@ -39,6 +39,13 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   mail: IconMail,
 };
 
+const iconSizes: Record<string, string> = {
+  store: "size-5",
+  news: "size-[22px]",
+  calendar: "size-[22px]",
+  files: "size-[22px]",
+};
+
 export function Navbar() {
   const lang = useLang();
   const cfg = getConfig(lang);
@@ -94,7 +101,7 @@ export function Navbar() {
                   href={l(item.href)}
                   className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-muted transition-colors inline-flex items-center gap-1.5"
                 >
-                  {IconComp && <IconComp className="size-4" />}
+                  {IconComp && <IconComp className={iconSizes[item.icon] || "size-5"} />}
                   {item.label}
                 </Link>
               );
@@ -107,7 +114,7 @@ export function Navbar() {
               size="sm"
               className="gap-2 ml-2"
             >
-              <IconBrandWhatsapp className="size-4" data-icon="inline-start" />
+              <IconBrandWhatsapp className="size-5" data-icon="inline-start" />
               <span className="hidden sm:inline">
                 {nav.buttons.whatsappDesktop}
               </span>
@@ -140,7 +147,7 @@ export function Navbar() {
                   href={l(item.href)}
                   className="group p-2.5 text-sm font-medium rounded-lg hover:bg-muted transition-colors inline-flex items-center gap-1"
                 >
-                  {IconComp && <IconComp className="size-5 shrink-0" />}
+                  {IconComp && <IconComp className={`${iconSizes[item.icon] || "size-5"} shrink-0`} />}
                   <span className="max-w-0 group-hover:max-w-40 overflow-hidden transition-all duration-200 whitespace-nowrap">
                     <span className="pl-1">{item.label}</span>
                   </span>
@@ -179,7 +186,7 @@ export function Navbar() {
                   size="icon"
                   aria-label={ui.navbar.menuAriaLabel}
                 >
-                  <IconMenu2 className="size-6" />
+                  <IconMenu2 className="size-5" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-72">
@@ -213,7 +220,7 @@ export function Navbar() {
                         onClick={() => setMenuOpen(false)}
                         className="px-4 py-3 text-base font-medium rounded-lg hover:bg-muted transition-colors inline-flex items-center gap-2"
                       >
-                        {IconComp && <IconComp className="size-5" />}
+                        {IconComp && <IconComp className={iconSizes[item.icon] || "size-5"} />}
                         {item.label}
                       </Link>
                     );

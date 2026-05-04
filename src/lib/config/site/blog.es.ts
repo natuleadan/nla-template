@@ -23,6 +23,7 @@ export const blog = {
     by: (author: string) => `Por ${author}`,
     back: "Volver a noticias",
     readMore: "Leer más",
+    attachmentsLabel: "Adjuntos",
   },
   comments: {
     title: (count: number) => `Comentarios (${count})`,

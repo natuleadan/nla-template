@@ -44,6 +44,13 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   mail: IconMail,
 };
 
+const iconSizes: Record<string, string> = {
+  store: "size-5",
+  news: "size-[22px]",
+  calendar: "size-[22px]",
+  files: "size-[22px]",
+};
+
 function shuffleArray<T>(array: T[]): T[] {
   const a = [...array];
   for (let i = a.length - 1; i > 0; i--) {
@@ -140,7 +147,7 @@ function DesktopDropdown({
         href={href}
         className={`px-3 py-2 text-sm font-medium rounded-lg hover:bg-muted transition-colors inline-flex items-center ${compact ? "gap-1" : "gap-1.5"}`}
       >
-        {IconComp && <IconComp className="size-4" />}
+        {IconComp && <IconComp className={icon ? iconSizes[icon] || "size-5" : "size-5"} />}
         {compact ? (
           <span className="max-w-0 group-hover:max-w-40 overflow-hidden transition-all duration-200 whitespace-nowrap inline-flex items-center gap-1">
             <span className="pl-1">{label}</span>
@@ -230,7 +237,7 @@ function MobileAccordion({ label, href, type, onNav, icon }: NavDropdownProps) {
           onClick={onNav}
           className="flex-1 px-4 py-3 text-base font-medium rounded-l-lg hover:bg-muted transition-colors inline-flex items-center gap-2"
         >
-          {IconComp && <IconComp className="size-5" />}
+          {IconComp && <IconComp className={icon ? iconSizes[icon] || "size-5" : "size-5"} />}
           {label}
         </Link>
         <button

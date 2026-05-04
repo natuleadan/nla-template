@@ -101,7 +101,7 @@ export async function PostContent({ params }: PostContentProps) {
             </div>
             {post.attachments && post.attachments.length > 0 && (
               <div className="mt-6">
-                <BlogAttachments attachments={post.attachments} />
+                <BlogAttachments title={cfg.blog.post.attachmentsLabel} attachments={post.attachments} />
               </div>
             )}
           </div>

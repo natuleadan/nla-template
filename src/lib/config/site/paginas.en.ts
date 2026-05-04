@@ -20,6 +20,7 @@ export const paginas = {
   detail: {
     back: "Back to pages",
     updatedAt: (date: string) => `Updated on ${date}`,
+    attachmentsLabel: "Attachments",
   },
   category: {
     legal: "Legal",

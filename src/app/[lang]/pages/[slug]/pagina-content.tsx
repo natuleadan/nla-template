@@ -88,7 +88,7 @@ export async function PaginaContent({ params }: PaginaContentProps) {
         <Prose html={pageData.content} />
         {pageData.attachments && pageData.attachments.length > 0 && (
           <div className="mt-8">
-            <BlogAttachments attachments={pageData.attachments} columns={3} />
+            <BlogAttachments title={cfg.paginas.detail.attachmentsLabel} attachments={pageData.attachments} columns={3} />
           </div>
         )}
       </div>
