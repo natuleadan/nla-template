@@ -9,7 +9,6 @@ import {
   saveLongMemory,
   getLongMemory,
   deleteAllMemory,
-  isDerived,
   setDerived,
   resolveDerivation,
   getDerivedConversations,

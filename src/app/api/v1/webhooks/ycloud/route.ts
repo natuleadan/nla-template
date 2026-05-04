@@ -11,7 +11,6 @@ import { sendWhatsApp } from "@/lib/external/whatsapp/send";
 import { AgentService } from "@/lib/modules/agents/service";
 import {
   isDuplicate,
-  anonymizePhone,
   pushMsg,
   peekLatest,
   drainAll,
