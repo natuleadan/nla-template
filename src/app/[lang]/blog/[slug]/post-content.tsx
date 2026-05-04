@@ -71,7 +71,7 @@ export async function PostContent({ params }: PostContentProps) {
           { name: post.title, item: `${baseUrl}/${lang}/blog/${slug}` },
         ]}
       />
-      <article className="px-4 md:px-6 lg:px-8 max-w-4xl mx-auto w-full py-8">
+      <article className="px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full py-8">
         <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-8 gap-4">
           <div className="flex items-center gap-2 order-1 sm:order-2 w-full sm:w-auto shrink-0 sm:pt-1">
             <ShareDialog
@@ -90,41 +90,45 @@ export async function PostContent({ params }: PostContentProps) {
             <PageHeader title={post.title} description={post.excerpt} />
           </div>
         </div>
-        <div className="relative aspect-video rounded-lg overflow-hidden mb-8">
-          <BlogHeroImage
-            src={post.image || "/design/fallback.svg"}
-            alt={post.title}
-            priority
-          />
-        </div>
-        <div className="space-y-4">
-          <div className="flex flex-wrap gap-2">
-            <Badge variant="secondary">
-              {catLabels[post.category] || post.category}
-            </Badge>
-            {post.tags?.map((tag) => (
-              <Badge key={tag} variant="outline">
-                {tag}
+        <div className="md:flex md:gap-8 lg:gap-12 md:items-start">
+          <div className="md:w-80 lg:w-96 shrink-0 mb-6 md:mb-0">
+            <div className="relative aspect-video md:aspect-[3/4] rounded-lg overflow-hidden md:sticky md:top-24">
+              <BlogHeroImage
+                src={post.image || "/design/fallback.svg"}
+                alt={post.title}
+                priority
+              />
+            </div>
+          </div>
+          <div className="md:flex-1 min-w-0 space-y-4">
+            <div className="flex flex-wrap gap-2">
+              <Badge variant="secondary">
+                {catLabels[post.category] || post.category}
               </Badge>
-            ))}
+              {post.tags?.map((tag) => (
+                <Badge key={tag} variant="outline">
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+            <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+              <span className="flex items-center gap-1">
+                <IconUser className="size-4" />
+                {cfg.blog.post.by(post.author)}
+              </span>
+              <span className="flex items-center gap-1">
+                <IconCalendar className="size-4" />
+                {cfg.blog.post.publishedAt(post.publishedAt)}
+              </span>
+              <span className="flex items-center gap-1">
+                <IconClock className="size-4" />
+                {cfg.blog.post.readingTime(post.readingTime)}
+              </span>
+            </div>
+            <Prose html={post.content} />
+            <BlogComments postSlug={slug} initialComments={comments} />
           </div>
-          <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-            <span className="flex items-center gap-1">
-              <IconUser className="size-4" />
-              {cfg.blog.post.by(post.author)}
-            </span>
-            <span className="flex items-center gap-1">
-              <IconCalendar className="size-4" />
-              {cfg.blog.post.publishedAt(post.publishedAt)}
-            </span>
-            <span className="flex items-center gap-1">
-              <IconClock className="size-4" />
-              {cfg.blog.post.readingTime(post.readingTime)}
-            </span>
-          </div>
-          <Prose html={post.content} />
         </div>
-        <BlogComments postSlug={slug} initialComments={comments} />
       </article>
     </>
   );

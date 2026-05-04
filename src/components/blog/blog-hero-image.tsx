@@ -22,7 +22,7 @@ export function BlogHeroImage({ src, alt, priority }: BlogHeroImageProps) {
       fill
       className="object-cover"
       priority={priority}
-      sizes="(max-width: 1024px) 100vw, 896px"
+      sizes="(min-width: 1024px) 384px, (min-width: 768px) 320px, 100vw"
       onError={() => {
         if (!fallbackUsed) {
           setFallbackUsed(true);
