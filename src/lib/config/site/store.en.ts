@@ -67,6 +67,9 @@ Would you like more information or proceed with your order? Write to us and we'l
 Best regards,
 *${brand.name}*`,
     starAriaLabel: (star: number) => `${star} stars`,
+    attachmentsLabel: "Attachments",
+    inventorySummary: (total: number, locations: number) =>
+      `${total} units in ${locations} ${locations === 1 ? "location" : "locations"}`,
   },
   reviews: {
     title: (count: number) => `Reviews (${count})`,

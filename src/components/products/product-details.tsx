@@ -200,14 +200,14 @@ export function ProductDetails({
       </div>
 
       <div className="grid gap-8 md:grid-cols-2 mt-8">
-        <div className="space-y-6">
-          <div className="rounded-lg bg-muted overflow-hidden relative">
+          <div className="space-y-4">
+          <div className="overflow-hidden relative">
             {product.images && product.images.length > 1 ? (
               <Carousel className="w-full" setApi={handleCarouselApi}>
                 <CarouselContent>
                   {product.images.map((img, idx) => (
                     <CarouselItem key={idx}>
-                      <div className="relative h-80 md:h-96">
+                      <div className="relative aspect-square">
                         <Image
                           src={fallbackUsed ? FALLBACK_IMAGE : img}
                           alt={product.name + " " + (idx + 1)}
@@ -233,7 +233,7 @@ export function ProductDetails({
                 </div>
               </Carousel>
             ) : (
-              <div className="relative h-80 md:h-96">
+              <div className="relative aspect-square">
                 <Image
                   src={
                     fallbackUsed
@@ -253,9 +253,30 @@ export function ProductDetails({
               </div>
             )}
           </div>
-          {product.attachments && product.attachments.length > 0 && (
-            <BlogAttachments attachments={product.attachments} />
-          )}
+          <div className="flex flex-wrap gap-2">
+            <Button
+              onClick={handlePedir}
+              className="gap-2"
+              aria-label={`${cfg.store.product.orderWhatsApp} ${product.name}`}
+            >
+              <IconBrandWhatsapp className="size-5" />
+              {cfg.store.product.orderWhatsApp}
+            </Button>
+            {(product.type === "service" || product.appointment) && (
+              <Button
+                variant="outline"
+                className="gap-2"
+                onClick={() =>
+                  (window.location.href = `/${lang}/schedule?producto=${product.slug}`)
+                }
+              >
+                <IconCalendar className="size-5" />
+                {product.type === "service"
+                  ? cfg.store.product.agendaService
+                  : cfg.store.product.separateProduct}
+              </Button>
+            )}
+          </div>
         </div>
 
         <div className="flex flex-col gap-4">
@@ -291,10 +312,16 @@ export function ProductDetails({
             </span>
           </div>
 
+          {product.longDescription && (
+            <p className="text-muted-foreground mt-2">
+              {product.longDescription}
+            </p>
+          )}
+
           {inventory.length > 0 && (
-            <div className="flex flex-col gap-2 mt-2">
+            <div className="flex flex-col gap-3 mt-2">
               <div className="flex items-center gap-2">
-                <IconMapPin className="size-4 text-muted-foreground" />
+                <IconMapPin className="size-4 text-muted-foreground shrink-0" />
                 <span className="text-sm text-muted-foreground">
                   {cfg.store.product.availabilityLabel}
                 </span>
@@ -305,47 +332,57 @@ export function ProductDetails({
                     ? cfg.store.product.inStock
                     : cfg.store.product.lowStock}
                 </Badge>
+                <span className="text-xs text-muted-foreground ml-auto">
+                  {cfg.store.product.inventorySummary(
+                    totalInventory,
+                    inventory.length,
+                  )}
+                </span>
               </div>
-              <div className="flex flex-wrap gap-2">
-                {inventory.map((loc, i) => (
-                  <Badge key={i} variant="outline" className="text-xs">
-                    {loc.location}: {loc.available}
-                  </Badge>
-                ))}
+              <div className="grid gap-2">
+                {inventory.map((loc, i) => {
+                  const pct =
+                    loc.quantity > 0
+                      ? Math.round((loc.available / loc.quantity) * 100)
+                      : 0;
+                  const isLow = loc.available <= 5;
+                  return (
+                    <div
+                      key={i}
+                      className="flex items-center justify-between rounded-lg border px-3 py-2.5"
+                    >
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span
+                          className={`size-2 shrink-0 rounded-full ${isLow ? "bg-red-500" : "bg-green-500"}`}
+                        />
+                        <span className="text-sm font-medium truncate">
+                          {loc.location}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-3 shrink-0">
+                        <span className="text-sm tabular-nums whitespace-nowrap">
+                          <span className="font-semibold">{loc.available}</span>
+                          <span className="text-muted-foreground">
+                            /{loc.quantity}
+                          </span>
+                        </span>
+                        <div className="w-16 h-1.5 rounded-full bg-muted overflow-hidden">
+                          <div
+                            className={`h-full rounded-full transition-all ${isLow ? "bg-red-500" : "bg-green-500"}`}
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
 
-          {product.longDescription && (
-            <p className="text-muted-foreground mt-2">
-              {product.longDescription}
-            </p>
+          {product.attachments && product.attachments.length > 0 && (
+            <BlogAttachments title={cfg.store.product.attachmentsLabel} attachments={product.attachments} />
           )}
-
-          <div className="flex flex-wrap gap-2 mt-4">
-            <Button
-              onClick={handlePedir}
-              className="gap-2"
-              aria-label={`${cfg.store.product.orderWhatsApp} ${product.name}`}
-            >
-              <IconBrandWhatsapp className="size-5" />
-              {cfg.store.product.orderWhatsApp}
-            </Button>
-            {(product.type === "service" || product.appointment) && (
-              <Button
-                variant="outline"
-                className="gap-2"
-                onClick={() =>
-                  (window.location.href = `/${lang}/schedule?producto=${product.slug}`)
-                }
-              >
-                <IconCalendar className="size-5" />
-                {product.type === "service"
-                  ? cfg.store.product.agendaService
-                  : cfg.store.product.separateProduct}
-              </Button>
-            )}
-          </div>
         </div>
       </div>
 

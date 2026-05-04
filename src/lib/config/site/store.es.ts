@@ -67,6 +67,9 @@ Recibimos tu consulta sobre:
 ¡Saludos,
 *${brand.name}*`,
     starAriaLabel: (star: number) => `${star} estrellas`,
+    attachmentsLabel: "Adjuntos",
+    inventorySummary: (total: number, locations: number) =>
+      `${total} uds. en ${locations} ${locations === 1 ? "ubicación" : "ubicaciones"}`,
   },
   reviews: {
     title: (count: number) => `Reseñas (${count})`,
