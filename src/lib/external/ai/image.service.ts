@@ -32,11 +32,20 @@ async function optimizeImage(buffer: Uint8Array): Promise<Uint8Array> {
   return buffer;
 }
 
+const ALLOWED_MEDIA_HOSTNAMES = [
+  "api.ycloud.com",
+  "media.ycloud.com",
+  "wa.ycloud.com",
+];
+
 async function downloadMedia(link: string): Promise<Uint8Array | null> {
   try {
     const url = new URL(link);
-    if (!url.hostname.endsWith(".ycloud.com") && url.hostname !== "ycloud.com")
-      return null;
+    const hostname = url.hostname.toLowerCase();
+    const allowed = ALLOWED_MEDIA_HOSTNAMES.some(
+      (h) => hostname === h || hostname.endsWith("." + h),
+    );
+    if (!allowed) return null;
   } catch {
     return null;
   }

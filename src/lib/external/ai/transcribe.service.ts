@@ -9,10 +9,13 @@ export async function transcribeAudio(
 
   try {
     const url = new URL(audioLink);
-    if (
-      !url.hostname.endsWith(".ycloud.com") && url.hostname !== "ycloud.com"
-    )
-      return null;
+    const hostname = url.hostname.toLowerCase();
+    const allowed = [
+      "api.ycloud.com",
+      "media.ycloud.com",
+      "wa.ycloud.com",
+    ].some((h) => hostname === h || hostname.endsWith("." + h));
+    if (!allowed) return null;
     const audioRes = await fetch(audioLink, {
       headers: { Authorization: `Bearer ${getYcloudApiKey()}` },
     });
