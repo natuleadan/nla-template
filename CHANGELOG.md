@@ -1,3 +1,9 @@
+## [2.0.1](https://github.com/natuleadan/nla-template/compare/v2.0.0...v2.0.1) (2026-05-04)
+
+### Bug Fixes
+
+* **security:** remove unused variable and import codeql alerts ([5abe5e2](https://github.com/natuleadan/nla-template/commit/5abe5e21704cbc363a0cea6c7d3fefca683306d1))
+
 ## [2.0.0](https://github.com/natuleadan/nla-template/compare/v1.5.0...v2.0.0) (2026-05-04)
 
 ### ⚠ BREAKING CHANGES
