@@ -25,7 +25,7 @@ export default async function OpenGraphImage({ params }: RouteParams) {
   let pageDesc = "";
 
   try {
-    const page = await getPagina(slug);
+    const page = await getPagina(slug, lang);
     if (page) {
       pageName = page.title || cfg.paginas.og.fallbackTitle;
       pageDesc = page.excerpt || "";

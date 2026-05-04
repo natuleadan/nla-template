@@ -25,7 +25,7 @@ export async function generateMetadata({
       url: `${baseUrl}/${lang}`,
       images: [
         {
-          url: `${baseUrl}/opengraph-image`,
+          url: `${baseUrl}/${lang}/opengraph-image`,
           width: 1200,
           height: 630,
           alt: brand.name,
@@ -37,7 +37,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       images: [
         {
-          url: `${baseUrl}/twitter-image`,
+          url: `${baseUrl}/${lang}/twitter-image`,
           width: 1200,
           height: 600,
           alt: brand.name,

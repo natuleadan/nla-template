@@ -25,7 +25,7 @@ export default async function ProductOpenGraphImage({
   let productDesc = "";
 
   try {
-    const product = await getProduct(slug);
+    const product = await getProduct(slug, lang);
     if (product) {
       productName = product.name || "Product";
       productDesc = product.description || "";

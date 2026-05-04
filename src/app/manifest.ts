@@ -1,8 +1,10 @@
 import type { MetadataRoute } from "next";
 import { getConfig } from "@/lib/locale/config";
+import { detectLocale } from "@/lib/locale/detect";
 
-export default function manifest(): MetadataRoute.Manifest {
-  const cfg = getConfig("en");
+export default async function manifest(): Promise<MetadataRoute.Manifest> {
+  const lang = await detectLocale();
+  const cfg = getConfig(lang);
   return {
     name: cfg.brand.name,
     short_name: cfg.brand.name,

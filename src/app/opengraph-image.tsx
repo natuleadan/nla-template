@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { getConfig } from "@/lib/locale/config";
+import { detectLocale } from "@/lib/locale/detect";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
@@ -13,7 +14,8 @@ export const contentType = "image/png";
 export const dynamic = "force-dynamic";
 
 export default async function OpenGraphImage() {
-  const cfg = getConfig("en");
+  const lang = await detectLocale();
+  const cfg = getConfig(lang);
   const [bgData, logoData] = await Promise.all([
     readFile(join(process.cwd(), "public/design/fondo.svg")),
     readFile(join(process.cwd(), "public/design/logo.svg")),

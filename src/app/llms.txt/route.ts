@@ -1,5 +1,6 @@
 import { getBaseUrl, isDev } from "@/lib/env";
 import { getConfig } from "@/lib/locale/config";
+import { detectLocale } from "@/lib/locale/detect";
 import { getAllProducts } from "@/lib/modules/products";
 
 const LOCALES = ["es", "en"];
@@ -11,7 +12,8 @@ export async function GET() {
       ? rawBaseUrl.slice(0, -1)
       : rawBaseUrl;
 
-    const cfg = getConfig("en");
+    const lang = await detectLocale();
+    const cfg = getConfig(lang);
     const lines: string[] = [];
 
     lines.push(`# ${cfg.brand.name}`);

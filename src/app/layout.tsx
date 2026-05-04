@@ -21,12 +21,11 @@ const fontSans = Roboto({
 export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = getBaseUrl();
   const indexing = getIndexingEnabled();
-  const cfg = getConfig("en");
 
   return {
     metadataBase: new URL(baseUrl),
-    title: cfg.brand.name,
-    description: cfg.brand.description,
+    title: getConfig("es").brand.name,
+    description: getConfig("es").brand.description,
     icons: { icon: "/icon", apple: "/apple-icon" },
     robots: { index: indexing, follow: indexing },
   };
@@ -35,9 +34,9 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const cfg = getConfig("en");
+  const cfg = getConfig("es");
   return (
-    <html lang="en" suppressHydrationWarning className={fontSans.variable}>
+    <html lang="es" suppressHydrationWarning className={fontSans.variable}>
       <head>
         <BrandColorScript />
       </head>

@@ -25,7 +25,7 @@ export default async function TwitterImage({ params }: RouteParams) {
   let postDesc = "";
 
   try {
-    const post = await getPost(slug);
+    const post = await getPost(slug, lang);
     if (post) {
       postTitle = post.title || cfg.blog.og.fallbackTitle;
       postDesc = post.excerpt || "";

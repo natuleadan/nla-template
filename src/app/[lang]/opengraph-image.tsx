@@ -1,20 +1,23 @@
 import { ImageResponse } from "next/og";
 import { getConfig } from "@/lib/locale/config";
-import { detectLocale } from "@/lib/locale/detect";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
 export const size = {
   width: 1200,
-  height: 600,
+  height: 630,
 };
 
 export const contentType = "image/png";
 
 export const dynamic = "force-dynamic";
 
-export default async function TwitterImage() {
-  const lang = await detectLocale();
+export default async function OpenGraphImage({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
+  const { lang } = await params;
   const cfg = getConfig(lang);
   const [bgData, logoData] = await Promise.all([
     readFile(join(process.cwd(), "public/design/fondo.svg")),
@@ -42,7 +45,7 @@ export default async function TwitterImage() {
         src={bgUrl}
         alt={cfg.ui.og.backgroundAlt}
         width={1200}
-        height={600}
+        height={630}
         style={{
           position: "absolute",
           top: 0,

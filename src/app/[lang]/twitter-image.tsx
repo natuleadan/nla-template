@@ -1,6 +1,5 @@
 import { ImageResponse } from "next/og";
 import { getConfig } from "@/lib/locale/config";
-import { detectLocale } from "@/lib/locale/detect";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
@@ -13,8 +12,12 @@ export const contentType = "image/png";
 
 export const dynamic = "force-dynamic";
 
-export default async function TwitterImage() {
-  const lang = await detectLocale();
+export default async function TwitterImage({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
+  const { lang } = await params;
   const cfg = getConfig(lang);
   const [bgData, logoData] = await Promise.all([
     readFile(join(process.cwd(), "public/design/fondo.svg")),

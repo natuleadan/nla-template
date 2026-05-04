@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { getBaseUrl } from "@/lib/env";
 import { getConfig } from "@/lib/locale/config";
+import { detectLocale } from "@/lib/locale/detect";
 
 export const size = {
   width: 180,
@@ -10,7 +11,8 @@ export const contentType = "image/png";
 export const dynamic = "force-dynamic";
 
 export default async function AppleIcon() {
-  const cfg = getConfig("en");
+  const lang = await detectLocale();
+  const cfg = getConfig(lang);
   const logoUrl = `${getBaseUrl()}/design/logo.svg`;
 
   return new ImageResponse(
