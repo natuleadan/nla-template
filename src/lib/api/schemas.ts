@@ -8,13 +8,13 @@ export const MediaItemSchema = z.object({
 
 export const ChatBodySchema = z
   .object({
-    message: z.string().optional(),
-    phone: z.string().optional(),
-    media: z.string().optional(),
-    mediaUrl: z.string().optional(),
-    mediaCaption: z.string().optional(),
-    customerName: z.string().optional(),
-    mediaItems: z.array(MediaItemSchema).optional(),
+    message: z.string().max(4000).optional(),
+    phone: z.string().max(20).optional(),
+    media: z.string().max(50).optional(),
+    mediaUrl: z.string().max(2000).optional(),
+    mediaCaption: z.string().max(500).optional(),
+    customerName: z.string().max(100).optional(),
+    mediaItems: z.array(MediaItemSchema).max(10).optional(),
   })
   .refine(
     (d) => d.message || d.media || (d.mediaItems && d.mediaItems.length > 0),
@@ -24,10 +24,10 @@ export const ChatBodySchema = z
   );
 
 export const WhatsAppSendBodySchema = z.object({
-  to: z.string().min(1, "Destinatario requerido"),
-  message: z.string().min(1, "Mensaje requerido"),
-  productId: z.string().optional(),
-  productName: z.string().optional(),
+  to: z.string().min(1).max(20, "Destinatario muy largo"),
+  message: z.string().min(1).max(4000, "Mensaje muy largo"),
+  productId: z.string().max(100).optional(),
+  productName: z.string().max(200).optional(),
 });
 
 const MediaMsgSchema = z

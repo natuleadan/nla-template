@@ -54,6 +54,23 @@ export const globalPerHour = new RateLimiter({
   windowMs: 3_600_000,
 });
 
+export const catalogRateLimit = new RateLimiter({
+  maxRequests: 120,
+  windowMs: 60_000,
+});
+export const categoryRateLimit = new RateLimiter({
+  maxRequests: 60,
+  windowMs: 60_000,
+});
+export const reviewRateLimit = new RateLimiter({
+  maxRequests: 30,
+  windowMs: 60_000,
+});
+export const agendaRateLimit = new RateLimiter({
+  maxRequests: 20,
+  windowMs: 60_000,
+});
+
 export function getClientIp(request: Request): string {
   const forwarded = request.headers.get("x-forwarded-for");
   if (forwarded) {

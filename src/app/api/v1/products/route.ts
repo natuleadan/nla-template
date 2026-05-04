@@ -1,8 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createHash } from "node:crypto";
 import { getAllProducts, getProducts } from "@/lib/modules/products";
 import { getConfig } from "@/lib/locale/config";
+import { catalogRateLimit, getClientIp } from "@/lib/rate-limit";
 
 export async function GET(request: NextRequest) {
+  const ip = createHash("sha256").update(getClientIp(request)).digest("hex").slice(0, 16);
+  const { allowed } = catalogRateLimit.check(ip);
+  if (!allowed) {
+    return NextResponse.json({ error: "Demasiadas solicitudes. Intenta de nuevo en un minuto." }, { status: 429 });
+  }
+
   try {
     const searchParams = request.nextUrl.searchParams;
     const page = parseInt(searchParams.get("page") || "1", 10);

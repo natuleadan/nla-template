@@ -1,12 +1,19 @@
+import { createHash } from "node:crypto";
 import { NextResponse } from "next/server";
 import { getApprovedReviews } from "@/lib/modules/reviews";
 import { badRequest } from "@/lib/env";
 import { getConfig } from "@/lib/locale/config";
+import { reviewRateLimit, getClientIp } from "@/lib/rate-limit";
 
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ productSlug: string }> },
 ) {
+  const ip = createHash("sha256").update(getClientIp(request)).digest("hex").slice(0, 16);
+  const { allowed } = reviewRateLimit.check(ip);
+  if (!allowed) {
+    return NextResponse.json({ error: "Demasiadas solicitudes. Intenta de nuevo en un minuto." }, { status: 429 });
+  }
   try {
     const { productSlug } = await params;
     const url = new URL(request.url);
