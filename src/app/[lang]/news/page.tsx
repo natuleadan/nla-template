@@ -1,32 +1,32 @@
 import { Suspense } from "react";
 import { cacheLife } from "next/cache";
 import type { Metadata } from "next";
-import { TiendaToolbar } from "@/components/products/tienda-toolbar";
+import { BlogToolbar } from "@/components/blog/blog-toolbar";
 import { PageHeader } from "@/components/layout/page-header";
-import { ProductCardSkeleton } from "@/components/products/product-card-skeleton";
+import { PostCardSkeleton } from "@/components/blog/post-card-skeleton";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Empty } from "@/components/ui/empty";
-import { getAllProducts, getProducts } from "@/lib/modules/products";
-import { getProductCategories } from "@/lib/modules/categories";
+import { getAllPosts, getPosts } from "@/lib/modules/blog";
+import { getBlogCategories } from "@/lib/modules/categories";
 import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
 import { getConfig, getLocaleFromLang } from "@/lib/locale/config";
 import { getAlternateLanguages } from "@/lib/locale/seo";
-import { JsonLdProductList } from "@/components/metadata/product-list-jsonld";
 import { JsonLdBreadcrumb } from "@/components/metadata/breadcrumb-jsonld";
+import { JsonLdBlogList } from "@/components/metadata/blog-list-jsonld";
 
 async function getInitialData(locale: string) {
   "use cache";
   cacheLife("hours");
-  const [allProductsResult, categories] = await Promise.all([
-    getAllProducts(locale),
-    getProductCategories(locale),
+  const [allPosts, categories] = await Promise.all([
+    getAllPosts(locale),
+    getBlogCategories(locale),
   ]);
-  const initial = await getProducts(1, 3, locale);
+  const initial = await getPosts(1, 6, locale);
   return {
-    products: allProductsResult,
+    posts: allPosts,
     categories,
-    initialProducts: initial.products,
+    initialPosts: initial.posts,
     total: initial.total,
     hasMore: initial.hasMore,
   };
@@ -38,15 +38,15 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
   const { lang } = await params;
-  const { products } = await getInitialData(lang);
+  const { posts } = await getInitialData(lang);
   const cfg = getConfig(lang);
   const baseUrl = getBaseUrl();
-  const title = cfg.store.page.metaTitle(products.length);
-  const description = cfg.store.page.metaDescription(products.length);
-  const url = `${baseUrl}/${lang}/tienda`;
+  const title = cfg.blog.page.metaTitle(posts.length);
+  const description = cfg.blog.page.metaDescription(posts.length);
+  const url = `${baseUrl}/${lang}/news`;
 
   return {
-    alternates: getAlternateLanguages(lang, "/tienda", baseUrl),
+    alternates: getAlternateLanguages(lang, "/news", baseUrl),
     title,
     description,
     openGraph: {
@@ -57,7 +57,7 @@ export async function generateMetadata({
       url,
       images: [
         {
-          url: `${baseUrl}/${lang}/tienda/opengraph-image`,
+          url: `${baseUrl}/${lang}/news/opengraph-image`,
           width: 1200,
           height: 630,
           alt: title,
@@ -71,7 +71,7 @@ export async function generateMetadata({
       description,
       images: [
         {
-          url: `${baseUrl}/${lang}/tienda/twitter-image`,
+          url: `${baseUrl}/${lang}/news/twitter-image`,
           width: 1200,
           height: 600,
           alt: title,
@@ -82,20 +82,20 @@ export async function generateMetadata({
   };
 }
 
-export default async function TiendaPage({
+export default async function BlogPage({
   params,
 }: {
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params;
   const cfg = getConfig(lang);
-  const { categories, initialProducts, total, hasMore, products } =
+  const { categories, initialPosts, total, hasMore, posts } =
     await getInitialData(lang);
   const baseUrl = getBaseUrl();
 
-  const jsonLdProducts = products.map((p) => ({
-    name: p.name,
-    url: `${baseUrl}/${lang}/tienda/${p.slug}`,
+  const jsonLdPosts = posts.map((p) => ({
+    title: p.title,
+    url: `${baseUrl}/${lang}/news/${p.slug}`,
     image: p.image ? `${baseUrl}${p.image}` : undefined,
   }));
 
@@ -104,18 +104,18 @@ export default async function TiendaPage({
       <JsonLdBreadcrumb
         levels={[
           { name: cfg.nav.items[0].label, item: `${baseUrl}/${lang}` },
-          { name: cfg.store.page.title, item: `${baseUrl}/${lang}/tienda` },
+          { name: cfg.blog.page.title, item: `${baseUrl}/${lang}/news` },
         ]}
       />
-      <JsonLdProductList
-        name={cfg.store.page.title}
+      <JsonLdBlogList
+        name={cfg.blog.page.title}
         total={total}
-        products={jsonLdProducts}
+        posts={jsonLdPosts}
       />
       <div className="px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full py-8">
         <PageHeader
-          title={cfg.store.page.title}
-          description={cfg.store.page.description}
+          title={cfg.blog.page.title}
+          description={cfg.blog.page.description}
         />
         <Suspense
           fallback={
@@ -124,24 +124,24 @@ export default async function TiendaPage({
                 <Skeleton className="h-10 sm:max-w-xs flex-1" />
                 <Skeleton className="h-10 sm:max-w-xs ml-auto w-full sm:w-auto" />
               </div>
-              <div className="grid gap-4 grid-cols-1 xs:grid-cols-2 lg:grid-cols-4">
-                {Array.from({ length: 4 }).map((_, i) => (
-                  <ProductCardSkeleton key={i} />
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <PostCardSkeleton key={i} />
                 ))}
               </div>
             </div>
           }
         >
           {total > 0 ? (
-            <TiendaToolbar
-              initialProducts={initialProducts}
+            <BlogToolbar
+              initialPosts={initialPosts}
               total={total}
               initialHasMore={hasMore}
               categories={categories}
             />
           ) : (
             <Empty className="py-12">
-              <p className="text-muted-foreground">{cfg.store.page.empty}</p>
+              <p className="text-muted-foreground">{cfg.blog.page.empty}</p>
             </Empty>
           )}
         </Suspense>

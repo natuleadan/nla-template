@@ -60,7 +60,7 @@ async function loadItems(type: DropdownType, lang = "es"): Promise<NavLink[]> {
       return shuffleArray(products)
         .slice(0, 5)
         .map((p) => ({
-          href: `/${lang}/tienda/${p.slug}`,
+          href: `/${lang}/store/${p.slug}`,
           label: p.name,
         }));
     }
@@ -74,21 +74,21 @@ async function loadItems(type: DropdownType, lang = "es"): Promise<NavLink[]> {
         )
         .slice(0, 5)
         .map((post) => ({
-          href: `/${lang}/blog/${post.slug}`,
+          href: `/${lang}/news/${post.slug}`,
           label: post.title,
         }));
     }
     case "agenda": {
       const days = await getWeekDays(lang);
       return getUpcomingSlots(days, 5, lang).map((s) => ({
-        href: `/${lang}/agenda?dia=${encodeURIComponent(s.dayName)}&hora=${encodeURIComponent(s.time)}&tipo=${encodeURIComponent(s.type)}`,
+        href: `/${lang}/schedule?dia=${encodeURIComponent(s.dayName)}&hora=${encodeURIComponent(s.time)}&tipo=${encodeURIComponent(s.type)}`,
         label: `${s.dayName} ${s.dayNumber} ${s.time} ${s.type}`,
       }));
     }
     case "pages": {
       const pages = await getAllPaginas(lang);
       return pages.slice(0, 5).map((page) => ({
-        href: `/${lang}/paginas/${page.slug}`,
+        href: `/${lang}/pages/${page.slug}`,
         label: page.title,
       }));
     }

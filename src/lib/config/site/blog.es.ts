@@ -48,7 +48,7 @@ export const blog = {
 
 Hemos recibido tu participaci\u00f3n en nuestro blog:
 
-• *Art\u00edculo:* ${baseUrl}/blog/${postSlug}
+• *Art\u00edculo:* ${baseUrl}/news/${postSlug}
 • *Comentario:* "${comment}"
 
 Tu comentario ser\u00e1 revisado y publicado pronto. ¡Gracias por formar parte de nuestra comunidad!

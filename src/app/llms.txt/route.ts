@@ -36,22 +36,22 @@ export async function GET() {
 
       lines.push(`### Static Pages`);
       lines.push(`- [Home / Inicio](${baseUrl}/${locale}/)`);
-      lines.push(`- [Store / Tienda](${baseUrl}/${locale}/tienda)`);
-      lines.push(`- [Blog](${baseUrl}/${locale}/blog)`);
-      lines.push(`- [Agenda](${baseUrl}/${locale}/agenda)`);
-      lines.push(`- [Pages / Páginas](${baseUrl}/${locale}/paginas)`);
-      lines.push(`- [Contact / Contacto](${baseUrl}/${locale}/contacto)`);
+      lines.push(`- [Store / Tienda](${baseUrl}/${locale}/store)`);
+      lines.push(`- [Blog](${baseUrl}/${locale}/news)`);
+      lines.push(`- [Agenda](${baseUrl}/${locale}/schedule)`);
+      lines.push(`- [Pages / Páginas](${baseUrl}/${locale}/pages)`);
+      lines.push(`- [Contact / Contacto](${baseUrl}/${locale}/contact)`);
       lines.push(
-        `- [Privacy / Privacidad](${baseUrl}/${locale}/paginas/privacidad)`,
+        `- [Privacy / Privacidad](${baseUrl}/${locale}/pages/privacidad)`,
       );
-      lines.push(`- [Terms / Términos](${baseUrl}/${locale}/paginas/terminos)`);
+      lines.push(`- [Terms / Términos](${baseUrl}/${locale}/pages/terminos)`);
       lines.push(`- [Data / Datos](${baseUrl}/${locale}/datos)`);
       lines.push(``);
 
       lines.push(`### Products`);
       for (const product of products) {
         lines.push(
-          `- [${product.name}](${baseUrl}/${locale}/tienda/${product.slug})`,
+          `- [${product.name}](${baseUrl}/${locale}/store/${product.slug})`,
         );
       }
       lines.push(``);

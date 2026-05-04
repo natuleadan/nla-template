@@ -60,7 +60,7 @@ export function ProductCard({
       </CardHeader>
       <CardContent className="flex-1 p-0 relative aspect-[3/4] lg:aspect-square">
         <Link
-          href={`/${lang}/tienda/${slug}`}
+          href={`/${lang}/store/${slug}`}
           className="block absolute inset-0"
         >
           <Image
@@ -109,7 +109,7 @@ export function ProductCard({
             <IconBrandWhatsapp className="size-4" />
             {cfg.store.product.pedir}
           </Button>
-          <Link href={`/${lang}/tienda/${slug}`} className="flex-1">
+          <Link href={`/${lang}/store/${slug}`} className="flex-1">
             <Button
               variant="outline"
               className="gap-1 w-full"

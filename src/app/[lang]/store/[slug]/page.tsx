@@ -24,7 +24,7 @@ export async function generateMetadata({
     for (const locale of SUPPORTED_LOCALES) {
       const altSlug =
         locale === lang ? slug : await getProductSlugById(product.id, locale);
-      if (altSlug) alternatePaths[locale] = `/tienda/${altSlug}`;
+      if (altSlug) alternatePaths[locale] = `/store/${altSlug}`;
     }
 
     const title = `${product.name} | ${brand.name}`;
@@ -39,11 +39,11 @@ export async function generateMetadata({
         title,
         description,
         siteName: brand.name,
-        type: "product" as any,
-        url: `${baseUrl}/${lang}/tienda/${slug}`,
+        type: "website",
+        url: `${baseUrl}/${lang}/store/${slug}`,
         images: [
           {
-            url: `${baseUrl}/${lang}/tienda/${slug}/opengraph-image`,
+            url: `${baseUrl}/${lang}/store/${slug}/opengraph-image`,
             width: 1200,
             height: 630,
             alt: product.name,
@@ -51,20 +51,23 @@ export async function generateMetadata({
         ],
         locale: getLocaleFromLang(lang),
       },
+      other: {
+        "og:logo": `${baseUrl}/design/logo.svg`,
+        "og:type": "product",
+      },
       twitter: {
         card: "summary_large_image",
         title,
         description,
         images: [
           {
-            url: `${baseUrl}/${lang}/tienda/${slug}/twitter-image`,
+            url: `${baseUrl}/${lang}/store/${slug}/twitter-image`,
             width: 1200,
             height: 600,
             alt: product.name,
           },
         ],
       },
-      other: { "og:logo": `${baseUrl}/design/logo.svg` },
     };
   } catch {
     return { title: getConfig(lang).ui.notFound.product };

@@ -42,7 +42,7 @@ export function Hero() {
               {cfg.home.hero.subtitle}
             </p>
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href={`/${lang}/tienda`}>
+              <Link href={`/${lang}/store`}>
                 <Button size="lg">
                   {cfg.home.hero.cta.primary}
                   <IconArrowRight
@@ -51,7 +51,7 @@ export function Hero() {
                   />
                 </Button>
               </Link>
-              <Link href={`/${lang}/contacto`}>
+              <Link href={`/${lang}/contact`}>
                 <Button size="lg" variant="outline">
                   {cfg.home.hero.cta.secondary}
                 </Button>
@@ -117,7 +117,7 @@ export function Hero() {
               {cfg.home.cta.description}
             </p>
             <div className="mt-8">
-              <Link href={`/${lang}/tienda`}>
+              <Link href={`/${lang}/store`}>
                 <Button size="lg">
                   {cfg.home.cta.button}
                   <IconArrowRight

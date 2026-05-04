@@ -1,11 +1,11 @@
 export const nav = {
   items: [
     { href: "/", label: "Inicio", icon: "home" },
-    { href: "/tienda", label: "Tienda", icon: "store", type: "products" },
-    { href: "/blog", label: "Blog", icon: "news", type: "posts" },
-    { href: "/agenda", label: "Agenda", icon: "calendar", type: "agenda" },
-    { href: "/paginas", label: "P\u00e1ginas", icon: "files", type: "pages" },
-    { href: "/contacto", label: "Contacto", icon: "mail" },
+    { href: "/store", label: "Tienda", icon: "store", type: "products" },
+    { href: "/news", label: "Blog", icon: "news", type: "posts" },
+    { href: "/schedule", label: "Agenda", icon: "calendar", type: "agenda" },
+    { href: "/pages", label: "P\u00e1ginas", icon: "files", type: "pages" },
+    { href: "/contact", label: "Contacto", icon: "mail" },
   ] as const,
   buttons: {
     whatsappDesktop: "Escríbenos",
@@ -15,26 +15,26 @@ export const nav = {
     columns: [
       {
         title: "Tienda",
-        links: [{ href: "/tienda", label: "Todos los productos" }],
+        links: [{ href: "/store", label: "Todos los productos" }],
       },
       {
         title: "Blog",
-        links: [{ href: "/blog", label: "Últimos artículos" }],
+        links: [{ href: "/news", label: "Últimos artículos" }],
       },
       {
         title: "Agenda",
-        links: [{ href: "/agenda", label: "Agendar cita" }],
+        links: [{ href: "/schedule", label: "Agendar cita" }],
       },
       {
         title: "Empresa",
-        links: [{ href: "/contacto", label: "Contacto" }],
+        links: [{ href: "/contact", label: "Contacto" }],
       },
       {
         title: "Legal",
         links: [
-          { href: "/paginas/terminos", label: "T\u00e9rminos" },
-          { href: "/paginas/privacidad", label: "Privacidad" },
-          { href: "/paginas/datos", label: "Datos" },
+          { href: "/pages/terminos", label: "T\u00e9rminos" },
+          { href: "/pages/privacidad", label: "Privacidad" },
+          { href: "/pages/datos", label: "Datos" },
         ],
       },
     ],

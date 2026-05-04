@@ -66,7 +66,7 @@ export function FooterDynamicCards() {
       {randomProducts.length > 0 && (
         <nav aria-label={tiendaCol.title}>
           <h3 className="mb-4 font-semibold">
-            <Link href={l("/tienda")} className="hover:underline">
+            <Link href={l("/store")} className="hover:underline">
               {tiendaCol.title}
             </Link>
           </h3>
@@ -74,7 +74,7 @@ export function FooterDynamicCards() {
             {randomProducts.map((p) => (
               <li key={p.slug}>
                 <Link
-                  href={l(`/tienda/${p.slug}`)}
+                  href={l(`/store/${p.slug}`)}
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors line-clamp-1"
                 >
                   {p.name}
@@ -88,7 +88,7 @@ export function FooterDynamicCards() {
       {recentPosts.length > 0 && (
         <nav aria-label={blogCol.title}>
           <h3 className="mb-4 font-semibold">
-            <Link href={l("/blog")} className="hover:underline">
+            <Link href={l("/news")} className="hover:underline">
               {blogCol.title}
             </Link>
           </h3>
@@ -96,7 +96,7 @@ export function FooterDynamicCards() {
             {recentPosts.map((post) => (
               <li key={post.slug}>
                 <Link
-                  href={l(`/blog/${post.slug}`)}
+                  href={l(`/news/${post.slug}`)}
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors line-clamp-1"
                 >
                   {post.title}
@@ -109,7 +109,7 @@ export function FooterDynamicCards() {
 
       <nav aria-label={agenda.page.title}>
         <h3 className="mb-4 font-semibold">
-          <Link href={l("/agenda")} className="hover:underline">
+          <Link href={l("/schedule")} className="hover:underline">
             {agendaState.title}
           </Link>
         </h3>
@@ -119,7 +119,7 @@ export function FooterDynamicCards() {
               <li key={i}>
                 <Link
                   href={l(
-                    `/agenda?dia=${encodeURIComponent(slot.dayName)}&hora=${encodeURIComponent(slot.time)}&tipo=${encodeURIComponent(slot.type)}`,
+                    `/schedule?dia=${encodeURIComponent(slot.dayName)}&hora=${encodeURIComponent(slot.time)}&tipo=${encodeURIComponent(slot.type)}`,
                   )}
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors line-clamp-1"
                 >
@@ -136,7 +136,7 @@ export function FooterDynamicCards() {
       {paginas.length > 0 && (
         <nav aria-label={pagesCol.title}>
           <h3 className="mb-4 font-semibold">
-            <Link href={l("/paginas")} className="hover:underline">
+            <Link href={l("/pages")} className="hover:underline">
               {pagesCol.title}
             </Link>
           </h3>
@@ -144,7 +144,7 @@ export function FooterDynamicCards() {
             {paginas.map((page) => (
               <li key={page.slug}>
                 <Link
-                  href={l(`/paginas/${page.slug}`)}
+                  href={l(`/pages/${page.slug}`)}
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors line-clamp-1"
                 >
                   {page.title}

@@ -24,7 +24,7 @@ export async function generateMetadata({
     for (const locale of SUPPORTED_LOCALES) {
       const altSlug =
         locale === lang ? slug : await getPostSlugById(post.id, locale);
-      if (altSlug) alternatePaths[locale] = `/blog/${altSlug}`;
+      if (altSlug) alternatePaths[locale] = `/news/${altSlug}`;
     }
 
     const title = `${post.title} | ${brand.name}`;
@@ -42,10 +42,10 @@ export async function generateMetadata({
         type: "article",
         publishedTime: post.publishedAt,
         authors: [post.author],
-        url: `${baseUrl}/${lang}/blog/${slug}`,
+        url: `${baseUrl}/${lang}/news/${slug}`,
         images: [
           {
-            url: `${baseUrl}/${lang}/blog/${slug}/opengraph-image`,
+            url: `${baseUrl}/${lang}/news/${slug}/opengraph-image`,
             width: 1200,
             height: 630,
             alt: post.title,
@@ -59,7 +59,7 @@ export async function generateMetadata({
         description,
         images: [
           {
-            url: `${baseUrl}/${lang}/blog/${slug}/twitter-image`,
+            url: `${baseUrl}/${lang}/news/${slug}/twitter-image`,
             width: 1200,
             height: 600,
             alt: post.title,

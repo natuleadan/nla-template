@@ -44,12 +44,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const staticPages = [
     { path: "", priority: 1, changeFreq: "daily" as const },
-    { path: "/tienda", priority: 0.9, changeFreq: "daily" as const },
-    { path: "/blog", priority: 0.9, changeFreq: "daily" as const },
-    { path: "/agenda", priority: 0.6, changeFreq: "weekly" as const },
-    { path: "/contacto", priority: 0.5, changeFreq: "monthly" as const },
-    { path: "/paginas/privacidad", priority: 0.3, changeFreq: "monthly" as const },
-    { path: "/paginas/terminos", priority: 0.3, changeFreq: "monthly" as const },
+    { path: "/store", priority: 0.9, changeFreq: "daily" as const },
+    { path: "/news", priority: 0.9, changeFreq: "daily" as const },
+    { path: "/schedule", priority: 0.6, changeFreq: "weekly" as const },
+    { path: "/contact", priority: 0.5, changeFreq: "monthly" as const },
+    { path: "/pages/privacidad", priority: 0.3, changeFreq: "monthly" as const },
+    { path: "/pages/terminos", priority: 0.3, changeFreq: "monthly" as const },
   ];
 
   for (const page of staticPages) {
@@ -65,13 +65,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const allProductsEs = await getAllProducts("es");
   for (const product of allProductsEs) {
     entries.push({
-      url: `${baseUrl}/es/tienda/${product.slug}`,
+      url: `${baseUrl}/es/store/${product.slug}`,
       lastModified: new Date(),
       changeFrequency: "weekly" as const,
       priority: 0.8,
       alternates: await alternatesForEntity(
         product.id,
-        "/tienda/",
+        "/store/",
         getProductSlugById,
         baseUrl,
       ),
@@ -81,13 +81,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const allPostsEs = await getAllPosts("es");
   for (const post of allPostsEs) {
     entries.push({
-      url: `${baseUrl}/es/blog/${post.slug}`,
+      url: `${baseUrl}/es/news/${post.slug}`,
       lastModified: new Date(post.publishedAt),
       changeFrequency: "monthly" as const,
       priority: 0.6,
       alternates: await alternatesForEntity(
         post.id,
-        "/blog/",
+        "/news/",
         getPostSlugById,
         baseUrl,
       ),
@@ -97,13 +97,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const allPaginasEs = await getAllPaginas("es");
   for (const page of allPaginasEs) {
     entries.push({
-      url: `${baseUrl}/es/paginas/${page.slug}`,
+      url: `${baseUrl}/es/pages/${page.slug}`,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
       priority: 0.4,
       alternates: await alternatesForEntity(
         page.id,
-        "/paginas/",
+        "/pages/",
         getPaginaSlugById,
         baseUrl,
       ),

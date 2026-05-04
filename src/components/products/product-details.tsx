@@ -181,7 +181,7 @@ export function ProductDetails({
             description={product.description}
             price={product.price}
           />
-          <Link href={`/${lang}/tienda`} className="ml-auto sm:ml-2">
+          <Link href={`/${lang}/store`} className="ml-auto sm:ml-2">
             <Button
               variant="outline"
               size="sm"
@@ -330,7 +330,7 @@ export function ProductDetails({
                 variant="outline"
                 className="gap-2"
                 onClick={() =>
-                  (window.location.href = `/${lang}/agenda?producto=${product.slug}`)
+                  (window.location.href = `/${lang}/schedule?producto=${product.slug}`)
                 }
               >
                 <IconCalendar className="size-5" />

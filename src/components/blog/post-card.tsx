@@ -58,7 +58,7 @@ export function PostCard({
   return (
     <Card className="flex flex-col h-full overflow-hidden gap-0">
       <Link
-        href={`/${lang}/blog/${slug}`}
+        href={`/${lang}/news/${slug}`}
         className="block relative aspect-video overflow-hidden"
       >
         <Image
@@ -80,7 +80,7 @@ export function PostCard({
           {catLabels[category] || category}
         </Badge>
         <CardTitle className="text-lg line-clamp-2">
-          <Link href={`/${lang}/blog/${slug}`} className="hover:underline">
+          <Link href={`/${lang}/news/${slug}`} className="hover:underline">
             {title}
           </Link>
         </CardTitle>
@@ -103,7 +103,7 @@ export function PostCard({
             {cfg.blog.post.readingTime(readingTime)}
           </span>
         </div>
-        <Link href={`/${lang}/blog/${slug}`} className="w-full">
+        <Link href={`/${lang}/news/${slug}`} className="w-full">
           <Button
             variant="outline"
             className="gap-2 w-full"

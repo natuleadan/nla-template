@@ -24,7 +24,7 @@ export async function generateMetadata({
   const baseUrl = getBaseUrl();
 
   return {
-    alternates: getAlternateLanguages(lang, "/contacto", baseUrl),
+    alternates: getAlternateLanguages(lang, "/contact", baseUrl),
     title: `${cfg.pages.contacto.title} | ${brand.name}`,
     description: cfg.pages.contacto.description,
     openGraph: {
@@ -32,10 +32,10 @@ export async function generateMetadata({
       description: cfg.pages.contacto.description,
       siteName: brand.name,
       type: "website",
-      url: `${baseUrl}/${lang}/contacto`,
+      url: `${baseUrl}/${lang}/contact`,
       images: [
         {
-          url: `${baseUrl}/${lang}/contacto/opengraph-image`,
+          url: `${baseUrl}/${lang}/contact/opengraph-image`,
           width: 1200,
           height: 630,
           alt: cfg.pages.contacto.title,
@@ -49,7 +49,7 @@ export async function generateMetadata({
       description: cfg.pages.contacto.description,
       images: [
         {
-          url: `${baseUrl}/${lang}/contacto/twitter-image`,
+          url: `${baseUrl}/${lang}/contact/twitter-image`,
           width: 1200,
           height: 600,
           alt: cfg.pages.contacto.title,
@@ -75,7 +75,7 @@ export default async function ContactoPage({
           { name: cfg.nav.items[0].label, item: `${getBaseUrl()}/${lang}` },
           {
             name: cfg.pages.contacto.title,
-            item: `${getBaseUrl()}/${lang}/contacto`,
+            item: `${getBaseUrl()}/${lang}/contact`,
           },
         ]}
       />

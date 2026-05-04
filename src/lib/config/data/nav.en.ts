@@ -1,11 +1,11 @@
 export const nav = {
   items: [
     { href: "/", label: "Home", icon: "home" },
-    { href: "/tienda", label: "Store", icon: "store", type: "products" },
-    { href: "/blog", label: "Blog", icon: "news", type: "posts" },
-    { href: "/agenda", label: "Schedule", icon: "calendar", type: "agenda" },
-    { href: "/paginas", label: "Pages", icon: "files", type: "pages" },
-    { href: "/contacto", label: "Contact", icon: "mail" },
+    { href: "/store", label: "Store", icon: "store", type: "products" },
+    { href: "/news", label: "Blog", icon: "news", type: "posts" },
+    { href: "/schedule", label: "Schedule", icon: "calendar", type: "agenda" },
+    { href: "/pages", label: "Pages", icon: "files", type: "pages" },
+    { href: "/contact", label: "Contact", icon: "mail" },
   ] as const,
   buttons: {
     whatsappDesktop: "Write us",
@@ -15,26 +15,26 @@ export const nav = {
     columns: [
       {
         title: "Store",
-        links: [{ href: "/tienda", label: "All products" }],
+        links: [{ href: "/store", label: "All products" }],
       },
       {
         title: "Blog",
-        links: [{ href: "/blog", label: "Latest articles" }],
+        links: [{ href: "/news", label: "Latest articles" }],
       },
       {
         title: "Schedule",
-        links: [{ href: "/agenda", label: "Book an appointment" }],
+        links: [{ href: "/schedule", label: "Book an appointment" }],
       },
       {
         title: "Company",
-        links: [{ href: "/contacto", label: "Contact" }],
+        links: [{ href: "/contact", label: "Contact" }],
       },
       {
         title: "Legal",
         links: [
-          { href: "/paginas/terminos", label: "Terms" },
-          { href: "/paginas/privacidad", label: "Privacy" },
-          { href: "/paginas/datos", label: "Data" },
+          { href: "/pages/terminos", label: "Terms" },
+          { href: "/pages/privacidad", label: "Privacy" },
+          { href: "/pages/datos", label: "Data" },
         ],
       },
     ],

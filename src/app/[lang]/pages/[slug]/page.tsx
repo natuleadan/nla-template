@@ -24,7 +24,7 @@ export async function generateMetadata({
     for (const locale of SUPPORTED_LOCALES) {
       const altSlug =
         locale === lang ? slug : await getPaginaSlugById(pageData.id, locale);
-      if (altSlug) alternatePaths[locale] = `/paginas/${altSlug}`;
+      if (altSlug) alternatePaths[locale] = `/pages/${altSlug}`;
     }
 
     const title = `${pageData.title} | ${brand.name}`;
@@ -40,11 +40,11 @@ export async function generateMetadata({
         description,
         siteName: brand.name,
         type: "website",
-        url: `${baseUrl}/${lang}/paginas/${slug}`,
+        url: `${baseUrl}/${lang}/pages/${slug}`,
         locale: getLocaleFromLang(lang),
         images: [
           {
-            url: `${baseUrl}/${lang}/paginas/${slug}/opengraph-image`,
+            url: `${baseUrl}/${lang}/pages/${slug}/opengraph-image`,
             width: 1200,
             height: 630,
             alt: title,
@@ -57,7 +57,7 @@ export async function generateMetadata({
         description,
         images: [
           {
-            url: `${baseUrl}/${lang}/paginas/${slug}/twitter-image`,
+            url: `${baseUrl}/${lang}/pages/${slug}/twitter-image`,
             width: 1200,
             height: 600,
             alt: title,

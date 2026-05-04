@@ -8,16 +8,16 @@ import { paginasData as pagesEn } from "@/lib/config/data/paginas.en";
 type SlugEntity = { id: string; slug: string };
 
 const datasets: Record<string, Record<string, SlugEntity[]>> = {
-  tienda: { es: productsEs, en: productsEn },
-  blog: { es: blogEs, en: blogEn },
-  paginas: { es: pagesEs, en: pagesEn },
+  store: { es: productsEs, en: productsEn },
+  news: { es: blogEs, en: blogEn },
+  pages: { es: pagesEs, en: pagesEn },
 };
 
 export function getLocalizedSlug(
   pathname: string,
   toLocale: string,
 ): string | null {
-  const match = pathname.match(/^\/(en|es)\/(tienda|blog|paginas)\/(.+)$/);
+  const match = pathname.match(/^\/(en|es)\/(store|news|pages)\/(.+)$/);
   if (!match) return null;
   const fromLocale = match[1];
   const mod = match[2];

@@ -15,7 +15,7 @@ export function PaginaCard({ page }: PaginaCardProps) {
   const cfg = getConfig(lang);
   return (
     <Link
-      href={`/${lang}/paginas/${page.slug}`}
+      href={`/${lang}/pages/${page.slug}`}
       className="block p-4 rounded-lg border hover:border-primary transition-colors"
     >
       <div className="space-y-2">

@@ -100,7 +100,7 @@ Recibimos tu consulta sobre:
 
 Hemos recibido tu valoración para el producto:
 
-• *Producto:* ${baseUrl}/tienda/${productSlug}
+• *Producto:* ${baseUrl}/store/${productSlug}
 • *Valoración:* ${"⭐".repeat(rating)} ${rating}/5
 • *Comentario:* "${comment}"
 

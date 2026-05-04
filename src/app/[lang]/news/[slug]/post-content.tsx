@@ -33,7 +33,7 @@ export async function PostContent({ params }: PostContentProps) {
   const cfg = getConfig(lang);
   const baseUrl = getBaseUrl();
 
-  const { data: post } = await resolveSlug(slug, lang, getPost, "/blog");
+  const { data: post } = await resolveSlug(slug, lang, getPost, "/news");
   const comments = await getComments(slug, lang);
   const catLabels = Object.fromEntries(
     (cfg.blogCategories || []).map((c: { slug: string; name: string }) => [
@@ -47,8 +47,8 @@ export async function PostContent({ params }: PostContentProps) {
       <JsonLdBreadcrumb
         levels={[
           { name: cfg.nav.items[0].label, item: `${baseUrl}/${lang}` },
-          { name: cfg.blog.page.title, item: `${baseUrl}/${lang}/blog` },
-          { name: post.title, item: `${baseUrl}/${lang}/blog/${slug}` },
+          { name: cfg.blog.page.title, item: `${baseUrl}/${lang}/news` },
+          { name: post.title, item: `${baseUrl}/${lang}/news/${slug}` },
         ]}
       />
       <JsonLdBlogPost
@@ -59,7 +59,7 @@ export async function PostContent({ params }: PostContentProps) {
             ? `${baseUrl}${post.image}`
             : `${baseUrl}/design/fallback.svg`
         }
-        url={`${baseUrl}/${lang}/blog/${slug}`}
+        url={`${baseUrl}/${lang}/news/${slug}`}
         author={post.author}
         publishedAt={post.publishedAt}
         dateModified={post.updatedAt}
@@ -67,19 +67,19 @@ export async function PostContent({ params }: PostContentProps) {
         locale={lang}
         breadcrumbs={[
           { name: cfg.nav.items[0].label, item: `${baseUrl}/${lang}` },
-          { name: cfg.blog.page.title, item: `${baseUrl}/${lang}/blog` },
-          { name: post.title, item: `${baseUrl}/${lang}/blog/${slug}` },
+          { name: cfg.blog.page.title, item: `${baseUrl}/${lang}/news` },
+          { name: post.title, item: `${baseUrl}/${lang}/news/${slug}` },
         ]}
       />
       <article className="px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full py-8">
         <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-8 gap-4">
           <div className="flex items-center gap-2 order-1 sm:order-2 w-full sm:w-auto shrink-0 sm:pt-1">
             <ShareDialog
-              url={`${baseUrl}/${lang}/blog/${slug}`}
+              url={`${baseUrl}/${lang}/news/${slug}`}
               title={post.title}
               description={post.excerpt}
             />
-            <Link href={`/${lang}/blog`} className="ml-auto sm:ml-2">
+            <Link href={`/${lang}/news`} className="ml-auto sm:ml-2">
               <Button variant="outline" size="sm" className="gap-2">
                 <IconArrowLeft className="size-4" />
                 {cfg.blog.post.back}

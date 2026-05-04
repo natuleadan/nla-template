@@ -28,7 +28,7 @@ export async function ProductoContent({ params }: ProductoContentProps) {
     slug,
     lang,
     getProduct,
-    "/tienda",
+    "/store",
   );
 
   const [reviews] = await Promise.all([getReviews(slug, lang)]);
@@ -46,8 +46,8 @@ export async function ProductoContent({ params }: ProductoContentProps) {
       <JsonLdBreadcrumb
         levels={[
           { name: cfg.nav.items[0].label, item: `${baseUrl}/${lang}` },
-          { name: cfg.store.page.title, item: `${baseUrl}/${lang}/tienda` },
-          { name: product.name, item: `${baseUrl}/${lang}/tienda/${slug}` },
+          { name: cfg.store.page.title, item: `${baseUrl}/${lang}/store` },
+          { name: product.name, item: `${baseUrl}/${lang}/store/${slug}` },
         ]}
       />
       <JsonLdProduct
@@ -58,7 +58,7 @@ export async function ProductoContent({ params }: ProductoContentProps) {
             ? `${baseUrl}${product.image}`
             : `${baseUrl}/design/fallback.svg`
         }
-        url={`${baseUrl}/${lang}/tienda/${slug}`}
+        url={`${baseUrl}/${lang}/store/${slug}`}
         price={product.price}
         inStock={inventory.length > 0}
         sku={product.id}
@@ -67,8 +67,8 @@ export async function ProductoContent({ params }: ProductoContentProps) {
         brandUrl={baseUrl}
         breadcrumbs={[
           { name: cfg.nav.items[0].label, item: `${baseUrl}/${lang}` },
-          { name: cfg.store.page.title, item: `${baseUrl}/${lang}/tienda` },
-          { name: product.name, item: `${baseUrl}/${lang}/tienda/${slug}` },
+          { name: cfg.store.page.title, item: `${baseUrl}/${lang}/store` },
+          { name: product.name, item: `${baseUrl}/${lang}/store/${slug}` },
         ]}
         ratingValue={4}
         reviewCount={reviews.length}

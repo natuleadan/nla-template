@@ -64,10 +64,10 @@ export async function generateMetadata({
   );
   const title = cfg.agenda.page.metaTitle(totalSlots);
   const description = cfg.agenda.page.metaDescription(totalSlots);
-  const url = `${baseUrl}/${lang}/agenda`;
+  const url = `${baseUrl}/${lang}/schedule`;
 
   return {
-    alternates: getAlternateLanguages(lang, "/agenda", baseUrl),
+    alternates: getAlternateLanguages(lang, "/schedule", baseUrl),
     title,
     description,
     openGraph: {
@@ -78,7 +78,7 @@ export async function generateMetadata({
       url,
       images: [
         {
-          url: `${baseUrl}/${lang}/agenda/opengraph-image`,
+          url: `${baseUrl}/${lang}/schedule/opengraph-image`,
           width: 1200,
           height: 630,
           alt: title,
@@ -92,7 +92,7 @@ export async function generateMetadata({
       description,
       images: [
         {
-          url: `${baseUrl}/${lang}/agenda/twitter-image`,
+          url: `${baseUrl}/${lang}/schedule/twitter-image`,
           width: 1200,
           height: 600,
           alt: title,
@@ -118,7 +118,7 @@ export default async function AgendaPage({
       <JsonLdBreadcrumb
         levels={[
           { name: cfg.nav.items[0].label, item: `${baseUrl}/${lang}` },
-          { name: cfg.agenda.page.title, item: `${baseUrl}/${lang}/agenda` },
+          { name: cfg.agenda.page.title, item: `${baseUrl}/${lang}/schedule` },
         ]}
       />
       <JsonLdAgendaList
