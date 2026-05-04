@@ -1,3 +1,9 @@
+## [2.0.2](https://github.com/natuleadan/nla-template/compare/v2.0.1...v2.0.2) (2026-05-04)
+
+### Bug Fixes
+
+* **security:** remove unused anonymizephone and isderived imports ([e90ed17](https://github.com/natuleadan/nla-template/commit/e90ed1774842b9cb05a2a18bd4e51e115840259f))
+
 ## [2.0.1](https://github.com/natuleadan/nla-template/compare/v2.0.0...v2.0.1) (2026-05-04)
 
 ### Bug Fixes
