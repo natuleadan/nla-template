@@ -1,5 +1,6 @@
 import Negotiator from "negotiator";
 import { NextResponse, type NextRequest } from "next/server";
+import { isDev } from "@/lib/env.public";
 
 const LOCALES = ["en", "es"] as const;
 const DEFAULT_LOCALE = "en";
@@ -62,6 +63,7 @@ export async function proxy(request: NextRequest) {
     path: "/",
     maxAge: 60 * 60 * 24 * 365,
     sameSite: "lax",
+    secure: !isDev,
   });
   return response;
 }

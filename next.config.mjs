@@ -16,7 +16,13 @@ const nextConfig = {
       },
     ],
   },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "10mb",
+    },
+  },
   async headers() {
+    const isDev = process.env.NODE_ENV === "development";
     return [
       {
         source: '/:path*',
@@ -26,14 +32,22 @@ const nextConfig = {
             value: [
               "default-src 'self'",
               "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
+              "script-src-elem 'self' 'unsafe-eval' 'unsafe-inline'",
+              "script-src-attr 'self' 'unsafe-inline'",
               "style-src 'self' 'unsafe-inline'",
+              "style-src-elem 'self' 'unsafe-inline'",
               "img-src 'self' blob: data: https://cdn.sanity.io https://placehold.co",
               "font-src 'self' data:",
               "connect-src 'self' https://api.openai.com https://api.ycloud.com",
+              "media-src 'self' blob:",
+              "worker-src 'self' blob:",
+              "frame-src 'self'",
               "frame-ancestors 'none'",
               "base-uri 'self'",
               "form-action 'self'",
-            ].join('; '),
+              "object-src 'none'",
+              !isDev ? "upgrade-insecure-requests" : "",
+            ].filter(Boolean).join('; '),
           },
           {
             key: 'Strict-Transport-Security',

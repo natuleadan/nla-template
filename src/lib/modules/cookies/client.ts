@@ -41,7 +41,8 @@ export function setCookie(
   const expires = new Date();
   expires.setTime(expires.getTime() + maxAge * 1000);
 
-  document.cookie = `${getCookieName(key)}=${value};expires=${expires.toUTCString()};path=/;SameSite=Lax`;
+  const secure = window.location.protocol === "https:" ? "; Secure" : "";
+  document.cookie = `${getCookieName(key)}=${value};expires=${expires.toUTCString()};path=/;SameSite=Lax${secure}`;
 }
 
 export function getCookie(key: string): string | undefined {
@@ -61,7 +62,8 @@ export function getCookie(key: string): string | undefined {
 
 export function deleteCookie(key: string): void {
   if (typeof document === "undefined") return;
-  document.cookie = `${getCookieName(key)}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/`;
+  const secure = window.location.protocol === "https:" ? "; Secure" : "";
+  document.cookie = `${getCookieName(key)}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;SameSite=Lax${secure}`;
 }
 
 export function getCookieConsent(): CookieConsent | null {
