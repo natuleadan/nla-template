@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/layout/page-header";
 import { getPost } from "@/lib/modules/blog";
 import { getComments } from "@/lib/modules/comments";
-import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
 import { getConfig } from "@/lib/locale/config";
 import { resolveSlug } from "@/lib/locale/slug-resolver";

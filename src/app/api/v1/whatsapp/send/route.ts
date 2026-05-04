@@ -48,7 +48,7 @@ export async function POST(request: Request) {
     const raw = await request.json().catch(() => ({}));
     const parsed = WhatsAppSendBodySchema.safeParse(raw);
     if (!parsed.success) return apiError(400, t.missingParams);
-    const { to, message, productId, productName } = parsed.data;
+    const { to, message, productName } = parsed.data;
 
     const ip = getClientIp(request);
     const { success } = await whatsappSendRateLimit.limit(`${ip}:${to}`);

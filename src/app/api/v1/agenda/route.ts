@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { getWeekDays, getAvailableSlots } from "@/lib/modules/agenda";
-import { badRequest } from "@/lib/env";
 import { getConfig } from "@/lib/locale/config";
 
 export async function GET(request: Request) {

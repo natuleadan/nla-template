@@ -3,7 +3,6 @@ import { createOpenAI } from "@ai-sdk/openai";
 import {
   getAiProvider,
   getOpenaiApiKey,
-  getAiGatewayApiKey,
   isDev,
 } from "@/lib/env";
 

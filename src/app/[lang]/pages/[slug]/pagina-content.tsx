@@ -7,7 +7,6 @@ import { ShareDialog } from "@/components/ui/share-dialog";
 import { IconArrowLeft } from "@tabler/icons-react";
 import { Prose } from "@/components/ui/prose";
 import { getPagina } from "@/lib/modules/paginas";
-import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
 import { getConfig } from "@/lib/locale/config";
 import { resolveSlug } from "@/lib/locale/slug-resolver";

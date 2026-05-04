@@ -190,6 +190,6 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     const msg =
       error instanceof Error ? error.message : getConfig("es").ui.api.unknown;
-    return serverError(error);
+    return serverError(msg);
   }
 }

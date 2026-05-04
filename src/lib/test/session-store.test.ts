@@ -1,10 +1,5 @@
 import { describe, it, expect } from "vitest";
-import {
-  anonymizePhone,
-  addToHistory,
-  getMyHistory,
-  getSession,
-} from "@/lib/modules/agents/session-store";
+import { anonymizePhone } from "@/lib/modules/agents/session-store";
 import type { CoreMessage } from "@/lib/modules/agents/types";
 
 describe("session-store - anonymizePhone", () => {

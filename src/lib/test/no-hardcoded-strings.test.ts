@@ -35,9 +35,6 @@ describe("no hardcoded user-facing strings", () => {
   const tsxFiles = getAllFiles(SRC_DIR, ".tsx").filter(
     (f) => !ALLOWED_FILES.some((a) => f.includes(a)),
   );
-  const tsFiles = getAllFiles(SRC_DIR, ".ts").filter(
-    (f) => !ALLOWED_FILES.some((a) => f.includes(a)),
-  );
   const apiFiles = getAllFiles(path.join(SRC_DIR, "app/api"), ".ts").filter(
     (f) => !ALLOWED_FILES.some((a) => f.includes(a)),
   );

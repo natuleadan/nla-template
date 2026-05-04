@@ -23,10 +23,8 @@ export class AgentService {
     const derived = await isDerived(context.phone);
     if (derived) return "";
 
-    let session = await getSession(context.phone);
-    if (!session) {
+    if (!(await getSession(context.phone))) {
       await createSession(context.phone, context.customerName || undefined);
-      session = await getSession(context.phone);
     }
 
     const userMsg: CoreMessage =

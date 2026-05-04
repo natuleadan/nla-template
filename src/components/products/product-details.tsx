@@ -27,7 +27,6 @@ import {
 } from "@tabler/icons-react";
 import type { Review } from "@/lib/modules/reviews";
 import type { InventoryItem } from "@/lib/config/data/inventory";
-import { isDev } from "@/lib/env";
 import { useLang } from "@/lib/locale/context";
 import { getConfig, getDateLocale } from "@/lib/locale/config";
 import { useWhatsApp } from "@/components/whatsapp-provider";
@@ -126,7 +125,7 @@ export function ProductDetails({
 }: ProductDetailsProps) {
   const lang = useLang();
   const cfg = getConfig(lang);
-  const [product, setProduct] = useState(initialProduct);
+  const [product] = useState(initialProduct);
   const [inventory] = useState(initialInventory);
   const { openWhatsApp } = useWhatsApp();
   const [fallbackUsed, setFallbackUsed] = useState(false);

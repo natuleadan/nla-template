@@ -117,7 +117,6 @@ export async function POST(req: NextRequest) {
     return new Response("OK", { status: 200 });
 
   const phone = m.from.replace("+", "");
-  const aid = await anonymizePhone(phone);
 
   if (await isDerived(phone)) return new Response("OK", { status: 200 });
   const name = m.customerProfile?.name;

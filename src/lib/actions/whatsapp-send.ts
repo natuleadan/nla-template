@@ -81,7 +81,7 @@ async function executeSend(params: {
   productName?: string;
   rlKey: string;
 }): Promise<WhatsAppSendResult> {
-  const { to, message, productId, productName, rlKey } = params;
+  const { to, message, productName, rlKey } = params;
   const isRedis = isRedisConfigured();
 
   if (isDev)
@@ -107,7 +107,7 @@ async function executeSend(params: {
       };
   }
 
-  const response = await new WhatsappMessagesApi(
+  await new WhatsappMessagesApi(
     new Configuration({ apiKey: getYcloudApiKey() }),
   ).sendDirectly({
     from: getWhatsappNumber(),
