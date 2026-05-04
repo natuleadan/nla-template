@@ -1,3 +1,9 @@
+## [2.1.1](https://github.com/natuleadan/nla-template/compare/v2.1.0...v2.1.1) (2026-05-04)
+
+### Bug Fixes
+
+* **seo:** remove redundant routes.ts and simplify sitemap config ([1967af0](https://github.com/natuleadan/nla-template/commit/1967af0b5fdc7c301ecbad9455fe66dd1a7866b6))
+
 ## [2.1.0](https://github.com/natuleadan/nla-template/compare/v2.0.3...v2.1.0) (2026-05-04)
 
 ### Features
