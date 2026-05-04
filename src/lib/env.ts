@@ -23,10 +23,21 @@ export {
 
 // ─── Server-only env vars ─────────────────────────────────
 
+const VALID_PALETTES = [
+  "default", "amber", "blue", "bronze", "brown", "crimson",
+  "cyan", "gold", "grass", "green", "gray", "indigo", "iris", "jade",
+  "lime", "mauve", "mint", "olive", "orange", "pink", "plum", "purple",
+  "red", "ruby", "sage", "sand", "sky", "slate", "teal", "tomato", "violet", "yellow",
+];
+
 export function getBrandColor(): string {
-  return (
-    process.env.BRAND_COLOR || process.env.NEXT_PUBLIC_BRAND_COLOR || "default"
-  );
+  const val = process.env.BRAND_COLOR || process.env.NEXT_PUBLIC_BRAND_COLOR || "";
+  if (val && VALID_PALETTES.includes(val)) return val;
+  if (val && !VALID_PALETTES.includes(val)) {
+    if (isDev)
+      console.warn(`⚠️ BRAND_COLOR="${val}" no es una paleta válida. Usando default.`);
+  }
+  return "default";
 }
 
 export function getIndexingEnabled(): boolean {

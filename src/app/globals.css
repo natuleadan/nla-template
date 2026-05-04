@@ -112,7 +112,7 @@
 }
 
 
-@import "../lib/styles/palettes/nla.css";
+@import "../lib/styles/palettes/default.css";
 @import "../lib/styles/palettes/gray.css";
 @import "../lib/styles/palettes/amber.css";
 @import "../lib/styles/palettes/blue.css";
