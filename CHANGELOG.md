@@ -1,3 +1,11 @@
+## [2.1.2](https://github.com/natuleadan/nla-template/compare/v2.1.1...v2.1.2) (2026-05-04)
+
+### Bug Fixes
+
+* **ids:** normalize entity ids to 3-digit zero-padded format ([de2a8c6](https://github.com/natuleadan/nla-template/commit/de2a8c68987d42c598ff768a1cdccbe485daf974))
+* **store:** redesign product page layout, inventory ui, and gallery aspect ratio ([a780bfb](https://github.com/natuleadan/nla-template/commit/a780bfb85768b4718803013b625cda0a2214e950))
+* **ui:** add i18n to attachments, normalize header icon sizing ([c78835e](https://github.com/natuleadan/nla-template/commit/c78835e8980ff6db33c367b8413c2f03fc5c8403))
+
 ## [2.1.1](https://github.com/natuleadan/nla-template/compare/v2.1.0...v2.1.1) (2026-05-04)
 
 ### Bug Fixes
