@@ -42,7 +42,7 @@ export function JsonLdWebPage({
 
   if (datePublished) {
     graph.push({
-      "@type": "BlogPosting",
+      "@type": "Article",
       "@id": `${pageUrl}/#article`,
       headline: pageName,
       description: pageDescription,

@@ -1,4 +1,5 @@
 import { safeJsonLd } from "@/lib/utils";
+import { getStoreCurrency } from "@/lib/env";
 import type { Graph, Product, Offer, BreadcrumbList } from "schema-dts";
 
 interface JsonLdProductProps {
@@ -16,6 +17,7 @@ interface JsonLdProductProps {
   breadcrumbs?: Array<{ name: string; item: string }>;
   ratingValue?: number;
   reviewCount?: number;
+  locale?: string;
 }
 
 export function JsonLdProduct({
@@ -24,7 +26,7 @@ export function JsonLdProduct({
   image,
   url,
   price,
-  currency = "USD",
+  currency,
   inStock = true,
   sku,
   category,
@@ -33,7 +35,9 @@ export function JsonLdProduct({
   breadcrumbs = [],
   ratingValue,
   reviewCount,
+  locale = "es",
 }: JsonLdProductProps) {
+  const resolvedCurrency = currency || getStoreCurrency();
   const jsonLd: Graph = {
     "@context": "https://schema.org",
     "@graph": [
@@ -45,6 +49,7 @@ export function JsonLdProduct({
         image,
         url,
         sku,
+        inLanguage: locale,
         ...(category && { category }),
         brand: { "@id": `${brandUrl}/#organization` },
         offers: { "@id": `${url}/#offer` },
@@ -67,7 +72,7 @@ export function JsonLdProduct({
         "@type": "Offer",
         "@id": `${url}/#offer`,
         price,
-        priceCurrency: currency,
+        priceCurrency: resolvedCurrency,
         priceValidUntil: new Date(
           new Date().getFullYear(),
           new Date().getMonth() + 1,

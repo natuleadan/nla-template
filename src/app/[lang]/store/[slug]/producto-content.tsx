@@ -65,6 +65,7 @@ export async function ProductoContent({ params }: ProductoContentProps) {
         category={product.category}
         brandName={brand.name}
         brandUrl={baseUrl}
+        locale={lang}
         breadcrumbs={[
           { name: cfg.nav.items[0].label, item: `${baseUrl}/${lang}` },
           { name: cfg.store.page.title, item: `${baseUrl}/${lang}/store` },

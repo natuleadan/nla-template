@@ -102,6 +102,16 @@ export function getRateLimitMax(): number {
   return Number.isFinite(val) && val > 0 ? val : 2;
 }
 
+export function getStoreCurrency(): string {
+  const val = process.env.STORE_CURRENCY;
+  if (val && /^[A-Z]{3}$/.test(val)) return val;
+  if (val && isDev)
+    console.warn(
+      `⚠️ STORE_CURRENCY="${val}" no es un código ISO 4217 válido. Usando USD.`,
+    );
+  return "USD";
+}
+
 export function getZeroDataRetention(): boolean {
   return process.env.AI_GATEWAY_ZDR === "true";
 }
