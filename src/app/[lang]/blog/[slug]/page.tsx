@@ -2,11 +2,11 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import { PostDetailsSkeleton } from "./post-details-skeleton";
 import { PostContent } from "./post-content";
-import { getPost } from "@/lib/modules/blog";
+import { getPost, getPostSlugById } from "@/lib/modules/blog";
 import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
 import { getConfig, getLocaleFromLang } from "@/lib/locale/config";
-import { getAlternateLanguages } from "@/lib/locale/seo";
+import { getAlternateLanguages, SUPPORTED_LOCALES } from "@/lib/locale/seo";
 
 export async function generateMetadata({
   params,
@@ -20,12 +20,19 @@ export async function generateMetadata({
     const post = await getPost(slug, lang);
     if (!post) return { title: getConfig(lang).ui.notFound.article };
 
+    const alternatePaths: Record<string, string> = {};
+    for (const locale of SUPPORTED_LOCALES) {
+      const altSlug =
+        locale === lang ? slug : await getPostSlugById(post.id, locale);
+      if (altSlug) alternatePaths[locale] = `/blog/${altSlug}`;
+    }
+
     const title = `${post.title} | ${brand.name}`;
     const description =
       post.excerpt?.slice(0, 160) || getConfig(lang).brand.description;
 
     return {
-      alternates: getAlternateLanguages(lang, `/blog/${slug}`, baseUrl),
+      alternates: getAlternateLanguages(lang, alternatePaths, baseUrl),
       title,
       description,
       openGraph: {
@@ -62,7 +69,7 @@ export async function generateMetadata({
       other: { "og:logo": `${baseUrl}/design/logo.svg` },
     };
   } catch {
-    return { title: getConfig("en").ui.notFound.article };
+    return { title: getConfig(lang).ui.notFound.article };
   }
 }
 

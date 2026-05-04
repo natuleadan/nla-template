@@ -40,3 +40,10 @@ export async function getProduct(
   if (!slug || typeof slug !== "string") return null;
   return getData(locale).find((p) => p.slug === slug) || null;
 }
+
+export async function getProductSlugById(
+  id: string,
+  locale = "es",
+): Promise<string | undefined> {
+  return getData(locale).find((p) => p.id === id)?.slug;
+}

@@ -2,11 +2,11 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import { ProductDetailsSkeleton } from "./product-details-skeleton";
 import { ProductoContent } from "./producto-content";
-import { getProduct } from "@/lib/modules/products";
+import { getProduct, getProductSlugById } from "@/lib/modules/products";
 import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
 import { getConfig, getLocaleFromLang } from "@/lib/locale/config";
-import { getAlternateLanguages } from "@/lib/locale/seo";
+import { getAlternateLanguages, SUPPORTED_LOCALES } from "@/lib/locale/seo";
 
 export async function generateMetadata({
   params,
@@ -20,19 +20,26 @@ export async function generateMetadata({
     const product = await getProduct(slug, lang);
     if (!product) return { title: getConfig(lang).ui.notFound.product };
 
+    const alternatePaths: Record<string, string> = {};
+    for (const locale of SUPPORTED_LOCALES) {
+      const altSlug =
+        locale === lang ? slug : await getProductSlugById(product.id, locale);
+      if (altSlug) alternatePaths[locale] = `/tienda/${altSlug}`;
+    }
+
     const title = `${product.name} | ${brand.name}`;
     const description =
       product.description?.slice(0, 160) || getConfig(lang).brand.description;
 
     return {
-      alternates: getAlternateLanguages(lang, `/tienda/${slug}`, baseUrl),
+      alternates: getAlternateLanguages(lang, alternatePaths, baseUrl),
       title,
       description,
       openGraph: {
         title,
         description,
         siteName: brand.name,
-        type: "website",
+        type: "product" as any,
         url: `${baseUrl}/${lang}/tienda/${slug}`,
         images: [
           {
@@ -60,7 +67,7 @@ export async function generateMetadata({
       other: { "og:logo": `${baseUrl}/design/logo.svg` },
     };
   } catch {
-    return { title: getConfig("en").ui.notFound.product };
+    return { title: getConfig(lang).ui.notFound.product };
   }
 }
 

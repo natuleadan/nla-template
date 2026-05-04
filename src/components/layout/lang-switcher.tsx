@@ -13,6 +13,7 @@ import { IconLanguage, IconCheck } from "@tabler/icons-react";
 import { useLang } from "@/lib/locale/context";
 import { getConfig } from "@/lib/locale/config";
 import { SUPPORTED_LOCALES } from "@/lib/locale/seo";
+import { getLocalizedSlug } from "@/lib/locale/get-localized-slug";
 
 export function LangSwitcher() {
   const lang = useLang();
@@ -32,20 +33,28 @@ export function LangSwitcher() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-24">
-        {SUPPORTED_LOCALES.map((locale) => (
-          <DropdownMenuItem key={locale} asChild>
-            <Link
-              href={`/${locale}${rest}`}
-              scroll={false}
-              className="flex items-center gap-2 justify-between w-full"
-            >
-              <span className={lang === locale ? "font-semibold" : ""}>
-                {locale.toUpperCase()}
-              </span>
-              {lang === locale && <IconCheck className="size-4 shrink-0" />}
-            </Link>
-          </DropdownMenuItem>
-        ))}
+        {SUPPORTED_LOCALES.map((locale) => {
+          const translatedSlug = getLocalizedSlug(pathname, locale);
+          const defaultHref = `/${locale}${rest}`;
+          const href = translatedSlug
+            ? `/${locale}/${pathname.match(/^\/(en|es)\/(tienda|blog|paginas)\//)?.[2]}/${translatedSlug}`
+            : defaultHref;
+
+          return (
+            <DropdownMenuItem key={locale} asChild>
+              <Link
+                href={href}
+                scroll={false}
+                className="flex items-center gap-2 justify-between w-full"
+              >
+                <span className={lang === locale ? "font-semibold" : ""}>
+                  {locale.toUpperCase()}
+                </span>
+                {lang === locale && <IconCheck className="size-4 shrink-0" />}
+              </Link>
+            </DropdownMenuItem>
+          );
+        })}
       </DropdownMenuContent>
     </DropdownMenu>
   );

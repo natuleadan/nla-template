@@ -2,11 +2,11 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import { PaginaDetailsSkeleton } from "./pagina-details-skeleton";
 import { PaginaContent } from "./pagina-content";
-import { getPagina } from "@/lib/modules/paginas";
+import { getPagina, getPaginaSlugById } from "@/lib/modules/paginas";
 import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
 import { getConfig, getLocaleFromLang } from "@/lib/locale/config";
-import { getAlternateLanguages } from "@/lib/locale/seo";
+import { getAlternateLanguages, SUPPORTED_LOCALES } from "@/lib/locale/seo";
 
 export async function generateMetadata({
   params,
@@ -20,19 +20,26 @@ export async function generateMetadata({
     const pageData = await getPagina(slug, lang);
     if (!pageData) return { title: getConfig(lang).ui.notFound.page };
 
+    const alternatePaths: Record<string, string> = {};
+    for (const locale of SUPPORTED_LOCALES) {
+      const altSlug =
+        locale === lang ? slug : await getPaginaSlugById(pageData.id, locale);
+      if (altSlug) alternatePaths[locale] = `/paginas/${altSlug}`;
+    }
+
     const title = `${pageData.title} | ${brand.name}`;
     const description =
       pageData.excerpt?.slice(0, 160) || getConfig(lang).brand.description;
 
     return {
-      alternates: getAlternateLanguages(lang, `/paginas/${slug}`, baseUrl),
+      alternates: getAlternateLanguages(lang, alternatePaths, baseUrl),
       title,
       description,
       openGraph: {
         title,
         description,
         siteName: brand.name,
-        type: "article",
+        type: "website",
         url: `${baseUrl}/${lang}/paginas/${slug}`,
         locale: getLocaleFromLang(lang),
         images: [
@@ -60,7 +67,7 @@ export async function generateMetadata({
       other: { "og:logo": `${baseUrl}/design/logo.svg` },
     };
   } catch {
-    return { title: getConfig("en").ui.notFound.page };
+    return { title: getConfig(lang).ui.notFound.page };
   }
 }
 

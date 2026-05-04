@@ -49,3 +49,10 @@ export async function getPagina(
   if (!slug || typeof slug !== "string") return null;
   return getData(locale).find((p) => p.slug === slug) || null;
 }
+
+export async function getPaginaSlugById(
+  id: string,
+  locale = "es",
+): Promise<string | undefined> {
+  return getData(locale).find((p) => p.id === id)?.slug;
+}
