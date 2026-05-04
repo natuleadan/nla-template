@@ -57,9 +57,9 @@ export function FooterDynamicCards() {
     getAllPaginas(lang).then((p) => setPaginas(p.slice(0, 3)));
   }, [lang]);
 
-  const tiendaCol = nav.footer.columns[0];
-  const blogCol = nav.footer.columns[1];
-  const pagesCol = nav.footer.columns[4];
+  const tiendaCol = nav.footer.columns[0]!;
+  const blogCol = nav.footer.columns[1]!;
+  const pagesCol = nav.footer.columns[4]!;
 
   return (
     <>

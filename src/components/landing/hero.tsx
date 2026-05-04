@@ -32,7 +32,7 @@ export function Hero() {
 
   return (
     <div className="flex flex-col w-full">
-      <section className="relative overflow-hidden border-b bg-gradient-to-b from-muted/30 to-muted/10 py-24 md:py-32">
+      <section className="relative overflow-hidden border-b bg-muted/20 py-24 md:py-32">
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
@@ -67,7 +67,7 @@ export function Hero() {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="flex flex-col items-center text-center p-6 rounded-xl bg-background"
+                className="flex flex-col items-center text-center p-6 rounded-xl bg-background ring-1 ring-foreground/10"
               >
                 <feature.icon className="size-10 text-primary mb-4" />
                 <h3 className="font-semibold">{feature.title}</h3>
@@ -94,7 +94,7 @@ export function Hero() {
             {benefits.map((benefit, index) => (
               <div
                 key={index}
-                className="flex flex-col items-center text-center p-6"
+                className="flex flex-col items-center text-center p-6 ring-1 ring-foreground/10 rounded-xl"
               >
                 <benefit.icon className="size-12 text-primary mb-4" />
                 <h3 className="font-semibold text-lg">{benefit.title}</h3>

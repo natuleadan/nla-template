@@ -94,7 +94,7 @@ export function PaginaToolbar({
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row gap-3">
+      <div className="flex flex-col sm:flex-row gap-4">
         <Input name="pages-search"
           placeholder={cfg.paginas.toolbar.searchPlaceholder}
           value={search}

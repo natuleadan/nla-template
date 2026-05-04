@@ -160,7 +160,7 @@ export function GlobalSearch() {
         description={cfg.ui.search.description}
       >
         <Command>
-          <CommandInput name="global-search" placeholder={cfg.ui.search.placeholder} />
+          <CommandInput name="global-search" placeholder={cfg.ui.search.placeholder} aria-label={cfg.ui.search.placeholder} />
           <CommandList>
             <CommandEmpty>{cfg.ui.search.empty}</CommandEmpty>
             {items.filter((i) => i.type === "slot").length > 0 && (

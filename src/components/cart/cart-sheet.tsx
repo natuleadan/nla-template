@@ -44,7 +44,18 @@ export function CartSheet({ children }: CartSheetProps) {
   const { openWhatsApp } = useWhatsApp();
 
   const removeFromCart = (id: string) => {
+    const removed = cartItems.find((i) => i.id === id);
+    if (!removed) return;
     setCartItems((prev) => prev.filter((i) => i.id !== id));
+    notificationService.info("Item removed", {
+      duration: 5000,
+      action: {
+        label: "Undo",
+        onClick: () => {
+          setCartItems((prev) => [...prev, removed]);
+        },
+      },
+    });
   };
 
   const updateQuantity = (id: string, newQty: number) => {
@@ -93,7 +104,7 @@ export function CartSheet({ children }: CartSheetProps) {
           >
             <IconShoppingCart className="size-5" />
             {totalItems > 0 && (
-              <Badge className="absolute -top-2 -right-2 min-w-5 h-5 px-1 flex items-center justify-center text-[10px]">
+              <Badge className="absolute -top-2 -right-2 min-w-5 h-5 px-1 flex items-center justify-center text-xs">
                 {totalItems}
               </Badge>
             )}

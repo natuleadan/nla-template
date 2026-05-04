@@ -22,7 +22,8 @@ export function CurrentTime() {
       variant="outline"
       className="gap-1.5 px-3 py-1.5 text-sm font-normal shrink-0"
     >
-      <span className="inline-block size-2 rounded-full bg-green-500 animate-pulse shrink-0" />
+      <span className="inline-block size-2 rounded-full bg-success animate-pulse shrink-0" />
+      <span className="sr-only">Live</span>
       <span className="font-mono tabular-nums">
         {time.toLocaleTimeString(getDateLocale(lang), {
           hour: "2-digit",

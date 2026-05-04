@@ -116,6 +116,7 @@ export default async function BlogPage({
         <PageHeader
           title={cfg.blog.page.title}
           description={cfg.blog.page.description}
+          className="mb-8"
         />
         <Suspense
           fallback={

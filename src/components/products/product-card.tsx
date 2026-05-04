@@ -67,7 +67,7 @@ export function ProductCard({
             src={imgSrc}
             alt={name}
             fill
-            loading="eager"
+            loading="lazy"
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             onError={() => {
@@ -102,7 +102,7 @@ export function ProductCard({
         <div className="flex gap-2 w-full">
           <Button
             variant="outline"
-            className="flex-1 gap-1 border-green-600 text-green-700 hover:bg-green-50 dark:border-green-500 dark:text-green-400 dark:hover:bg-green-950"
+            className="flex-1 gap-1 border-success text-success hover:bg-success/10"
             aria-label={`${cfg.store.product.pedir} ${name}`}
             onClick={handlePedir}
           >

@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-04T18:00:00.000Z",
+  "title": "Design System: NLA Template",
+  "extensions": {
+    "colorMeta": {
+      "surface-bg": { "role": "neutral", "displayName": "White", "canonical": "oklch(1 0 0)", "tonalRamp": ["oklch(0.95 0.003 106)", "oklch(0.96 0.003 106)", "oklch(0.97 0.002 106)", "oklch(0.98 0.001 106)", "oklch(0.99 0.001 106)", "oklch(1 0 0)", "oklch(1 0 0)", "oklch(1 0 0)"] },
+      "surface-fg": { "role": "neutral", "displayName": "Near-Black Warm", "canonical": "oklch(0.153 0.006 107.1)", "tonalRamp": ["oklch(0.15 0.006 107)", "oklch(0.2 0.006 107)", "oklch(0.3 0.008 107)", "oklch(0.4 0.012 107)", "oklch(0.5 0.015 107)", "oklch(0.6 0.02 107)", "oklch(0.8 0.025 107)", "oklch(0.95 0.01 107)"] },
+      "surface-muted": { "role": "neutral", "displayName": "Warm Ash", "canonical": "oklch(0.966 0.005 106.5)", "tonalRamp": ["oklch(0.9 0.005 106)", "oklch(0.92 0.005 106)", "oklch(0.94 0.005 106)", "oklch(0.95 0.005 106)", "oklch(0.96 0.005 106)", "oklch(0.966 0.005 106.5)", "oklch(0.97 0.005 106)", "oklch(0.98 0.004 106)"] },
+      "accent-primary": { "role": "primary", "displayName": "Brand Red", "canonical": "oklch(49.9% 0.1798 26.74)", "tonalRamp": ["oklch(0.15 0.05 26.74)", "oklch(0.2 0.08 26.74)", "oklch(0.3 0.12 26.74)", "oklch(0.4 0.15 26.74)", "oklch(0.5 0.18 26.74)", "oklch(0.6 0.16 26.74)", "oklch(0.75 0.12 26.74)", "oklch(0.9 0.06 26.74)"] },
+      "accent-success": { "role": "semantic", "displayName": "Success Green", "canonical": "oklch(0.55 0.15 145)", "tonalRamp": ["oklch(0.15 0.05 145)", "oklch(0.2 0.08 145)", "oklch(0.3 0.1 145)", "oklch(0.4 0.12 145)", "oklch(0.5 0.14 145)", "oklch(0.55 0.15 145)", "oklch(0.7 0.12 145)", "oklch(0.9 0.05 145)"] },
+      "accent-warning": { "role": "semantic", "displayName": "Warning Amber", "canonical": "oklch(0.7 0.15 75)", "tonalRamp": ["oklch(0.2 0.05 75)", "oklch(0.3 0.08 75)", "oklch(0.4 0.1 75)", "oklch(0.5 0.12 75)", "oklch(0.6 0.14 75)", "oklch(0.7 0.15 75)", "oklch(0.8 0.1 75)", "oklch(0.95 0.04 75)"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Page-level h1 headings. Once per view." },
+      "headline": { "displayName": "Headline", "purpose": "Section headings, card titles, dialog titles." },
+      "title": { "displayName": "Title", "purpose": "Card entity names, product names, list item titles." },
+      "body": { "displayName": "Body", "purpose": "Running text, descriptions, product details. Max 75ch." },
+      "label": { "displayName": "Label", "purpose": "Badges, button text, table headers, metadata." }
+    },
+    "shadows": [
+      { "name": "floating", "value": "0 10px 15px -3px oklch(0 0 0 / 0.1), 0 4px 6px -4px oklch(0 0 0 / 0.1)", "purpose": "Sheets, dropdowns, modals, tooltips — elements that break the page plane." }
+    ],
+    "motion": [
+      { "name": "duration-micro", "value": "200ms", "purpose": "Standard micro-interaction speed for state transitions." },
+      { "name": "ease-default", "value": "ease-in-out", "purpose": "Default easing for UI transitions." },
+      { "name": "ease-enter", "value": "ease-out", "purpose": "Enter transitions (sheets, modals opening)." },
+      { "name": "ease-exit", "value": "ease-in", "purpose": "Exit transitions (sheets, modals closing)." }
+    ],
+    "breakpoints": [
+      { "name": "xs", "value": "420px" },
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" },
+      { "name": "2xl", "value": "1536px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Solid brand-accent button for the single primary action per view.",
+      "html": "<button class=\"ds-btn-primary\">CTA TEXT</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 40px; padding: 0 12px; background: var(--color-primary, #b32323); color: #fff; font-family: Roboto, sans-serif; font-size: 0.875rem; font-weight: 500; border: 1px solid transparent; border-radius: 0.45rem; cursor: pointer; transition: all 200ms ease-in-out; outline: none; white-space: nowrap; } .ds-btn-primary:hover { opacity: 0.8; } .ds-btn-primary:focus-visible { border-color: var(--color-ring, #b32323); box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-ring, #b32323) 50%, transparent); } .ds-btn-primary:active { transform: translateY(1px); } .ds-btn-primary:disabled { opacity: 0.5; pointer-events: none; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Ghost button with border for secondary and grouped actions.",
+      "html": "<button class=\"ds-btn-outline\">SECONDARY</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 40px; padding: 0 12px; background: transparent; color: var(--color-foreground, #1a1a1a); font-family: Roboto, sans-serif; font-size: 0.875rem; font-weight: 500; border: 1px solid var(--color-border, #e5e5e5); border-radius: 0.45rem; cursor: pointer; transition: all 200ms ease-in-out; outline: none; white-space: nowrap; } .ds-btn-outline:hover { background: var(--color-muted, #f0f0f0); } .ds-btn-outline:focus-visible { border-color: var(--color-ring, #b32323); box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-ring, #b32323) 50%, transparent); } .ds-btn-outline:active { transform: translateY(1px); } .ds-btn-outline:disabled { opacity: 0.5; pointer-events: none; }"
+    },
+    {
+      "name": "Default Card",
+      "kind": "card",
+      "refersTo": "card-default",
+      "description": "Standalone container with soft inner ring boundary. Used for product, blog, and page cards.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-card-header\"><div class=\"ds-card-title\">Card Title</div><div class=\"ds-card-desc\">Optional description line.</div></div><div class=\"ds-card-content\"><div style=\"background: var(--color-muted, #f0f0f0); aspect-ratio: 3/4; border-radius: 0.45rem;\"></div></div><div class=\"ds-card-footer\"><button class=\"ds-btn-outline\" style=\"flex:1\">Action</button></div></div>",
+      "css": ".ds-card { display: flex; flex-direction: column; gap: 16px; overflow: hidden; border-radius: 0.63rem; background: var(--color-card, #fff); padding: 16px 0; font-size: 0.875rem; color: var(--color-card-foreground, #1a1a1a); box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-foreground, #1a1a1a) 10%, transparent); } .ds-card-header { display: grid; gap: 4px; padding: 0 16px; } .ds-card-title { font-family: Roboto, sans-serif; font-size: 1rem; font-weight: 500; line-height: 1.375; } .ds-card-desc { font-size: 0.875rem; color: var(--color-muted-foreground, #666); } .ds-card-content { padding: 0 16px; flex: 1; } .ds-card-footer { display: flex; align-items: center; padding: 16px; border-top: 1px solid var(--color-border, #e5e5e5); background: color-mix(in srgb, var(--color-muted, #f0f0f0) 50%, transparent); border-radius: 0 0 0.63rem 0.63rem; gap: 8px; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input-default",
+      "description": "Compact text input with stroke border and brand-colored focus ring.",
+      "html": "<div style=\"display:flex;flex-direction:column;gap:4px;width:280px\"><label class=\"ds-label\" for=\"demo-input\">Label</label><input id=\"demo-input\" class=\"ds-input\" type=\"text\" placeholder=\"Placeholder text\"></div>",
+      "css": ".ds-input { height: 32px; width: 100%; min-width: 0; border-radius: 0.45rem; border: 1px solid var(--color-input, #e5e5e5); background: transparent; padding: 4px 10px; font-family: Roboto, sans-serif; font-size: 1rem; color: var(--color-foreground, #1a1a1a); transition: all 200ms ease-in-out; outline: none; } .ds-input::placeholder { color: var(--color-muted-foreground, #666); } .ds-input:focus { border-color: var(--color-ring, #b32323); box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-ring, #b32323) 50%, transparent); } .ds-input:disabled { opacity: 0.5; pointer-events: none; cursor: not-allowed; background: color-mix(in srgb, var(--color-input, #e5e5e5) 50%, transparent); } .ds-label { font-family: Roboto, sans-serif; font-size: 0.875rem; font-weight: 500; color: var(--color-foreground, #1a1a1a); } @media (min-width: 768px) { .ds-input { font-size: 0.875rem; } }"
+    },
+    {
+      "name": "Default Badge",
+      "kind": "chip",
+      "refersTo": "badge-default",
+      "description": "Compact pill-shaped label for categories and statuses.",
+      "html": "<span class=\"ds-badge\">Category</span>",
+      "css": ".ds-badge { display: inline-flex; align-items: center; justify-content: center; height: 20px; gap: 4px; overflow: hidden; border-radius: 1.17rem; border: 1px solid transparent; padding: 2px 8px; font-family: Roboto, sans-serif; font-size: 0.75rem; font-weight: 500; white-space: nowrap; background: var(--color-primary, #b32323); color: #fff; transition: all 150ms ease-in-out; }"
+    },
+    {
+      "name": "Navbar Desktop Link",
+      "kind": "nav",
+      "refersTo": "nav-link-desktop",
+      "description": "Top-level navigation link with icon and label. Hover reveals muted background.",
+      "html": "<nav style=\"display:flex;gap:4px;align-items:center\"><a class=\"ds-nav-link\" href=\"#\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/><polyline points=\"9 22 9 12 15 12 15 22\"/></svg> Home</a><a class=\"ds-nav-link ds-nav-link--active\" href=\"#\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z\"/><line x1=\"3\" y1=\"6\" x2=\"21\" y2=\"6\"/><path d=\"M16 10a4 4 0 0 1-8 0\"/></svg> Store</a></nav>",
+      "css": ".ds-nav-link { display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; font-family: Roboto, sans-serif; font-size: 0.875rem; font-weight: 500; color: var(--color-foreground, #1a1a1a); text-decoration: none; border-radius: 0.45rem; transition: background 200ms ease-in-out, color 200ms ease-in-out; } .ds-nav-link:hover { background: var(--color-muted, #f0f0f0); } .ds-nav-link:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-ring, #b32323) 50%, transparent); } .ds-nav-link svg { width: 20px; height: 20px; flex-shrink: 0; }"
+    },
+    {
+      "name": "Separator",
+      "kind": "custom",
+      "refersTo": "separator",
+      "description": "1px hairline divider for section and content separation.",
+      "html": "<hr class=\"ds-separator\">",
+      "css": ".ds-separator { height: 1px; width: 100%; border: none; margin: 0; background: var(--color-border, #e5e5e5); }"
+    },
+    {
+      "name": "Skeleton Loader",
+      "kind": "custom",
+      "refersTo": "skeleton",
+      "description": "Pulsing placeholder shape for loading states.",
+      "html": "<div style=\"display:flex;flex-direction:column;gap:8px;width:280px\"><div class=\"ds-skeleton\" style=\"height:12px;width:60%\"></div><div class=\"ds-skeleton\" style=\"height:12px;width:80%\"></div><div class=\"ds-skeleton\" style=\"height:160px;width:100%\"></div></div>",
+      "css": "@keyframes ds-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } } .ds-skeleton { border-radius: 5.8px; background: var(--color-muted, #f0f0f0); animation: ds-pulse 2s ease-in-out infinite; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "El Mostrador Digital",
+    "overview": "The interface of a well-run hardware store counter: professional, warm, and direct. Every interaction has purpose — like handing a customer the exact tool they need. The aesthetic is clean without being cold, structured without feeling rigid. This system serves a bilingual (es/en) product catalog, blog, scheduling tool, certificate verification, and AI assistant. It needs to feel trustworthy for commercial transactions while remaining approachable for first-time visitors. The brand voice is that of a knowledgeable shopkeeper, not a corporate website.",
+    "keyCharacteristics": [
+      "Neutral-heavy surfaces with one red accent used sparingly (5\u201310% of any screen)",
+      "Flat by default; depth only for floating elements (sheets, dropdowns, modals)",
+      "Solid, tactile components with micro-interactions (1px press on buttons)",
+      "Warm-tinted neutrals (oklch hue ~106 \u2014 a subtle warmth, not clinical gray)",
+      "Dark mode that respects the same palette rules, not inverted",
+      "32-swappable brand palettes via data-brand attribute (default is deep red #b32323)"
+    ],
+    "rules": [
+      { "name": "The Dynamic Palette Doctrine", "body": "The brand accent (--brand-9) is never hardcoded. It is resolved at runtime via CSS custom properties driven by a data-brand attribute on <html>. The default is a curated red (#b32323), but 31 Radix UI palettes ship with the codebase.", "section": "colors" },
+      { "name": "The One Accent Rule", "body": "The brand-9 accent is used on primary interactive elements only: primary buttons, links, focus rings, badges, chart series 1. It must never exceed ~10% of any viewport's surface. Rarity is the point.", "section": "colors" },
+      { "name": "The Brand-Swappable Rule", "body": "Every token referencing var(--brand-9) is resolved from the active palette. Do not hardcode hex values for accent roles.", "section": "colors" },
+      { "name": "The No-Serif Rule", "body": "Roboto serves every typographic role. Hierarchy comes from weight (700 \u2192 600 \u2192 500 \u2192 400) and scale (\u22651.25 ratio), not font switching.", "section": "typography" },
+      { "name": "The Ring-Not-Shadow Rule", "body": "Cards, containers, and panels at rest use ring-1 ring-foreground/10 instead of box-shadow. Shadows are reserved exclusively for elements that break the page plane.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do use ring-1 ring-foreground/10 for card boundaries. No box-shadow on static surfaces.",
+      "Do reference var(--brand-9) or semantic aliases for accent roles. Never hardcode a hex for primary, accent, destructive, or ring.",
+      "Do use OKLCH for color values. The palette is designed in perceptually-uniform space.",
+      "Do keep the brand accent under ~10% of surface area per view. Rarity is the point.",
+      "Do use bg-background/95 backdrop-blur for sticky chrome. It needs to feel like glass, not paint.",
+      "Do make all interactive elements focus-visible with the 3px brand-9 ring at 50% opacity.",
+      "Do use text-base on mobile inputs to prevent iOS zoom.",
+      "Do respect the data-brand mechanism. The accent is always swappable.",
+      "Do use duration-200 as the standard micro-interaction speed.",
+      "Do use font-heading (Roboto) for all titles and font-sans (Roboto) for body."
+    ],
+    "donts": [
+      "Don't apply box-shadow to cards. Use ring-1 ring-foreground/10.",
+      "Don't hardcode brand colors (#b32323 or any hex) in component files. Always use --brand-9, --primary, or the semantic color token.",
+      "Don't use gradient text, glassmorphism as default, side-stripe borders, or the hero-metric template.",
+      "Don't use emojis as UI icons. Use Tabler Icons (SVG, @tabler/icons-react).",
+      "Don't override --font-heading with a different font family. Roboto serves all roles.",
+      "Don't use border-left or border-right as a colored accent stripe on cards or callouts.",
+      "Don't use cards inside cards \u2014 nesting is always wrong.",
+      "Don't animate CSS layout properties (width, height, top, left). Use transform and opacity only.",
+      "Don't use #000 or #fff. Tint every neutral toward the brand hue.",
+      "Don't disable zoom or use fixed-width containers."
+    ]
+  }
+}

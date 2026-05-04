@@ -84,6 +84,7 @@ export default async function ContactoPage({
         <PageHeader
           title={cfg.pages.contacto.title}
           description={cfg.pages.contacto.description}
+          className="mb-8"
         />
         <div className="grid gap-12 md:grid-cols-2">
           <div className="space-y-4">

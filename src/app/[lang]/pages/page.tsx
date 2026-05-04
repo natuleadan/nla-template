@@ -116,6 +116,7 @@ export default async function PaginasPage({
         <PageHeader
           title={cfg.paginas.page.title}
           description={cfg.paginas.page.description}
+          className="mb-8"
         />
         <Suspense
           fallback={

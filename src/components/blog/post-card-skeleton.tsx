@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function PostCardSkeleton() {
   return (
-    <div className="flex flex-col h-full overflow-hidden gap-0 rounded-xl border bg-card text-card-foreground shadow-sm">
+    <div className="flex flex-col h-full overflow-hidden gap-0 rounded-xl bg-card text-card-foreground ring-1 ring-foreground/10">
       <Skeleton className="aspect-video w-full rounded-none" />
       <div className="px-4 pt-4 pb-2 space-y-3">
         <Skeleton className="h-5 w-24 rounded-full" />

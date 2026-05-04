@@ -116,6 +116,7 @@ export default async function TiendaPage({
         <PageHeader
           title={cfg.store.page.title}
           description={cfg.store.page.description}
+          className="mb-8"
         />
         <Suspense
           fallback={
@@ -124,7 +125,7 @@ export default async function TiendaPage({
                 <Skeleton className="h-10 sm:max-w-xs flex-1" />
                 <Skeleton className="h-10 sm:max-w-xs ml-auto w-full sm:w-auto" />
               </div>
-              <div className="grid gap-4 grid-cols-1 xs:grid-cols-2 lg:grid-cols-4">
+              <div className="grid gap-6 grid-cols-1 xs:grid-cols-2 lg:grid-cols-4">
                 {Array.from({ length: 4 }).map((_, i) => (
                   <ProductCardSkeleton key={i} />
                 ))}

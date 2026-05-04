@@ -74,7 +74,7 @@ function TypographyBlockquote({
   return (
     <blockquote
       className={cn(
-        "mt-4 border-l-2 border-primary pl-4 italic text-muted-foreground",
+        "mt-4 rounded-lg bg-muted/50 px-4 py-3 italic text-muted-foreground",
         className,
       )}
       {...props}

@@ -11,8 +11,8 @@ export default async function manifest(): Promise<MetadataRoute.Manifest> {
     description: cfg.brand.description,
     start_url: "/",
     display: "standalone",
-    background_color: "#ffffff",
-    theme_color: "#000000",
+    background_color: "#fcfcfc",
+    theme_color: "#b32323",
     icons: [
       {
         src: "/icon",

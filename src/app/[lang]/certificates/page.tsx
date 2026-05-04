@@ -101,7 +101,7 @@ export default async function CertificatesPage({
         ]}
       />
       <div className="px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full py-8">
-        <PageHeader title={page.title} description={page.description} />
+        <PageHeader title={page.title} description={page.description} className="mb-8" />
         <div className="mt-8">
           <CertificateSearch labels={labels} />
         </div>

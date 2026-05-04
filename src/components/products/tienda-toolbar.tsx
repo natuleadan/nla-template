@@ -105,7 +105,7 @@ export function TiendaToolbar({
           aria-label={cfg.store.toolbar.searchPlaceholder}
         />
         <Select value={category} onValueChange={setCategory}>
-          <SelectTrigger name="store-category" className="sm:max-w-xs ml-auto">
+          <SelectTrigger aria-label={cfg.store.toolbar.filterLabel} className="sm:max-w-xs ml-auto">
             <SelectValue placeholder={cfg.store.toolbar.filterLabel} />
           </SelectTrigger>
           <SelectContent>

@@ -44,11 +44,11 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   mail: IconMail,
 };
 
-const iconSizes: Record<string, string> = {
+  const iconSizes: Record<string, string> = {
   store: "size-5",
-  news: "size-[22px]",
-  calendar: "size-[22px]",
-  files: "size-[22px]",
+  news: "size-5",
+  calendar: "size-5",
+  files: "size-5",
 };
 
 function shuffleArray<T>(array: T[]): T[] {
@@ -145,11 +145,11 @@ function DesktopDropdown({
     >
       <Link
         href={href}
-        className={`px-3 py-2 text-sm font-medium rounded-lg hover:bg-muted transition-colors inline-flex items-center ${compact ? "gap-1" : "gap-1.5"}`}
+        className={`px-3 py-2 text-sm font-medium rounded-lg hover:bg-muted transition-colors duration-200 inline-flex items-center ${compact ? "gap-1" : "gap-1.5"}`}
       >
         {IconComp && <IconComp className={icon ? iconSizes[icon] || "size-5" : "size-5"} />}
         {compact ? (
-          <span className="max-w-0 group-hover:max-w-40 overflow-hidden transition-all duration-200 whitespace-nowrap inline-flex items-center gap-1">
+          <span className="max-w-0 group-hover:max-w-40 focus-within:max-w-40 overflow-hidden transition-all duration-200 whitespace-nowrap inline-flex items-center gap-1">
             <span className="pl-1">{label}</span>
             <svg
               className="size-3 shrink-0"

@@ -65,7 +65,7 @@ export function PostCard({
           src={imgSrc}
           alt={title}
           fill
-          className="object-cover transition-transform hover:scale-105"
+          className="object-cover transition-transform duration-200 hover:scale-105"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           onError={() => {
             if (!fallbackUsed) {

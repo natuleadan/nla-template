@@ -82,7 +82,7 @@ function StarRating({
           key={star}
           type="button"
           onClick={() => setRating?.(star)}
-          className={`${star <= rating ? "text-yellow-500" : "text-muted"} hover:scale-110 transition p-1`}
+          className={`${star <= rating ? "text-warning" : "text-muted"} hover:scale-110 transition duration-200 p-1`}
           aria-label={cfg.store.product.starAriaLabel(star)}
         >
           <IconStar className="size-6 fill-current" />
@@ -353,8 +353,10 @@ export function ProductDetails({
                     >
                       <div className="flex items-center gap-2 min-w-0">
                         <span
-                          className={`size-2 shrink-0 rounded-full ${isLow ? "bg-red-500" : "bg-green-500"}`}
-                        />
+                          className={`size-2 shrink-0 rounded-full ${isLow ? "bg-destructive" : "bg-success"}`}
+                        >
+                          <span className="sr-only">{isLow ? cfg.store.product.lowStock : cfg.store.product.inStock}</span>
+                        </span>
                         <span className="text-sm font-medium truncate">
                           {loc.location}
                         </span>
@@ -368,7 +370,7 @@ export function ProductDetails({
                         </span>
                         <div className="w-16 h-1.5 rounded-full bg-muted overflow-hidden">
                           <div
-                            className={`h-full rounded-full transition-all ${isLow ? "bg-red-500" : "bg-green-500"}`}
+                            className={`h-full rounded-full transition-all ${isLow ? "bg-destructive" : "bg-success"}`}
                             style={{ width: `${pct}%` }}
                           />
                         </div>
@@ -423,7 +425,7 @@ export function ProductDetails({
                   key={star}
                   type="button"
                   onClick={() => setReviewRating(star)}
-                  className={`${star <= reviewRating ? "text-yellow-500" : "text-muted"} hover:scale-110 transition p-1`}
+                  className={`${star <= reviewRating ? "text-warning" : "text-muted"} hover:scale-110 transition duration-200 p-1`}
                   aria-label={cfg.store.product.starAriaLabel(star)}
                 >
                   <IconStar className="size-6 fill-current" />

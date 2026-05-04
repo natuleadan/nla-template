@@ -45,13 +45,13 @@ const typeOptions = [
 
 function ExpiryText({ expiryDate, labels }: { expiryDate: string | null; labels: Record<string, string> }) {
   if (!expiryDate) {
-    return <span className="text-green-600 dark:text-green-400 text-sm font-medium">{labels.indefinite}</span>;
+    return <span className="text-success text-sm font-medium">{labels.indefinite}</span>;
   }
   const now = new Date();
   const expiry = new Date(expiryDate);
   const expired = expiry < now;
   return (
-    <span className={`text-sm font-medium ${expired ? "text-red-500" : "text-amber-600 dark:text-amber-400"}`}>
+    <span className={`text-sm font-medium ${expired ? "text-destructive" : "text-warning"}`}>
       {expired ? labels.expired : `${labels.expires}: ${expiryDate}`}
     </span>
   );
@@ -195,7 +195,7 @@ export function CertificateSearch({
           {labels.button}
         </Button>
         <Select value={filterType} onValueChange={setFilterType}>
-          <SelectTrigger name="certificate-type" className="sm:max-w-[180px] ml-auto">
+          <SelectTrigger aria-label={labels.filterType} className="sm:max-w-[180px] ml-auto">
             <SelectValue placeholder={labels.filterType} />
           </SelectTrigger>
           <SelectContent>

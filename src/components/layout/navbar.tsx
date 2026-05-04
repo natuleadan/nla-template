@@ -23,6 +23,7 @@ import {
 } from "@tabler/icons-react";
 import { GlobalSearch } from "@/components/layout/global-search";
 import { NavDropdown } from "@/components/layout/navbar-dropdown";
+import { useKeyboardNav } from "@/hooks/use-keyboard-nav";
 import { LangSwitcher } from "@/components/layout/lang-switcher";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -39,11 +40,11 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   mail: IconMail,
 };
 
-const iconSizes: Record<string, string> = {
+  const iconSizes: Record<string, string> = {
   store: "size-5",
-  news: "size-[22px]",
-  calendar: "size-[22px]",
-  files: "size-[22px]",
+  news: "size-5",
+  calendar: "size-5",
+  files: "size-5",
 };
 
 export function Navbar() {
@@ -56,6 +57,12 @@ export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { openWhatsApp } = useWhatsApp();
 
+  const shortcuts = nav.items.map((item, i) => ({
+    key: String(i + 1),
+    href: item.href,
+  }));
+  useKeyboardNav(lang, shortcuts);
+
   const handleWhatsAppClick = () => {
     openWhatsApp({
       message: brand.whatsappMessage(brand.name),
@@ -64,7 +71,6 @@ export function Navbar() {
   };
 
   return (
-    <TooltipProvider>
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="flex h-16 items-center justify-between gap-4 px-4 md:px-6 lg:px-8 max-w-7xl mx-auto">
           <div className="flex items-center gap-3 shrink-0">
@@ -81,7 +87,7 @@ export function Navbar() {
             className="hidden lg:flex flex-1 justify-end items-center gap-1"
             aria-label={ui.navbar.desktopAriaLabel}
           >
-            {nav.items.map((item) => {
+            {nav.items.map((item, idx) => {
               const IconComp = iconMap[item.icon];
               if ("type" in item) {
                 return (
@@ -99,7 +105,8 @@ export function Navbar() {
                 <Link
                   key={item.href}
                   href={l(item.href)}
-                  className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-muted transition-colors inline-flex items-center gap-1.5"
+                  className="px-3 py-2 text-sm font-medium rounded-lg hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/50 transition-colors duration-200 inline-flex items-center gap-1.5"
+                  aria-keyshortcuts={String(idx + 1)}
                 >
                   {IconComp && <IconComp className={iconSizes[item.icon] || "size-5"} />}
                   {item.label}
@@ -126,7 +133,7 @@ export function Navbar() {
             className="hidden md:flex lg:hidden flex-1 justify-end items-center gap-0.5"
             aria-label={ui.navbar.desktopAriaLabel}
           >
-            {nav.items.map((item) => {
+            {nav.items.map((item, idx) => {
               const IconComp = iconMap[item.icon];
               if ("type" in item) {
                 return (
@@ -145,10 +152,11 @@ export function Navbar() {
                 <Link
                   key={item.href}
                   href={l(item.href)}
-                  className="group p-2.5 text-sm font-medium rounded-lg hover:bg-muted transition-colors inline-flex items-center gap-1"
+                  className="group p-2.5 text-sm font-medium rounded-lg hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/50 transition-colors duration-200 inline-flex items-center gap-1"
+                  aria-keyshortcuts={String(idx + 1)}
                 >
                   {IconComp && <IconComp className={`${iconSizes[item.icon] || "size-5"} shrink-0`} />}
-                  <span className="max-w-0 group-hover:max-w-40 overflow-hidden transition-all duration-200 whitespace-nowrap">
+                  <span className="max-w-0 group-hover:max-w-40 focus-within:max-w-40 overflow-hidden transition-all duration-200 whitespace-nowrap">
                     <span className="pl-1">{item.label}</span>
                   </span>
                 </Link>
@@ -189,7 +197,7 @@ export function Navbar() {
                   <IconMenu2 className="size-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-72">
+              <SheetContent side="right" className="w-72" closeLabel={ui.navbar.closeAria}>
                 <SheetTitle className="sr-only">{brand.name}</SheetTitle>
                 <SheetDescription className="sr-only">
                   {ui.mobileMenuDescription}
@@ -218,7 +226,7 @@ export function Navbar() {
                         key={item.href}
                         href={l(item.href)}
                         onClick={() => setMenuOpen(false)}
-                        className="px-4 py-3 text-base font-medium rounded-lg hover:bg-muted transition-colors inline-flex items-center gap-2"
+                        className="px-4 py-3 text-base font-medium rounded-lg hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/50 transition-colors inline-flex items-center gap-2"
                       >
                         {IconComp && <IconComp className={iconSizes[item.icon] || "size-5"} />}
                         {item.label}
@@ -231,6 +239,5 @@ export function Navbar() {
           </div>
         </div>
       </header>
-    </TooltipProvider>
   );
 }
