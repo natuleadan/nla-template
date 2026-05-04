@@ -33,6 +33,13 @@ async function optimizeImage(buffer: Uint8Array): Promise<Uint8Array> {
 }
 
 async function downloadMedia(link: string): Promise<Uint8Array | null> {
+  try {
+    const url = new URL(link);
+    if (!url.hostname.endsWith(".ycloud.com") && url.hostname !== "ycloud.com")
+      return null;
+  } catch {
+    return null;
+  }
   const res = await fetch(link, {
     headers: { Authorization: `Bearer ${getYcloudApiKey()}` },
   });

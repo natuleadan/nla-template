@@ -6,7 +6,7 @@
  * - Private vars: here — server-only (API keys, secrets, etc.)
  */
 
-import { timingSafeEqual, createHash } from "node:crypto";
+import { timingSafeEqual, pbkdf2Sync } from "node:crypto";
 import { isDev, isTest } from "@/lib/env.public";
 
 export {
@@ -105,10 +105,12 @@ export function getRateLimitMax(): number {
 export function getStoreCurrency(): string {
   const val = process.env.STORE_CURRENCY;
   if (val && /^[A-Z]{3}$/.test(val)) return val;
-  if (val && isDev)
-    console.warn(
-      `⚠️ STORE_CURRENCY="${val}" no es un código ISO 4217 válido. Usando USD.`,
-    );
+  if (val && !/^[A-Z]{3}$/.test(val)) {
+    if (isDev)
+      console.warn(
+        `⚠️ STORE_CURRENCY="${val}" no es un código ISO 4217 válido. Usando USD.`,
+      );
+  }
   return "USD";
 }
 
@@ -123,8 +125,8 @@ export function validateApiKey(request: Request): boolean {
   const expected = getApiKey();
   if (!provided || !expected) return false;
   try {
-    const a = createHash("sha256").update(provided).digest();
-    const b = createHash("sha256").update(expected).digest();
+    const a = pbkdf2Sync(provided, "nla-api-key", 1, 32, "sha512");
+    const b = pbkdf2Sync(expected, "nla-api-key", 1, 32, "sha512");
     return timingSafeEqual(a, b);
   } catch {
     return false;

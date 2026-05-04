@@ -62,6 +62,7 @@ async function verifySignature(
 }
 
 function markAsRead(id: string): void {
+  if (!/^[a-zA-Z0-9-]+$/.test(id)) return;
   const k = getYcloudApiKey();
   if (!k) return;
   fetch(
@@ -216,7 +217,7 @@ export async function POST(req: NextRequest) {
     if (latest !== text) return new Response("OK", { status: 200 });
     const all = await drainAll(phone);
     text = all.join(", ");
-    if (isDev) console.log("[YCLOUD] Processing", all.length, "msgs for", aid);
+    if (isDev) console.log("[YCLOUD] Processing", all.length, "msgs");
   }
 
   // Show typing indicator only when actually about to process (after media + queue)
