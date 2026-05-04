@@ -1,3 +1,16 @@
+## [2.1.0](https://github.com/natuleadan/nla-template/compare/v2.0.3...v2.1.0) (2026-05-04)
+
+### Features
+
+* **blog:** add downloadable attachments, rename blog to news, fix lang switcher and svg config ([4e91b5a](https://github.com/natuleadan/nla-template/commit/4e91b5ad3d3d4bfa480b4a3ae77361d2724f134a))
+* **certificates:** add certificate search module with webhook verification, rate limiting, and i18n ([a53ee8b](https://github.com/natuleadan/nla-template/commit/a53ee8bacfbd34d617d5c291efb5f9348fb8ef00))
+* **pages:** add downloadable attachments to legal pages with responsive 3-column layout ([a9937d7](https://github.com/natuleadan/nla-template/commit/a9937d701f1e7b65f59a4260f7e049db85b10147))
+* **store:** add downloadable attachments to products ([0f4cd02](https://github.com/natuleadan/nla-template/commit/0f4cd0245da9345da3d07c079fba8addb93f0f56))
+
+### Bug Fixes
+
+* **seo:** remove duplicate sitemap entries and add autocomplete to email field ([ffd8cac](https://github.com/natuleadan/nla-template/commit/ffd8cacfcf051fa122141deb46c1558312202508))
+
 ## [2.0.3](https://github.com/natuleadan/nla-template/compare/v2.0.2...v2.0.3) (2026-05-04)
 
 ### Bug Fixes
