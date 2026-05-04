@@ -1,3 +1,96 @@
+## [2.0.0](https://github.com/natuleadan/nla-template/compare/v1.5.0...v2.0.0) (2026-05-04)
+
+### ⚠ BREAKING CHANGES
+
+* **modules:** all public URLs are now in english.
+
+- /tienda/*  -> /store/*
+- /blog/*    -> /news/*
+- /paginas/* -> /pages/*
+- /contacto  -> /contact
+- /agenda    -> /schedule
+
+### Upgrade
+
+* **modules:** rename public routes from spanish to english ([9125d44](https://github.com/natuleadan/nla-template/commit/9125d443a7511d70dc72ebe9778bfcae47b9969a))
+
+### Features
+
+* **agent:** refine system prompt with derive rules and conditional first-time intro ([bdaa8e9](https://github.com/natuleadan/nla-template/commit/bdaa8e9d4a4999273942d2a72e420a5d03020258))
+* **api:** add zod validation, configurable rate limit, and migrate whatsapp to server action ([7e52b34](https://github.com/natuleadan/nla-template/commit/7e52b34ac53277ba746ce4327951de6cc6001c3e))
+* **i18n:** add english data files for products, blog, pages, brand, reviews, comments ([55d9750](https://github.com/natuleadan/nla-template/commit/55d97505cec6928465ebd9226b6f6360782a5c0a))
+* **i18n:** add english site config and remaining data files ([35fde2b](https://github.com/natuleadan/nla-template/commit/35fde2b8d42b258070b8da36a488e1fed7a61745))
+* **i18n:** add lang-switcher, bilingual sitemap, robots, llms, root og fallback ([27922ee](https://github.com/natuleadan/nla-template/commit/27922eeb460165f2325bd559605bfc10f3294253))
+* **localize:** cross-locale slug resolution for lang switcher and seo ([ecde6fd](https://github.com/natuleadan/nla-template/commit/ecde6fda17bc69eff246cb7083a5c27c3e9850fc))
+* **orders:** add order detail page with partial prerendering and gps map ([56dfbd3](https://github.com/natuleadan/nla-template/commit/56dfbd35f986e8cbe876f7984257edfe00bc09bf))
+* **security:** add content security policy, timing-safe auth, and xss prevention ([c63c481](https://github.com/natuleadan/nla-template/commit/c63c48165ea65b7805505f784396eb934f899382))
+* **ui:** blog post featured image on left side with wider content on desktop ([91c8067](https://github.com/natuleadan/nla-template/commit/91c8067f9f2d8e88b4d17981739fd6f2c53ecf3c))
+* **whatsapp:** add phone cookie system with 15min ttl and auto-fill ([a5a9cb8](https://github.com/natuleadan/nla-template/commit/a5a9cb865337d5e4895fb0f185830829ff40cee6))
+
+### Bug Fixes
+
+* **agent:** fix system prompt contradictions, add admin isolation tools ([2214afb](https://github.com/natuleadan/nla-template/commit/2214afbf43d3c1dcc2d4f2608f04c17a9100bfdf))
+* **agent:** no general knowledge, strict action vs info distinction, terminal derive ([81e11ab](https://github.com/natuleadan/nla-template/commit/81e11aba91a9538f7e5805c33a20f2922ab3b6eb))
+* **agent:** precargar shipping info, post-delete no references, action vs info examples ([3bb7929](https://github.com/natuleadan/nla-template/commit/3bb7929f249f6980b706cf40a2e9b482bee8331e))
+* **agent:** strengthen derive rules - immediate, terminal, no fake offers ([faf4a17](https://github.com/natuleadan/nla-template/commit/faf4a1747d594a2e3513271b5438c58b26626ef0))
+* **agent:** stronger prompt for shipping/action distinction, admin tools tested ([cd8c5b0](https://github.com/natuleadan/nla-template/commit/cd8c5b05d9e4e08228a8c37a04a3e87e4d05824c))
+* **analytics:** enforce cookie consent before sending data ([3382994](https://github.com/natuleadan/nla-template/commit/3382994b3aa1d8b1f3860feae9de0a95fcc7f1be))
+* **analytics:** render only in production environment ([566e63e](https://github.com/natuleadan/nla-template/commit/566e63e73e17f1313f67b887a08c2bebc8dc5ed1))
+* **api:** add auth to post/put/delete endpoints, add order pre-creation in chat ([e716c21](https://github.com/natuleadan/nla-template/commit/e716c211c3bebcf31da319323e76a854ec00deb4))
+* **api:** add pagination to products get endpoint ([5b869dc](https://github.com/natuleadan/nla-template/commit/5b869dc85fdb4b262bfdbbbc15259f2ad42f0a37))
+* **api:** update rate limit message on whatsapp send ([8477539](https://github.com/natuleadan/nla-template/commit/847753921ca1b4206211d4a391fc4824275571c1))
+* **brand:** remove unused whatsapp product id config keys ([6efa2f3](https://github.com/natuleadan/nla-template/commit/6efa2f351a68c07482b28c29dd240d0b68db1e49))
+* **components:** add dialog service, cookie webhook, and clean up notification imports ([cdd35ad](https://github.com/natuleadan/nla-template/commit/cdd35ad0c6efad22520403f23c55efc894e3681c))
+* **deps:** replace lucide-react with @tabler/icons-react ([8194d88](https://github.com/natuleadan/nla-template/commit/8194d884c591210494111831bfadb72c5306dbc6))
+* **i18n:** add locale support to api routes, manifest, and remaining modules ([30881e7](https://github.com/natuleadan/nla-template/commit/30881e7203943cb01d8e117f06c0a849dbc1e5ec))
+* **i18n:** localize all hardcoded strings in api routes, og images, metadata, and configs ([0d05006](https://github.com/natuleadan/nla-template/commit/0d050063ecdbcef2089b796d70e94d8b5d202dcd))
+* **localize:** add locale prefix to sitemap, ui components, and json-ld ([d6ce466](https://github.com/natuleadan/nla-template/commit/d6ce466124ee7886c9c088f5f68eee0537768dd7))
+* **localize:** locale-aware og and twitter images for all routes ([071c8e0](https://github.com/natuleadan/nla-template/commit/071c8e0decae8f6b7e7c6dccc15d2714d7531c83))
+* **nav:** add dropdown type to nav items and wire navdropdown in navbar ([8dc2295](https://github.com/natuleadan/nla-template/commit/8dc22951fb71ecb4d2ef438d8e06415aed6dc435))
+* **orders:** add in-memory fallback for createbusorder ([39eb34d](https://github.com/natuleadan/nla-template/commit/39eb34d6528ebf97c5f767e16c0e5816b3d51c41))
+* **redis:** add hashgetall type coercion for numeric fields ([4ce7d0a](https://github.com/natuleadan/nla-template/commit/4ce7d0a4abbadba0313b20f30748fcae41baf560))
+* **scalar:** resolve openapi type errors and delete legacy paths ([77928ea](https://github.com/natuleadan/nla-template/commit/77928ea3bd7cbbfc6e47fe0639d0133e4a47aa28))
+* **scalar:** update product and order openapi schemas ([6d4fc4a](https://github.com/natuleadan/nla-template/commit/6d4fc4a62f3b86256ddf2e290ce25723e5cbad5b))
+* **schema:** consolidate comment and review status to pending|approved ([0767bf4](https://github.com/natuleadan/nla-template/commit/0767bf4d8414f4328510a9504b1e99d75ee0fa0c))
+* **schemas:** add zod validation for seed data modules ([7d411ec](https://github.com/natuleadan/nla-template/commit/7d411ecc96d80819bafff2c01a768dba64ee1ab6))
+* **security:** address codeql alerts for ssrf, log injection, and password hash ([2e1b4a2](https://github.com/natuleadan/nla-template/commit/2e1b4a23324e3488517b4c65415b8513b1b25be2))
+* **seo:** add inlanguage and dynamic currency to product jsonld, change blogposting to article ([dd8368e](https://github.com/natuleadan/nla-template/commit/dd8368e2584e3fe65341cda7673e05d8f71c7590))
+* **seo:** remove redundant bare locale allow rule from robots ([3413e78](https://github.com/natuleadan/nla-template/commit/3413e78df6e7c199f3369957196877e12228f093))
+* **types:** resolve typecheck errors across components and modules ([4134d6f](https://github.com/natuleadan/nla-template/commit/4134d6ff049c1aa74257265b9147b985942405a7))
+* **ui:** convert lang switcher and theme toggle to dropdown menus ([c0e234e](https://github.com/natuleadan/nla-template/commit/c0e234eb33efb44e882b60764fd1a4c29d78650f))
+* **ui:** localize hardcoded sidebar labels in mobile menu ([343b3a4](https://github.com/natuleadan/nla-template/commit/343b3a45974e38cab4dbc21ccc2c22738bcd2f0e))
+* **whatsapp:** move typing indicator after media processing ([37d56ca](https://github.com/natuleadan/nla-template/commit/37d56ca0f89da58e51d21b13fbb08b677c8614d0))
+
+### Documentation
+
+* **i18n:** add complete english translation of paginas data policy pages ([a38efcd](https://github.com/natuleadan/nla-template/commit/a38efcd4453f9e21b94dc5bf5a73feb3c57162dd))
+* **readme:** update endpoints, tools table, env vars, test count ([ca56d87](https://github.com/natuleadan/nla-template/commit/ca56d8764a64ef269956619c5b33343a740a1327))
+* **readme:** update tool count, test count and add phone cookie feature ([53c64b3](https://github.com/natuleadan/nla-template/commit/53c64b36d39b0d3b5bd6ca47929aae0ba1d07970))
+
+### Refactoring
+
+* **agent:** strip redis to only session/memory/rate/derived, remove all crud tools ([e375eaa](https://github.com/natuleadan/nla-template/commit/e375eaa71bb8f1bc8348b12e278eebb065b7354d))
+* **api:** remove all dynamic data endpoints ([523b486](https://github.com/natuleadan/nla-template/commit/523b486d84612e6cc49650cc764ea6987307ea98))
+* **i18n:** add langprovider, getconfig, proxy locale detection, and barrel files ([7128867](https://github.com/natuleadan/nla-template/commit/71288670868868af08901d065ba058c19a01fd57))
+* **i18n:** add locale prop to json-ld components ([e5dd4e3](https://github.com/natuleadan/nla-template/commit/e5dd4e3649ecdce4071816362d0f02cb33117140))
+* **i18n:** migrate all pages to [lang] with locale-aware metadata and alternates ([994dc0c](https://github.com/natuleadan/nla-template/commit/994dc0c18aedd358b87eadc2be84730f18d36131))
+* **i18n:** remove deprecated ordenes module ([9f6f530](https://github.com/natuleadan/nla-template/commit/9f6f530197c22d2fafaa3606ac595a246b489fe8))
+* **i18n:** rename data files from .ts to .es.ts for barrel ([97d59ad](https://github.com/natuleadan/nla-template/commit/97d59ad94583471af083cb91e991752899b8a4c2))
+* **i18n:** update all components to uselang and getconfig ([cef061a](https://github.com/natuleadan/nla-template/commit/cef061adecbb1d13cadeb825cfbba63a84a835ba))
+* **template:** acme-generic branding, office products, readme cleanup ([cf4603f](https://github.com/natuleadan/nla-template/commit/cf4603f9126f0626e0e2f42037f24481c2985930))
+
+### Tests
+
+* **i18n:** add anti-regression test for hardcoded locale patterns ([d7d8c7c](https://github.com/natuleadan/nla-template/commit/d7d8c7c494bd3ddaec094c1a7948e18d5025f971))
+
+### Chore
+
+* **config:** add .nvmrc and update node engine ([d30fc04](https://github.com/natuleadan/nla-template/commit/d30fc04cc6ecd8cfe3547c84d30fd33e01e60118))
+* **config:** update env.example, readme, add anti-regression test ([6b48e20](https://github.com/natuleadan/nla-template/commit/6b48e20bd3d36151789a83d9ccfecc57ee801291))
+* **deps:** install missing ui dependencies ([ffeef48](https://github.com/natuleadan/nla-template/commit/ffeef489dc5f87d74520ce1b40321085cf27d88f))
+* **format:** apply prettier formatting to all files ([2c281a0](https://github.com/natuleadan/nla-template/commit/2c281a005b7755b64166c014d21ac8b81765a2e8))
+* **upstash:** rename redis.ts to client.ts and ratelimit.ts to ratelimit.service.ts ([075cf76](https://github.com/natuleadan/nla-template/commit/075cf76b2808f4ef3679752fd48d274883e9140e))
+
 ## [1.5.0](https://github.com/natuleadan/nla-template/compare/v1.4.1...v1.5.0) (2026-04-28)
 
 ### Features
