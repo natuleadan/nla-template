@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import {
   getYcloudApiKey,
   getYcloudEnabled,
@@ -51,7 +52,9 @@ export async function POST(request: Request) {
     const { to, message, productName } = parsed.data;
 
     const ip = getClientIp(request);
-    const { success } = await whatsappSendRateLimit.limit(`${ip}:${to}`);
+    const ipHash = createHash("sha256").update(ip).digest("hex").slice(0, 16);
+    const phoneHash = createHash("sha256").update(to).digest("hex").slice(0, 16);
+    const { success } = await whatsappSendRateLimit.limit(`${ipHash}:${phoneHash}`);
     if (!success) {
       return Response.json({ error: t.rateLimitIp }, { status: 429 });
     }

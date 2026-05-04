@@ -26,3 +26,10 @@ export const apiGlobalRateLimit = new Ratelimit({
   ephemeralCache: cache,
   prefix: "ratelimit:global",
 });
+
+export const certRateLimit = new Ratelimit({
+  redis: isRedisConfigured() ? getRedis() : ({} as Redis),
+  limiter: Ratelimit.slidingWindow(2, "1 m"),
+  ephemeralCache: cache,
+  prefix: "ratelimit:cert",
+});

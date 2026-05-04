@@ -57,7 +57,8 @@ export async function whatsappSendAction(data: {
     h.get("x-real-ip") ||
     "127.0.0.1";
   const ipHash = createHash("sha256").update(raw).digest("hex").slice(0, 16);
-  const rlKey = `${ipHash}:${to}`;
+  const phoneHash = createHash("sha256").update(to).digest("hex").slice(0, 16);
+  const rlKey = `${ipHash}:${phoneHash}`;
 
   try {
     const result = await Promise.race([

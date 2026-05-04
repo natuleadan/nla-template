@@ -118,11 +118,13 @@ export function getStoreCurrency(): string {
   if (val && /^[A-Z]{3}$/.test(val)) return val;
   if (val && !/^[A-Z]{3}$/.test(val)) {
     if (isDev)
-      console.warn(
-        `⚠️ STORE_CURRENCY="${val}" no es un código ISO 4217 válido. Usando USD.`,
-      );
+      console.warn(`⚠️ STORE_CURRENCY="${val}" no es un código ISO 4217 válido. Usando USD.`);
   }
   return "USD";
+}
+
+export function getCertificateWebhookUrl(): string {
+  return process.env.CERTIFICATE_WEBHOOK_URL || "";
 }
 
 export function getZeroDataRetention(): boolean {
