@@ -223,7 +223,7 @@ export function SlotDialog({
                     {cfg.agenda.slot.typeLabel}
                   </label>
                   <Select value={selectedType} onValueChange={handleTypeChange}>
-                    <SelectTrigger>
+                    <SelectTrigger name="appointment-type">
                       <SelectValue
                         placeholder={cfg.agenda.slot.typePlaceholder}
                       />
@@ -262,7 +262,7 @@ export function SlotDialog({
           </DialogHeader>
           <div className="py-4 space-y-3">
             <Select value={selectedType} onValueChange={handleTypeChange}>
-              <SelectTrigger>
+              <SelectTrigger name="appointment-type">
                 <SelectValue placeholder={cfg.agenda.slot.typePlaceholder} />
               </SelectTrigger>
               <SelectContent>
@@ -360,7 +360,7 @@ export function SlotDialog({
         </DialogHeader>
         <div className="py-2 space-y-3">
           <Select value={selectedType} onValueChange={handleTypeChange}>
-            <SelectTrigger>
+            <SelectTrigger name="appointment-type">
               <SelectValue placeholder={cfg.agenda.slot.typePlaceholder} />
             </SelectTrigger>
             <SelectContent>
@@ -387,7 +387,7 @@ export function SlotDialog({
           </div>
           <div className="space-y-2">
             <Select value={selectedProduct} onValueChange={setSelectedProduct}>
-              <SelectTrigger className="w-full">
+              <SelectTrigger name="appointment-product" className="w-full">
                 <SelectValue placeholder={cfg.agenda.slot.productPlaceholder} />
               </SelectTrigger>
               <SelectContent>
@@ -420,7 +420,7 @@ export function SlotDialog({
               </div>
             )}
           </div>
-          <Textarea
+          <Textarea name="appointment-message"
             placeholder={cfg.agenda.slot.messagePlaceholder}
             value={message}
             onChange={(e) => setMessage(e.target.value)}

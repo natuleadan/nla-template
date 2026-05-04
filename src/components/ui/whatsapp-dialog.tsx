@@ -208,7 +208,7 @@ export function WhatsAppDialog({
               </PopoverContent>
             </Popover>
 
-            <Input
+            <Input name="whatsapp-phone"
               placeholder={t.dialog.phonePlaceholder}
               value={phoneNumber}
               onChange={(e) =>

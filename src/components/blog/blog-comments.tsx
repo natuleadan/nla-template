@@ -75,7 +75,7 @@ export function BlogComments({ postSlug, initialComments }: BlogCommentsProps) {
       <div className="border rounded-lg p-4 space-y-4 mt-6">
         <h3 className="font-medium">{cfg.blog.comments.writeTitle}</h3>
 
-        <Input
+        <Input name="comment-name"
           placeholder={cfg.blog.comments.namePlaceholder}
           value={commentName}
           onChange={(e) => setCommentName(e.target.value)}
@@ -83,7 +83,7 @@ export function BlogComments({ postSlug, initialComments }: BlogCommentsProps) {
           aria-label={cfg.blog.comments.namePlaceholder}
         />
 
-        <Textarea
+        <Textarea name="comment-text"
           placeholder={cfg.blog.comments.commentPlaceholder}
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}

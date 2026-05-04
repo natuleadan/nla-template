@@ -373,7 +373,7 @@ export function ProductDetails({
           <h3 className="font-medium">{cfg.store.reviews.writeTitle}</h3>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <Input
+            <Input name="review-name"
               placeholder={cfg.store.reviews.namePlaceholder}
               value={reviewName}
               onChange={(e) => setReviewName(e.target.value)}
@@ -395,7 +395,7 @@ export function ProductDetails({
             </div>
           </div>
 
-          <Textarea
+          <Textarea name="review-comment"
             placeholder={cfg.store.reviews.commentPlaceholder}
             value={reviewComment}
             onChange={(e) => setReviewComment(e.target.value)}

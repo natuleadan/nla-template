@@ -97,7 +97,7 @@ export function TiendaToolbar({
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row gap-4">
-        <Input
+        <Input name="store-search"
           placeholder={cfg.store.toolbar.searchPlaceholder}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -105,7 +105,7 @@ export function TiendaToolbar({
           aria-label={cfg.store.toolbar.searchPlaceholder}
         />
         <Select value={category} onValueChange={setCategory}>
-          <SelectTrigger className="sm:max-w-xs ml-auto">
+          <SelectTrigger name="store-category" className="sm:max-w-xs ml-auto">
             <SelectValue placeholder={cfg.store.toolbar.filterLabel} />
           </SelectTrigger>
           <SelectContent>

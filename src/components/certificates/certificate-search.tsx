@@ -173,7 +173,7 @@ export function CertificateSearch({
       <div className="flex flex-col sm:flex-row gap-3">
         <Tooltip open={cleaned.length > 0 && !isReady}>
           <TooltipTrigger asChild>
-            <Input
+            <Input name="certificate-id"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder={labels.placeholder}
@@ -195,7 +195,7 @@ export function CertificateSearch({
           {labels.button}
         </Button>
         <Select value={filterType} onValueChange={setFilterType}>
-          <SelectTrigger className="sm:max-w-[180px] ml-auto">
+          <SelectTrigger name="certificate-type" className="sm:max-w-[180px] ml-auto">
             <SelectValue placeholder={labels.filterType} />
           </SelectTrigger>
           <SelectContent>

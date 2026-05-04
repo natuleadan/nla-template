@@ -100,7 +100,7 @@ export function BlogToolbar({
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row gap-4">
-        <Input
+        <Input name="blog-search"
           placeholder={cfg.blog.toolbar.searchPlaceholder}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -108,7 +108,7 @@ export function BlogToolbar({
           aria-label={cfg.blog.toolbar.searchPlaceholder}
         />
         <Select value={category} onValueChange={setCategory}>
-          <SelectTrigger className="sm:max-w-xs ml-auto">
+          <SelectTrigger name="blog-category" className="sm:max-w-xs ml-auto">
             <SelectValue placeholder={cfg.blog.toolbar.filterLabel} />
           </SelectTrigger>
           <SelectContent>

@@ -115,6 +115,7 @@ export function ContactForm({ className }: ContactFormProps) {
                   <Input
                     type="email"
                     placeholder={t.email.placeholder}
+                    autoComplete="email"
                     {...field}
                   />
                 </FormControl>

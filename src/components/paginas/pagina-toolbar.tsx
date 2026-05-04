@@ -95,7 +95,7 @@ export function PaginaToolbar({
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row gap-3">
-        <Input
+        <Input name="pages-search"
           placeholder={cfg.paginas.toolbar.searchPlaceholder}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -103,7 +103,7 @@ export function PaginaToolbar({
           aria-label={cfg.paginas.toolbar.searchPlaceholder}
         />
         <Select value={category} onValueChange={setCategory}>
-          <SelectTrigger className="sm:max-w-xs ml-auto">
+          <SelectTrigger name="pages-category" className="sm:max-w-xs ml-auto">
             <SelectValue placeholder={cfg.paginas.toolbar.filterLabel} />
           </SelectTrigger>
           <SelectContent>
