@@ -27,6 +27,11 @@ export const allProducts: Product[] = [
       { id: "a5", name: "A5 Size", price: 699, originalPrice: 899 },
       { id: "oficio", name: "Legal Size", price: 999, originalPrice: 1199 },
     ],
+    attachments: [
+      { name: "Technical Sheet.pdf", url: "/medias/store/aluminum-clipboard/ficha-tecnica.pdf", size: "1.2 MB" },
+      { name: "Custom Template.xlsx", url: "/medias/store/aluminum-clipboard/plantilla.xlsx", size: "856 KB" },
+      { name: "User Manual.docx", url: "/medias/store/aluminum-clipboard/manual.docx", size: "2.1 MB" },
+    ],
   },
   {
     id: "2",
@@ -292,6 +297,12 @@ export const allProducts: Product[] = [
     image: "/design/fallback.svg",
     images: imgs("Cutter+Precision", 2),
     category: "herramientas",
-    type: "product",
+    type: "service",
+    appointment: true,
+    attachments: [
+      { name: "Service Catalog.pdf", url: "/medias/store/precision-cutter/catalogo-servicios.pdf", size: "3.4 MB" },
+      { name: "Price Guide.xlsx", url: "/medias/store/precision-cutter/precios.xlsx", size: "512 KB" },
+      { name: "Contract Template.docx", url: "/medias/store/precision-cutter/contrato.docx", size: "1.8 MB" },
+    ],
   },
 ];

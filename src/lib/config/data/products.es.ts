@@ -27,6 +27,11 @@ export const allProducts: Product[] = [
       { id: "a5", name: "Tamaño A5", price: 699, originalPrice: 899 },
       { id: "oficio", name: "Tamaño Oficio", price: 999, originalPrice: 1199 },
     ],
+    attachments: [
+      { name: "Ficha técnica.pdf", url: "/medias/store/portapapeles-aluminio/ficha-tecnica.pdf", size: "1.2 MB" },
+      { name: "Plantilla personalización.xlsx", url: "/medias/store/portapapeles-aluminio/plantilla.xlsx", size: "856 KB" },
+      { name: "Manual de uso.docx", url: "/medias/store/portapapeles-aluminio/manual.docx", size: "2.1 MB" },
+    ],
   },
   {
     id: "2",
@@ -294,6 +299,12 @@ export const allProducts: Product[] = [
     image: "/design/fallback.svg",
     images: imgs("Cutter+Precision", 2),
     category: "herramientas",
-    type: "product",
+    type: "service",
+    appointment: true,
+    attachments: [
+      { name: "Catálogo de servicios.pdf", url: "/medias/store/cutter-precision/catalogo-servicios.pdf", size: "3.4 MB" },
+      { name: "Guía de precios.xlsx", url: "/medias/store/cutter-precision/precios.xlsx", size: "512 KB" },
+      { name: "Plantilla contrato.docx", url: "/medias/store/cutter-precision/contrato.docx", size: "1.8 MB" },
+    ],
   },
 ];

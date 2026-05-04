@@ -25,6 +25,7 @@ import {
   IconMapPin,
   IconCalendar,
 } from "@tabler/icons-react";
+import { BlogAttachments } from "@/components/blog/blog-attachments";
 import type { Review } from "@/lib/modules/reviews";
 import type { InventoryItem } from "@/lib/config/data/inventory";
 import { useLang } from "@/lib/locale/context";
@@ -57,6 +58,7 @@ interface Product {
   quantity: number;
   unit: string;
   reviews: Review[];
+  attachments?: Array<{ name: string; url: string; size?: string }>;
 }
 
 interface ProductDetailsProps {
@@ -198,56 +200,61 @@ export function ProductDetails({
       </div>
 
       <div className="grid gap-8 md:grid-cols-2 mt-8">
-        <div className="rounded-lg bg-muted overflow-hidden relative">
-          {product.images && product.images.length > 1 ? (
-            <Carousel className="w-full" setApi={handleCarouselApi}>
-              <CarouselContent>
-                {product.images.map((img, idx) => (
-                  <CarouselItem key={idx}>
-                    <div className="relative h-80 md:h-96">
-                      <Image
-                        src={fallbackUsed ? FALLBACK_IMAGE : img}
-                        alt={product.name + " " + (idx + 1)}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        onError={() => {
-                          if (!fallbackUsed) {
-                            setFallbackUsed(true);
-                          }
-                        }}
-                      />
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious className="left-2" />
-              <CarouselNext className="right-2" />
-              <div className="absolute bottom-3 right-3">
-                <Badge variant="secondary" className="text-xs font-mono">
-                  {currentImage}/{product.images.length}
-                </Badge>
-              </div>
-            </Carousel>
-          ) : (
-            <div className="relative h-80 md:h-96">
-              <Image
-                src={
-                  fallbackUsed
-                    ? FALLBACK_IMAGE
-                    : product.image || FALLBACK_IMAGE
-                }
-                alt={product.name}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw"
-                onError={() => {
-                  if (!fallbackUsed) {
-                    setFallbackUsed(true);
+        <div className="space-y-6">
+          <div className="rounded-lg bg-muted overflow-hidden relative">
+            {product.images && product.images.length > 1 ? (
+              <Carousel className="w-full" setApi={handleCarouselApi}>
+                <CarouselContent>
+                  {product.images.map((img, idx) => (
+                    <CarouselItem key={idx}>
+                      <div className="relative h-80 md:h-96">
+                        <Image
+                          src={fallbackUsed ? FALLBACK_IMAGE : img}
+                          alt={product.name + " " + (idx + 1)}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                          onError={() => {
+                            if (!fallbackUsed) {
+                              setFallbackUsed(true);
+                            }
+                          }}
+                        />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="left-2" />
+                <CarouselNext className="right-2" />
+                <div className="absolute bottom-3 right-3">
+                  <Badge variant="secondary" className="text-xs font-mono">
+                    {currentImage}/{product.images.length}
+                  </Badge>
+                </div>
+              </Carousel>
+            ) : (
+              <div className="relative h-80 md:h-96">
+                <Image
+                  src={
+                    fallbackUsed
+                      ? FALLBACK_IMAGE
+                      : product.image || FALLBACK_IMAGE
                   }
-                }}
-              />
-            </div>
+                  alt={product.name}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  onError={() => {
+                    if (!fallbackUsed) {
+                      setFallbackUsed(true);
+                    }
+                  }}
+                />
+              </div>
+            )}
+          </div>
+          {product.attachments && product.attachments.length > 0 && (
+            <BlogAttachments attachments={product.attachments} />
           )}
         </div>
 

@@ -1,5 +1,11 @@
 import { z } from "zod";
 
+export const AttachmentSchema = z.object({
+  name: z.string().min(1),
+  url: z.string().min(1),
+  size: z.string().optional(),
+});
+
 export const ProductVariantSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
@@ -24,6 +30,7 @@ export const ProductSchema = z.object({
   type: z.enum(["product", "service"]).optional(),
   appointment: z.boolean().optional(),
   variants: z.array(ProductVariantSchema).optional(),
+  attachments: z.array(AttachmentSchema).optional(),
 });
 
 export type Product = z.infer<typeof ProductSchema>;
