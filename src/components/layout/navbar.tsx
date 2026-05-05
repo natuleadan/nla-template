@@ -14,6 +14,7 @@ import {
   IconBrandWhatsapp,
   IconBarbell,
   IconMenu2,
+  IconShoppingCart,
   IconHome,
   IconBuildingStore,
   IconNews,
@@ -30,6 +31,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
 import { useWhatsApp } from "@/hooks/use-whatsapp";
+import { useCartContext } from "@/components/cart/cart-context";
+import { CartSheet } from "@/components/cart/cart-sheet";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   home: IconHome,
@@ -62,6 +65,7 @@ export function Navbar() {
     href: item.href,
   }));
   useKeyboardNav(lang, shortcuts);
+  const { totalItems, hydrated } = useCartContext();
 
   const handleWhatsAppClick = () => {
     openWhatsApp({
@@ -116,17 +120,36 @@ export function Navbar() {
             <GlobalSearch />
             <LangSwitcher />
             <ThemeToggle />
-            <Button
-              onClick={handleWhatsAppClick}
-              size="sm"
-              className="gap-2 ml-2"
-            >
-              <IconBrandWhatsapp className="size-5" data-icon="inline-start" />
-              <span className="hidden sm:inline">
-                {nav.buttons.whatsappDesktop}
-              </span>
-              <span className="sm:hidden">{nav.buttons.whatsappMobile}</span>
-            </Button>
+            {!hydrated ? (
+              <Button onClick={handleWhatsAppClick} size="sm" className="gap-2 ml-2">
+                <IconBrandWhatsapp className="size-5" data-icon="inline-start" />
+                <span className="hidden sm:inline">{nav.buttons.whatsappDesktop}</span>
+                <span className="sm:hidden">{nav.buttons.whatsappMobile}</span>
+              </Button>
+            ) : totalItems > 0 ? (
+              <CartSheet>
+                <Button
+                  size="sm"
+                  className="gap-2 ml-2"
+                  aria-label={cfg.store.cart.openAriaLabel}
+                >
+                  <span className="relative">
+                    <IconShoppingCart className="size-5" data-icon="inline-start" />
+                    <span className="absolute -top-1.5 -right-1.5 flex min-w-4 h-4 items-center justify-center rounded-full bg-foreground text-[10px] font-medium text-background px-1">
+                      {totalItems}
+                    </span>
+                  </span>
+                  <span className="hidden sm:inline">{lang === "es" ? "Carrito" : "Cart"}</span>
+                  <span className="sm:hidden">{totalItems}</span>
+                </Button>
+              </CartSheet>
+            ) : (
+              <Button onClick={handleWhatsAppClick} size="sm" className="gap-2 ml-2">
+                <IconBrandWhatsapp className="size-5" data-icon="inline-start" />
+                <span className="hidden sm:inline">{nav.buttons.whatsappDesktop}</span>
+                <span className="sm:hidden">{nav.buttons.whatsappMobile}</span>
+              </Button>
+            )}
           </nav>
 
           <nav
@@ -165,28 +188,62 @@ export function Navbar() {
             <GlobalSearch />
             <LangSwitcher />
             <ThemeToggle />
-            <Button
-              onClick={handleWhatsAppClick}
-              size="icon"
-              variant="ghost"
-              aria-label={ui.navbar.whatsappAriaLabel}
-            >
-              <IconBrandWhatsapp className="size-5" />
-            </Button>
+            {!hydrated ? (
+              <Button onClick={handleWhatsAppClick} size="icon" variant="ghost" aria-label={ui.navbar.whatsappAriaLabel}>
+                <IconBrandWhatsapp className="size-5" />
+              </Button>
+            ) : totalItems > 0 ? (
+              <CartSheet>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="relative"
+                  aria-label={cfg.store.cart.openAriaLabel}
+                >
+                  <span className="relative">
+                    <IconShoppingCart className="size-5" />
+                    <span className="absolute -top-1.5 -right-1.5 flex min-w-4 h-4 items-center justify-center rounded-full bg-foreground text-[10px] font-medium text-background px-1">
+                      {totalItems}
+                    </span>
+                  </span>
+                </Button>
+              </CartSheet>
+            ) : (
+              <Button onClick={handleWhatsAppClick} size="icon" variant="ghost" aria-label={ui.navbar.whatsappAriaLabel}>
+                <IconBrandWhatsapp className="size-5" />
+              </Button>
+            )}
           </nav>
 
           <div className="flex md:hidden items-center gap-1">
             <GlobalSearch />
             <LangSwitcher />
             <ThemeToggle />
-            <Button
-              onClick={handleWhatsAppClick}
-              size="icon"
-              variant="ghost"
-              aria-label={ui.navbar.whatsappAriaLabel}
-            >
-              <IconBrandWhatsapp className="size-5" />
-            </Button>
+            {!hydrated ? (
+              <Button onClick={handleWhatsAppClick} size="icon" variant="ghost" aria-label={ui.navbar.whatsappAriaLabel}>
+                <IconBrandWhatsapp className="size-5" />
+              </Button>
+            ) : totalItems > 0 ? (
+              <CartSheet>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="relative"
+                  aria-label={cfg.store.cart.openAriaLabel}
+                >
+                  <span className="relative">
+                    <IconShoppingCart className="size-5" />
+                    <span className="absolute -top-1.5 -right-1.5 flex min-w-4 h-4 items-center justify-center rounded-full bg-foreground text-[10px] font-medium text-background px-1">
+                      {totalItems}
+                    </span>
+                  </span>
+                </Button>
+              </CartSheet>
+            ) : (
+              <Button onClick={handleWhatsAppClick} size="icon" variant="ghost" aria-label={ui.navbar.whatsappAriaLabel}>
+                <IconBrandWhatsapp className="size-5" />
+              </Button>
+            )}
             <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
               <SheetTrigger asChild>
                 <Button

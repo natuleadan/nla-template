@@ -70,6 +70,8 @@ Best regards,
     attachmentsLabel: "Attachments",
     inventorySummary: (total: number, locations: number) =>
       `${total} units in ${locations} ${locations === 1 ? "location" : "locations"}`,
+    addToCart: "Cart",
+    addedToCart: "Added to cart",
   },
   reviews: {
     title: (count: number) => `Reviews (${count})`,
@@ -119,6 +121,8 @@ Your review will be reviewed and published soon. Thank you for helping us improv
     perUnit: (price: number) => `$${price.toFixed(2)} each`,
     subtotal: (price: number) => `Subtotal: $${price.toFixed(2)}`,
     delete: "Remove",
+    includesTax: "Tax included",
+    excludesShipping: "Shipping not included",
     total: "Total:",
     orderWhatsApp: "Order via WhatsApp",
     openAriaLabel: "Open cart",

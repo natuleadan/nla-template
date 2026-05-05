@@ -47,3 +47,10 @@ export async function getProductSlugById(
 ): Promise<string | undefined> {
   return getData(locale).find((p) => p.id === id)?.slug;
 }
+
+export function getProductMap(locale = "es"): Record<string, { name: string; price: number; slug: string }> {
+  return getData(locale).reduce((acc, p) => {
+    acc[p.id] = { name: p.name, price: p.price, slug: p.slug };
+    return acc;
+  }, {} as Record<string, { name: string; price: number; slug: string }>);
+}

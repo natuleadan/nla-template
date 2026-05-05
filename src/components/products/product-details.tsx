@@ -24,6 +24,7 @@ import {
   IconStar,
   IconMapPin,
   IconCalendar,
+  IconShoppingCart,
 } from "@tabler/icons-react";
 import { BlogAttachments } from "@/components/blog/blog-attachments";
 import type { Review } from "@/lib/modules/reviews";
@@ -31,6 +32,7 @@ import type { InventoryItem } from "@/lib/config/data/inventory.es";
 import { useLang } from "@/hooks/use-lang";
 import { getConfig, getDateLocale } from "@/lib/locale/config";
 import { useWhatsApp } from "@/hooks/use-whatsapp";
+import { useCartContext } from "@/components/cart/cart-context";
 
 const FALLBACK_IMAGE = "/design/fallback.svg";
 
@@ -130,6 +132,7 @@ export function ProductDetails({
   const [product] = useState(initialProduct);
   const [inventory] = useState(initialInventory);
   const { openWhatsApp } = useWhatsApp();
+  const { addItem } = useCartContext();
   const [fallbackUsed, setFallbackUsed] = useState(false);
   const [currentImage, setCurrentImage] = useState(1);
 
@@ -253,19 +256,27 @@ export function ProductDetails({
               </div>
             )}
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-row gap-2 w-full">
             <Button
               onClick={handlePedir}
-              className="gap-2"
+              className="gap-2 flex-1"
               aria-label={`${cfg.store.product.orderWhatsApp} ${product.name}`}
             >
-              <IconBrandWhatsapp className="size-5" />
-              {cfg.store.product.orderWhatsApp}
+                <IconBrandWhatsapp className="size-5" />
+                {cfg.store.product.orderWhatsApp}
+              </Button>
+            <Button
+              variant="outline"
+              className="gap-2 flex-1"
+              onClick={() => addItem(product.id)}
+            >
+              <IconShoppingCart className="size-5" />
+              {cfg.store.product.addToCart}
             </Button>
             {(product.type === "service" || product.appointment) && (
               <Button
                 variant="outline"
-                className="gap-2"
+                className="gap-2 flex-1"
                 onClick={() =>
                   (window.location.href = `/${lang}/schedule?producto=${product.slug}`)
                 }

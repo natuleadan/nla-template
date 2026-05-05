@@ -70,6 +70,8 @@ Recibimos tu consulta sobre:
     attachmentsLabel: "Adjuntos",
     inventorySummary: (total: number, locations: number) =>
       `${total} uds. en ${locations} ${locations === 1 ? "ubicación" : "ubicaciones"}`,
+    addToCart: "Carrito",
+    addedToCart: "Agregado al carrito",
   },
   reviews: {
     title: (count: number) => `Reseñas (${count})`,
@@ -119,6 +121,8 @@ Tu reseña será revisada y publicada pronto. ¡Gracias por ayudarnos a mejorar!
     perUnit: (price: number) => `$${price.toFixed(2)} c/u`,
     subtotal: (price: number) => `Subtotal: $${price.toFixed(2)}`,
     delete: "Eliminar",
+    includesTax: "Incluye IVA",
+    excludesShipping: "No incluye envío",
     total: "Total:",
     orderWhatsApp: "Pedir por WhatsApp",
     openAriaLabel: "Abrir carrito",

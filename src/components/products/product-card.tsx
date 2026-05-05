@@ -13,12 +13,13 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { IconBrandWhatsapp, IconEye } from "@tabler/icons-react";
+import { IconBrandWhatsapp, IconEye, IconShoppingCart } from "@tabler/icons-react";
 
 const FALLBACK_IMAGE = "/design/fallback.svg";
 import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
 import { useWhatsApp } from "@/hooks/use-whatsapp";
+import { useCartContext } from "@/components/cart/cart-context";
 
 interface ProductCardProps {
   id: string;
@@ -44,6 +45,7 @@ export function ProductCard({
   const [imgSrc, setImgSrc] = useState(image || FALLBACK_IMAGE);
   const [fallbackUsed, setFallbackUsed] = useState(false);
   const { openWhatsApp } = useWhatsApp();
+  const { addItem } = useCartContext();
 
   const handlePedir = () => {
     const mensaje = cfg.store.product.whatsappCompact(name, price);
@@ -99,24 +101,35 @@ export function ProductCard({
         </div>
       </CardContent>
       <CardFooter className="px-3 sm:px-4 py-2">
-        <div className="flex gap-2 w-full">
+        <div className="flex gap-1.5 w-full">
           <Button
             variant="outline"
-            className="flex-1 gap-1 border-success text-success hover:bg-success/10"
+            size="sm"
+            className="flex-1 gap-1 border-success text-success hover:bg-success/10 text-xs"
             aria-label={`${cfg.store.product.pedir} ${name}`}
             onClick={handlePedir}
           >
-            <IconBrandWhatsapp className="size-4" />
-            {cfg.store.product.pedir}
+            <IconBrandWhatsapp className="size-3.5" />
+            <span className="truncate">{cfg.store.product.pedir}</span>
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="flex-1 gap-1 text-xs"
+            onClick={() => addItem(id)}
+          >
+            <IconShoppingCart className="size-3.5" />
+            <span className="truncate">{cfg.store.product.addToCart}</span>
           </Button>
           <Link href={`/${lang}/store/${slug}`} className="flex-1">
             <Button
               variant="outline"
-              className="gap-1 w-full"
+              size="sm"
+              className="gap-1 w-full text-xs"
               aria-label={`${cfg.store.product.ver} ${name}`}
             >
-              <IconEye className="size-4" />
-              {cfg.store.product.ver}
+              <IconEye className="size-3.5" />
+              <span className="truncate">{cfg.store.product.ver}</span>
             </Button>
           </Link>
         </div>

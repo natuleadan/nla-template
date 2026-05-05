@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   Sheet,
   SheetContent,
@@ -11,8 +10,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import {
   IconShoppingCart,
@@ -23,15 +20,8 @@ import {
 import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
 import { useWhatsApp } from "@/hooks/use-whatsapp";
-import notificationService from "@/hooks/use-notification";
-
-export interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  image?: string;
-}
+import { useCartContext } from "@/components/cart/cart-context";
+import { getProductMap } from "@/lib/modules/products";
 
 interface CartSheetProps {
   children?: React.ReactNode;
@@ -40,170 +30,128 @@ interface CartSheetProps {
 export function CartSheet({ children }: CartSheetProps) {
   const lang = useLang();
   const cfg = getConfig(lang);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [open, setOpen] = useState(false);
+  const { items, totalItems, removeItem, updateQuantity, clearCart } =
+    useCartContext();
   const { openWhatsApp } = useWhatsApp();
+  const productMap = getProductMap(lang);
 
-  const removeFromCart = (id: string) => {
-    const removed = cartItems.find((i) => i.id === id);
-    if (!removed) return;
-    setCartItems((prev) => prev.filter((i) => i.id !== id));
-    notificationService.info("Item removed", {
-      duration: 5000,
-      action: {
-        label: "Undo",
-        onClick: () => {
-          setCartItems((prev) => [...prev, removed]);
-        },
-      },
-    });
-  };
+  const product = (id: string) =>
+    productMap[id] || { name: id, price: 0 };
+  const itemTotal = (id: string, qty: number) =>
+    product(id).price * qty;
 
-  const updateQuantity = (id: string, newQty: number) => {
-    if (newQty < 1) {
-      removeFromCart(id);
-      return;
-    }
-    setCartItems((prev) =>
-      prev.map((i) => (i.id === id ? { ...i, quantity: newQty } : i)),
-    );
-  };
-
-  const total = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0,
-  );
-  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const totalSum = items.reduce((s, i) => s + itemTotal(i.id, i.quantity), 0);
+  const totalQty = items.reduce((s, i) => s + i.quantity, 0);
 
   const handleWhatsAppOrder = () => {
-    if (cartItems.length === 0) return;
+    if (items.length === 0) return;
 
-    const itemsList = cartItems
+    const itemsList = items
       .map(
         (item) =>
-          `- ${item.name} x${item.quantity}: $${(item.price * item.quantity).toFixed(2)}`,
+          `- ${product(item.id).name} x${item.quantity}: $${itemTotal(item.id, item.quantity).toFixed(2)}`,
       )
       .join("\n");
 
-    const mensaje = cfg.store.cart.whatsappTemplate(itemsList, total);
+    const mensaje = cfg.store.cart.whatsappTemplate(itemsList, totalSum);
     openWhatsApp({
       message: mensaje,
       title: cfg.store.cart.title,
-      productName: "carrito",
     });
+    clearCart();
   };
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
+    <Sheet>
       <SheetTrigger asChild>
-        {children || (
-          <Button
-            variant="outline"
-            size="icon"
-            className="relative"
-            aria-label={cfg.store.cart.openAriaLabel}
-          >
-            <IconShoppingCart className="size-5" />
-            {totalItems > 0 && (
-              <Badge className="absolute -top-2 -right-2 min-w-5 h-5 px-1 flex items-center justify-center text-xs">
-                {totalItems}
-              </Badge>
-            )}
-          </Button>
-        )}
+        {children}
       </SheetTrigger>
-
-      <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
+      <SheetContent className="flex flex-col w-full sm:max-w-lg">
         <SheetHeader>
-          <SheetTitle>{cfg.store.cart.title}</SheetTitle>
+          <SheetTitle>
+            <IconShoppingCart className="size-5 inline-block align-text-bottom mr-1.5" />
+            {lang === "es" ? "Carrito" : "Cart"}
+          </SheetTitle>
           <SheetDescription>
-            {cartItems.length > 0
-              ? cfg.store.cart.itemsCount(totalItems)
+            {items.length > 0
+              ? cfg.store.cart.itemsCount(totalQty)
               : cfg.store.cart.empty}
           </SheetDescription>
         </SheetHeader>
 
-        <div className="py-4">
-          {cartItems.length === 0 ? (
-            <div className="text-center py-8" role="status" aria-live="polite">
-              <IconShoppingCart className="size-12 mx-auto text-muted-foreground/50 mb-4" />
-              <p className="text-muted-foreground">{cfg.store.cart.empty}</p>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {cartItems.map((item) => (
-                <Card key={item.id}>
-                  <CardContent className="p-4">
-                    <div className="flex justify-between items-start">
-                      <div className="flex-1">
-                        <p className="font-medium">{item.name}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {cfg.store.cart.perUnit(item.price)}
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          onClick={() =>
-                            updateQuantity(item.id, item.quantity - 1)
-                          }
-                          aria-label={cfg.store.cart.decreaseAriaLabel(
-                            item.name,
-                          )}
-                        >
-                          <IconMinus className="size-4" />
-                        </Button>
-                        <span
-                          className="w-10 text-center font-medium"
-                          aria-live="polite"
-                        >
-                          {item.quantity}
-                        </span>
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          onClick={() =>
-                            updateQuantity(item.id, item.quantity + 1)
-                          }
-                          aria-label={cfg.store.cart.increaseAriaLabel(
-                            item.name,
-                          )}
-                        >
-                          <IconPlus className="size-4" />
-                        </Button>
-                      </div>
+        {items.length === 0 ? (
+          <div className="flex-1 flex flex-col items-center justify-center py-12">
+            <IconShoppingCart className="size-12 text-muted-foreground/40 mb-3" />
+            <p className="text-sm text-muted-foreground">{cfg.store.cart.empty}</p>
+          </div>
+        ) : (
+          <div className="flex-1 overflow-y-auto px-4 pb-4">
+            <div className="divide-y">
+              {items.map((item) => {
+                const p = product(item.id);
+                return (
+                  <div key={item.id} className="flex items-start gap-2 py-3 sm:items-center sm:gap-3">
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium truncate">{p.name}</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        {cfg.store.cart.perUnit(p.price)}
+                      </p>
                     </div>
-                    <div className="flex justify-between items-center mt-2">
-                      <span className="text-sm text-muted-foreground">
-                        {cfg.store.cart.subtotal(item.price * item.quantity)}
+                    <div className="flex items-center gap-1 shrink-0">
+                      <Button
+                        variant="outline"
+                        size="icon-xs"
+                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                        aria-label={cfg.store.cart.decreaseAriaLabel(p.name)}
+                      >
+                        <IconMinus className="size-3" />
+                      </Button>
+                      <span className="w-8 text-center text-sm font-medium tabular-nums">
+                        {item.quantity}
                       </span>
                       <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-destructive"
-                        onClick={() => removeFromCart(item.id)}
-                        aria-label={cfg.store.cart.removeAriaLabel(item.name)}
+                        variant="outline"
+                        size="icon-xs"
+                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        aria-label={cfg.store.cart.increaseAriaLabel(p.name)}
                       >
-                        <IconTrash className="size-4 mr-1" />
-                        {cfg.store.cart.delete}
+                        <IconPlus className="size-3" />
                       </Button>
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
-
-              <Separator />
-
-              <div className="flex justify-between items-center">
-                <span className="font-medium">{cfg.store.cart.total}</span>
-                <span className="text-xl font-bold">${total.toFixed(2)}</span>
-              </div>
+                    <div className="text-right shrink-0 min-w-[68px]">
+                      <p className="text-sm font-medium tabular-nums">
+                        ${itemTotal(item.id, item.quantity).toFixed(2)}
+                      </p>
+                      <button
+                        onClick={() => removeItem(item.id)}
+                        className="text-xs text-destructive hover:text-destructive/80 mt-0.5 inline-flex items-center gap-1"
+                        aria-label={cfg.store.cart.removeAriaLabel(p.name)}
+                      >
+                        <IconTrash className="size-3" />
+                        {cfg.store.cart.delete}
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-          )}
-        </div>
 
-        {cartItems.length > 0 && (
+            <Separator className="my-4" />
+
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium">Subtotal</span>
+              <span className="text-lg font-bold tabular-nums">
+                ${totalSum.toFixed(2)}
+              </span>
+            </div>
+            <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
+              {cfg.store.cart.includesTax}<br />
+              <span className="text-destructive/70">{cfg.store.cart.excludesShipping}</span>
+            </p>
+          </div>
+        )}
+
+        {items.length > 0 && (
           <SheetFooter>
             <Button
               size="lg"

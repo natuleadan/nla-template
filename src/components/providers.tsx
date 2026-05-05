@@ -6,6 +6,7 @@ import { CookieBanner } from "@/components/ui/cookie-banner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { WhatsAppProvider } from "@/components/whatsapp-provider";
 import { DialogProvider } from "@/components/ui/dialog-provider";
+import { CartProvider } from "@/components/cart/cart-context";
 
 export function Providers({
   children,
@@ -24,7 +25,9 @@ export function Providers({
             defaultCountryCode={defaultCountryCode}
             ycloudEnabled={ycloudEnabled}
           >
+            <CartProvider>
             {children}
+            </CartProvider>
             <Toaster />
             <CookieBanner />
           </WhatsAppProvider>
