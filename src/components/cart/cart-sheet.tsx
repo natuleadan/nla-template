@@ -30,7 +30,7 @@ interface CartSheetProps {
 export function CartSheet({ children }: CartSheetProps) {
   const lang = useLang();
   const cfg = getConfig(lang);
-  const { items, totalItems, removeItem, updateQuantity, clearCart } =
+  const { items, removeItem, updateQuantity, clearCart } =
     useCartContext();
   const { openWhatsApp } = useWhatsApp();
   const productMap = getProductMap(lang);

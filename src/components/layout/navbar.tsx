@@ -27,7 +27,6 @@ import { NavDropdown } from "@/components/layout/navbar-dropdown";
 import { useKeyboardNav } from "@/hooks/use-keyboard-nav";
 import { LangSwitcher } from "@/components/layout/lang-switcher";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
 import { useWhatsApp } from "@/hooks/use-whatsapp";
