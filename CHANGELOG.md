@@ -1,3 +1,13 @@
+## [2.2.1](https://github.com/natuleadan/agents-lite/compare/v2.2.0...v2.2.1) (2026-05-05)
+
+### Bug Fixes
+
+* **project:** rename nla references to agents-lite and update readme ([ba693dc](https://github.com/natuleadan/agents-lite/commit/ba693dc77149da19e7d2c0c806de9fa9f69b663f))
+
+### Chore
+
+* **project:** rename package to agents-lite ([c1c84e8](https://github.com/natuleadan/agents-lite/commit/c1c84e85d358d4648e6f18564bb8b59451d1db0d))
+
 ## [2.2.0](https://github.com/natuleadan/nla-template/compare/v2.1.2...v2.2.0) (2026-05-05)
 
 ### Features
