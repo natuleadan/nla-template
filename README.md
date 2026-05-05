@@ -1,9 +1,9 @@
 <p align="center">
-  <img src="public/design/logo.svg" alt="NLA Template" width="120" height="120" />
+  <img src="public/design/logo.svg" alt="Agents Lite" width="120" height="120" />
 </p>
 
-<h1 align="center">NLA Template</h1>
-<p align="center"><strong>Next.js 16 E-commerce Template with WhatsApp AI Agent</strong></p>
+<h1 align="center">Agents Lite</h1>
+<p align="center"><strong>Next.js 16 Starter Kit with WhatsApp AI Agent</strong></p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" alt="MIT License" /></a>
@@ -120,7 +120,7 @@ Redis solo almacena datos de infraestructura del agente. No hay datos de tienda 
 El agente es **solo informativo**: responde con datos de las tools de consulta. Si el usuario necesita una acción (comprar, agendar, cancelar, etc.) y no existe tool, el agente llama `deriveToHuman` y un administrador retoma el chat.
 
 ### Testing
-- **291 tests** (Vitest) — 7 test files
+- **305 tests** (Vitest) — 8 test files
 - Organized by domain: webhook, session-store, tools, API endpoints, config coverage, console guards
 
 ## Technology Stack
@@ -132,7 +132,7 @@ El agente es **solo informativo**: responde con datos de las tools de consulta. 
 - **AI**: Vercel AI SDK + OpenAI (gpt-5-nano via Gateway, Whisper for audio)
 - **WhatsApp**: YCloud API (outbound SDK + inbound webhooks)
 - **Redis**: Upstash (sessions, memory, rate limiting, dedup)
-- **Testing**: Vitest (291 tests)
+- **Testing**: Vitest (305 tests)
 - **CI/CD**: GitHub Actions + Semantic Release
 - **Hosting**: Vercel
 
@@ -266,7 +266,7 @@ src/lib/test/
 | `pnpm build` | Build for production |
 | `pnpm start` | Start production server |
 | `pnpm lint` | ESLint |
-| `pnpm test` | Vitest (291 tests) |
+| `pnpm test` | Vitest (305 tests) |
 | `pnpm format` | Prettier |
 
 ## License

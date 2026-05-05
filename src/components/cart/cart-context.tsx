@@ -9,7 +9,7 @@ import {
   type ReactNode,
 } from "react";
 
-const STORAGE_KEY = "nla-cart";
+const STORAGE_KEY = "agents-lite-cart";
 
 export interface CartItem {
   id: string;

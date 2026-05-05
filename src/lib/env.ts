@@ -134,8 +134,8 @@ export function validateApiKey(request: Request): boolean {
   const expected = getApiKey();
   if (!provided || !expected) return false;
   try {
-    const a = pbkdf2Sync(provided, "nla-api-key", 1, 32, "sha512");
-    const b = pbkdf2Sync(expected, "nla-api-key", 1, 32, "sha512");
+    const a = pbkdf2Sync(provided, "agents-lite-api-key", 1, 32, "sha512");
+    const b = pbkdf2Sync(expected, "agents-lite-api-key", 1, 32, "sha512");
     return timingSafeEqual(a, b);
   } catch {
     return false;
