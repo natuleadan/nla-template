@@ -55,7 +55,7 @@ export function ShareDialog({
           {resolvedLabel}
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent closeLabel={cfg.ui.navbar.closeAria}>
         <DialogHeader>
           <DialogTitle>{resolvedLabel}</DialogTitle>
           <DialogDescription>{cfg.ui.share.description}</DialogDescription>

@@ -156,10 +156,10 @@ export function WhatsAppDialog({
     <Dialog
       open={open}
       onOpenChange={(val) => {
-        if (val) onOpenChange(val);
+        if (!val) onOpenChange(val);
       }}
     >
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md" closeLabel={cfg.ui.navbar.closeAria}>
         <DialogHeader>
           <DialogTitle>{options?.title || t.dialog.title}</DialogTitle>
           <DialogDescription>{t.dialog.description}</DialogDescription>

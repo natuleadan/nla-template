@@ -51,9 +51,11 @@ function DialogContent({
   className,
   children,
   showCloseButton = true,
+  closeLabel = "Close",
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   showCloseButton?: boolean;
+  closeLabel?: string;
 }) {
   const hasDescription = React.Children.toArray(children).some(
     (child) => React.isValidElement(child) && child.type === DialogDescription,
@@ -82,7 +84,7 @@ function DialogContent({
               size="icon-sm"
             >
               <IconX />
-              <span className="sr-only">Cerrar</span>
+              <span className="sr-only">{closeLabel}</span>
             </Button>
           </DialogPrimitive.Close>
         )}
