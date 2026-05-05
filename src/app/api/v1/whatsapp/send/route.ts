@@ -9,16 +9,8 @@ import {
 } from "@/lib/env";
 import { getClientIp } from "@/lib/rate-limit";
 import { getConfig } from "@/lib/locale/config";
-import {
-  Configuration,
-  WhatsappMessagesApi,
-  WhatsappMessageType,
-} from "@ycloud-cpaas/ycloud-sdk-node";
+import { sendWithHistory } from "@/lib/external/whatsapp/send";
 import { whatsappSendRateLimit } from "@/lib/external/upstash/ratelimit.service";
-import {
-  anonymizePhone,
-  addToHistory,
-} from "@/lib/modules/agents/session-store";
 import { WhatsAppSendBodySchema, apiError } from "@/lib/api/schemas";
 
 export async function POST(request: Request) {
@@ -35,14 +27,11 @@ export async function POST(request: Request) {
   }
 
   try {
-    const apiKey = getYcloudApiKey();
-    const from = getWhatsappNumber();
-
-    if (!apiKey) {
+    if (!getYcloudApiKey()) {
       return Response.json({ error: t.notConfigured }, { status: 500 });
     }
 
-    if (!from) {
+    if (!getWhatsappNumber()) {
       return Response.json({ error: t.numberNotConfigured }, { status: 500 });
     }
 
@@ -59,24 +48,10 @@ export async function POST(request: Request) {
       return Response.json({ error: t.rateLimitIp }, { status: 429 });
     }
 
-    const configuration = new Configuration({ apiKey });
-    const api = new WhatsappMessagesApi(configuration);
+    const result = await sendWithHistory(to, message, productName);
+    if (!result.success) return serverError(t.sendError);
 
-    const response = await api.sendDirectly({
-      from,
-      to,
-      type: WhatsappMessageType.Text,
-      text: { body: message },
-    });
-
-    const aid = await anonymizePhone(to.replace("+", ""));
-    const productContext = productName ? ` [Producto: ${productName}]` : "";
-    await addToHistory(aid, {
-      role: "system",
-      content: `[Botón presionado]${productContext} Mensaje enviado al cliente: "${message}"`,
-    });
-
-    return Response.json({ success: true, data: response.data });
+    return Response.json({ success: true, data: result.data });
   } catch (error: unknown) {
     const err = error as {
       response?: {

@@ -9,19 +9,11 @@ import {
   isDev,
 } from "@/lib/env";
 import { getConfig } from "@/lib/locale/config";
-import {
-  Configuration,
-  WhatsappMessagesApi,
-  WhatsappMessageType,
-} from "@ycloud-cpaas/ycloud-sdk-node";
+import { sendWithHistory } from "@/lib/external/whatsapp/send";
 import { headers } from "next/headers";
 import { whatsappSendRateLimit } from "@/lib/external/upstash/ratelimit.service";
 import { isRedisConfigured } from "@/lib/external/upstash/client";
 import { RateLimiter } from "@/lib/rate-limit";
-import {
-  anonymizePhone,
-  addToHistory,
-} from "@/lib/modules/agents/session-store";
 import { WhatsAppSendBodySchema } from "@/lib/api/schemas";
 
 const inMemoryRl = new RateLimiter({
@@ -108,22 +100,11 @@ async function executeSend(params: {
       };
   }
 
-  await new WhatsappMessagesApi(
-    new Configuration({ apiKey: getYcloudApiKey() }),
-  ).sendDirectly({
-    from: getWhatsappNumber(),
-    to,
-    type: WhatsappMessageType.Text,
-    text: { body: message },
-  });
+  const result = await sendWithHistory(to, message, productName);
+  if (!result.success) {
+    return { success: false, error: "Error al enviar mensaje" };
+  }
 
-  const aid = await anonymizePhone(to.replace("+", ""));
-  const productContext = productName ? ` [Producto: ${productName}]` : "";
-  await addToHistory(aid, {
-    role: "system",
-    content: `[Botón presionado]${productContext} Mensaje enviado al cliente: "${message}"`,
-  });
-
-  if (isDev) console.log("[WHATSAPP] Sent OK, history:", aid);
+  if (isDev) console.log("[WHATSAPP] Sent OK");
   return { success: true };
 }

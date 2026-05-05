@@ -9,6 +9,10 @@ import {
   WhatsappMessagesApi,
   WhatsappMessageType,
 } from "@ycloud-cpaas/ycloud-sdk-node";
+import {
+  anonymizePhone,
+  addToHistory,
+} from "@/lib/modules/agents/session-store";
 
 async function sendRaw(to: string, message: string): Promise<boolean> {
   const apiKey = getYcloudApiKey();
@@ -26,6 +30,32 @@ async function sendRaw(to: string, message: string): Promise<boolean> {
     if (isDev) console.error("[WHATSAPP] Send error:", err);
     return false;
   }
+}
+
+export async function sendWithHistory(
+  to: string,
+  message: string,
+  productName?: string,
+): Promise<{ success: boolean; data?: unknown }> {
+  const apiKey = getYcloudApiKey();
+  const from = getWhatsappNumber();
+  if (!apiKey || !from) return { success: false };
+
+  const response = await new WhatsappMessagesApi(new Configuration({ apiKey })).sendDirectly({
+    from,
+    to,
+    type: WhatsappMessageType.Text,
+    text: { body: message },
+  });
+
+  const aid = await anonymizePhone(to.replace("+", ""));
+  const productContext = productName ? ` [Producto: ${productName}]` : "";
+  await addToHistory(aid, {
+    role: "system",
+    content: `[Mensaje enviado al cliente]${productContext}: "${message}"`,
+  });
+
+  return { success: true, data: response.data };
 }
 
 export async function sendWhatsApp(
