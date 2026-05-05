@@ -1,3 +1,52 @@
+## [2.2.0](https://github.com/natuleadan/nla-template/compare/v2.1.2...v2.2.0) (2026-05-05)
+
+### Features
+
+* **cart:** shopping cart with local storage and transformable navbar button ([461d8c5](https://github.com/natuleadan/nla-template/commit/461d8c55340e5278546842909d2c1ddd90233fe5))
+
+### Bug Fixes
+
+* **agents:** harden ssrf validation for ycloud media hostnames ([894bf26](https://github.com/natuleadan/nla-template/commit/894bf26455c4be7e07a348c51c2ce9f224c87c65))
+* **agents:** route whatsapp vendor sdk calls through external wrapper ([04b5cd5](https://github.com/natuleadan/nla-template/commit/04b5cd5b22eff0063f4e59c73dfb53d0f6beaf0b))
+* **ci:** pin eslint to 9.x to avoid breaking change in 10.x ([ba53006](https://github.com/natuleadan/nla-template/commit/ba53006746e6fc8e07d5cbd9419f9f6fc870b1d3))
+* **core:** remove dead code and fix pre-existing bugs ([f7a491e](https://github.com/natuleadan/nla-template/commit/f7a491e67ae2b54d431b698da7fac0f84932db1f))
+* **headers:** add missing csp directives, body size limits, and secure cookie flags ([45200fa](https://github.com/natuleadan/nla-template/commit/45200fa9f303d5a9a342b13d1ec37d23495a596c))
+* **lint:** remove unused import and variable flagged by codeql ([8873f47](https://github.com/natuleadan/nla-template/commit/8873f47a75c993b5a7c58f104daa297901379e63))
+* **ui:** dialog close button i18n and whatsapp dialog not closing ([fb84840](https://github.com/natuleadan/nla-template/commit/fb8484031407211072d346c71436c32b08d5abca))
+* **ui:** update design for global consistency ([5f7c90c](https://github.com/natuleadan/nla-template/commit/5f7c90c95dc20310e4a3a857fed19d151599a566))
+
+### Performance
+
+* **api:** add rate limiting to public endpoints and input constraints ([bd11c7a](https://github.com/natuleadan/nla-template/commit/bd11c7a7760ccd8b27d875b429fe56359686b11b))
+
+### Refactoring
+
+* **lib:** reorganize modules into internal, api, hooks and update imports ([8a99cbc](https://github.com/natuleadan/nla-template/commit/8a99cbcca5ad6945bb09a8365b6c7729286cd13b))
+
+### Chore
+
+* **deps-dev:** bump @semantic-release/github from 11.0.6 to 12.0.6 ([#8](https://github.com/natuleadan/nla-template/issues/8)) ([1a71cce](https://github.com/natuleadan/nla-template/commit/1a71cce3e550da5e13e6e1d0c87b6722f28cfbf2))
+* **deps-dev:** bump @semantic-release/npm from 12.0.2 to 13.1.5 ([#12](https://github.com/natuleadan/nla-template/issues/12)) ([13abda5](https://github.com/natuleadan/nla-template/commit/13abda5199cb22b3f858f62309b2625929c4f3f1))
+* **deps-dev:** bump prettier-plugin-tailwindcss from 0.7.4 to 0.8.0 ([#15](https://github.com/natuleadan/nla-template/issues/15)) ([b713681](https://github.com/natuleadan/nla-template/commit/b71368118c78cc24c3268da19c65f42551f721a3))
+* **deps-dev:** bump semantic-release from 24.2.9 to 25.0.3 ([#14](https://github.com/natuleadan/nla-template/issues/14)) ([5f23251](https://github.com/natuleadan/nla-template/commit/5f23251b2a199337a3a0e08060c2e6cd6951e4b5))
+* **deps-dev:** bump the eslint group with 2 updates ([#2](https://github.com/natuleadan/nla-template/issues/2)) ([a4e2dbc](https://github.com/natuleadan/nla-template/commit/a4e2dbcfb57418c2268e2b024155acf79b632ba7))
+* **deps:** bump @hookform/resolvers from 1.3.8 to 5.2.2 ([#11](https://github.com/natuleadan/nla-template/issues/11)) ([405fad9](https://github.com/natuleadan/nla-template/commit/405fad921bc630422c442737f28668ea06be8275))
+* **deps:** bump @scalar/nextjs-api-reference from 0.10.13 to 0.10.14 ([#16](https://github.com/natuleadan/nla-template/issues/16)) ([d218d51](https://github.com/natuleadan/nla-template/commit/d218d51e55e52ea9ecb68a4b877fc2a9dc22c0b7))
+* **deps:** bump @vercel/analytics from 1.3.1 to 2.0.1 ([#3](https://github.com/natuleadan/nla-template/issues/3)) ([ad95aa5](https://github.com/natuleadan/nla-template/commit/ad95aa5b64f908144299e9793adf35d08e16c375))
+* **deps:** bump actions/setup-node from 6.3.0 to 6.4.0 ([#1](https://github.com/natuleadan/nla-template/issues/1)) ([6e21799](https://github.com/natuleadan/nla-template/commit/6e21799d7f835c71d429217422ac1bdea6a788ec))
+* **deps:** bump embla-carousel-react from 8.5.1 to 8.6.0 ([#9](https://github.com/natuleadan/nla-template/issues/9)) ([4db7c31](https://github.com/natuleadan/nla-template/commit/4db7c31354a4231b83a263c69120014145cf4d3b))
+* **deps:** bump input-otp from 1.4.1 to 1.4.2 ([#7](https://github.com/natuleadan/nla-template/issues/7)) ([bf49c3d](https://github.com/natuleadan/nla-template/commit/bf49c3d0cf19c2de5a486e2e36da23ac5e4ce00f))
+* **deps:** bump next from 16.1.6 to 16.2.4 ([#4](https://github.com/natuleadan/nla-template/issues/4)) ([5bee9aa](https://github.com/natuleadan/nla-template/commit/5bee9aade0a23c5e2bfd114633b315704fe090a3))
+* **deps:** bump react-day-picker from 9.8.0 to 9.14.0 ([#6](https://github.com/natuleadan/nla-template/issues/6)) ([281bfb8](https://github.com/natuleadan/nla-template/commit/281bfb8d1bbb49a4aa8f35a3d8bce3288e70fc21))
+* **deps:** bump recharts from 2.15.4 to 3.8.1 ([#13](https://github.com/natuleadan/nla-template/issues/13)) ([97466b3](https://github.com/natuleadan/nla-template/commit/97466b3c8ecb6d40659443eb0c69a4c38a20ff8e))
+* **deps:** bump sonner from 1.7.4 to 2.0.7 ([#5](https://github.com/natuleadan/nla-template/issues/5)) ([be42207](https://github.com/natuleadan/nla-template/commit/be4220718e451b9d923c58f61f1e4a135b1e1fdb))
+* **deps:** bump zod from 3.25.76 to 4.4.3 ([#10](https://github.com/natuleadan/nla-template/issues/10)) ([0d3f453](https://github.com/natuleadan/nla-template/commit/0d3f453dcb02d96ac05a1185053c733e31094a42))
+* **deps:** update lockfile after eslint downgrade to 9.x ([07c4ada](https://github.com/natuleadan/nla-template/commit/07c4ada8a86e5eb3420addb4903aec57122f96c5))
+
+### CI/CD
+
+* **deps:** add dependabot config and update dependencies ([2acf965](https://github.com/natuleadan/nla-template/commit/2acf96550c2dfb1ab380c62164af6a3f6a6aae3e))
+
 ## [2.1.2](https://github.com/natuleadan/nla-template/compare/v2.1.1...v2.1.2) (2026-05-04)
 
 ### Bug Fixes
