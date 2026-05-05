@@ -2,7 +2,7 @@
 
 import { safeJsonLd } from "@/lib/utils";
 import type { WithContext, CollectionPage } from "schema-dts";
-import { useLang } from "@/lib/locale/context";
+import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
 
 interface SlotItem {

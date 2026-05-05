@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { ProductDetailsSkeleton } from "./product-details-skeleton";
-import { ProductoContent } from "./producto-content";
+import { ProductoContent } from "./product-content";
 import { getProduct, getProductSlugById } from "@/lib/modules/products";
 import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";

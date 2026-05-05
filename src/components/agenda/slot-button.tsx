@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/config/utils";
-import { useLang } from "@/lib/locale/context";
+import { cn } from "@/lib/utils";
+import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
 import type { AgendaSlot } from "@/lib/modules/agenda";
 

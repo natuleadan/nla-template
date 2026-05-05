@@ -27,10 +27,10 @@ import {
 } from "@tabler/icons-react";
 import { BlogAttachments } from "@/components/blog/blog-attachments";
 import type { Review } from "@/lib/modules/reviews";
-import type { InventoryItem } from "@/lib/config/data/inventory";
-import { useLang } from "@/lib/locale/context";
+import type { InventoryItem } from "@/lib/config/data/inventory.es";
+import { useLang } from "@/hooks/use-lang";
 import { getConfig, getDateLocale } from "@/lib/locale/config";
-import { useWhatsApp } from "@/components/whatsapp-provider";
+import { useWhatsApp } from "@/hooks/use-whatsapp";
 
 const FALLBACK_IMAGE = "/design/fallback.svg";
 

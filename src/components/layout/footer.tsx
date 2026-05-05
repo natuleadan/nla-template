@@ -11,7 +11,7 @@ import {
 import { Copyright } from "./copyright";
 import { FooterDynamicCards } from "./footer-dynamic-cards";
 import { brand } from "@/lib/config/site";
-import { useLang } from "@/lib/locale/context";
+import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
 
 export function Footer() {

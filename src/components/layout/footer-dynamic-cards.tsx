@@ -10,7 +10,7 @@ import {
   getNextAvailableDaySlots,
   type AgendaSlotInfo,
 } from "@/lib/agenda-utils";
-import { useLang } from "@/lib/locale/context";
+import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
 
 function shuffleArray<T>(array: T[]): T[] {

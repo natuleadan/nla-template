@@ -7,9 +7,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { IconBrandWhatsapp } from "@tabler/icons-react";
 import type { Comment } from "@/lib/modules/comments";
-import { useLang } from "@/lib/locale/context";
+import { useLang } from "@/hooks/use-lang";
 import { getConfig, getDateLocale } from "@/lib/locale/config";
-import { useWhatsApp } from "@/components/whatsapp-provider";
+import { useWhatsApp } from "@/hooks/use-whatsapp";
 
 function CommentCard({ comment }: { comment: Comment }) {
   const lang = useLang();

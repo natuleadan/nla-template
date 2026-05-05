@@ -2,7 +2,7 @@
 export { brand } from "./data/brand.es";
 export { nav } from "./data/nav.es";
 export { home } from "./data/home.es";
-export { pages } from "./data/contacto.es";
+export { pages } from "./data/contact.es";
 export { store, categoryBadge } from "./site/store.es";
 export { ui } from "./site/ui.es";
 export { blog } from "./site/blog.es";

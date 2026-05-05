@@ -1,6 +1,6 @@
 "use client";
 
-import notificationService from "../notification";
+import notificationService from "@/hooks/use-notification";
 import { getConfig } from "@/lib/locale/config";
 
 function getUiCookie() {

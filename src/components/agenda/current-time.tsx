@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import { useLang } from "@/lib/locale/context";
+import { useLang } from "@/hooks/use-lang";
 import { getDateLocale } from "@/lib/locale/config";
 
 export function CurrentTime() {

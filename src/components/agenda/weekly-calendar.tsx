@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { DayColumn } from "./day-column";
 import { Button } from "@/components/ui/button";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
-import { useLang } from "@/lib/locale/context";
+import { useLang } from "@/hooks/use-lang";
 import { getConfig, getDateLocale } from "@/lib/locale/config";
 import { getWeekMax } from "@/lib/env";
 import type { AgendaDay } from "@/lib/modules/agenda";

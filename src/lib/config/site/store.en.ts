@@ -1,4 +1,4 @@
-import { brand } from "../data/brand";
+import { brand } from "../data/brand.es";
 import { categoryBadge } from "../data/categories.en";
 
 export { categoryBadge };

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/select";
 import { PostCard } from "./post-card";
 import { Spinner } from "@/components/ui/spinner";
-import { useLang } from "@/lib/locale/context";
+import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
 import { isDev } from "@/lib/env";
 

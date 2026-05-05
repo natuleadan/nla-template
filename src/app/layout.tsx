@@ -9,7 +9,7 @@ import { Providers } from "@/components/providers";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { BrandColorScript } from "@/components/layout/brand-color-script";
-import { LangProvider } from "@/lib/locale/context";
+import { LangProvider } from "@/components/providers/lang-provider";
 
 const fontSans = Roboto({
   subsets: ["latin"],

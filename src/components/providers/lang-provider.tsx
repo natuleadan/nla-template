@@ -1,15 +1,8 @@
 "use client";
 
-import { createContext, useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-
-const LangContext = createContext<string>("en");
-
-function detectLang(pathname: string): string {
-  if (pathname.startsWith("/es")) return "es";
-  if (pathname.startsWith("/en")) return "en";
-  return "en";
-}
+import { LangContext, detectLang } from "@/hooks/use-lang";
 
 export function LangProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -20,8 +13,4 @@ export function LangProvider({ children }: { children: React.ReactNode }) {
   }, [lang]);
 
   return <LangContext.Provider value={lang}>{children}</LangContext.Provider>;
-}
-
-export function useLang(): string {
-  return useContext(LangContext);
 }

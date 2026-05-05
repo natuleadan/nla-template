@@ -3,11 +3,11 @@
 import { SlotButton } from "./slot-button";
 import { SlotDialog } from "./slot-dialog";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/config/utils";
-import { useLang } from "@/lib/locale/context";
+import { cn } from "@/lib/utils";
+import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
 import { useState, useEffect, useMemo } from "react";
-import notificationService from "@/lib/modules/notification";
+import notificationService from "@/hooks/use-notification";
 import type { AgendaSlot, AgendaDay } from "@/lib/modules/agenda";
 
 interface DayColumnProps {

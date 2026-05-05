@@ -1,4 +1,4 @@
-import { cn } from "@/lib/config/utils";
+import { cn } from "@/lib/utils";
 import xss from "xss";
 
 interface ProseProps {

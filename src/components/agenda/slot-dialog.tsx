@@ -21,11 +21,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { IconBrandWhatsapp, IconCopy } from "@tabler/icons-react";
-import notificationService from "@/lib/modules/notification";
+import notificationService from "@/hooks/use-notification";
 import { getBaseUrl } from "@/lib/env";
-import { useLang } from "@/lib/locale/context";
+import { useLang } from "@/hooks/use-lang";
 import { getConfig, getDateLocale } from "@/lib/locale/config";
-import { useWhatsApp } from "@/components/whatsapp-provider";
+import { useWhatsApp } from "@/hooks/use-whatsapp";
 import { getWeekDays } from "@/lib/modules/agenda";
 import { getAppointmentTypes, getSlotsByType } from "@/lib/agenda-utils";
 import { getAllProducts } from "@/lib/modules/products";

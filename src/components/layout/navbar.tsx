@@ -27,9 +27,9 @@ import { useKeyboardNav } from "@/hooks/use-keyboard-nav";
 import { LangSwitcher } from "@/components/layout/lang-switcher";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { useLang } from "@/lib/locale/context";
+import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
-import { useWhatsApp } from "@/components/whatsapp-provider";
+import { useWhatsApp } from "@/hooks/use-whatsapp";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   home: IconHome,

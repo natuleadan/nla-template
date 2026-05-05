@@ -19,9 +19,9 @@ import {
   hasAcceptedCookiesClient,
   saveCustomCookiePreferences,
   getCookieConsent,
-} from "@/lib/modules/cookies/client";
-import { notifyCookieConsentWebhook } from "@/lib/modules/cookies/webhook";
-import { useLang } from "@/lib/locale/context";
+} from "@/lib/internal/cookies/client";
+import { notifyCookieConsentWebhook } from "@/lib/internal/cookies/webhook.service";
+import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
 
 interface CookieBannerProps {

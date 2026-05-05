@@ -1,45 +1,17 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useState,
-  useCallback,
-  type ReactNode,
-} from "react";
+import { useState, useCallback, type ReactNode } from "react";
 import { WhatsAppDialog } from "@/components/ui/whatsapp-dialog";
 import {
   getSavedPhone,
   hasValidPhoneCookie,
-} from "@/lib/modules/cookies/client";
-import notificationService from "@/lib/modules/notification";
-import { useLang } from "@/lib/locale/context";
+} from "@/lib/internal/cookies/client";
+import notificationService from "@/hooks/use-notification";
+import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
 import { getWhatsappNumber } from "@/lib/env.public";
 import { whatsappSendAction } from "@/lib/actions/whatsapp-send";
-
-export interface WhatsAppOptions {
-  message: string;
-  title?: string;
-  productId?: string;
-  productName?: string;
-  showPreview?: boolean;
-  onSuccess?: () => void;
-}
-
-interface WhatsAppContextValue {
-  openWhatsApp: (options: WhatsAppOptions) => void;
-}
-
-const WhatsAppContext = createContext<WhatsAppContextValue | null>(null);
-
-export function useWhatsApp(): WhatsAppContextValue {
-  const ctx = useContext(WhatsAppContext);
-  if (!ctx) {
-    throw new Error("useWhatsApp must be used within a WhatsAppProvider");
-  }
-  return ctx;
-}
+import { WhatsAppContext, type WhatsAppOptions } from "@/hooks/use-whatsapp";
 
 interface WhatsAppProviderProps {
   children: ReactNode;

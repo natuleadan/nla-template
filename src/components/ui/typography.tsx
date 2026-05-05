@@ -1,4 +1,4 @@
-import { cn } from "@/lib/config/utils";
+import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
 
 function TypographyH1({

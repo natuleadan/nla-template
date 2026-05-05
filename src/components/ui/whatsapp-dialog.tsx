@@ -32,13 +32,13 @@ import {
 import {
   countryCodes,
   type CountryCode,
-} from "@/lib/config/data/country-codes";
-import { useLang } from "@/lib/locale/context";
+} from "@/lib/config/data/country-codes.es";
+import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
-import notificationService from "@/lib/modules/notification";
-import { getSavedPhone, savePhone } from "@/lib/modules/cookies/client";
+import notificationService from "@/hooks/use-notification";
+import { getSavedPhone, savePhone } from "@/lib/internal/cookies/client";
 import { getWhatsappNumber } from "@/lib/env.public";
-import type { WhatsAppOptions } from "@/components/whatsapp-provider";
+import type { WhatsAppOptions } from "@/hooks/use-whatsapp";
 import { whatsappSendAction } from "@/lib/actions/whatsapp-send";
 
 interface WhatsAppDialogProps {

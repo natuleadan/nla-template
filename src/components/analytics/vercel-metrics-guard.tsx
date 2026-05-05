@@ -3,7 +3,7 @@
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { VERCEL_ENV } from "@/lib/env.public";
-import { getCookieConsent } from "@/lib/modules/cookies/client";
+import { getCookieConsent } from "@/lib/internal/cookies/client";
 import { useEffect, useState } from "react";
 
 export function VercelMetricsGuard() {

@@ -58,16 +58,16 @@ function findImportFiles(allFiles: string[], configName: string): string[] {
 }
 
 const configModules: Record<string, () => Promise<Record<string, unknown>>> = {
-  agenda: () => import("@/lib/config/site/agenda").then((m) => m.agenda),
-  blog: () => import("@/lib/config/site/blog").then((m) => m.blog),
-  brand: () => import("@/lib/config/data/brand").then((m) => m.brand),
-  form: () => import("@/lib/config/site/form").then((m) => m.form),
-  home: () => import("@/lib/config/data/home").then((m) => m.home),
-  nav: () => import("@/lib/config/data/nav").then((m) => m.nav),
-  pages: () => import("@/lib/config/data/contacto").then((m) => m.pages),
-  paginas: () => import("@/lib/config/site/paginas").then((m) => m.paginas),
-  store: () => import("@/lib/config/site/store").then((m) => m.store),
-  ui: () => import("@/lib/config/site/ui").then((m) => m.ui),
+  agenda: () => import("@/lib/config/site/agenda.es").then((m) => m.agenda),
+  blog: () => import("@/lib/config/site/blog.es").then((m) => m.blog),
+  brand: () => import("@/lib/config/data/brand.es").then((m) => m.brand),
+  form: () => import("@/lib/config/site/form.es").then((m) => m.form),
+  home: () => import("@/lib/config/data/home.es").then((m) => m.home),
+  nav: () => import("@/lib/config/data/nav.es").then((m) => m.nav),
+  pages: () => import("@/lib/config/data/contact.es").then((m) => m.pages),
+  paginas: () => import("@/lib/config/site/paginas.es").then((m) => m.paginas),
+  store: () => import("@/lib/config/site/store.es").then((m) => m.store),
+  ui: () => import("@/lib/config/site/ui.es").then((m) => m.ui),
 };
 
 const allFiles = getAllTsFiles(SRC_DIR).filter(

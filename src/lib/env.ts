@@ -68,10 +68,6 @@ export function getCookieWebhookUrl(): string {
   return process.env.COOKIE_WEBHOOK_URL || "";
 }
 
-export function isProduction(): boolean {
-  return process.env.NODE_ENV === "production";
-}
-
 export function getAiGatewayApiKey(): string {
   return process.env.AI_GATEWAY_API_KEY || "";
 }

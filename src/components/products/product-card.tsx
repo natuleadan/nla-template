@@ -16,9 +16,9 @@ import { Button } from "@/components/ui/button";
 import { IconBrandWhatsapp, IconEye } from "@tabler/icons-react";
 
 const FALLBACK_IMAGE = "/design/fallback.svg";
-import { useLang } from "@/lib/locale/context";
+import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
-import { useWhatsApp } from "@/components/whatsapp-provider";
+import { useWhatsApp } from "@/hooks/use-whatsapp";
 
 interface ProductCardProps {
   id: string;

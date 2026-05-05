@@ -19,10 +19,10 @@ export { paginas as paginasEn } from "./paginas.en";
 export { form as formEn } from "./form.en";
 
 // Locale-neutral exports (data)
-export { brand } from "../data/brand";
-export { nav } from "../data/nav";
-export { home } from "../data/home";
-export { pages } from "../data/contacto";
+export { brand } from "../data/brand.es";
+export { nav } from "../data/nav.es";
+export { home } from "../data/home.es";
+export { pages } from "../data/contact.es";
 
 // Backward compatible exports (defaults to Spanish)
 export { store } from "./store.es";

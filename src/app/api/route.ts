@@ -1,5 +1,5 @@
 import { ApiReference } from "@scalar/nextjs-api-reference";
-import { buildOpenApiSpec, getApiExamples } from "@/lib/modules/scalar";
+import { buildOpenApiSpec, getApiExamples } from "@/lib/api/scalar";
 
 export async function GET() {
   const examples = await getApiExamples();

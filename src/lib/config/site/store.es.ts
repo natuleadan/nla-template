@@ -1,5 +1,5 @@
-import { brand } from "../data/brand";
-import { categoryBadge } from "../data/categories";
+import { brand } from "../data/brand.es";
+import { categoryBadge } from "../data/categories.es";
 
 export { categoryBadge };
 

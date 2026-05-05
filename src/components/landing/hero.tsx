@@ -11,7 +11,7 @@ import {
   IconClock,
   IconHeadset,
 } from "@tabler/icons-react";
-import { useLang } from "@/lib/locale/context";
+import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
 
 export function Hero() {

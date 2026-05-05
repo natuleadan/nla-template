@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { IconLanguage, IconCheck } from "@tabler/icons-react";
-import { useLang } from "@/lib/locale/context";
+import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
 import { SUPPORTED_LOCALES } from "@/lib/locale/seo";
 import { getLocalizedSlug } from "@/lib/locale/get-localized-slug";

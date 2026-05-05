@@ -16,8 +16,8 @@ import {
   IconBrandLinkedin,
   IconMail,
 } from "@tabler/icons-react";
-import notificationService from "@/lib/modules/notification";
-import { useLang } from "@/lib/locale/context";
+import notificationService from "@/hooks/use-notification";
+import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
 
 interface ShareDialogProps {

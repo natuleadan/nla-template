@@ -1,8 +1,8 @@
 "use client";
 
-import { cn } from "@/lib/config/utils";
+import { cn } from "@/lib/utils";
 import { IconLoader } from "@tabler/icons-react";
-import { useLang } from "@/lib/locale/context";
+import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
 
 function Spinner({ className, ...props }: React.ComponentProps<"svg">) {

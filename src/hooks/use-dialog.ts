@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { DialogService, type DialogOptions } from "./service";
+import { DialogService, type DialogOptions } from "@/lib/internal/dialog/service";
 
 export function useDialog() {
   const [dialogs, setDialogs] = React.useState<Map<string, DialogOptions>>(

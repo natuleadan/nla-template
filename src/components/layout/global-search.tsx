@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/command";
 import { IconSearch } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
-import { useLang } from "@/lib/locale/context";
+import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
 
 interface SearchItem {

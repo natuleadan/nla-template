@@ -7,7 +7,7 @@ import { getAllPosts } from "@/lib/modules/blog";
 import { getWeekDays } from "@/lib/modules/agenda";
 import { getAllPaginas } from "@/lib/modules/paginas";
 import { getUpcomingSlots } from "@/lib/agenda-utils";
-import { useLang } from "@/lib/locale/context";
+import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
 import {
   IconHome,
