@@ -139,8 +139,8 @@ importers:
         specifier: ^10.0.1
         version: 10.0.1(semantic-release@24.2.9(typescript@5.9.3))
       '@semantic-release/github':
-        specifier: ^11.0.6
-        version: 11.0.6(semantic-release@24.2.9(typescript@5.9.3))
+        specifier: ^12.0.6
+        version: 12.0.6(semantic-release@24.2.9(typescript@5.9.3))
       '@semantic-release/npm':
         specifier: ^12.0.2
         version: 12.0.2(semantic-release@24.2.9(typescript@5.9.3))
@@ -971,6 +971,12 @@ packages:
 
   '@octokit/plugin-paginate-rest@13.2.1':
     resolution: {integrity: sha512-Tj4PkZyIL6eBMYcG/76QGsedF0+dWVeLhYprTmuFVVxzDW7PQh23tM0TP0z+1MvSkxB29YFZwnUX+cXfTiSdyw==}
+    engines: {node: '>= 20'}
+    peerDependencies:
+      '@octokit/core': '>=6'
+
+  '@octokit/plugin-paginate-rest@14.0.0':
+    resolution: {integrity: sha512-fNVRE7ufJiAA3XUrha2omTA39M6IXIc6GIZLvlbsm8QOQCYvpq/LkMNGyFlB1d8hTDzsAXa3OKtybdMAYsV/fw==}
     engines: {node: '>= 20'}
     peerDependencies:
       '@octokit/core': '>=6'
@@ -1909,6 +1915,12 @@ packages:
   '@semantic-release/github@11.0.6':
     resolution: {integrity: sha512-ctDzdSMrT3H+pwKBPdyCPty6Y47X8dSrjd3aPZ5KKIKKWTwZBE9De8GtsH3TyAlw3Uyo2stegMx6rJMXKpJwJA==}
     engines: {node: '>=20.8.1'}
+    peerDependencies:
+      semantic-release: '>=24.1.0'
+
+  '@semantic-release/github@12.0.6':
+    resolution: {integrity: sha512-aYYFkwHW3c6YtHwQF0t0+lAjlU+87NFOZuH2CvWFD0Ylivc7MwhZMiHOJ0FMpIgPpCVib/VUAcOwvrW0KnxQtA==}
+    engines: {node: ^22.14.0 || >= 24.10.0}
     peerDependencies:
       semantic-release: '>=24.1.0'
 
@@ -6571,6 +6583,11 @@ snapshots:
       '@octokit/core': 7.0.6
       '@octokit/types': 15.0.2
 
+  '@octokit/plugin-paginate-rest@14.0.0(@octokit/core@7.0.6)':
+    dependencies:
+      '@octokit/core': 7.0.6
+      '@octokit/types': 16.0.0
+
   '@octokit/plugin-retry@8.1.0(@octokit/core@7.0.6)':
     dependencies:
       '@octokit/core': 7.0.6
@@ -7540,6 +7557,29 @@ snapshots:
       p-filter: 4.1.0
       semantic-release: 24.2.9(typescript@5.9.3)
       tinyglobby: 0.2.16
+      url-join: 5.0.0
+    transitivePeerDependencies:
+      - supports-color
+
+  '@semantic-release/github@12.0.6(semantic-release@24.2.9(typescript@5.9.3))':
+    dependencies:
+      '@octokit/core': 7.0.6
+      '@octokit/plugin-paginate-rest': 14.0.0(@octokit/core@7.0.6)
+      '@octokit/plugin-retry': 8.1.0(@octokit/core@7.0.6)
+      '@octokit/plugin-throttling': 11.0.3(@octokit/core@7.0.6)
+      '@semantic-release/error': 4.0.0
+      aggregate-error: 5.0.0
+      debug: 4.4.3
+      dir-glob: 3.0.1
+      http-proxy-agent: 7.0.2
+      https-proxy-agent: 7.0.6
+      issue-parser: 7.0.2
+      lodash-es: 4.18.1
+      mime: 4.1.0
+      p-filter: 4.1.0
+      semantic-release: 24.2.9(typescript@5.9.3)
+      tinyglobby: 0.2.16
+      undici: 7.25.0
       url-join: 5.0.0
     transitivePeerDependencies:
       - supports-color
