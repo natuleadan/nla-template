@@ -51,7 +51,7 @@
     "recharts": "2.15.4",
     "schema-dts": "^2.0.0",
     "sharp": "^0.34.5",
-    "sonner": "^1.7.4",
+    "sonner": "^2.0.7",
     "tailwind-merge": "^3.5.0",
     "vaul": "^1.1.2",
     "xss": "^1.0.15",
