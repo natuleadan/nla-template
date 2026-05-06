@@ -1,17 +1,26 @@
+import { LOCALES } from "./locales";
 import * as esConfig from "@/lib/config/es";
 import * as enConfig from "@/lib/config/en";
+import * as arConfig from "@/lib/config/ar";
 
-const configs = { es: esConfig, en: enConfig };
+const configs = { es: esConfig, en: enConfig, ar: arConfig };
 
-export function getConfig<T = typeof esConfig>(locale = "en"): T {
-  const key = locale in configs ? locale : "en";
-  return configs[key as keyof typeof configs] as unknown as T;
+type ConfigMap = typeof configs;
+
+export function getConfig<T = ConfigMap[keyof ConfigMap]>(
+  locale = "en",
+): T {
+  const fallback = (LOCALES[0] || "en") as keyof ConfigMap;
+  const key: keyof ConfigMap = locale in configs ? (locale as keyof ConfigMap) : fallback;
+  return configs[key] as T;
 }
 
 export function getLocaleFromLang(lang: string): string {
-  return lang === "es" ? "es_ES" : "en_US";
+  const map: Record<string, string> = { es: "es_ES", en: "en_US", ar: "ar_SA" };
+  return map[lang] || `${lang}_${lang.toUpperCase()}`;
 }
 
 export function getDateLocale(lang: string): string {
-  return lang === "en" ? "en-US" : "es-ES";
+  const map: Record<string, string> = { en: "en-US", es: "es-ES", ar: "ar-SA" };
+  return map[lang] || `${lang}-${lang.toUpperCase()}`;
 }

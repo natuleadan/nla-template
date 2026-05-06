@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Roboto, Noto_Sans_Arabic } from "next/font/google";
 import { getBaseUrl, getIndexingEnabled, getYcloudEnabled } from "@/lib/env";
 import { getConfig } from "@/lib/locale/config";
 import { VercelMetricsGuard } from "@/components/analytics/vercel-metrics-guard";
@@ -10,6 +10,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { BrandColorScript } from "@/components/layout/brand-color-script";
 import { LangProvider } from "@/components/providers/lang-provider";
+import { DirectionSync } from "@/components/providers/direction-sync";
 
 const fontSans = Roboto({
   subsets: ["latin"],
@@ -18,14 +19,22 @@ const fontSans = Roboto({
   preload: true,
 });
 
+const fontArabic = Noto_Sans_Arabic({
+  subsets: ["arabic"],
+  variable: "--font-arabic",
+  display: "swap",
+  preload: false,
+});
+
 export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = getBaseUrl();
   const indexing = getIndexingEnabled();
+  const cfg = getConfig("es");
 
   return {
     metadataBase: new URL(baseUrl),
-    title: getConfig("es").brand.name,
-    description: getConfig("es").brand.description,
+    title: cfg.brand.name,
+    description: cfg.brand.description,
     icons: { icon: "/icon", apple: "/apple-icon" },
     robots: { index: indexing, follow: indexing },
   };
@@ -35,8 +44,14 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const cfg = getConfig("es");
+
   return (
-    <html lang="es" suppressHydrationWarning className={fontSans.variable}>
+    <html
+      lang="es"
+      dir="ltr"
+      suppressHydrationWarning
+      className={`${fontSans.variable} ${fontArabic.variable}`}
+    >
       <head>
         <BrandColorScript />
       </head>
@@ -50,22 +65,24 @@ export default function RootLayout({
         <Suspense>
           <LangProvider>
             <Providers ycloudEnabled={getYcloudEnabled()}>
-              <VercelMetricsGuard />
-              <div className="flex min-h-screen flex-col">
-                <Suspense>
-                  <Navbar />
-                </Suspense>
-                <main
-                  id="main-content"
-                  className="flex-1 flex flex-col"
-                  tabIndex={-1}
-                >
-                  <Suspense>{children}</Suspense>
-                </main>
-                <Suspense>
-                  <Footer />
-                </Suspense>
-              </div>
+              <DirectionSync>
+                <VercelMetricsGuard />
+                <div className="flex min-h-screen flex-col">
+                  <Suspense>
+                    <Navbar />
+                  </Suspense>
+                  <main
+                    id="main-content"
+                    className="flex-1 flex flex-col"
+                    tabIndex={-1}
+                  >
+                    <Suspense>{children}</Suspense>
+                  </main>
+                  <Suspense>
+                    <Footer />
+                  </Suspense>
+                </div>
+              </DirectionSync>
             </Providers>
           </LangProvider>
         </Suspense>

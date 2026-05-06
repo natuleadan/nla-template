@@ -1,11 +1,11 @@
 import Negotiator from "negotiator";
 import { NextResponse, type NextRequest } from "next/server";
 import { isDev } from "@/lib/env.public";
+import { LOCALES } from "@/lib/locale/locales";
 
-const LOCALES = ["en", "es"] as const;
-const DEFAULT_LOCALE = "en";
+type Locale = (typeof LOCALES)[number];
 
-export type Locale = (typeof LOCALES)[number];
+const DEFAULT_LOCALE = LOCALES[0] || "en";
 
 function isStaticRoute(pathname: string): boolean {
   return (
@@ -30,7 +30,7 @@ function getLocale(request: NextRequest): string {
   }).languages();
 
   const detected = languages[0]?.split("-")[0];
-  if (detected && LOCALES.includes(detected as any)) {
+  if (detected && (LOCALES as readonly string[]).includes(detected)) {
     return detected;
   }
   return DEFAULT_LOCALE;
@@ -46,7 +46,7 @@ export async function proxy(request: NextRequest) {
   const segments = pathname.split("/").filter(Boolean);
   const firstSegment = segments[0];
 
-  if (firstSegment && LOCALES.includes(firstSegment as any)) {
+  if (firstSegment && (LOCALES as readonly string[]).includes(firstSegment)) {
     return undefined;
   }
 
