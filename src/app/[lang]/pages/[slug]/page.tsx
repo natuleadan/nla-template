@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { PaginaDetailsSkeleton } from "./pagina-details-skeleton";
 import { PaginaContent } from "./pagina-content";
 import { getPagina, getPaginaSlugById } from "@/lib/modules/paginas";
-import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
 import { getConfig, getLocaleFromLang } from "@/lib/locale/config";
 import { getAlternateLanguages, SUPPORTED_LOCALES } from "@/lib/locale/seo";
@@ -39,7 +38,7 @@ export async function generateMetadata({
       openGraph: {
         title,
         description,
-        siteName: brand.name,
+        siteName: cfg.brand.name,
         type: "website",
         url: `${baseUrl}/${lang}/pages/${slug}`,
         locale: getLocaleFromLang(lang),

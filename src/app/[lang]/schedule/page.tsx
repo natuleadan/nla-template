@@ -6,7 +6,6 @@ import { WeeklyCalendar } from "@/components/agenda/weekly-calendar";
 import { CurrentTime } from "@/components/agenda/current-time";
 import { AgendaSkeleton } from "@/components/agenda/agenda-skeleton";
 import { getWeekDays } from "@/lib/modules/agenda";
-import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
 import { getConfig, getLocaleFromLang } from "@/lib/locale/config";
 import { getAlternateLanguages } from "@/lib/locale/seo";
@@ -42,7 +41,7 @@ async function getInitialData(locale: string) {
         startDate: getNextDateForDay(d.name, s.time, names),
         type: s.type,
         description: s.type
-          ? cfg.agenda.jsonld.citaDe(s.type, brand.name)
+          ? cfg.agenda.jsonld.citaDe(s.type, cfg.brand.name)
           : cfg.agenda.jsonld.citaDisponible,
       })),
   );
@@ -73,7 +72,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      siteName: brand.name,
+      siteName: cfg.brand.name,
       type: "website",
       url,
       images: [
@@ -125,7 +124,7 @@ export default async function AgendaPage({
         name={cfg.agenda.page.title}
         slots={availableSlots}
         baseUrl={baseUrl}
-        businessName={brand.name}
+        businessName={cfg.brand.name}
       />
       <div className="px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full py-8">
         <div className="flex flex-row items-start justify-between mb-8 gap-4">

@@ -7,7 +7,6 @@ import { Empty } from "@/components/ui/empty";
 import { PaginaToolbar } from "@/components/paginas/pagina-toolbar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getAllPaginas, getPaginas } from "@/lib/modules/paginas";
-import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
 import { getConfig, getLocaleFromLang } from "@/lib/locale/config";
 import { getAlternateLanguages } from "@/lib/locale/seo";
@@ -53,7 +52,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      siteName: brand.name,
+      siteName: cfg.brand.name,
       type: "website",
       url,
       locale: getLocaleFromLang(lang),

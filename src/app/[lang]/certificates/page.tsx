@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { PageHeader } from "@/components/layout/page-header";
 import { CertificateSearch } from "@/components/certificates/certificate-search";
 import { JsonLdBreadcrumb } from "@/components/metadata/breadcrumb-jsonld";
-import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
 import { getConfig, getLocaleFromLang } from "@/lib/locale/config";
 import { getAlternateLanguages } from "@/lib/locale/seo";
@@ -15,7 +14,7 @@ export async function generateMetadata({
   const { lang } = await params;
   const cfg = getConfig(lang);
   const baseUrl = getBaseUrl();
-  const title = `${cfg.pages.certificates.title} | ${brand.name}`;
+  const title = `${cfg.pages.certificates.title} | ${cfg.brand.name}`;
   const description = cfg.pages.certificates.description;
 
   return {
@@ -25,7 +24,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      siteName: brand.name,
+      siteName: cfg.brand.name,
       type: "website",
       url: `${baseUrl}/${lang}/certificates`,
       images: [

@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { PostDetailsSkeleton } from "./post-details-skeleton";
 import { PostContent } from "./post-content";
 import { getPost, getPostSlugById } from "@/lib/modules/blog";
-import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
 import { getConfig, getLocaleFromLang } from "@/lib/locale/config";
 import { getAlternateLanguages, SUPPORTED_LOCALES } from "@/lib/locale/seo";
@@ -39,7 +38,7 @@ export async function generateMetadata({
       openGraph: {
         title,
         description,
-        siteName: brand.name,
+        siteName: cfg.brand.name,
         type: "article",
         publishedTime: post.publishedAt,
         authors: [post.author],

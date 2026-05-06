@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Hero } from "@/components/landing/hero";
 import { HomeJsonLd } from "@/components/metadata/home-jsonld";
-import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
 import { getConfig, getLocaleFromLang } from "@/lib/locale/config";
 import { getAlternateLanguages } from "@/lib/locale/seo";
