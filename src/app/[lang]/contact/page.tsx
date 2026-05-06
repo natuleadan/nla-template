@@ -25,12 +25,12 @@ export async function generateMetadata({
 
   return {
     alternates: getAlternateLanguages(lang, "/contact", baseUrl),
-    title: `${cfg.pages.contacto.title} | ${brand.name}`,
+    title: `${cfg.pages.contacto.title} | ${cfg.brand.name}`,
     description: cfg.pages.contacto.description,
     openGraph: {
-      title: `${cfg.pages.contacto.title} | ${brand.name}`,
+      title: `${cfg.pages.contacto.title} | ${cfg.brand.name}`,
       description: cfg.pages.contacto.description,
-      siteName: brand.name,
+      siteName: cfg.brand.name,
       type: "website",
       url: `${baseUrl}/${lang}/contact`,
       images: [
@@ -45,7 +45,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${cfg.pages.contacto.title} | ${brand.name}`,
+      title: `${cfg.pages.contacto.title} | ${cfg.brand.name}`,
       description: cfg.pages.contacto.description,
       images: [
         {

@@ -15,10 +15,11 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { lang, slug } = await params;
   const baseUrl = getBaseUrl();
+  const cfg = getConfig(lang);
 
   try {
     const product = await getProduct(slug, lang);
-    if (!product) return { title: getConfig(lang).ui.notFound.product };
+    if (!product) return { title: cfg.ui.notFound.product };
 
     const alternatePaths: Record<string, string> = {};
     for (const locale of SUPPORTED_LOCALES) {
@@ -27,7 +28,7 @@ export async function generateMetadata({
       if (altSlug) alternatePaths[locale] = `/store/${altSlug}`;
     }
 
-    const title = `${product.name} | ${brand.name}`;
+    const title = `${product.name} | ${cfg.brand.name}`;
     const description =
       product.description?.slice(0, 160) || getConfig(lang).brand.description;
 

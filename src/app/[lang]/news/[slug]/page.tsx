@@ -15,10 +15,11 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { lang, slug } = await params;
   const baseUrl = getBaseUrl();
+  const cfg = getConfig(lang);
 
   try {
     const post = await getPost(slug, lang);
-    if (!post) return { title: getConfig(lang).ui.notFound.article };
+    if (!post) return { title: cfg.ui.notFound.article };
 
     const alternatePaths: Record<string, string> = {};
     for (const locale of SUPPORTED_LOCALES) {
@@ -27,7 +28,7 @@ export async function generateMetadata({
       if (altSlug) alternatePaths[locale] = `/news/${altSlug}`;
     }
 
-    const title = `${post.title} | ${brand.name}`;
+    const title = `${post.title} | ${cfg.brand.name}`;
     const description =
       post.excerpt?.slice(0, 160) || getConfig(lang).brand.description;
 

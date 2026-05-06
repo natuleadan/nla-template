@@ -17,10 +17,10 @@ export async function generateMetadata({
 
   return {
     alternates: getAlternateLanguages(lang, "/", baseUrl),
-    title: { absolute: brand.name },
+    title: { absolute: cfg.brand.name },
     description: cfg.brand.description,
     openGraph: {
-      siteName: brand.name,
+      siteName: cfg.brand.name,
       type: "website",
       url: `${baseUrl}/${lang}`,
       images: [
@@ -28,7 +28,7 @@ export async function generateMetadata({
           url: `${baseUrl}/${lang}/opengraph-image`,
           width: 1200,
           height: 630,
-          alt: brand.name,
+          alt: cfg.brand.name,
         },
       ],
       locale: getLocaleFromLang(lang),
@@ -40,7 +40,7 @@ export async function generateMetadata({
           url: `${baseUrl}/${lang}/twitter-image`,
           width: 1200,
           height: 600,
-          alt: brand.name,
+          alt: cfg.brand.name,
         },
       ],
     },
