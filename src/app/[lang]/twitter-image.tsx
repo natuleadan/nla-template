@@ -1,7 +1,7 @@
-import { ImageResponse } from "next/og";
 import { getConfig } from "@/lib/locale/config";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { createImageResponse } from "@/lib/api/og";
 
 export const size = {
   width: 1200,
@@ -29,7 +29,7 @@ export default async function TwitterImage({
   const bgUrl = `data:image/svg+xml;base64,${bgBase64}`;
   const logoUrl = `data:image/svg+xml;base64,${logoBase64}`;
 
-  return new ImageResponse(
+  return createImageResponse(
     <div
       style={{
         width: "100%",
@@ -74,7 +74,6 @@ export default async function TwitterImage({
           flexDirection: "column",
           alignItems: "center",
           textAlign: "center",
-          zIndex: 1,
           padding: "0 48px",
           marginTop: "80px",
         }}
@@ -104,8 +103,6 @@ export default async function TwitterImage({
         </div>
       </div>
     </div>,
-    {
-      ...size,
-    },
+    size,
   );
 }

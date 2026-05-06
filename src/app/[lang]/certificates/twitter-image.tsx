@@ -1,7 +1,7 @@
-import { ImageResponse } from "next/og";
 import { getConfig } from "@/lib/locale/config";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { createImageResponse } from "@/lib/api/og";
 
 export const size = { width: 1200, height: 600 };
 export const contentType = "image/png";
@@ -24,7 +24,7 @@ export default async function CertificatesTwitterImage({
   const bgBase64 = bgData.toString("base64");
   const logoBase64 = logoData.toString("base64");
 
-  return new ImageResponse(
+  return createImageResponse(
     <div
       style={{
         width: "100%",
@@ -69,7 +69,6 @@ export default async function CertificatesTwitterImage({
           flexDirection: "column",
           alignItems: "center",
           textAlign: "center",
-          zIndex: 1,
           padding: "0 48px",
           marginTop: 80,
         }}
@@ -99,6 +98,6 @@ export default async function CertificatesTwitterImage({
         </div>
       </div>
     </div>,
-    { ...size },
+    size,
   );
 }

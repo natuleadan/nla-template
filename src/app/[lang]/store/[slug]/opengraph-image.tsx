@@ -1,8 +1,8 @@
-import { ImageResponse } from "next/og";
 import { getConfig } from "@/lib/locale/config";
 import { getProduct } from "@/lib/modules/products";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { createImageResponse } from "@/lib/api/og";
 
 export const size = {
   width: 1200,
@@ -42,7 +42,7 @@ export default async function ProductOpenGraphImage({
   const logoBase64 = logoData.toString("base64");
   const fallbackBase64 = fallbackData.toString("base64");
 
-  return new ImageResponse(
+  return createImageResponse(
     <div
       style={{
         width: "100%",
@@ -105,6 +105,7 @@ export default async function ProductOpenGraphImage({
             style={{
               fontSize: 33,
               fontWeight: 700,
+
               maxWidth: 700,
               color: "#ffffff",
               lineHeight: 1.1,
@@ -127,8 +128,6 @@ export default async function ProductOpenGraphImage({
         </div>
       </div>
     </div>,
-    {
-      ...size,
-    },
+    size,
   );
 }

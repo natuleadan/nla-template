@@ -1,7 +1,7 @@
-import { ImageResponse } from "next/og";
 import { getConfig } from "@/lib/locale/config";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { createImageResponse } from "@/lib/api/og";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -24,7 +24,7 @@ export default async function CertificatesOpenGraphImage({
   const bgBase64 = bgData.toString("base64");
   const logoBase64 = logoData.toString("base64");
 
-  return new ImageResponse(
+  return createImageResponse(
     <div
       style={{
         width: "100%",
@@ -69,7 +69,6 @@ export default async function CertificatesOpenGraphImage({
           flexDirection: "column",
           alignItems: "center",
           textAlign: "center",
-          zIndex: 1,
           padding: "0 48px",
           marginTop: 80,
         }}
@@ -78,6 +77,7 @@ export default async function CertificatesOpenGraphImage({
           style={{
             fontSize: 64,
             fontWeight: 700,
+
             color: "#ffffff",
             textShadow: "2px 2px 8px rgba(0,0,0,0.7)",
             marginBottom: 20,
@@ -99,6 +99,6 @@ export default async function CertificatesOpenGraphImage({
         </div>
       </div>
     </div>,
-    { ...size },
+    size,
   );
 }
