@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { NextResponse } from "next/server";
 import { getApprovedReviews } from "@/lib/modules/reviews";
-import { badRequest } from "@/lib/env";
+import { badRequest } from "@/lib/api/response";
 import { getConfig } from "@/lib/locale/config";
 import { reviewRateLimit, getClientIp } from "@/lib/rate-limit";
 

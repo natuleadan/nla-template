@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { NextResponse } from "next/server";
 import { getPagina } from "@/lib/modules/paginas";
 import { getConfig } from "@/lib/locale/config";
-import { badRequest, notFound, serverError } from "@/lib/env";
+import { badRequest, notFound, serverError } from "@/lib/api/response";
 import { catalogRateLimit, getClientIp } from "@/lib/rate-limit";
 
 interface RouteParams {

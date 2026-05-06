@@ -1,11 +1,10 @@
 import { createHash } from "node:crypto";
+import { validateApiKey } from "@/lib/internal/auth/validate";
+import { unauthorized, serverError } from "@/lib/api/response";
 import {
   getYcloudApiKey,
   getYcloudEnabled,
   getWhatsappNumber,
-  serverError,
-  validateApiKey,
-  unauthorized,
 } from "@/lib/env";
 import { getClientIp } from "@/lib/rate-limit";
 import { getConfig } from "@/lib/locale/config";

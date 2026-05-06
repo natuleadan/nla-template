@@ -1,13 +1,8 @@
 import { createHash } from "node:crypto";
 import { NextRequest } from "next/server";
-import {
-  validateApiKey,
-  unauthorized,
-  badRequest,
-  serverError,
-  getAdminPhone,
-  getRateLimitMax,
-} from "@/lib/env";
+import { validateApiKey } from "@/lib/internal/auth/validate";
+import { unauthorized, badRequest, serverError } from "@/lib/api/response";
+import { getAdminPhone, getRateLimitMax } from "@/lib/env";
 import { getClientIp, RateLimiter } from "@/lib/rate-limit";
 import { getConfig } from "@/lib/locale/config";
 import { AgentService } from "@/lib/modules/agents/service";

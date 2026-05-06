@@ -6,7 +6,6 @@
  * - Private vars: here — server-only (API keys, secrets, etc.)
  */
 
-import { timingSafeEqual, pbkdf2Sync } from "node:crypto";
 import { isDev, isTest } from "@/lib/env.public";
 
 export {
@@ -127,42 +126,4 @@ export function getZeroDataRetention(): boolean {
   return process.env.AI_GATEWAY_ZDR === "true";
 }
 
-// ─── Auth helpers ─────────────────────────────────────────
 
-export function validateApiKey(request: Request): boolean {
-  const provided = request.headers.get("x-api-key");
-  const expected = getApiKey();
-  if (!provided || !expected) return false;
-  try {
-    const a = pbkdf2Sync(provided, "agents-lite-api-key", 1, 32, "sha512");
-    const b = pbkdf2Sync(expected, "agents-lite-api-key", 1, 32, "sha512");
-    return timingSafeEqual(a, b);
-  } catch {
-    return false;
-  }
-}
-
-// ─── Response helpers ─────────────────────────────────────
-
-export function unauthorized(): Response {
-  return Response.json(
-    { error: "No autorizado. Provee header x-api-key." },
-    { status: 401 },
-  );
-}
-
-export function badRequest(message: string): Response {
-  return Response.json({ error: message }, { status: 400 });
-}
-
-export function notFound(entity: string): Response {
-  return Response.json({ error: `${entity} no encontrado` }, { status: 404 });
-}
-
-export function serverError(error: unknown): Response {
-  if (isDev) console.error("Server error:", error);
-  return Response.json(
-    { error: "Error interno del servidor" },
-    { status: 500 },
-  );
-}

@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { getProduct } from "@/lib/modules/products";
 import { getApprovedReviews } from "@/lib/modules/reviews";
 import { getConfig } from "@/lib/locale/config";
-import { badRequest, notFound, serverError } from "@/lib/env";
+import { badRequest, notFound, serverError } from "@/lib/api/response";
 import { catalogRateLimit, getClientIp } from "@/lib/rate-limit";
 
 interface RouteParams {
