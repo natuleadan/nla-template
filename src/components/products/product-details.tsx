@@ -227,9 +227,9 @@ export function ProductDetails({
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <CarouselPrevious className="left-2" />
-                <CarouselNext className="right-2" />
-                <div className="absolute bottom-3 right-3">
+                <CarouselPrevious className="start-2" />
+                <CarouselNext className="end-2" />
+                <div className="absolute bottom-3 end-3">
                   <Badge variant="secondary" className="text-xs font-mono">
                     {currentImage}/{product.images.length}
                   </Badge>

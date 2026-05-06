@@ -187,7 +187,7 @@ function DesktopDropdown({
 
       {open && (
         <div
-          className="absolute top-full left-0 mt-1 min-w-max rounded-lg border bg-popover p-1.5 shadow-lg z-50"
+          className="absolute top-full left-0 rtl:right-0 mt-1 min-w-max rounded-lg border bg-popover p-1.5 shadow-lg z-50"
           onMouseEnter={show}
           onMouseLeave={hide}
         >

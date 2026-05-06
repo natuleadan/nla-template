@@ -120,7 +120,7 @@ export function Navbar() {
             <LangSwitcher />
             <ThemeToggle />
             {!hydrated ? (
-              <Button onClick={handleWhatsAppClick} size="sm" className="gap-2 ml-2">
+              <Button onClick={handleWhatsAppClick} size="sm" className="gap-2 ms-2">
                 <IconBrandWhatsapp className="size-5" data-icon="inline-start" />
                 <span className="hidden sm:inline">{nav.buttons.whatsappDesktop}</span>
                 <span className="sm:hidden">{nav.buttons.whatsappMobile}</span>
@@ -129,12 +129,12 @@ export function Navbar() {
               <CartSheet>
                 <Button
                   size="sm"
-                  className="gap-2 ml-2"
+                  className="gap-2 ms-2"
                   aria-label={cfg.store.cart.openAriaLabel}
                 >
                   <span className="relative">
                     <IconShoppingCart className="size-5" data-icon="inline-start" />
-                    <span className="absolute -top-1.5 -right-1.5 flex min-w-4 h-4 items-center justify-center rounded-full bg-foreground text-[10px] font-medium text-background px-1">
+                    <span className="absolute -top-1.5 -right-1.5 rtl:-left-1.5 flex min-w-4 h-4 items-center justify-center rounded-full bg-foreground text-[10px] font-medium text-background px-1">
                       {totalItems}
                     </span>
                   </span>
@@ -143,7 +143,7 @@ export function Navbar() {
                 </Button>
               </CartSheet>
             ) : (
-              <Button onClick={handleWhatsAppClick} size="sm" className="gap-2 ml-2">
+              <Button onClick={handleWhatsAppClick} size="sm" className="gap-2 ms-2">
                 <IconBrandWhatsapp className="size-5" data-icon="inline-start" />
                 <span className="hidden sm:inline">{nav.buttons.whatsappDesktop}</span>
                 <span className="sm:hidden">{nav.buttons.whatsappMobile}</span>
@@ -201,7 +201,7 @@ export function Navbar() {
                 >
                   <span className="relative">
                     <IconShoppingCart className="size-5" />
-                    <span className="absolute -top-1.5 -right-1.5 flex min-w-4 h-4 items-center justify-center rounded-full bg-foreground text-[10px] font-medium text-background px-1">
+                    <span className="absolute -top-1.5 -right-1.5 rtl:-left-1.5 flex min-w-4 h-4 items-center justify-center rounded-full bg-foreground text-[10px] font-medium text-background px-1">
                       {totalItems}
                     </span>
                   </span>
@@ -232,7 +232,7 @@ export function Navbar() {
                 >
                   <span className="relative">
                     <IconShoppingCart className="size-5" />
-                    <span className="absolute -top-1.5 -right-1.5 flex min-w-4 h-4 items-center justify-center rounded-full bg-foreground text-[10px] font-medium text-background px-1">
+                    <span className="absolute -top-1.5 -right-1.5 rtl:-left-1.5 flex min-w-4 h-4 items-center justify-center rounded-full bg-foreground text-[10px] font-medium text-background px-1">
                       {totalItems}
                     </span>
                   </span>

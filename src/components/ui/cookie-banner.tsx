@@ -99,7 +99,7 @@ export function CookieBanner({ onAccept, onReject }: CookieBannerProps) {
       {showCookieButton && (
         <Button
           size="icon"
-          className="fixed bottom-4 left-4 z-50 rounded-full shadow-lg transition-all hover:scale-110 h-12 w-12"
+          className="fixed bottom-4 left-4 rtl:right-4 z-50 rounded-full shadow-lg transition-all hover:scale-110 h-12 w-12"
           onClick={handleOpenCookieSettings}
         >
           <IconCookie className="size-6" />
@@ -107,7 +107,7 @@ export function CookieBanner({ onAccept, onReject }: CookieBannerProps) {
       )}
 
       {showBanner && (
-        <div className="fixed bottom-4 left-4 right-4 z-50 sm:max-w-md sm:left-4 sm:right-auto">
+        <div className="fixed bottom-4 left-4 right-4 z-50 sm:max-w-md sm:left-4 sm:right-auto sm:rtl:right-4 sm:rtl:left-auto">
           <Card className="shadow-lg">
             <CardHeader>
               <div className="flex items-center gap-2">
