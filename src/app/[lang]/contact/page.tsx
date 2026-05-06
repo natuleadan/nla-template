@@ -7,7 +7,6 @@ import {
   IconMail,
   IconBrandWhatsapp,
 } from "@tabler/icons-react";
-import { brand } from "@/lib/config/site";
 import { getBaseUrl, getWhatsappNumber } from "@/lib/env";
 import { getConfig, getLocaleFromLang } from "@/lib/locale/config";
 import { getAlternateLanguages } from "@/lib/locale/seo";
@@ -95,7 +94,7 @@ export default async function ContactoPage({
               <IconMapPin className="size-5 mt-1 text-primary" />
               <div>
                 <p className="font-medium">{cfg.pages.contacto.address}</p>
-                <p className="text-sm text-muted-foreground">{brand.address}</p>
+                <p className="text-sm text-muted-foreground">{cfg.brand.address}</p>
               </div>
             </div>
             <div className="flex items-start gap-4 py-3">
@@ -103,7 +102,7 @@ export default async function ContactoPage({
               <div>
                 <p className="font-medium">{cfg.pages.contacto.phoneLabel}</p>
                 <p className="text-sm text-muted-foreground">
-                  {getWhatsappNumber() || brand.phone}
+                  {getWhatsappNumber() || cfg.brand.phone}
                 </p>
               </div>
             </div>
@@ -113,7 +112,7 @@ export default async function ContactoPage({
                 <p className="font-medium">
                   {cfg.pages.contacto.emailLabel || "Email"}
                 </p>
-                <p className="text-sm text-muted-foreground">{brand.email}</p>
+                <p className="text-sm text-muted-foreground">{cfg.brand.email}</p>
               </div>
             </div>
             <div className="flex items-start gap-4 py-3">
@@ -123,7 +122,7 @@ export default async function ContactoPage({
                   {cfg.pages.contacto.whatsappLabel || "WhatsApp"}
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  {getWhatsappNumber() || brand.phone}
+                  {getWhatsappNumber() || cfg.brand.phone}
                 </p>
               </div>
             </div>

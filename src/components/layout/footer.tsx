@@ -10,14 +10,13 @@ import {
 } from "@tabler/icons-react";
 import { Copyright } from "./copyright";
 import { FooterDynamicCards } from "./footer-dynamic-cards";
-import { brand } from "@/lib/config/site";
 import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
 
 export function Footer() {
   const lang = useLang();
   const cfg = getConfig(lang);
-  const { nav, ui, brand: brandText } = cfg;
+  const { nav, ui, brand } = cfg;
   const l = (href: string) => (href === "/" ? `/${lang}` : `/${lang}${href}`);
 
   const empresaCol = nav.footer.columns.find(
@@ -66,7 +65,7 @@ export function Footer() {
               {brand.name}
             </Link>
             <p className="mt-3 text-sm text-muted-foreground">
-              {brandText.description}
+              {brand.description}
             </p>
           </div>
           <FooterDynamicCards />
