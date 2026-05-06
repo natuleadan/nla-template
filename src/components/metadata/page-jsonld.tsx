@@ -1,7 +1,7 @@
 import { safeJsonLd } from "@/lib/utils";
 import type { Graph, WebPage, BreadcrumbList, Thing } from "schema-dts";
-import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
+import { getConfig } from "@/lib/locale/config";
 
 interface JsonLdWebPageProps {
   pageUrl: string;
@@ -23,6 +23,7 @@ export function JsonLdWebPage({
   locale = "es",
 }: JsonLdWebPageProps) {
   const baseUrl = getBaseUrl();
+  const cfg = getConfig(locale);
 
   const graph: Thing[] = [
     {
@@ -50,7 +51,7 @@ export function JsonLdWebPage({
       dateModified: dateModified || datePublished,
       author: {
         "@type": "Organization",
-        name: brand.name,
+        name: cfg.brand.name,
       },
       publisher: { "@id": `${baseUrl}/#organization` },
       mainEntityOfPage: { "@id": `${pageUrl}/#webpage` },

@@ -1,5 +1,4 @@
 import { safeJsonLd } from "@/lib/utils";
-import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
 import { getConfig } from "@/lib/locale/config";
 import type {
@@ -19,6 +18,7 @@ export function HomeJsonLd({
 }) {
   const baseUrl = getBaseUrl();
   const cfg = getConfig(locale);
+  const brand = cfg.brand;
 
   const sameAs = [
     brand.socialInstagram && `https://instagram.com/${brand.socialInstagram}`,

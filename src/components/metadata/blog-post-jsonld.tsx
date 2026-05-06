@@ -1,7 +1,7 @@
 import { safeJsonLd } from "@/lib/utils";
 import type { Graph, BlogPosting, BreadcrumbList } from "schema-dts";
-import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
+import { getConfig } from "@/lib/locale/config";
 
 interface JsonLdBlogPostProps {
   title: string;
@@ -29,6 +29,7 @@ export function JsonLdBlogPost({
   locale = "es",
 }: JsonLdBlogPostProps) {
   const baseUrl = getBaseUrl();
+  const cfg = getConfig(locale);
 
   const jsonLd: Graph = {
     "@context": "https://schema.org",
@@ -47,7 +48,7 @@ export function JsonLdBlogPost({
         },
         publisher: {
           "@type": "Organization",
-          name: brand.name,
+          name: cfg.brand.name,
           url: baseUrl,
         },
         mainEntityOfPage: { "@id": url },

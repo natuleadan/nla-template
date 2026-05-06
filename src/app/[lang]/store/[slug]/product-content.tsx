@@ -6,7 +6,6 @@ import type { Product } from "@/lib/modules/products";
 import type { Review } from "@/lib/modules/reviews";
 import type { InventoryItem } from "@/lib/config/data/inventory.es";
 import { inventoryData } from "@/lib/config/data/inventory.es";
-import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
 import { getConfig } from "@/lib/locale/config";
 import { resolveSlug } from "@/lib/locale/slug-resolver";
@@ -63,7 +62,7 @@ export async function ProductoContent({ params }: ProductoContentProps) {
         inStock={inventory.length > 0}
         sku={product.id}
         category={product.category}
-        brandName={brand.name}
+        brandName={cfg.brand.name}
         brandUrl={baseUrl}
         locale={lang}
         breadcrumbs={[

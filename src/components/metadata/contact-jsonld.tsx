@@ -1,15 +1,17 @@
 import { safeJsonLd } from "@/lib/utils";
 import type { WithContext, ContactPage, Organization } from "schema-dts";
-import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
+import { getConfig } from "@/lib/locale/config";
 
 export function JsonLdContact({ locale = "es" }: { locale?: string }) {
   const baseUrl = getBaseUrl();
+  const cfg = getConfig(locale);
+  const brand = cfg.brand;
 
   const jsonLd: WithContext<ContactPage> = {
     "@context": "https://schema.org",
     "@type": "ContactPage",
-    name: `${brand.name} - Contacto`,
+    name: `${brand.name}`,
     description: brand.description,
     url: `${baseUrl}/${locale}/contact`,
     mainEntity: {
