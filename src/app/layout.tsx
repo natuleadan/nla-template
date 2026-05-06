@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Roboto, Noto_Sans_Arabic } from "next/font/google";
 import { getBaseUrl, getIndexingEnabled, getYcloudEnabled } from "@/lib/env";
 import { getConfig } from "@/lib/locale/config";
+import { LOCALES } from "@/lib/locale/locales";
 import { VercelMetricsGuard } from "@/components/analytics/vercel-metrics-guard";
 import "./globals.css";
 import { Providers } from "@/components/providers";
@@ -54,6 +55,11 @@ export default function RootLayout({
     >
       <head>
         <BrandColorScript />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var p=location.pathname.match(/^\/(${LOCALES.join("|")})(\/|$)/);if(p){var d=p[1]==="ar"||p[1]==="he"||p[1]==="fa"||p[1]==="ur"?"rtl":"ltr";document.documentElement.dir=d;document.documentElement.lang=p[1];}})()`,
+          }}
+        />
       </head>
       <body className="antialiased flex min-h-screen flex-col bg-background">
         <a

@@ -9,8 +9,10 @@ export function DirectionSync({ children }: { children: React.ReactNode }) {
   const dir = getDir(lang);
 
   return (
-    <DirectionProvider dir={dir} direction={dir}>
-      {children}
-    </DirectionProvider>
+    <div dir={dir}>
+      <DirectionProvider dir={dir} direction={dir}>
+        {children}
+      </DirectionProvider>
+    </div>
   );
 }
