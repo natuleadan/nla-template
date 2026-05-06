@@ -1,0 +1,90 @@
+import type { AgendaDay } from "@/lib/modules/agenda";
+
+export const agendaData: AgendaDay[] = [
+  {
+    name: "الاثنين",
+    nameShort: "اثن",
+    dayOfWeek: 1,
+    slots: [
+      { time: "09:00", available: true, type: "استشارة عامة" },
+      { time: "10:00", available: true, type: "استشارة عامة" },
+      { time: "11:00", available: true, type: "متابعة" },
+      { time: "12:00", available: true, type: "استشارة" },
+      { time: "15:00", available: true, type: "أول مرة" },
+      { time: "16:00", available: true, type: "استشارة عامة" },
+      { time: "17:00", available: true, type: "متابعة" },
+    ],
+  },
+  {
+    name: "الثلاثاء",
+    nameShort: "ثلا",
+    dayOfWeek: 2,
+    slots: [
+      { time: "09:00", available: true, type: "أول مرة" },
+      { time: "10:00", available: true, type: "استشارة عامة" },
+      { time: "11:00", available: true, type: "استشارة" },
+      { time: "12:00", available: true, type: "متابعة" },
+      { time: "15:00", available: true, type: "استشارة عامة" },
+      { time: "16:00", available: true, type: "أول مرة" },
+      { time: "17:00", available: true, type: "استشارة عامة" },
+      { time: "18:00", available: true, type: "متابعة" },
+    ],
+  },
+  {
+    name: "الأربعاء",
+    nameShort: "أرب",
+    dayOfWeek: 3,
+    slots: [
+      { time: "09:00", available: true, type: "استشارة عامة" },
+      { time: "10:00", available: true, type: "متابعة" },
+      { time: "11:00", available: true, type: "استشارة" },
+      { time: "12:00", available: true, type: "أول مرة" },
+      { time: "15:00", available: true, type: "استشارة عامة" },
+      { time: "16:00", available: true, type: "استشارة عامة" },
+    ],
+  },
+  {
+    name: "الخميس",
+    nameShort: "خمي",
+    dayOfWeek: 4,
+    slots: [
+      { time: "09:00", available: true, type: "استشارة" },
+      { time: "10:00", available: true, type: "استشارة عامة" },
+      { time: "11:00", available: true, type: "أول مرة" },
+      { time: "12:00", available: true, type: "متابعة" },
+      { time: "15:00", available: true, type: "استشارة عامة" },
+      { time: "16:00", available: true, type: "متابعة" },
+      { time: "17:00", available: true, type: "استشارة عامة" },
+    ],
+  },
+  {
+    name: "الجمعة",
+    nameShort: "جمع",
+    dayOfWeek: 5,
+    slots: [
+      { time: "09:00", available: true, type: "استشارة عامة" },
+      { time: "10:00", available: true, type: "أول مرة" },
+      { time: "11:00", available: true, type: "متابعة" },
+      { time: "12:00", available: true, type: "استشارة" },
+      { time: "15:00", available: true, type: "استشارة عامة" },
+      { time: "16:00", available: true, type: "استشارة عامة" },
+    ],
+  },
+  {
+    name: "السبت",
+    nameShort: "سبت",
+    dayOfWeek: 6,
+    slots: [
+      { time: "09:00", available: true, type: "استشارة عامة" },
+      { time: "10:00", available: true, type: "أول مرة" },
+      { time: "11:00", available: true, type: "متابعة" },
+      { time: "12:00", available: true, type: "استشارة" },
+    ],
+  },
+  {
+    name: "الأحد",
+    nameShort: "أحد",
+    dayOfWeek: 0,
+    slots: [],
+  },
+];

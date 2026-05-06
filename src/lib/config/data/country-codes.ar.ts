@@ -1,0 +1,61 @@
+export interface CountryCode {
+  code: string;
+  name: string;
+  flag: string;
+  dial: string;
+  digits: number;
+}
+
+export const countryCodes: CountryCode[] = [
+  { code: "AR", name: "الأرجنتين", flag: "🇦🇷", dial: "54", digits: 8 },
+  { code: "BO", name: "بوليفيا", flag: "🇧🇴", dial: "591", digits: 8 },
+  { code: "BR", name: "البرازيل", flag: "🇧🇷", dial: "55", digits: 10 },
+  { code: "CL", name: "تشيلي", flag: "🇨🇱", dial: "56", digits: 8 },
+  { code: "CO", name: "كولومبيا", flag: "🇨🇴", dial: "57", digits: 10 },
+  { code: "CR", name: "كوستاريكا", flag: "🇨🇷", dial: "506", digits: 8 },
+  { code: "CU", name: "كوبا", flag: "🇨🇺", dial: "53", digits: 8 },
+  {
+    code: "DO",
+    name: "جمهورية الدومينيكان",
+    flag: "🇩🇴",
+    dial: "1",
+    digits: 10,
+  },
+  { code: "EC", name: "الإكوادور", flag: "🇪🇨", dial: "593", digits: 9 },
+  { code: "SV", name: "السلفادور", flag: "🇸🇻", dial: "503", digits: 8 },
+  { code: "GT", name: "غواتيمالا", flag: "🇬🇹", dial: "502", digits: 8 },
+  { code: "HN", name: "هندوراس", flag: "🇭🇳", dial: "504", digits: 8 },
+  { code: "MX", name: "المكسيك", flag: "🇲🇽", dial: "52", digits: 10 },
+  { code: "NI", name: "نيكاراغوا", flag: "🇳🇮", dial: "505", digits: 8 },
+  { code: "PA", name: "بنما", flag: "🇵🇦", dial: "507", digits: 8 },
+  { code: "PY", name: "باراغواي", flag: "🇵🇾", dial: "595", digits: 9 },
+  { code: "PE", name: "بيرو", flag: "🇵🇪", dial: "51", digits: 9 },
+  { code: "PR", name: "بورتوريكو", flag: "🇵🇷", dial: "1", digits: 10 },
+  { code: "ES", name: "إسبانيا", flag: "🇪🇸", dial: "34", digits: 9 },
+  { code: "UY", name: "أوروغواي", flag: "🇺🇾", dial: "598", digits: 8 },
+  { code: "VE", name: "فنزويلا", flag: "🇻🇪", dial: "58", digits: 10 },
+  { code: "US", name: "الولايات المتحدة", flag: "🇺🇸", dial: "1", digits: 10 },
+  { code: "CA", name: "كندا", flag: "🇨🇦", dial: "1", digits: 10 },
+  { code: "GB", name: "المملكة المتحدة", flag: "🇬🇧", dial: "44", digits: 10 },
+  { code: "FR", name: "فرنسا", flag: "🇫🇷", dial: "33", digits: 9 },
+  { code: "DE", name: "ألمانيا", flag: "🇩🇪", dial: "49", digits: 10 },
+  { code: "IT", name: "إيطاليا", flag: "🇮🇹", dial: "39", digits: 9 },
+  { code: "PT", name: "البرتغال", flag: "🇵🇹", dial: "351", digits: 9 },
+  { code: "NL", name: "هولندا", flag: "🇳🇱", dial: "31", digits: 9 },
+  { code: "BE", name: "بلجيكا", flag: "🇧🇪", dial: "32", digits: 9 },
+  { code: "CH", name: "سويسرا", flag: "🇨🇭", dial: "41", digits: 9 },
+  { code: "SE", name: "السويد", flag: "🇸🇪", dial: "46", digits: 9 },
+  { code: "NO", name: "النرويج", flag: "🇳🇴", dial: "47", digits: 8 },
+  { code: "DK", name: "الدنمارك", flag: "🇩🇰", dial: "45", digits: 8 },
+  { code: "FI", name: "فنلندا", flag: "🇫🇮", dial: "358", digits: 9 },
+  { code: "IE", name: "أيرلندا", flag: "🇮🇪", dial: "353", digits: 9 },
+  { code: "AT", name: "النمسا", flag: "🇦🇹", dial: "43", digits: 10 },
+  { code: "JP", name: "اليابان", flag: "🇯🇵", dial: "81", digits: 10 },
+  { code: "CN", name: "الصين", flag: "🇨🇳", dial: "86", digits: 11 },
+  { code: "KR", name: "كوريا الجنوبية", flag: "🇰🇷", dial: "82", digits: 9 },
+  { code: "IN", name: "الهند", flag: "🇮🇳", dial: "91", digits: 10 },
+  { code: "AU", name: "أستراليا", flag: "🇦🇺", dial: "61", digits: 9 },
+  { code: "NZ", name: "نيوزيلندا", flag: "🇳🇿", dial: "64", digits: 8 },
+  { code: "ZA", name: "جنوب أفريقيا", flag: "🇿🇦", dial: "27", digits: 9 },
+  { code: "RU", name: "روسيا", flag: "🇷🇺", dial: "7", digits: 10 },
+];
