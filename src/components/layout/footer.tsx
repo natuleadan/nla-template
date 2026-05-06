@@ -21,7 +21,7 @@ export function Footer() {
   const l = (href: string) => (href === "/" ? `/${lang}` : `/${lang}${href}`);
 
   const empresaCol = nav.footer.columns.find(
-    (c) => c.title === "Empresa" || c.title === "Company",
+    (c) => c.title === "Empresa" || c.title === "Company" || c.title === "الشركة",
   );
 
   const socialLinks: { href: string; label: string; icon: React.ReactNode }[] =

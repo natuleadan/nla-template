@@ -6,8 +6,9 @@ import {
 } from "@/lib/modules/products";
 import { getAllPosts, getPostSlugById } from "@/lib/modules/blog";
 import { getAllPaginas, getPaginaSlugById } from "@/lib/modules/paginas";
+import { LOCALES } from "@/lib/locale/locales";
 
-const LOCALES = ["es", "en"];
+const DEFAULT_LOCALE = LOCALES[0] || "en";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 300;
@@ -53,7 +54,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   for (const page of staticPages) {
     entries.push({
-      url: `${baseUrl}/es${page.path}`,
+      url: `${baseUrl}/${DEFAULT_LOCALE}${page.path}`,
       lastModified: new Date(),
       changeFrequency: page.changeFreq,
       priority: page.priority,
@@ -61,10 +62,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
   }
 
-  const allProductsEs = await getAllProducts("es");
+  const allProductsEs = await getAllProducts(DEFAULT_LOCALE);
   for (const product of allProductsEs) {
     entries.push({
-      url: `${baseUrl}/es/store/${product.slug}`,
+      url: `${baseUrl}/${DEFAULT_LOCALE}/store/${product.slug}`,
       lastModified: new Date(),
       changeFrequency: "weekly" as const,
       priority: 0.8,
@@ -77,10 +78,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
   }
 
-  const allPostsEs = await getAllPosts("es");
+  const allPostsEs = await getAllPosts(DEFAULT_LOCALE);
   for (const post of allPostsEs) {
     entries.push({
-      url: `${baseUrl}/es/news/${post.slug}`,
+      url: `${baseUrl}/${DEFAULT_LOCALE}/news/${post.slug}`,
       lastModified: new Date(post.publishedAt),
       changeFrequency: "monthly" as const,
       priority: 0.6,
@@ -93,10 +94,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
   }
 
-  const allPaginasEs = await getAllPaginas("es");
+  const allPaginasEs = await getAllPaginas(DEFAULT_LOCALE);
   for (const page of allPaginasEs) {
     entries.push({
-      url: `${baseUrl}/es/pages/${page.slug}`,
+      url: `${baseUrl}/${DEFAULT_LOCALE}/pages/${page.slug}`,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
       priority: 0.4,

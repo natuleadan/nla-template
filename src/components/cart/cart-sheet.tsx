@@ -70,7 +70,7 @@ export function CartSheet({ children }: CartSheetProps) {
         <SheetHeader>
           <SheetTitle>
             <IconShoppingCart className="size-5 inline-block align-text-bottom mr-1.5" />
-            {lang === "es" ? "Carrito" : "Cart"}
+            {cfg.store.cart.title}
           </SheetTitle>
           <SheetDescription>
             {items.length > 0

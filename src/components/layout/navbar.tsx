@@ -138,7 +138,7 @@ export function Navbar() {
                       {totalItems}
                     </span>
                   </span>
-                  <span className="hidden sm:inline">{lang === "es" ? "Carrito" : "Cart"}</span>
+                  <span className="hidden sm:inline">{cfg.store.cart.title}</span>
                   <span className="sm:hidden">{totalItems}</span>
                 </Button>
               </CartSheet>

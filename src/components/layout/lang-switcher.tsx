@@ -13,13 +13,15 @@ import { IconLanguage, IconCheck } from "@tabler/icons-react";
 import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
 import { SUPPORTED_LOCALES } from "@/lib/locale/seo";
+import { LOCALES } from "@/lib/locale/locales";
 import { getLocalizedSlug } from "@/lib/locale/get-localized-slug";
 
 export function LangSwitcher() {
   const lang = useLang();
   const pathname = usePathname();
   const cfg = getConfig(lang);
-  const rest = pathname.replace(/^\/(en|es)/, "") || "/";
+  const localesPattern = LOCALES.join("|");
+  const rest = pathname.replace(new RegExp(`^/(${localesPattern})`), "") || "/";
 
   return (
     <DropdownMenu>
@@ -37,7 +39,7 @@ export function LangSwitcher() {
           const translatedSlug = getLocalizedSlug(pathname, locale);
           const defaultHref = `/${locale}${rest}`;
           const href = translatedSlug
-            ? `/${locale}/${pathname.match(/^\/(en|es)\/(store|news|pages)\//)?.[2]}/${translatedSlug}`
+            ? `/${locale}/${pathname.match(new RegExp(`^/(${localesPattern})\/(store|news|pages)\/`))?.[2]}/${translatedSlug}`
             : defaultHref;
 
           return (

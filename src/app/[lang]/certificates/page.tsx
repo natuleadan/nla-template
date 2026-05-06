@@ -4,7 +4,7 @@ import { CertificateSearch } from "@/components/certificates/certificate-search"
 import { JsonLdBreadcrumb } from "@/components/metadata/breadcrumb-jsonld";
 import { brand } from "@/lib/config/site";
 import { getBaseUrl } from "@/lib/env";
-import { getConfig } from "@/lib/locale/config";
+import { getConfig, getLocaleFromLang } from "@/lib/locale/config";
 import { getAlternateLanguages } from "@/lib/locale/seo";
 
 export async function generateMetadata({
@@ -36,7 +36,7 @@ export async function generateMetadata({
           alt: title,
         },
       ],
-      locale: lang === "es" ? "es_ES" : "en_US",
+      locale: getLocaleFromLang(lang),
     },
     twitter: {
       card: "summary_large_image",

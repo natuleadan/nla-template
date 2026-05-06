@@ -3,7 +3,7 @@ import { z } from "zod";
 import { getAllProducts, getProduct } from "@/lib/modules/products";
 import { getAllPaginas, getPagina } from "@/lib/modules/paginas";
 import { getAllPosts, getPost } from "@/lib/modules/blog";
-import { brand } from "@/lib/config/data/brand.es";
+import { brand } from "@/lib/config/data/brand.en";
 import {
   getMyHistory,
   saveLongMemory,

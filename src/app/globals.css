@@ -27,7 +27,7 @@
 .prose-html > ol {
   margin-top: 1rem;
   margin-bottom: 1rem;
-  margin-left: 1.5rem;
+  margin-inline-start: 1.5rem;
   font-size: 0.875rem;
   color: var(--color-foreground);
 }
@@ -88,7 +88,7 @@
 .prose-html > table th {
   background: var(--color-primary);
   font-weight: 600;
-  text-align: left;
+  text-align: start;
   padding: 0.5rem 0.75rem;
   color: white;
   border-bottom: 1px solid var(--color-border);

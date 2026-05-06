@@ -2,8 +2,13 @@ import { getBaseUrl, isDev } from "@/lib/env";
 import { getConfig } from "@/lib/locale/config";
 import { detectLocale } from "@/lib/locale/detect";
 import { getAllProducts } from "@/lib/modules/products";
+import { LOCALES } from "@/lib/locale/locales";
 
-const LOCALES = ["es", "en"];
+const LABELS: Record<string, string> = {
+  es: "Spanish",
+  en: "English",
+  ar: "Arabic",
+};
 
 export async function GET() {
   try {
@@ -24,12 +29,13 @@ export async function GET() {
     lines.push(`- ${baseUrl}`);
     lines.push(``);
     lines.push(`## Languages`);
-    lines.push(`- es (Spanish)`);
-    lines.push(`- en (English)`);
+    for (const locale of LOCALES) {
+      lines.push(`- ${locale} (${LABELS[locale] || locale})`);
+    }
     lines.push(``);
 
     for (const locale of LOCALES) {
-      const label = locale === "es" ? "Spanish" : "English";
+      const label = LABELS[locale] || locale;
       lines.push(`## ${label}`);
 
       const products = await getAllProducts(locale);

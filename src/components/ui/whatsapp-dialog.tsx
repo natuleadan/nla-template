@@ -29,10 +29,7 @@ import {
   IconCheck,
   IconChevronDown,
 } from "@tabler/icons-react";
-import {
-  countryCodes,
-  type CountryCode,
-} from "@/lib/config/data/country-codes.es";
+import type { CountryCode } from "@/lib/config/data/country-codes.en";
 import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
 import notificationService from "@/hooks/use-notification";
@@ -57,6 +54,7 @@ export function WhatsAppDialog({
   ycloudEnabled = false,
 }: WhatsAppDialogProps) {
   const lang = useLang();
+  const { countryCodes } = getConfig(lang);
   const cfg = getConfig(lang);
   const t = cfg.ui.whatsapp;
   const [countryCode, setCountryCode] = useState<CountryCode>(

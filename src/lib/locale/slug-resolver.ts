@@ -1,4 +1,5 @@
 import { redirect, notFound } from "next/navigation";
+import { LOCALES } from "./locales";
 
 export async function resolveSlug<T>(
   slug: string,
@@ -9,10 +10,12 @@ export async function resolveSlug<T>(
   const data = await find(slug, lang);
   if (data) return { data, locale: lang };
 
-  const alt = lang === "en" ? "es" : "en";
-  const altData = await find(slug, alt);
-  if (altData) {
-    redirect(`/${alt}${prefix}/${slug}`);
+  for (const alt of LOCALES) {
+    if (alt === lang) continue;
+    const altData = await find(slug, alt);
+    if (altData) {
+      redirect(`/${alt}${prefix}/${slug}`);
+    }
   }
 
   notFound();
