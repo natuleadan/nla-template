@@ -9,9 +9,8 @@ import {
 } from "@tabler/icons-react";
 import { getConfig } from "@/lib/locale/config";
 
-const ui = getConfig("es").ui;
-
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
+  const ui = getConfig().ui;
   return (
     <nav
       role="navigation"
@@ -70,9 +69,11 @@ function PaginationLink({
 
 function PaginationPrevious({
   className,
-  text = ui.pagination.previous,
+  text,
   ...props
 }: React.ComponentProps<typeof PaginationLink> & { text?: string }) {
+  const ui = getConfig().ui;
+  const label = text || ui.pagination.previous;
   return (
     <PaginationLink
       aria-label={ui.pagination.previousAria}
@@ -81,16 +82,18 @@ function PaginationPrevious({
       {...props}
     >
       <IconChevronLeft data-icon="inline-start" className="cn-rtl-flip" />
-      <span className="hidden sm:block">{text}</span>
+      <span className="hidden sm:block">{label}</span>
     </PaginationLink>
   );
 }
 
 function PaginationNext({
   className,
-  text = ui.pagination.next,
+  text,
   ...props
 }: React.ComponentProps<typeof PaginationLink> & { text?: string }) {
+  const ui = getConfig().ui;
+  const label = text || ui.pagination.next;
   return (
     <PaginationLink
       aria-label={ui.pagination.nextAria}
@@ -98,7 +101,7 @@ function PaginationNext({
       className={cn("pr-1.5!", className)}
       {...props}
     >
-      <span className="hidden sm:block">{text}</span>
+      <span className="hidden sm:block">{label}</span>
       <IconChevronRight data-icon="inline-end" className="cn-rtl-flip" />
     </PaginationLink>
   );
@@ -108,6 +111,7 @@ function PaginationEllipsis({
   className,
   ...props
 }: React.ComponentProps<"span">) {
+  const ui = getConfig().ui;
   return (
     <span
       aria-hidden

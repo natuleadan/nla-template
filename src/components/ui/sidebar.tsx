@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { useLang } from "@/hooks/use-lang";
 import { getConfig } from "@/lib/locale/config";
 import {
   Sheet,
@@ -163,7 +164,7 @@ function Sidebar({
   collapsible?: "offcanvas" | "icon" | "none";
 }) {
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
-  const sidebarUi = getConfig("es").ui.sidebar;
+  const sidebarUi = getConfig(useLang()).ui.sidebar;
 
   if (collapsible === "none") {
     return (
@@ -258,7 +259,7 @@ function SidebarTrigger({
   ...props
 }: React.ComponentProps<typeof Button>) {
   const { toggleSidebar } = useSidebar();
-  const sidebarUi = getConfig("es").ui.sidebar;
+  const sidebarUi = getConfig(useLang()).ui.sidebar;
 
   return (
     <Button
@@ -281,7 +282,7 @@ function SidebarTrigger({
 
 function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
   const { toggleSidebar } = useSidebar();
-  const sidebarUi = getConfig("es").ui.sidebar;
+  const sidebarUi = getConfig(useLang()).ui.sidebar;
 
   return (
     <button

@@ -5,9 +5,8 @@ import { cn } from "@/lib/utils";
 import { IconChevronRight, IconDots } from "@tabler/icons-react";
 import { getConfig } from "@/lib/locale/config";
 
-const ui = getConfig("es").ui;
-
 function Breadcrumb({ className, ...props }: React.ComponentProps<"nav">) {
+  const ui = getConfig().ui;
   return (
     <nav
       aria-label={ui.breadcrumb.ariaLabel}
@@ -94,6 +93,7 @@ function BreadcrumbEllipsis({
   className,
   ...props
 }: React.ComponentProps<"span">) {
+  const ui = getConfig().ui;
   return (
     <span
       data-slot="breadcrumb-ellipsis"
