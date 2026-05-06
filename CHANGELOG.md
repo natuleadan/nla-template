@@ -1,3 +1,35 @@
+## [2.3.0](https://github.com/natuleadan/agents-lite/compare/v2.2.1...v2.3.0) (2026-05-06)
+
+### Features
+
+* **i18n:** add arabic font support for og images ([4611245](https://github.com/natuleadan/agents-lite/commit/46112451950103ef7bd69858cd578108ff3be5ac))
+* **i18n:** add arabic ui translations ([a28a211](https://github.com/natuleadan/agents-lite/commit/a28a21121f15557c9f52aa8db88e13df065c6e82))
+* **i18n:** add centralized locale config with dynamic direction ([e776995](https://github.com/natuleadan/agents-lite/commit/e7769957140fd1b040bb99e02626a0e4f36e4bac))
+* **i18n:** load arabic data in all modules ([c57bc3a](https://github.com/natuleadan/agents-lite/commit/c57bc3a851356fc29a3a43d7f1865f400c1b93b9))
+
+### Bug Fixes
+
+* **i18n:** add countrycodes to hook dependency arrays ([7542f8b](https://github.com/natuleadan/agents-lite/commit/7542f8b1eaef2a4f35be313893f71f38a9a839f8))
+* **i18n:** add rtl positioning to cookie banner and nav elements ([1a47f54](https://github.com/natuleadan/agents-lite/commit/1a47f54612209c38a9db1128f7541a60b3843165))
+* **i18n:** eliminate direction flash on first load ([4b32d0f](https://github.com/natuleadan/agents-lite/commit/4b32d0f2b1201cc179ff4af689c7a29bbd5e9b42))
+* **i18n:** fix regex syntax in layout inline script and refactor webhook to return immediately ([b78e6ec](https://github.com/natuleadan/agents-lite/commit/b78e6ec053befb07cd0391840367707f2f5ae847))
+* **i18n:** update locale-hardcoded consumers for arabic support ([56f9d3b](https://github.com/natuleadan/agents-lite/commit/56f9d3b89ec669da34c3c46ca43fefeead78862c))
+* **i18n:** use locale-aware brand in footer and contact page ([0bcb2f0](https://github.com/natuleadan/agents-lite/commit/0bcb2f0aa7521ea680f38f379b142bdf5795c1d7))
+* **i18n:** use locale-aware brand in json-ld and product metadata ([76caf67](https://github.com/natuleadan/agents-lite/commit/76caf67a51c8916d3e2569a652363740f47271a9))
+* **i18n:** use locale-aware brand in sitename and page titles ([91d3be1](https://github.com/natuleadan/agents-lite/commit/91d3be1f1a3d2d20f7cf100b92eba71b50ff93bf))
+* **i18n:** use locale-aware brand name in metadata ([def1656](https://github.com/natuleadan/agents-lite/commit/def1656daa3c2621dc2eb9c0fd43dc48d4c83d60))
+* **i18n:** use locale-aware config in sidebar breadcrumb and pagination ([b5ec6a9](https://github.com/natuleadan/agents-lite/commit/b5ec6a91c0740b25aa615214f7d834fabc79f845))
+* **i18n:** use locale-aware error messages in api routes ([0797844](https://github.com/natuleadan/agents-lite/commit/079784482de6d866dd5cf67cab8f40336bf78547))
+
+### Refactoring
+
+* **env:** extract response helpers and auth to api and internal ([d31e3e6](https://github.com/natuleadan/agents-lite/commit/d31e3e62448a0cad0723547f874b0fbdabbea3f8))
+
+### Chore
+
+* **cleanup:** remove dead code ([d4aef2c](https://github.com/natuleadan/agents-lite/commit/d4aef2c6079a0dcd4f06bc8bb7f7d541cb2b1e31))
+* **gitignore:** add ds store ([7cf73c4](https://github.com/natuleadan/agents-lite/commit/7cf73c415b76c3d6a4a88e9a8a62e51732149228))
+
 ## [2.2.1](https://github.com/natuleadan/agents-lite/compare/v2.2.0...v2.2.1) (2026-05-05)
 
 ### Bug Fixes
