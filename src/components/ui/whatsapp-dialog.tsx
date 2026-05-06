@@ -74,7 +74,7 @@ export function WhatsAppDialog({
           countryCodes[0],
       );
     }
-  }, [open, defaultCountryCode]);
+  }, [open, defaultCountryCode, countryCodes]);
 
   useEffect(() => {
     if (!defaultCountryCode) {
@@ -87,7 +87,7 @@ export function WhatsAppDialog({
         if (found) setCountryCode(found);
       }
     }
-  }, [defaultCountryCode]);
+  }, [defaultCountryCode, countryCodes]);
 
   useEffect(() => {
     if (open) {
