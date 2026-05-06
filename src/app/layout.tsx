@@ -57,7 +57,7 @@ export default function RootLayout({
         <BrandColorScript />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){var p=location.pathname.match(/^\/(${LOCALES.join("|")})(\/|$)/);if(p){var d=p[1]==="ar"||p[1]==="he"||p[1]==="fa"||p[1]==="ur"?"rtl":"ltr";document.documentElement.dir=d;document.documentElement.lang=p[1];}})()`,
+            __html: `(function(){var p=location.pathname.match(/^\\/(${LOCALES.join("|")})(\\/|$)/);if(p){var d=p[1]==="ar"||p[1]==="he"||p[1]==="fa"||p[1]==="ur"?"rtl":"ltr";document.documentElement.dir=d;document.documentElement.lang=p[1];}})()`,
           }}
         />
       </head>

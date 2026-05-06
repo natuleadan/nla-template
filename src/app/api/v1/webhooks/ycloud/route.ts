@@ -86,40 +86,23 @@ export async function GET(req: NextRequest) {
   return new Response(s, { status: 200 });
 }
 
-export async function POST(req: NextRequest) {
-  if (!getYcloudEnabled()) {
-    return new Response(getConfig("es").ui.whatsapp.send.ycloudDisabled, {
-      status: 501,
-    });
-  }
-  const raw = await req.text();
-  const sig = req.headers.get("ycloud-signature");
-  if (WEBHOOK_SECRET && sig && !(await verifySignature(raw, sig))) {
-    return new Response("Bad signature", { status: 403 });
-  }
-
-  let body: Record<string, unknown>;
-  try {
-    body = JSON.parse(raw);
-  } catch {
-    return apiError(400, "Bad JSON");
-  }
+async function processInboundMessage(
+  body: Record<string, unknown>,
+  raw: string,
+): Promise<void> {
   const parsed = YCloudWebhookPayloadSchema.safeParse(body);
-  if (!parsed.success) return apiError(400, "Webhook inválido");
+  if (!parsed.success) return;
   const p = parsed.data;
-  if (p.type !== "whatsapp.inbound_message.received")
-    return new Response("OK", { status: 200 });
+  if (p.type !== "whatsapp.inbound_message.received") return;
 
   const m = p.whatsappInboundMessage;
-  if (!m || !m.from) return new Response("OK", { status: 200 });
-  if (m.wamid && (await isDuplicate(m.wamid)))
-    return new Response("OK", { status: 200 });
-
+  if (!m || !m.from) return;
   const phone = m.from.replace("+", "");
 
-  if (await isDerived(phone)) return new Response("OK", { status: 200 });
-  const name = m.customerProfile?.name;
+  if (m.wamid && (await isDuplicate(m.wamid))) return;
+  if (await isDerived(phone)) return;
 
+  const name = m.customerProfile?.name;
   let text = "";
   const t = m.type || "";
   if (t === "text" && m.text?.body?.trim()) {
@@ -168,8 +151,7 @@ export async function POST(req: NextRequest) {
   } else if (t === "sticker") {
     text = "[Sticker]";
   } else if (t === "reaction") {
-    // Ignorar reacciones, no necesitan respuesta del agente
-    return new Response("OK", { status: 200 });
+    return;
   } else if (t === "order" && m.order) {
     text = `[Pedido: producto ${m.order.product_id || "desconocido"}, cantidad ${m.order.quantity || 1}]`;
   } else if (t === "system" && m.system) {
@@ -206,19 +188,18 @@ export async function POST(req: NextRequest) {
     text = `[Mensaje tipo "${t}" no soportado]`;
   }
 
-  if (!text) return new Response("OK", { status: 200 });
+  if (!text) return;
 
   if (isRedisConfigured()) {
     await pushMsg(phone, text);
     await new Promise((r) => setTimeout(r, 10000));
     const latest = await peekLatest(phone);
-    if (latest !== text) return new Response("OK", { status: 200 });
+    if (latest !== text) return;
     const all = await drainAll(phone);
     text = all.join(", ");
     if (isDev) console.log("[YCLOUD] Processing", all.length, "msgs");
   }
 
-  // Show typing indicator only when actually about to process (after media + queue)
   const msgId = m.wamid || m.id;
   if (msgId) markAsRead(msgId);
 
@@ -237,6 +218,30 @@ export async function POST(req: NextRequest) {
       );
     await sendWhatsApp(`+${phone}`, getConfig("es").ui.agent.sendError);
   }
+}
+
+export async function POST(req: NextRequest) {
+  if (!getYcloudEnabled()) {
+    return new Response(getConfig("es").ui.whatsapp.send.ycloudDisabled, {
+      status: 501,
+    });
+  }
+  const raw = await req.text();
+  const sig = req.headers.get("ycloud-signature");
+  if (WEBHOOK_SECRET && sig && !(await verifySignature(raw, sig))) {
+    return new Response("Bad signature", { status: 403 });
+  }
+
+  let body: Record<string, unknown>;
+  try {
+    body = JSON.parse(raw);
+  } catch {
+    return apiError(400, "Bad JSON");
+  }
+
+  processInboundMessage(body, raw).catch((err) => {
+    if (isDev) console.error("[YCLOUD] Background error:", err);
+  });
 
   return new Response("OK", { status: 200 });
 }
