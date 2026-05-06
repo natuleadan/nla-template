@@ -8,6 +8,11 @@ import {
   blogCategories as blogCatEn,
   pageCategories as pageCatEn,
 } from "@/lib/config/data/categories.en";
+import {
+  productCategories as productCatAr,
+  blogCategories as blogCatAr,
+  pageCategories as pageCatAr,
+} from "@/lib/config/data/categories.ar";
 import { CategorySchema } from "./schemas";
 
 export interface Category {
@@ -20,16 +25,19 @@ export interface Category {
 const productCats = {
   es: CategorySchema.array().parse([...productCatEs]),
   en: CategorySchema.array().parse([...productCatEn]),
+  ar: CategorySchema.array().parse([...productCatAr]),
 };
 
 const blogCats = {
   es: CategorySchema.array().parse([...blogCatEs]),
   en: CategorySchema.array().parse([...blogCatEn]),
+  ar: CategorySchema.array().parse([...blogCatAr]),
 };
 
 const pageCats = {
   es: CategorySchema.array().parse([...pageCatEs]),
   en: CategorySchema.array().parse([...pageCatEn]),
+  ar: CategorySchema.array().parse([...pageCatAr]),
 };
 
 export async function getProductCategories(locale = "es"): Promise<Category[]> {

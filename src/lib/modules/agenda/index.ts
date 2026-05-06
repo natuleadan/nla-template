@@ -1,5 +1,6 @@
 import { agendaData as agendaDataEs } from "@/lib/config/data/agenda.es";
 import { agendaData as agendaDataEn } from "@/lib/config/data/agenda.en";
+import { agendaData as agendaDataAr } from "@/lib/config/data/agenda.ar";
 import { AgendaDaySchema } from "./schemas";
 
 export interface AgendaSlot {
@@ -18,6 +19,7 @@ export interface AgendaDay {
 const days = {
   es: AgendaDaySchema.array().parse([...agendaDataEs]),
   en: AgendaDaySchema.array().parse([...agendaDataEn]),
+  ar: AgendaDaySchema.array().parse([...agendaDataAr]),
 };
 
 function getData(locale = "es") {

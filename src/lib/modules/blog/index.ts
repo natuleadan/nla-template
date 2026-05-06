@@ -1,5 +1,6 @@
 import { blogPostsData as blogPostsDataEs } from "@/lib/config/data/blog.es";
 import { blogPostsData as blogPostsDataEn } from "@/lib/config/data/blog.en";
+import { blogPostsData as blogPostsDataAr } from "@/lib/config/data/blog.ar";
 import { BlogPostSchema } from "./schemas";
 
 export interface BlogPost {
@@ -27,6 +28,7 @@ export interface Attachment {
 const posts = {
   es: BlogPostSchema.array().parse([...blogPostsDataEs]),
   en: BlogPostSchema.array().parse([...blogPostsDataEn]),
+  ar: BlogPostSchema.array().parse([...blogPostsDataAr]),
 };
 
 function getData(locale = "es") {

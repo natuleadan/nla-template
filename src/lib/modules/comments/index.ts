@@ -1,5 +1,6 @@
 import { commentsData as commentsDataEs } from "@/lib/config/data/comments.es";
 import { commentsData as commentsDataEn } from "@/lib/config/data/comments.en";
+import { commentsData as commentsDataAr } from "@/lib/config/data/comments.ar";
 import { CommentSchema } from "./schemas";
 
 export interface Comment {
@@ -16,6 +17,7 @@ export interface Comment {
 const allComments = {
   es: CommentSchema.array().parse(commentsDataEs),
   en: CommentSchema.array().parse(commentsDataEn),
+  ar: CommentSchema.array().parse(commentsDataAr),
 };
 
 function getData(locale = "es") {

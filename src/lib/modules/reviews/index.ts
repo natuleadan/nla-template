@@ -1,5 +1,6 @@
 import { reviewsData as reviewsDataEs } from "@/lib/config/data/reviews.es";
 import { reviewsData as reviewsDataEn } from "@/lib/config/data/reviews.en";
+import { reviewsData as reviewsDataAr } from "@/lib/config/data/reviews.ar";
 import { ReviewSchema } from "./schemas";
 
 export interface Review {
@@ -17,6 +18,7 @@ export interface Review {
 const allReviews = {
   es: ReviewSchema.array().parse(reviewsDataEs),
   en: ReviewSchema.array().parse(reviewsDataEn),
+  ar: ReviewSchema.array().parse(reviewsDataAr),
 };
 
 function getData(locale = "es") {

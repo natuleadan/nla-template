@@ -1,5 +1,6 @@
 import { allProducts as productsDataEs } from "@/lib/config/data/products.es";
 import { allProducts as productsDataEn } from "@/lib/config/data/products.en";
+import { allProducts as productsDataAr } from "@/lib/config/data/products.ar";
 import { ProductSchema, type Product } from "./schemas";
 
 export type { Product };
@@ -7,6 +8,7 @@ export type { Product };
 const allProducts = {
   es: ProductSchema.array().parse([...productsDataEs]),
   en: ProductSchema.array().parse([...productsDataEn]),
+  ar: ProductSchema.array().parse([...productsDataAr]),
 };
 
 function getData(locale = "es"): Product[] {

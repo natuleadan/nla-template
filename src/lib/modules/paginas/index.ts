@@ -1,5 +1,6 @@
 import { paginasData as paginasDataEs } from "@/lib/config/data/paginas.es";
 import { paginasData as paginasDataEn } from "@/lib/config/data/paginas.en";
+import { paginasData as paginasDataAr } from "@/lib/config/data/paginas.ar";
 import { PaginaSchema } from "./schemas";
 
 export interface PaginaPost {
@@ -17,6 +18,7 @@ export interface PaginaPost {
 const pages = {
   es: PaginaSchema.array().parse([...paginasDataEs]),
   en: PaginaSchema.array().parse([...paginasDataEn]),
+  ar: PaginaSchema.array().parse([...paginasDataAr]),
 };
 
 function getData(locale = "es") {
