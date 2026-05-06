@@ -11,11 +11,12 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Demasiadas solicitudes. Intenta de nuevo en un minuto." }, { status: 429 });
   }
 
+  const searchParams = request.nextUrl.searchParams;
+  const page = parseInt(searchParams.get("page") || "1", 10);
+  const limit = parseInt(searchParams.get("limit") || "8", 10);
+  const locale = searchParams.get("locale") || "es";
+
   try {
-    const searchParams = request.nextUrl.searchParams;
-    const page = parseInt(searchParams.get("page") || "1", 10);
-    const limit = parseInt(searchParams.get("limit") || "8", 10);
-    const locale = searchParams.get("locale") || "es";
 
     if (page > 1) {
       const result = await getProducts(page, limit, locale);
@@ -30,7 +31,7 @@ export async function GET(request: NextRequest) {
     });
   } catch {
     return NextResponse.json(
-      { error: getConfig("es").ui.api.serverErrorEntity("productos") },
+      { error: getConfig(locale).ui.api.serverErrorEntity("productos") },
       { status: 500 },
     );
   }

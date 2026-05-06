@@ -10,11 +10,11 @@ export async function GET(request: Request) {
   if (!allowed) {
     return NextResponse.json({ error: "Demasiadas solicitudes. Intenta de nuevo en un minuto." }, { status: 429 });
   }
+  const url = new URL(request.url);
+  const searchParams = url.searchParams;
+  const day = searchParams.get("day");
+  const locale = searchParams.get("locale") || "es";
   try {
-    const url = new URL(request.url);
-    const searchParams = url.searchParams;
-    const day = searchParams.get("day");
-    const locale = searchParams.get("locale") || "es";
     if (day) {
       const slots = await getAvailableSlots(day, locale);
       return NextResponse.json({ day, slots });
@@ -23,7 +23,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ days });
   } catch {
     return NextResponse.json(
-      { error: getConfig("es").ui.api.serverErrorEntity("la agenda") },
+      { error: getConfig(locale).ui.api.serverErrorEntity("la agenda") },
       { status: 500 },
     );
   }

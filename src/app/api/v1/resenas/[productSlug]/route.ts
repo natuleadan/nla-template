@@ -14,17 +14,17 @@ export async function GET(
   if (!allowed) {
     return NextResponse.json({ error: "Demasiadas solicitudes. Intenta de nuevo en un minuto." }, { status: 429 });
   }
+  const url = new URL(request.url);
+  const locale = url.searchParams.get("locale") || "es";
   try {
     const { productSlug } = await params;
-    const url = new URL(request.url);
-    const locale = url.searchParams.get("locale") || "es";
     if (!productSlug)
-      return badRequest(getConfig("es").ui.api.missingParam("productSlug"));
+      return badRequest(getConfig(locale).ui.api.missingParam("productSlug"));
     const reviews = await getApprovedReviews(productSlug, locale);
     return NextResponse.json(reviews);
   } catch {
     return NextResponse.json(
-      { error: getConfig("es").ui.api.serverErrorEntity("reseñas") },
+      { error: getConfig(locale).ui.api.serverErrorEntity("reseñas") },
       { status: 500 },
     );
   }
